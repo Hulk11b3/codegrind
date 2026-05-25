@@ -1388,6 +1388,372 @@ function MilestonePopup({ milestone, onClose, onShowPaywall, isPremiumUser }) {
 }
 
 // ─── MAIN APP ─────────────────────────────────────────────────────────────────
+
+async function updateLeaderboard(email, firstName, xp, lessonsCompleted) {
+  try {
+    const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
+    const SUPABASE_KEY = process.env.REACT_APP_SUPABASE_KEY;
+    await fetch(`${SUPABASE_URL}/rest/v1/leaderboard`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`,
+        "Prefer": "resolution=merge-duplicates",
+      },
+      body: JSON.stringify({ email, first_name: firstName, xp, lessons_completed: lessonsCompleted, updated_at: new Date().toISOString() }),
+    });
+  } catch {}
+}
+
+async function fetchLeaderboard() {
+  try {
+    const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
+    const SUPABASE_KEY = process.env.REACT_APP_SUPABASE_KEY;
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/leaderboard?order=xp.desc&limit=10`, {
+      headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` },
+    });
+    return await res.json();
+  } catch { return []; }
+}
+
+function LeaderboardView() {
+  const [leaders, setLeaders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    fetchLeaderboard().then(data => { setLeaders(data || []); setLoading(false); });
+  }, []);
+  const medals = ["🥇", "🥈", "🥉"];
+  return (
+    <div style={{ maxWidth: "680px", margin: "0 auto", padding: "32px 18px" }}>
+      <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "44px", letterSpacing: "3px", marginBottom: "8px" }}>
+        LEADER<span style={{ color: "#fbbf24" }}>BOARD</span>
+      </div>
+      <p style={{ fontSize: "13px", color: "#555", marginBottom: "28px" }}>Top coders by XP. Keep grinding. 🔥</p>
+      {loading ? (
+        <div style={{ textAlign: "center", color: "#444", padding: "40px", fontSize: "13px" }}>Loading...</div>
+      ) : leaders.length === 0 ? (
+        <div style={{ background: "#0d0d0d", border: "1px solid #1a1a1a", borderRadius: "12px", padding: "40px", textAlign: "center" }}>
+          <div style={{ fontSize: "32px", marginBottom: "12px" }}>🏆</div>
+          <div style={{ fontSize: "14px", color: "#ccc" }}>No one on the board yet. Complete lessons to claim the top spot.</div>
+        </div>
+      ) : (
+        <div>
+          {leaders.map((user, idx) => (
+            <div key={idx} style={{ background: idx === 0 ? "#0a0d00" : "#0d0d0d", border: "1px solid " + (idx === 0 ? "#fbbf2430" : "#1a1a1a"), borderRadius: "12px", padding: "16px 20px", marginBottom: "8px", display: "flex", alignItems: "center", gap: "16px" }}>
+              <div style={{ fontSize: "24px", width: "36px", textAlign: "center" }}>
+                {idx < 3 ? medals[idx] : <span style={{ fontSize: "14px", color: "#444" }}>#{idx + 1}</span>}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: "14px", fontWeight: "bold", color: idx === 0 ? "#fbbf24" : "#ccc" }}>{user.first_name || "Anonymous"}</div>
+                <div style={{ fontSize: "11px", color: "#444" }}>{user.lessons_completed || 0} lessons completed</div>
+              </div>
+              <div style={{ fontSize: "16px", fontWeight: "bold", color: "#00ff88" }}>{user.xp || 0} XP</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+const MINI_GAMES = {
+  "start": {
+    title: "Python Basics Quiz", icon: "🌱", color: "#00ff88", xpReward: 150,
+    questions: [
+      { question: 'Complete the code:\n\n_____ ("Hello World")', answer: "print", choices: ["print", "display", "show", "output"] },
+      { question: 'Create a variable:\n\nname _____ "Stanley"', answer: "=", choices: ["=", "==", "->", ":"] },
+      { question: "What symbol is used for comments in Python?", answer: "#", choices: ["#", "//", "/*", "--"] },
+      { question: "What type of data needs quotes?", answer: "Text", choices: ["Text", "Numbers", "Both", "Neither"] },
+      { question: "Code is instructions for a _____", answer: "computer", choices: ["computer", "human", "robot", "printer"] },
+    ],
+  },
+  "decisions": {
+    title: "Logic & Decisions Quiz", icon: "🧠", color: "#ff6b35", xpReward: 175,
+    questions: [
+      { question: 'Complete:\n\nif age _____ 18:', answer: ">", choices: [">", "<", "=", "=>"] },
+      { question: "What keyword comes after the if block?", answer: "else", choices: ["else", "elif", "then", "otherwise"] },
+      { question: 'Complete:\n\nfor i in _____(5):', answer: "range", choices: ["range", "loop", "repeat", "count"] },
+      { question: "AND means both conditions must be _____", answer: "True", choices: ["True", "False", "Either", "Neither"] },
+      { question: 'Complete:\n\nwhile counter _____ 10:', answer: "<=", choices: ["<=", ">=", "==", "!="] },
+    ],
+  },
+  "functions": {
+    title: "Functions Quiz", icon: "🔧", color: "#a78bfa", xpReward: 200,
+    questions: [
+      { question: "What keyword defines a function in Python?", answer: "def", choices: ["def", "fun", "function", "define"] },
+      { question: "What keyword sends back a result from a function?", answer: "return", choices: ["return", "send", "output", "give"] },
+      { question: "How do you call a function named greet?", answer: "greet()", choices: ["greet()", "call greet", "run greet", "greet{}"] },
+      { question: "Default parameters mean the function works even without _____", answer: "every input", choices: ["every input", "any code", "a name", "parentheses"] },
+      { question: "Complete: def double(n):\n    _____ n * 2", answer: "return", choices: ["return", "print", "give", "output"] },
+    ],
+  },
+  "data": {
+    title: "Data Structures Quiz", icon: "📦", color: "#22d3ee", xpReward: 200,
+    questions: [
+      { question: "Lists use _____ brackets", answer: "square [ ]", choices: ["square [ ]", "curly { }", "round ( )", "angle < >"] },
+      { question: "How do you add an item to a list?", answer: ".append()", choices: [".append()", ".add()", ".push()", ".insert()"] },
+      { question: "Dictionaries store data as _____", answer: "key: value pairs", choices: ["key: value pairs", "indexed items", "numbered lists", "single values"] },
+      { question: "Lists start counting at _____", answer: "0", choices: ["0", "1", "2", "-1"] },
+      { question: "What mode opens a file for writing?", answer: "w", choices: ["w", "r", "a", "x"] },
+    ],
+  },
+  "javascript": {
+    title: "JavaScript Quiz", icon: "🌐", color: "#f59e0b", xpReward: 225,
+    questions: [
+      { question: "JavaScript uses _____ instead of print()", answer: "console.log()", choices: ["console.log()", "print()", "output()", "display()"] },
+      { question: 'Create a variable:\n\n_____ name = "Stanley"', answer: "let", choices: ["let", "var", "def", "const"] },
+      { question: "JavaScript functions use _____ keyword", answer: "function", choices: ["function", "def", "func", "method"] },
+      { question: "Arrays use _____ to add items", answer: ".push()", choices: [".push()", ".append()", ".add()", ".insert()"] },
+      { question: "The DOM stands for _____", answer: "Document Object Model", choices: ["Document Object Model", "Data Object Manager", "Dynamic Output Method", "Display Object Mode"] },
+    ],
+  },
+};
+
+function MiniGame({ moduleId, moduleName, moduleColor, xpReward, onClose, onXpEarned }) {
+  const game = MINI_GAMES[moduleId];
+  const [phase, setPhase] = useState("intro");
+  const [currentQ, setCurrentQ] = useState(0);
+  const [selectedChoice, setSelectedChoice] = useState(null);
+  const [typedAnswer, setTypedAnswer] = useState("");
+  const [choiceResult, setChoiceResult] = useState(null);
+  const [typeResult, setTypeResult] = useState(null);
+  const [score, setScore] = useState(0);
+  const [answers, setAnswers] = useState([]);
+  if (!game) return null;
+  const question = game.questions[currentQ];
+  const totalQ = game.questions.length;
+  const handleChoice = (choice) => {
+    if (choiceResult) return;
+    setSelectedChoice(choice);
+    const correct = choice === question.answer;
+    setChoiceResult(correct ? "correct" : "wrong");
+    if (correct) setPhase("type");
+  };
+  const handleType = () => {
+    if (!typedAnswer.trim()) return;
+    const correct = typedAnswer.trim().toLowerCase() === question.answer.toLowerCase();
+    setTypeResult(correct ? "correct" : "wrong");
+    const points = choiceResult === "correct" && correct ? 2 : choiceResult === "correct" ? 1 : 0;
+    setTimeout(() => {
+      const next = [...answers, { correct, answer: question.answer, points }];
+      setAnswers(next);
+      if (currentQ + 1 < totalQ) {
+        setCurrentQ(prev => prev + 1);
+        setSelectedChoice(null); setTypedAnswer(""); setChoiceResult(null); setTypeResult(null); setPhase("question");
+      } else {
+        const finalScore = next.reduce((s, a) => s + a.points, 0);
+        setScore(finalScore);
+        setPhase("results");
+        const earnedXp = Math.round((finalScore / (totalQ * 2)) * xpReward);
+        if (earnedXp > 0) onXpEarned(earnedXp);
+      }
+    }, 1000);
+  };
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
+      <div style={{ background: "#0d0d0d", border: "1px solid " + moduleColor + "40", borderRadius: "16px", width: "100%", maxWidth: "520px", fontFamily: "monospace", overflow: "hidden" }}>
+        <div style={{ padding: "16px 20px", borderBottom: "1px solid #1a1a1a", display: "flex", justifyContent: "space-between", alignItems: "center", background: moduleColor + "10" }}>
+          <div>
+            <div style={{ fontSize: "11px", color: moduleColor, letterSpacing: "2px" }}>MINI GAME</div>
+            <div style={{ fontSize: "14px", fontWeight: "bold", color: "#fff" }}>{game.title}</div>
+          </div>
+          <button onClick={onClose} style={{ background: "none", border: "none", color: "#555", cursor: "pointer", fontSize: "22px" }}>×</button>
+        </div>
+        {phase === "intro" && (
+          <div style={{ padding: "40px 28px", textAlign: "center" }}>
+            <div style={{ fontSize: "48px", marginBottom: "16px" }}>{game.icon}</div>
+            <div style={{ fontSize: "16px", fontWeight: "bold", color: "#fff", marginBottom: "8px" }}>{game.title}</div>
+            <p style={{ fontSize: "13px", color: "#777", lineHeight: "1.8", marginBottom: "24px" }}>{totalQ} questions. Pick the answer then type it. Earn up to {xpReward} bonus XP.</p>
+            <button onClick={() => setPhase("question")} style={{ background: moduleColor, color: "#000", border: "none", borderRadius: "8px", padding: "14px 32px", cursor: "pointer", fontWeight: "bold", fontSize: "14px" }}>Start Game →</button>
+          </div>
+        )}
+        {phase === "question" && (
+          <div style={{ padding: "24px 28px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
+              <span style={{ fontSize: "11px", color: "#444" }}>Question {currentQ + 1} of {totalQ}</span>
+              <span style={{ fontSize: "11px", color: moduleColor }}>Step 1 — Choose</span>
+            </div>
+            <div style={{ background: "#111", borderRadius: "10px", padding: "16px", marginBottom: "20px" }}>
+              <pre style={{ fontSize: "13px", color: "#ccc", whiteSpace: "pre-wrap", margin: 0, lineHeight: "1.8" }}>{question.question}</pre>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+              {question.choices.map((choice, i) => (
+                <button key={i} onClick={() => handleChoice(choice)}
+                  style={{ background: choiceResult ? (choice === question.answer ? "#00ff8820" : choice === selectedChoice ? "#ff444420" : "#111") : "#111", border: "1px solid " + (choiceResult ? (choice === question.answer ? "#00ff8860" : choice === selectedChoice ? "#ff444460" : "#1f1f1f") : "#1f1f1f"), borderRadius: "8px", padding: "12px", cursor: choiceResult ? "default" : "pointer", color: choiceResult ? (choice === question.answer ? "#00ff88" : choice === selectedChoice ? "#ff4444" : "#555") : "#ccc", fontSize: "12px", textAlign: "left" }}>
+                  {choice}
+                </button>
+              ))}
+            </div>
+            {choiceResult && <div style={{ marginTop: "12px", padding: "10px 14px", background: choiceResult === "correct" ? "#00ff8815" : "#ff444415", border: "1px solid " + (choiceResult === "correct" ? "#00ff8840" : "#ff444440"), borderRadius: "8px", fontSize: "12px", color: choiceResult === "correct" ? "#00ff88" : "#ff6666" }}>
+              {choiceResult === "correct" ? "✓ Correct! Now type it to confirm." : "✗ Wrong. The answer is: " + question.answer + ". Now type the correct answer below."}
+            </div>}
+          </div>
+        )}
+        {phase === "type" && (
+          <div style={{ padding: "24px 28px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
+              <span style={{ fontSize: "11px", color: "#444" }}>Question {currentQ + 1} of {totalQ}</span>
+              <span style={{ fontSize: "11px", color: moduleColor }}>Step 2 — Type it</span>
+            </div>
+            <div style={{ background: "#111", borderRadius: "10px", padding: "16px", marginBottom: "20px" }}>
+              <pre style={{ fontSize: "13px", color: "#ccc", whiteSpace: "pre-wrap", margin: 0, lineHeight: "1.8" }}>{question.question}</pre>
+            </div>
+            <input value={typedAnswer} onChange={(e) => setTypedAnswer(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleType()}
+              placeholder="Type your answer here..."
+              style={{ width: "100%", background: "#111", border: "1px solid #252525", borderRadius: "8px", padding: "12px 14px", color: "#fff", fontSize: "13px", outline: "none", fontFamily: "monospace", boxSizing: "border-box", marginBottom: "10px" }} />
+            {!typeResult && <button onClick={handleType} style={{ width: "100%", background: moduleColor, color: "#000", border: "none", borderRadius: "8px", padding: "12px", cursor: "pointer", fontWeight: "bold", fontSize: "13px" }}>Submit Answer</button>}
+            {typeResult && <div style={{ padding: "10px 14px", background: typeResult === "correct" ? "#00ff8815" : "#ff444415", border: "1px solid " + (typeResult === "correct" ? "#00ff8840" : "#ff444440"), borderRadius: "8px", fontSize: "12px", color: typeResult === "correct" ? "#00ff88" : "#ff6666" }}>
+              {typeResult === "correct" ? "✓ Perfect! Full marks." : "✗ The answer was: " + question.answer}
+            </div>}
+          </div>
+        )}
+        {phase === "results" && (
+          <div style={{ padding: "32px 28px", textAlign: "center" }}>
+            <div style={{ fontSize: "48px", marginBottom: "12px" }}>{score >= totalQ * 1.5 ? "🏆" : "💪"}</div>
+            <div style={{ fontSize: "11px", color: moduleColor, letterSpacing: "3px", marginBottom: "8px" }}>GAME COMPLETE</div>
+            <div style={{ fontSize: "22px", fontWeight: "bold", color: "#fff", marginBottom: "20px" }}>{score} / {totalQ * 2} points</div>
+            <div style={{ background: "#111", borderRadius: "10px", padding: "16px", marginBottom: "20px", textAlign: "left" }}>
+              {[{ label: "Score", value: score + " / " + (totalQ * 2) }, { label: "Accuracy", value: Math.round((score / (totalQ * 2)) * 100) + "%" }, { label: "Bonus XP", value: "+" + Math.round((score / (totalQ * 2)) * xpReward) + " XP" }].map(({ label, value }) => (
+                <div key={label} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid #1a1a1a", fontSize: "13px" }}>
+                  <span style={{ color: "#555" }}>{label}</span>
+                  <span style={{ color: label === "Bonus XP" ? "#00ff88" : "#ccc", fontWeight: "bold" }}>{value}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <button onClick={() => { setCurrentQ(0); setSelectedChoice(null); setTypedAnswer(""); setChoiceResult(null); setTypeResult(null); setScore(0); setAnswers([]); setPhase("intro"); }} style={{ flex: 1, background: "#181818", color: moduleColor, border: "1px solid " + moduleColor + "30", borderRadius: "8px", padding: "12px", cursor: "pointer", fontSize: "12px" }}>Play Again</button>
+              <button onClick={onClose} style={{ flex: 1, background: moduleColor, color: "#000", border: "none", borderRadius: "8px", padding: "12px", cursor: "pointer", fontWeight: "bold", fontSize: "13px" }}>Back to Lessons</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function MultiChallenge({ lesson, lessonStrikes, completed, onComplete, onCodeChange, onStrike, onReviewNeeded, onShowAI, onBack }) {
+  const challenges = lesson.challenges || [lesson.challenge];
+  const quiz = lesson.quiz || null;
+  const [step, setStep] = useState(0);
+  const [stepsCompleted, setStepsCompleted] = useState([]);
+  const [quizStep, setQuizStep] = useState(0);
+  const [quizAnswers, setQuizAnswers] = useState([]);
+  const [quizSelected, setQuizSelected] = useState(null);
+  const [quizResult, setQuizResult] = useState(null);
+  const [quizDone, setQuizDone] = useState(false);
+  const [showingQuiz, setShowingQuiz] = useState(false);
+  const totalSteps = challenges.length + (quiz ? 1 : 0);
+  const progressPct = Math.round((stepsCompleted.length / totalSteps) * 100);
+  const handleChallengePass = () => {
+    if (!stepsCompleted.includes(step)) {
+      const next = [...stepsCompleted, step];
+      setStepsCompleted(next);
+      if (step + 1 < challenges.length) { setTimeout(() => setStep(step + 1), 800); }
+      else if (quiz) { setTimeout(() => setShowingQuiz(true), 800); }
+      else { onComplete(); }
+    }
+  };
+  const handleQuizAnswer = (choice) => {
+    if (quizResult) return;
+    const q = quiz[quizStep];
+    const correct = choice === q.answer;
+    setQuizSelected(choice);
+    setQuizResult(correct ? "correct" : "wrong");
+    setTimeout(() => {
+      const next = [...quizAnswers, { correct, answer: q.answer }];
+      setQuizAnswers(next);
+      if (quizStep + 1 < quiz.length) { setQuizStep(quizStep + 1); setQuizSelected(null); setQuizResult(null); }
+      else {
+        setQuizDone(true);
+        const correctCount = next.filter(a => a.correct).length;
+        if (correctCount >= Math.ceil(quiz.length * 0.7)) { if (!stepsCompleted.includes("quiz")) { setStepsCompleted(prev => [...prev, "quiz"]); onComplete(); } }
+      }
+    }, 1000);
+  };
+  const retryQuiz = () => { setQuizStep(0); setQuizAnswers([]); setQuizSelected(null); setQuizResult(null); setQuizDone(false); };
+  const currentChallenge = challenges[step];
+  const stepLabels = [...challenges.map((c, i) => ({ label: i === 0 ? "Guided" : i === 1 ? "Modified" : "From Scratch", icon: i === 0 ? "🟢" : i === 1 ? "🟡" : "🔴" })), ...(quiz ? [{ label: "Quiz", icon: "🧠" }] : [])];
+  return (
+    <div>
+      <div style={{ background: "#0d0d0d", border: "1px solid #181818", borderRadius: "12px", padding: "16px 20px", marginBottom: "14px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+          <div style={{ fontSize: "11px", color: "#444" }}>LESSON PROGRESS</div>
+          <div style={{ fontSize: "11px", color: "#00ff88" }}>{progressPct}%</div>
+        </div>
+        <div style={{ height: "4px", background: "#181818", borderRadius: "2px", marginBottom: "12px" }}>
+          <div style={{ width: progressPct + "%", height: "100%", background: "linear-gradient(90deg, #00ff88, #fbbf24)", borderRadius: "2px", transition: "width 0.5s" }} />
+        </div>
+        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+          {stepLabels.map((s, i) => {
+            const isDone = i < challenges.length ? stepsCompleted.includes(i) : stepsCompleted.includes("quiz");
+            const isCurrent = showingQuiz ? i === challenges.length : i === step && !showingQuiz;
+            return (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: "4px", background: isDone ? "#00ff8815" : isCurrent ? "#ffffff10" : "#111", border: "1px solid " + (isDone ? "#00ff8830" : isCurrent ? "#ffffff20" : "#1a1a1a"), borderRadius: "6px", padding: "4px 10px", fontSize: "10px", color: isDone ? "#00ff88" : isCurrent ? "#fff" : "#444" }}>
+                <span>{s.icon}</span><span>{s.label}</span>{isDone && <span>✓</span>}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      {!showingQuiz && (
+        <div style={{ background: "#0d0d0d", border: "1px solid #181818", borderRadius: "12px", padding: "20px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+            <div style={{ fontSize: "10px", color: "#ff6b35", letterSpacing: "2px" }}>{step === 0 ? "CHALLENGE 1 — GUIDED" : step === 1 ? "CHALLENGE 2 — MODIFY IT" : "CHALLENGE 3 — FROM SCRATCH"}</div>
+            <div style={{ fontSize: "10px", color: "#444" }}>{step + 1} of {challenges.length}</div>
+          </div>
+          <p style={{ fontSize: "13px", color: "#ccc", lineHeight: "1.8", marginBottom: "16px" }}>{currentChallenge.prompt}</p>
+          {lesson.language === "javascript" ? (
+            <JSRunner key={step} starterCode={currentChallenge.starterCode} whatItDoes={currentChallenge.whatItDoes} check={currentChallenge.check} hints={lesson.hints} strikes={lessonStrikes} onPass={handleChallengePass} onCodeChange={onCodeChange} onStrike={onStrike} onReviewNeeded={onReviewNeeded} requiresChange={step > 0} />
+          ) : (
+            <CodeRunner key={step} starterCode={currentChallenge.starterCode} whatItDoes={currentChallenge.whatItDoes} check={currentChallenge.check} hints={lesson.hints} strikes={lessonStrikes} onPass={handleChallengePass} onCodeChange={onCodeChange} onStrike={onStrike} onReviewNeeded={onReviewNeeded} requiresChange={step > 0} />
+          )}
+          <div style={{ display: "flex", gap: "8px", marginTop: "14px" }}>
+            <button onClick={onShowAI} style={{ flex: 1, background: "#181818", color: "#a78bfa", border: "1px solid #252525", borderRadius: "8px", padding: "12px", cursor: "pointer", fontSize: "12px" }}>🤖 Ask AI Tutor</button>
+            {completed && <button onClick={onBack} style={{ flex: 1, background: "#0a160e", color: "#00ff88", border: "1px solid #00ff8825", borderRadius: "8px", padding: "12px", cursor: "pointer", fontSize: "12px" }}>← Back to Lessons</button>}
+          </div>
+        </div>
+      )}
+      {showingQuiz && !quizDone && (
+        <div style={{ background: "#0d0d0d", border: "1px solid #a78bfa30", borderRadius: "12px", padding: "20px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px" }}>
+            <div style={{ fontSize: "10px", color: "#a78bfa", letterSpacing: "2px" }}>KNOWLEDGE CHECK</div>
+            <div style={{ fontSize: "10px", color: "#444" }}>{quizStep + 1} of {quiz.length}</div>
+          </div>
+          <p style={{ fontSize: "14px", color: "#ccc", lineHeight: "1.8", marginBottom: "20px" }}>{quiz[quizStep].question}</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            {quiz[quizStep].choices.map((choice, i) => (
+              <button key={i} onClick={() => handleQuizAnswer(choice)}
+                style={{ background: quizResult ? (choice === quiz[quizStep].answer ? "#00ff8820" : choice === quizSelected ? "#ff444420" : "#111") : "#111", border: "1px solid " + (quizResult ? (choice === quiz[quizStep].answer ? "#00ff8860" : choice === quizSelected ? "#ff444460" : "#1f1f1f") : "#1f1f1f"), borderRadius: "8px", padding: "12px 16px", cursor: quizResult ? "default" : "pointer", color: quizResult ? (choice === quiz[quizStep].answer ? "#00ff88" : choice === quizSelected ? "#ff4444" : "#555") : "#ccc", fontSize: "13px", textAlign: "left" }}>
+                {choice}
+              </button>
+            ))}
+          </div>
+          {quizResult && <div style={{ marginTop: "12px", padding: "10px 14px", background: quizResult === "correct" ? "#00ff8815" : "#ff444415", border: "1px solid " + (quizResult === "correct" ? "#00ff8840" : "#ff444440"), borderRadius: "8px", fontSize: "12px", color: quizResult === "correct" ? "#00ff88" : "#ff6666" }}>
+            {quizResult === "correct" ? "✓ Correct!" : "✗ The answer is: " + quiz[quizStep].answer}
+          </div>}
+        </div>
+      )}
+      {showingQuiz && quizDone && (() => {
+        const correct = quizAnswers.filter(a => a.correct).length;
+        const passed = correct >= Math.ceil(quiz.length * 0.7);
+        return (
+          <div style={{ background: "#0d0d0d", border: "1px solid #1a1a1a", borderRadius: "12px", padding: "28px", textAlign: "center" }}>
+            <div style={{ fontSize: "40px", marginBottom: "12px" }}>{passed ? "🏆" : "💪"}</div>
+            <div style={{ fontSize: "16px", fontWeight: "bold", color: passed ? "#00ff88" : "#fbbf24", marginBottom: "8px" }}>{passed ? "Lesson Complete!" : "Almost there!"}</div>
+            <div style={{ fontSize: "13px", color: "#777", marginBottom: "20px" }}>{correct} / {quiz.length} correct — {passed ? "you passed!" : "need " + Math.ceil(quiz.length * 0.7) + " to pass."}</div>
+            {passed ? (
+              <button onClick={onBack} style={{ width: "100%", background: "#00ff88", color: "#000", border: "none", borderRadius: "8px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px" }}>← Back to Lessons</button>
+            ) : (
+              <button onClick={retryQuiz} style={{ width: "100%", background: "#fbbf24", color: "#000", border: "none", borderRadius: "8px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px" }}>Retry Quiz →</button>
+            )}
+          </div>
+        );
+      })()}
+    </div>
+  );
+}
+
 function LandingPage({ onEnter }) {
   const [visible, setVisible] = useState(false);
   const [exiting, setExiting] = useState(false);
@@ -1761,6 +2127,7 @@ function CodeGrind() {
   const [showEmailCapture, setShowEmailCapture] = useState(false);
   const [showCertificate, setShowCertificate] = useState(false);
   const [showStreakReminder, setShowStreakReminder] = useState(false);
+  const [showMiniGame, setShowMiniGame] = useState(null);
   const [showConfetti, setShowConfetti] = useState(false);
   const [showMilestone, setShowMilestone] = useState(null);
   const [showPaywall, setShowPaywall] = useState(false);
@@ -1832,6 +2199,7 @@ function CodeGrind() {
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 3000);
       if (MILESTONES[next.size]) setTimeout(() => setShowMilestone(MILESTONES[next.size]), 800);
+      updateLeaderboard(userEmail, userName, newXp, next.size);
       if (next.size === ALL_LESSONS.length) setTimeout(() => setShowCertificate(true), 1000);
       return next;
     });
@@ -1905,6 +2273,7 @@ function CodeGrind() {
       </div>
 
       {view === "roadmap" && <RoadmapView completedLessons={completed.size} />}
+      {view === "leaderboard" && <LeaderboardView />}
 
       {view === "hire" && (
         <div style={{ maxWidth: "680px", margin: "0 auto", padding: "32px 18px" }}>
@@ -2041,6 +2410,9 @@ function CodeGrind() {
                 <span style={{ fontSize: "13px", fontWeight: "bold", color: module.color }}>{module.title}</span>
                 <div style={{ flex: 1, height: "1px", background: "#141414" }} />
                 <span style={{ fontSize: "11px", color: "#2a2a2a" }}>{module.lessons.filter(l => completed.has(l.id)).length}/{module.lessons.length}</span>
+                {MINI_GAMES[module.id] && module.lessons.every(l => completed.has(l.id)) && (
+                  <button onClick={() => setShowMiniGame(module)} style={{ background: module.color + "20", color: module.color, border: "1px solid " + module.color + "40", borderRadius: "6px", padding: "3px 10px", cursor: "pointer", fontSize: "10px", fontFamily: "monospace" }}>🎮 PLAY</button>
+                )}
               </div>
               {module.lessons.map((lesson, idx) => {
                 const done = completed.has(lesson.id);
@@ -2119,50 +2491,21 @@ function CodeGrind() {
               <div style={{ background: "#0d0d0d", border: "1px solid #181818", borderRadius: "12px", padding: "22px", marginBottom: "14px" }}>
                 {activeLesson.theory.map((block, i) => <TheoryBlock key={i} block={block} />)}
               </div>
-              <button onClick={() => setTab("code")} style={{ width: "100%", background: "#00ff88", color: "#000", border: "none", borderRadius: "10px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace" }}>Got it — let me try the code →</button>
+              <button onClick={() => setTab("code")} style={{ width: "100%", background: "#00ff88", color: "#000", border: "none", borderRadius: "10px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px" }}>Got it — let me try the challenges →</button>
             </div>
           ) : (
-            <div style={{ background: "#0d0d0d", border: "1px solid #181818", borderRadius: "12px", padding: "20px" }}>
-              <div style={{ fontSize: "10px", color: "#ff6b35", letterSpacing: "2px", marginBottom: "10px" }}>
-                YOUR CHALLENGE {lessonStrikes > 0 && <span style={{ color: "#ff6b35" }}>— Attempt {lessonStrikes + 1}</span>}
-              </div>
-              <p style={{ fontSize: "14px", color: "#ccc", lineHeight: "1.8", marginBottom: "16px" }}>{activeLesson.challenge.prompt}</p>
-              {activeLesson.language === "javascript" ? (
-                <JSRunner
-                  starterCode={activeLesson.challenge.starterCode}
-                  whatItDoes={activeLesson.challenge.whatItDoes}
-                  check={activeLesson.challenge.check}
-                  hints={activeLesson.hints}
-                  strikes={lessonStrikes}
-                  onPass={() => markComplete(activeLesson.id, activeLesson.xp)}
-                  onCodeChange={setCurrentCode}
-                  onStrike={(count) => handleStrike(activeLesson.id, count)}
-                  onReviewNeeded={handleReviewNeeded}
-                />
-              ) : (
-                <CodeRunner
-                  starterCode={activeLesson.challenge.starterCode}
-                  whatItDoes={activeLesson.challenge.whatItDoes}
-                  check={activeLesson.challenge.check}
-                  hints={activeLesson.hints}
-                  strikes={lessonStrikes}
-                  onPass={() => markComplete(activeLesson.id, activeLesson.xp)}
-                  onCodeChange={setCurrentCode}
-                  onStrike={(count) => handleStrike(activeLesson.id, count)}
-                  onReviewNeeded={handleReviewNeeded}
-                />
-              )}
-              <div style={{ display: "flex", gap: "8px", marginTop: "14px" }}>
-                <button onClick={() => setShowAI(true)} style={{ flex: 1, background: "#181818", color: "#a78bfa", border: "1px solid #252525", borderRadius: "8px", padding: "12px", cursor: "pointer", fontSize: "12px", fontFamily: "'Space Mono', monospace" }}>🤖 Ask the AI Tutor</button>
-                {completed.has(activeLesson.id) && (
-                  <button onClick={() => setView("curriculum")} style={{ flex: 1, background: "#0a160e", color: "#00ff88", border: "1px solid #00ff8825", borderRadius: "8px", padding: "12px", cursor: "pointer", fontSize: "12px", fontFamily: "'Space Mono', monospace" }}>← Back to Lessons</button>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
+            <MultiChallenge
+              lesson={activeLesson}
+              lessonStrikes={lessonStrikes}
+              completed={completed.has(activeLesson.id)}
+              onComplete={() => markComplete(activeLesson.id, activeLesson.xp)}
+              onCodeChange={setCurrentCode}
+              onStrike={(count) => handleStrike(activeLesson.id, count)}
+              onReviewNeeded={handleReviewNeeded}
+              onShowAI={() => setShowAI(true)}
+              onBack={() => setView("curriculum")}
+            />
+          )
       {showAI && activeLesson && <AITutor lesson={activeLesson} userCode={currentCode} onClose={() => setShowAI(false)} />}
       {showWeakness && <WeaknessTracker strikes={strikes} onClose={() => setShowWeakness(false)} onReview={(lesson) => { setShowWeakness(false); startLesson(lesson, true); }} />}
       {showEmailCapture && <EmailCapture onClose={() => setShowEmailCapture(false)} onSubmit={(email, name) => { setShowEmailCapture(false); saveEmail(email, name); }} />}
@@ -2171,6 +2514,7 @@ function CodeGrind() {
       {showConfetti && <Confetti />}
       {showMilestone && <MilestonePopup milestone={showMilestone} onClose={() => setShowMilestone(null)} onShowPaywall={() => setShowPaywall(true)} isPremiumUser={premium} />}
       {showPaywall && <Paywall onUnlock={() => setPremium(true)} onClose={() => setShowPaywall(false)} />}
+      {showMiniGame && <MiniGame moduleId={showMiniGame.id} moduleName={showMiniGame.title} moduleColor={showMiniGame.color} xpReward={MINI_GAMES[showMiniGame.id]?.xpReward || 150} onClose={() => setShowMiniGame(null)} onXpEarned={(earned) => { setXp(prev => { const newXp = prev + earned; saveProgress(newXp, completed, strikes, bookmarks, streak, userEmail); return newXp; }); }} />}
       {cloudLoading && (
         <div style={{ position: "fixed", bottom: "16px", left: "50%", transform: "translateX(-50%)", background: "#0d0d0d", border: "1px solid #00ff8830", borderRadius: "8px", padding: "8px 16px", fontSize: "11px", color: "#00ff88", fontFamily: "'Space Mono', monospace", zIndex: 50, display: "flex", alignItems: "center", gap: "8px" }}>
           <div style={{ width: "8px", height: "8px", background: "#00ff88", borderRadius: "50%", animation: "glow 1s ease infinite" }} />

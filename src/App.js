@@ -84,117 +84,223 @@ const CURRICULUM = [
     id: "start", title: "Starting From Zero", icon: "🌱", color: "#00ff88",
     lessons: [
       {
-        id: "what-is-code", title: "What Even IS Code?", xp: 50, analogy: "Think of a recipe",
+        id: "what-is-code", title: "What Even IS Code?", xp: 100, analogy: "Think of a recipe",
         theory: [
-          { type: "plain", text: "You know how a recipe is just a list of step-by-step instructions? 'Add 2 eggs. Stir for 3 minutes. Bake at 350°.' The cook reads those steps and follows them in order." },
+          { type: "plain", text: "You know how a recipe is just a list of step-by-step instructions? The cook reads those steps and follows them in order." },
           { type: "plain", text: "Code is the exact same thing — except instead of a cook, a COMPUTER follows the steps. You write the instructions. The computer does the work." },
-          { type: "highlight", text: "That's literally it. Code = instructions for a computer." },
-          { type: "plain", text: "We're learning two languages:" },
-          { type: "list", items: ["🐍 Python — reads almost like plain English. Great for automation, bots, AI tools, and data work.", "🌐 JavaScript — the language of every website you've ever visited. Great for building apps people use in their browser."] },
+          { type: "highlight", text: "Code = instructions for a computer." },
+          { type: "list", items: ["🐍 Python — reads almost like plain English. Great for automation, bots, AI tools, and data work.", "🌐 JavaScript — the language of every website you have ever visited."] },
         ],
-        hints: ["Just click RUN and watch it work — you don't need to change anything yet.", "The word print tells Python to display something on screen. Whatever is inside the quotes shows up.", "Try changing the words inside the quotes to anything you want, then hit RUN again."],
-        challenge: {
-          prompt: "Run your first ever program. Click RUN and watch it work — then try changing the message inside the quotes to anything you want.",
-          starterCode: `# This is Python code\n# The # symbol means "comment" — the computer ignores it\n\nprint("Hello, I am learning to code")`,
-          whatItDoes: "print( ) tells Python to display whatever is inside the parentheses. Change the words inside the quotes and run it again.",
-          check: (output) => output.length > 0,
-        },
+        hints: ["The word print tells Python to display something.", "Whatever is inside the quotes gets displayed.", "Try changing the message inside the quotes."],
+        challenges: [
+          {
+            prompt: "GUIDED: Run your first program. Click RUN and see what happens.",
+            starterCode: `# This is Python code\n# The # symbol means comment\n\nprint("Hello, I am learning to code")`,
+            whatItDoes: "print() tells Python to display whatever is inside the parentheses.",
+            check: (output) => output.includes("Hello"),
+          },
+          {
+            prompt: "MODIFY IT: Change the message inside the quotes to say something personal. Then run it.",
+            starterCode: `# Change the message to something personal\nprint("Hello, I am learning to code")`,
+            whatItDoes: "Change the words inside the quotes to anything you want.",
+            check: (output) => output.trim().length > 0 && !output.includes("Hello, I am learning to code"),
+          },
+          {
+            prompt: "FROM SCRATCH: Write two print statements. Print your name on one line and your goal on the next.",
+            starterCode: `# Write two print statements below\n`,
+            whatItDoes: "You write the code this time. Use print() twice.",
+            check: (output) => output.split("\n").filter(l => l.trim().length > 0).length >= 2,
+          },
+        ],
+        quiz: [
+          { question: "What does the print() function do in Python?", answer: "Displays text on the screen", choices: ["Displays text on the screen", "Saves a file", "Creates a variable", "Runs a loop"] },
+          { question: "What symbol is used for comments in Python?", answer: "#", choices: ["#", "//", "/*", "--"] },
+          { question: "Complete the code to display Hello:", answer: "print", choices: ["print", "display", "show", "output"] },
+          { question: "Code is instructions for a _____", answer: "computer", choices: ["computer", "human", "robot", "printer"] },
+          { question: "Changing the text inside quotes changes the _____", answer: "output", choices: ["output", "variable", "function", "comment"] },
+        ],
       },
       {
-        id: "variables", title: "Variables — The Computer's Memory", xp: 75, analogy: "Think of a labeled jar",
+        id: "variables", title: "Variables — The Computer's Memory", xp: 150, analogy: "Think of a labeled jar",
         theory: [
-          { type: "plain", text: "Imagine you have a jar on your kitchen counter. You put sugar in it and write 'SUGAR' on the label. Now whenever you need sugar, you grab the jar labeled SUGAR." },
+          { type: "plain", text: "Imagine you have a jar on your kitchen counter. You put sugar in it and write SUGAR on the label. Now whenever you need sugar, you grab the jar labeled SUGAR." },
           { type: "highlight", text: "A variable is that labeled jar. It stores information and gives it a name you can use later." },
           { type: "code", label: "PYTHON", color: "#7dd3fc", code: `name = "Marcus"\nage = 32\nmoney_goal = 50000\n\nprint(name)\nprint(age)\nprint(money_goal)` },
-          { type: "plain", text: "Read it out loud: 'name equals Marcus.' That's all. You're creating labeled jars and putting stuff in them." },
         ],
-        hints: ["A variable is just a name = value. Like: name = \"Your Name\"", "Text needs quotes around it. Numbers don't. name = \"Stanley\" but age = 30", "After creating your variables, use print(variable_name) to display each one."],
-        challenge: {
-          prompt: "Create your own variables — name, age, and a money goal. Then print all three. Change the values to your own.",
-          starterCode: `name = "Your Name"\nage = 25\nmoney_goal = 100000\n\nprint(name)\nprint(age)\nprint(money_goal)`,
-          whatItDoes: "You're creating 3 labeled jars and then telling Python to display what's in each one.",
-          check: (output) => output.split("\n").filter(Boolean).length >= 3,
-        },
+        hints: ["A variable is just a name = value.", "Text needs quotes. Numbers do not.", "Use print(variable_name) to display each one."],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how variables work.",
+            starterCode: `name = "Marcus"\nage = 32\nmoney_goal = 50000\n\nprint(name)\nprint(age)\nprint(money_goal)`,
+            whatItDoes: "Creates 3 labeled jars and displays what is inside each one.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+          {
+            prompt: "MODIFY IT: Change name, age, and money_goal to your own values. Run it.",
+            starterCode: `name = "Marcus"\nage = 32\nmoney_goal = 50000\n\nprint(name)\nprint(age)\nprint(money_goal)`,
+            whatItDoes: "Replace Marcus with your name, 32 with your age, 50000 with your income goal.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3 && !output.includes("Marcus"),
+          },
+          {
+            prompt: "FROM SCRATCH: Create 3 variables — your city, your skill, and your hourly rate. Print all three.",
+            starterCode: `# Create 3 variables below and print them\n`,
+            whatItDoes: "Write the variables yourself. Text needs quotes. Numbers do not.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+        ],
+        quiz: [
+          { question: "What is a variable in Python?", answer: "A labeled container that stores information", choices: ["A labeled container that stores information", "A type of loop", "A math equation", "A print statement"] },
+          { question: "Which correctly creates a variable?", answer: "name = \"Stanley\"", choices: ["name = \"Stanley\"", "name == \"Stanley\"", "\"Stanley\" = name", "variable name = \"Stanley\""] },
+          { question: "Text values in Python need _____", answer: "quotes around them", choices: ["quotes around them", "parentheses", "brackets", "nothing special"] },
+          { question: "How do you display a variable called city?", answer: "print(city)", choices: ["print(city)", "display city", "show(city)", "city.print()"] },
+          { question: "Which stores a number correctly?", answer: "age = 30", choices: ["age = 30", "age = \"30\"", "age == 30", "30 = age"] },
+        ],
       },
       {
-        id: "numbers-vs-text", title: "Numbers vs. Words", xp: 75, analogy: "Think of a calculator vs. a notepad",
+        id: "numbers-vs-text", title: "Numbers vs. Words", xp: 150, analogy: "Think of a calculator vs. a notepad",
         theory: [
-          { type: "plain", text: "Computers treat numbers and words differently. A CALCULATOR works with numbers. A NOTEPAD stores text." },
+          { type: "plain", text: "Computers treat numbers and words differently. A CALCULATOR works with numbers. A NOTEPAD stores text. Python knows the difference." },
           { type: "code", label: "NUMBERS — no quotes, can do math", color: "#86efac", code: `price = 49.99\nclients = 10\ntotal = price * clients\nprint(total)` },
-          { type: "code", label: "TEXT — use quotes, can't do math", color: "#7dd3fc", code: `city = "Atlanta"\njob = "Freelance Developer"\nprint(city)\nprint(job)` },
-          { type: "highlight", text: "Rule: Words → quotes. Numbers you'll do math with → no quotes." },
+          { type: "code", label: "TEXT — use quotes, cannot do math", color: "#7dd3fc", code: `city = "Atlanta"\njob = "Freelance Developer"\nprint(city)\nprint(job)` },
+          { type: "highlight", text: "Rule: Words need quotes. Numbers you will do math with do not." },
         ],
-        hints: ["hourly_rate and hours should be plain numbers — no quotes. Like: hourly_rate = 75", "To multiply in Python use the * symbol. So: weekly_pay = hourly_rate * hours", "Make sure you have a print(weekly_pay) at the bottom to see the result."],
-        challenge: {
-          prompt: "Calculate your potential weekly income. Set an hourly rate and hours worked, multiply them, and print the result.",
-          starterCode: `hourly_rate = 75\nhours = 40\nweekly_pay = hourly_rate * hours\n\nprint("Weekly pay: $")\nprint(weekly_pay)`,
-          whatItDoes: "Python does the math for you: 75 × 40 = 3000. Change the numbers and run it again.",
-          check: (output) => output.length > 0 && /\d+/.test(output),
-        },
+        hints: ["hourly_rate and hours should be plain numbers — no quotes.", "To multiply use *.", "Make sure you have a print statement."],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how Python does math with numbers automatically.",
+            starterCode: `hourly_rate = 75\nhours = 40\nweekly_pay = hourly_rate * hours\n\nprint("Weekly pay:")\nprint(weekly_pay)`,
+            whatItDoes: "Python multiplies 75 by 40 and gives you 3000.",
+            check: (output) => /\d+/.test(output),
+          },
+          {
+            prompt: "MODIFY IT: Change hourly_rate to 100 and hours to 20. The answer should be 2000.",
+            starterCode: `hourly_rate = 75\nhours = 40\nweekly_pay = hourly_rate * hours\n\nprint("Weekly pay:")\nprint(weekly_pay)`,
+            whatItDoes: "Change just the numbers and see how the result changes.",
+            check: (output) => output.includes("2000"),
+          },
+          {
+            prompt: "FROM SCRATCH: Calculate monthly income. Create hourly_rate, hours_per_day, and days_per_month. Multiply them and print the result.",
+            starterCode: `# Create your 3 variables and multiply them\n`,
+            whatItDoes: "Write all the math yourself. Use * to multiply. No quotes on numbers.",
+            check: (output) => /\d{3,}/.test(output),
+          },
+        ],
+        quiz: [
+          { question: "Which correctly stores a price?", answer: "price = 49.99", choices: ["price = 49.99", "price = \"49.99\"", "price = $49.99", "\"price\" = 49.99"] },
+          { question: "What symbol is used for multiplication in Python?", answer: "*", choices: ["*", "x", "×", "mul"] },
+          { question: "Which stores text correctly?", answer: "city = \"Atlanta\"", choices: ["city = \"Atlanta\"", "city = Atlanta", "city == Atlanta", "Atlanta = city"] },
+          { question: "Text values need _____ to be stored correctly", answer: "quotes", choices: ["quotes", "brackets", "parentheses", "asterisks"] },
+          { question: "What does 8 * 75 equal in Python?", answer: "600", choices: ["600", "875", "83", "8.75"] },
+        ],
       },
-    ],
-  },
-  {
-    id: "decisions", title: "Making Decisions", icon: "🧠", color: "#ff6b35",
-    lessons: [
       {
         id: "if-statements", title: "If This, Then That", xp: 100, analogy: "Think of a bouncer at a club",
         theory: [
-          { type: "plain", text: "A bouncer checks one thing: 'Are you 21 or older?' If YES → you get in. If NO → you don't. Same check, every person." },
+          { type: "plain", text: "A bouncer checks one thing: Are you 21 or older? If YES you get in. If NO you do not." },
           { type: "highlight", text: "An if-statement tells your code: IF something is true, THEN do this. OTHERWISE, do that." },
-          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `income = 5000\n\nif income > 3000:\n    print("You are profitable!")\nelse:\n    print("Keep grinding, it's coming")` },
-          { type: "plain", text: "The spaces before print are called INDENTATION — Python uses them to know what belongs inside the if. Press Tab or use 4 spaces." },
+          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `income = 5000\n\nif income > 3000:\n    print("You are profitable!")\nelse:\n    print("Keep grinding")` },
         ],
-        hints: ["Start with: if income > 3000:  — don't forget the colon at the end", "The line after if must be indented (press Tab or 4 spaces) before the print statement.", "Full structure: if income > 3000:  then indented print()  then else:  then indented print()"],
-        challenge: {
-          prompt: "Change the income value and run it. Then change the threshold (3000) and see what happens. Make it say something personal to you.",
-          starterCode: `income = 5000\n\nif income > 3000:\n    print("You are profitable!")\nelse:\n    print("Keep grinding, it's coming")\n\n# Try changing income to 1000 and run it again`,
-          whatItDoes: "The computer checks: is income greater than 3000? Depending on the answer it prints a different message.",
-          check: (output) => output.length > 0,
-        },
+        hints: ["Start with: if income > 3000: do not forget the colon.", "The line after if must be indented.", "else: handles the false case."],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how Python makes decisions.",
+            starterCode: `income = 5000\n\nif income > 3000:\n    print("You are profitable!")\nelse:\n    print("Keep grinding")`,
+            whatItDoes: "Python checks if income is greater than 3000. Prints one thing if true, another if false.",
+            check: (output) => output.includes("profitable") || output.includes("grinding"),
+          },
+          {
+            prompt: "MODIFY IT: Change income to 1500 and run it. Then change the threshold from 3000 to 1000 and run again.",
+            starterCode: `income = 5000\n\nif income > 3000:\n    print("You are profitable!")\nelse:\n    print("Keep grinding")`,
+            whatItDoes: "Change the income value and see how the output changes.",
+            check: (output) => output.includes("grinding"),
+          },
+          {
+            prompt: "FROM SCRATCH: Write an if/else that checks if hourly_rate is above 50. Print 'Great rate!' if yes, 'Negotiate higher' if no.",
+            starterCode: `# Create an hourly_rate variable\n# Write an if/else statement\n`,
+            whatItDoes: "Build the condition yourself. Use if rate > 50: then indented print, then else: then indented print.",
+            check: (output) => output.length > 0,
+          },
+        ],
+        quiz: [
+          { question: "What keyword starts a conditional statement?", answer: "if", choices: ["if", "when", "check", "condition"] },
+          { question: "What keyword handles the false case?", answer: "else", choices: ["else", "otherwise", "if not", "fail"] },
+          { question: "What must come after the condition?", answer: "A colon :", choices: ["A colon :", "A semicolon ;", "Parentheses ()", "Nothing"] },
+          { question: "Code inside an if block must be _____", answer: "indented", choices: ["indented", "in quotes", "capitalized", "on one line"] },
+          { question: "if 10 > 5 is _____", answer: "True", choices: ["True", "False", "Error", "None"] },
+        ],
       },
       {
         id: "loops", title: "Loops — Make the Computer Do the Boring Work", xp: 125, analogy: "Think of a photocopier",
         theory: [
-          { type: "plain", text: "If you need 100 copies of a flyer, you don't hand-copy it 100 times. You set the copier to 100 and press go. The machine repeats the same action over and over." },
-          { type: "highlight", text: "A loop tells your code: repeat this action X times. This is where automation begins." },
+          { type: "plain", text: "If you need 100 copies of a flyer, you do not hand-copy it 100 times. You set the copier to 100 and press go." },
+          { type: "highlight", text: "A loop tells your code: repeat this action X times." },
           { type: "code", label: "PYTHON", color: "#7dd3fc", code: `for i in range(5):\n    print("Sending invoice to client", i + 1)` },
-          { type: "plain", text: "Real example: A freelancer gets paid $300 to write a script that automatically emails 500 customers every week. That script is basically a loop." },
         ],
-        hints: ["Start with: for i in range(5):  — range(5) means repeat 5 times.", "The line inside the loop must be indented. Press Tab before print.", "Full code: for i in range(5):  then indented: print(\"Processing client number\", i + 1)"],
-        challenge: {
-          prompt: "Run the code and see what prints. Then change range(5) to range(10) and run again.",
-          starterCode: `for i in range(5):\n    print("Processing client number", i + 1)\n\nprint("Done! All clients processed.")`,
-          whatItDoes: "The computer repeats the print statement once for each number in the range.",
-          check: (output) => output.includes("1") && output.split("\n").filter(Boolean).length >= 3,
-        },
+        hints: ["Start with: for i in range(5):", "The line inside the loop must be indented.", "range(5) means repeat 5 times."],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how a loop repeats an action automatically.",
+            starterCode: `for i in range(5):\n    print("Processing client number", i + 1)\n\nprint("Done! All clients processed.")`,
+            whatItDoes: "The loop runs 5 times, printing a different number each time.",
+            check: (output) => output.includes("1") && output.split("\n").filter(Boolean).length >= 3,
+          },
+          {
+            prompt: "MODIFY IT: Change range(5) to range(10) and change the message to something about invoices.",
+            starterCode: `for i in range(5):\n    print("Processing client number", i + 1)\n\nprint("Done! All clients processed.")`,
+            whatItDoes: "Change the range number and the print message.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 10,
+          },
+          {
+            prompt: "FROM SCRATCH: Write a loop that prints numbers 1 through 7, then prints 'Week complete!'",
+            starterCode: `# Write a for loop using range\n`,
+            whatItDoes: "Use for i in range(): and remember range starts at 0 so use i+1.",
+            check: (output) => output.includes("7") && output.includes("complete"),
+          },
+        ],
+        quiz: [
+          { question: "What keyword starts a for loop?", answer: "for", choices: ["for", "loop", "repeat", "while"] },
+          { question: "range(5) makes the loop run _____ times", answer: "5", choices: ["5", "4", "6", "0"] },
+          { question: "What must the code inside a loop be?", answer: "Indented", choices: ["Indented", "Quoted", "Capitalized", "Numbered"] },
+          { question: "range(5) starts counting at _____", answer: "0", choices: ["0", "1", "5", "-1"] },
+          { question: "What prints Hello 3 times?", answer: "for i in range(3): print('Hello')", choices: ["for i in range(3): print('Hello')", "repeat(3): print('Hello')", "loop 3: print('Hello')", "print('Hello') * 3"] },
+        ],
       },
-    ],
-  },
-  {
-    id: "functions", title: "Functions — Your Own Tools", icon: "🔧", color: "#a78bfa",
-    lessons: [
       {
-        id: "what-is-function", title: "Functions — Building Your Toolbox", xp: 150, analogy: "Think of a microwave",
+        id: "what-is-function", title: "Functions — Building Your Toolbox", xp: 200, analogy: "Think of a microwave",
         theory: [
-          { type: "plain", text: "You don't rewire a microwave every time you want to heat food. You built the machine once, gave it a button, and now you just press the button whenever you need it." },
-          { type: "highlight", text: "A function is code you write once and reuse forever — by calling its name." },
-          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `def calculate_profit(revenue, costs):\n    return revenue - costs\n\nprint(calculate_profit(10000, 3000))\nprint(calculate_profit(5000, 1200))\nprint(calculate_profit(25000, 8000))` },
-          { type: "plain", text: "'def' means define — you're building a new tool. The words in parentheses are the inputs, like setting the timer on a microwave." },
+          { type: "plain", text: "You do not rewire a microwave every time you want to heat food. You built the machine once and now just press the button." },
+          { type: "highlight", text: "A function is code you write once and reuse forever." },
+          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `def calculate_profit(revenue, costs):\n    return revenue - costs\n\nprint(calculate_profit(10000, 3000))\nprint(calculate_profit(5000, 1200))` },
         ],
-        hints: ["Start with: def weekly_pay(hours, rate):  — def means you're creating a function.", "Inside the function (indented) write: return hours * rate", "Then call it: print(weekly_pay(40, 75))"],
-        challenge: {
-          prompt: "Run it and see the results. Then build a new function called weekly_pay that takes hours and rate and returns hours multiplied by rate.",
-          starterCode: `def calculate_profit(revenue, costs):\n    return revenue - costs\n\nprint(calculate_profit(10000, 3000))\nprint(calculate_profit(5000, 1200))\n\ndef weekly_pay(hours, rate):\n    return hours * rate\n\nprint(weekly_pay(40, 75))`,
-          whatItDoes: "You built two reusable calculators. Call them anytime with different numbers and they do the math instantly.",
-          check: (output) => output.split("\n").filter(l => /\d+/.test(l)).length >= 2,
-        },
+        hints: ["Start with: def function_name(inputs):", "Inside the function indented: return result", "Call it: print(function_name(values))"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how a function works.",
+            starterCode: `def calculate_profit(revenue, costs):\n    return revenue - costs\n\nprint(calculate_profit(10000, 3000))\nprint(calculate_profit(5000, 1200))\nprint(calculate_profit(25000, 8000))`,
+            whatItDoes: "The function runs 3 times with different numbers each time.",
+            check: (output) => output.split("\n").filter(l => /\d+/.test(l)).length >= 2,
+          },
+          {
+            prompt: "MODIFY IT: Change the revenue and costs values. Add a fourth call with different values.",
+            starterCode: `def calculate_profit(revenue, costs):\n    return revenue - costs\n\nprint(calculate_profit(10000, 3000))\nprint(calculate_profit(5000, 1200))\nprint(calculate_profit(25000, 8000))`,
+            whatItDoes: "Change the numbers and add one more print(calculate_profit()) line.",
+            check: (output) => output.split("\n").filter(l => /\d+/.test(l)).length >= 4,
+          },
+          {
+            prompt: "FROM SCRATCH: Write a function called weekly_pay that takes hours and rate and returns hours * rate. Call it 3 times.",
+            starterCode: `# Write your function below\n# def weekly_pay(hours, rate):\n#     return ?\n\n# Call it 3 times\n`,
+            whatItDoes: "Build the function yourself. Use def, inputs in parentheses, and return the calculation.",
+            check: (output) => output.split("\n").filter(l => /\d+/.test(l)).length >= 3,
+          },
+        ],
+        quiz: [
+          { question: "What keyword defines a function in Python?", answer: "def", choices: ["def", "function", "create", "make"] },
+          { question: "What does the return keyword do?", answer: "Sends a result back from the function", choices: ["Sends a result back from the function", "Prints the result", "Ends the program", "Creates a variable"] },
+          { question: "How do you call a function named calculate_profit?", answer: "calculate_profit(values)", choices: ["calculate_profit(values)", "run calculate_profit", "call calculate_profit()", "def calculate_profit"] },
+          { question: "What is the main benefit of using functions?", answer: "Write code once and reuse it forever", choices: ["Write code once and reuse it forever", "Makes code shorter", "Runs faster", "Uses less memory"] },
+          { question: "Complete: def double(number):\n    _____ number * 2", answer: "return", choices: ["return", "print", "give", "output"] },
+        ],
       },
-    ],
-  },
-  {
-    id: "data", title: "Working With Data", icon: "📦", color: "#22d3ee",
-    lessons: [
       {
         id: "lists", title: "Lists — Storing Multiple Things", xp: 125, analogy: "Think of a grocery list",
         theory: [
@@ -755,15 +861,17 @@ const ROADMAP = [
 ];
 
 // ─── PYODIDE CODE RUNNER ──────────────────────────────────────────────────────
-function CodeRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChange, strikes, onStrike, onReviewNeeded }) {
+function CodeRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChange, strikes, onStrike, onReviewNeeded, requiresChange }) {
   const [code, setCode] = useState(starterCode);
   const [output, setOutput] = useState("");
   const [running, setRunning] = useState(false);
   const [passed, setPassed] = useState(false);
+  const [codeChanged, setCodeChanged] = useState(false);
+  const [hasRun, setHasRun] = useState(false);
   const pyodideRef = useRef(null);
   const [pyLoading, setPyLoading] = useState(false);
 
-  const handleCodeChange = (val) => { setCode(val); if (onCodeChange) onCodeChange(val); };
+  const handleCodeChange = (val) => { setCode(val); if (onCodeChange) onCodeChange(val); if (requiresChange) setCodeChanged(val.trim() !== starterCode.trim()); };
 
   const loadPyodide = async () => {
     if (pyodideRef.current || pyLoading) return;
@@ -1046,7 +1154,7 @@ function Confetti() {
   );
 }
 
-function JSRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChange, strikes, onStrike, onReviewNeeded }) {
+function JSRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChange, strikes, onStrike, onReviewNeeded, requiresChange }) {
   const [code, setCode] = useState(starterCode);
   const [output, setOutput] = useState("");
   const [passed, setPassed] = useState(false);
@@ -2072,4 +2180,3 @@ function CodeGrind() {
     </div>
   );
 }
-

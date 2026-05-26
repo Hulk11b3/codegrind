@@ -1794,10 +1794,13 @@ async function fetchLeaderboard() {
   try {
     const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
     const SUPABASE_KEY = process.env.REACT_APP_SUPABASE_KEY;
+    if (!SUPABASE_URL || !SUPABASE_KEY) return [];
     const res = await fetch(`${SUPABASE_URL}/rest/v1/leaderboard?order=xp.desc&limit=10`, {
       headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` },
     });
-    return await res.json();
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
   } catch { return []; }
 }
 
@@ -1805,7 +1808,7 @@ function LeaderboardView() {
   const [leaders, setLeaders] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetchLeaderboard().then(data => { setLeaders(data || []); setLoading(false); });
+    fetchLeaderboard().then(data => { setLeaders(Array.isArray(data) ? data : []); setLoading(false); }).catch(() => setLoading(false));
   }, []);
   const medals = ["🥇", "🥈", "🥉"];
   return (

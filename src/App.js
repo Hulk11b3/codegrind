@@ -2090,7 +2090,6 @@ function Paywall({ onUnlock, onClose }) {
         {success && <p style={{ fontSize: "12px", color: "#00ff88", margin: "0 0 8px 0" }}>✅ Code accepted! Unlocking premium...</p>}
         <button onClick={onClose} style={{ width: "100%", background: "none", color: "#444", border: "none", cursor: "pointer", fontSize: "12px", fontFamily: "'Space Mono', monospace", marginTop: "8px" }}>Continue with free lessons</button>
       </div>
-      </div>
     </div>
   );
 }

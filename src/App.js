@@ -193,169 +193,9 @@ const CURRICULUM = [
           { question: "What does 8 * 75 equal in Python?", answer: "600", choices: ["600", "875", "83", "8.75"] },
         ],
       },
-      {
-        id: "if-statements", title: "If This, Then That", xp: 100, analogy: "Think of a bouncer at a club",
-        theory: [
-          { type: "plain", text: "A bouncer checks one thing: Are you 21 or older? If YES you get in. If NO you do not." },
-          { type: "highlight", text: "An if-statement tells your code: IF something is true, THEN do this. OTHERWISE, do that." },
-          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `income = 5000\n\nif income > 3000:\n    print("You are profitable!")\nelse:\n    print("Keep grinding")` },
-        ],
-        hints: ["Start with: if income > 3000: do not forget the colon.", "The line after if must be indented.", "else: handles the false case."],
-        challenges: [
-          {
-            prompt: "GUIDED: Run this code and see how Python makes decisions.",
-            starterCode: `income = 5000\n\nif income > 3000:\n    print("You are profitable!")\nelse:\n    print("Keep grinding")`,
-            whatItDoes: "Python checks if income is greater than 3000. Prints one thing if true, another if false.",
-            check: (output) => output.includes("profitable") || output.includes("grinding"),
-          },
-          {
-            prompt: "MODIFY IT: Change income to 1500 and run it. Then change the threshold from 3000 to 1000 and run again.",
-            starterCode: `income = 5000\n\nif income > 3000:\n    print("You are profitable!")\nelse:\n    print("Keep grinding")`,
-            whatItDoes: "Change the income value and see how the output changes.",
-            check: (output) => output.includes("grinding"),
-          },
-          {
-            prompt: "FROM SCRATCH: Write an if/else that checks if hourly_rate is above 50. Print 'Great rate!' if yes, 'Negotiate higher' if no.",
-            starterCode: `# Create an hourly_rate variable\n# Write an if/else statement\n`,
-            whatItDoes: "Build the condition yourself. Use if rate > 50: then indented print, then else: then indented print.",
-            check: (output) => output.length > 0,
-          },
-        ],
-        quiz: [
-          { question: "What keyword starts a conditional statement?", answer: "if", choices: ["if", "when", "check", "condition"] },
-          { question: "What keyword handles the false case?", answer: "else", choices: ["else", "otherwise", "if not", "fail"] },
-          { question: "What must come after the condition?", answer: "A colon :", choices: ["A colon :", "A semicolon ;", "Parentheses ()", "Nothing"] },
-          { question: "Code inside an if block must be _____", answer: "indented", choices: ["indented", "in quotes", "capitalized", "on one line"] },
-          { question: "if 10 > 5 is _____", answer: "True", choices: ["True", "False", "Error", "None"] },
-        ],
-      },
-      {
-        id: "loops", title: "Loops — Make the Computer Do the Boring Work", xp: 125, analogy: "Think of a photocopier",
-        theory: [
-          { type: "plain", text: "If you need 100 copies of a flyer, you do not hand-copy it 100 times. You set the copier to 100 and press go." },
-          { type: "highlight", text: "A loop tells your code: repeat this action X times." },
-          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `for i in range(5):\n    print("Sending invoice to client", i + 1)` },
-        ],
-        hints: ["Start with: for i in range(5):", "The line inside the loop must be indented.", "range(5) means repeat 5 times."],
-        challenges: [
-          {
-            prompt: "GUIDED: Run this code and see how a loop repeats an action automatically.",
-            starterCode: `for i in range(5):\n    print("Processing client number", i + 1)\n\nprint("Done! All clients processed.")`,
-            whatItDoes: "The loop runs 5 times, printing a different number each time.",
-            check: (output) => output.includes("1") && output.split("\n").filter(Boolean).length >= 3,
-          },
-          {
-            prompt: "MODIFY IT: Change range(5) to range(10) and change the message to something about invoices.",
-            starterCode: `for i in range(5):\n    print("Processing client number", i + 1)\n\nprint("Done! All clients processed.")`,
-            whatItDoes: "Change the range number and the print message.",
-            check: (output) => output.split("\n").filter(Boolean).length >= 10,
-          },
-          {
-            prompt: "FROM SCRATCH: Write a loop that prints numbers 1 through 7, then prints 'Week complete!'",
-            starterCode: `# Write a for loop using range\n`,
-            whatItDoes: "Use for i in range(): and remember range starts at 0 so use i+1.",
-            check: (output) => output.includes("7") && output.includes("complete"),
-          },
-        ],
-        quiz: [
-          { question: "What keyword starts a for loop?", answer: "for", choices: ["for", "loop", "repeat", "while"] },
-          { question: "range(5) makes the loop run _____ times", answer: "5", choices: ["5", "4", "6", "0"] },
-          { question: "What must the code inside a loop be?", answer: "Indented", choices: ["Indented", "Quoted", "Capitalized", "Numbered"] },
-          { question: "range(5) starts counting at _____", answer: "0", choices: ["0", "1", "5", "-1"] },
-          { question: "What prints Hello 3 times?", answer: "for i in range(3): print('Hello')", choices: ["for i in range(3): print('Hello')", "repeat(3): print('Hello')", "loop 3: print('Hello')", "print('Hello') * 3"] },
-        ],
-      },
-      {
-        id: "what-is-function", title: "Functions — Building Your Toolbox", xp: 200, analogy: "Think of a microwave",
-        theory: [
-          { type: "plain", text: "You do not rewire a microwave every time you want to heat food. You built the machine once and now just press the button." },
-          { type: "highlight", text: "A function is code you write once and reuse forever." },
-          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `def calculate_profit(revenue, costs):\n    return revenue - costs\n\nprint(calculate_profit(10000, 3000))\nprint(calculate_profit(5000, 1200))` },
-        ],
-        hints: ["Start with: def function_name(inputs):", "Inside the function indented: return result", "Call it: print(function_name(values))"],
-        challenges: [
-          {
-            prompt: "GUIDED: Run this code and see how a function works.",
-            starterCode: `def calculate_profit(revenue, costs):\n    return revenue - costs\n\nprint(calculate_profit(10000, 3000))\nprint(calculate_profit(5000, 1200))\nprint(calculate_profit(25000, 8000))`,
-            whatItDoes: "The function runs 3 times with different numbers each time.",
-            check: (output) => output.split("\n").filter(l => /\d+/.test(l)).length >= 2,
-          },
-          {
-            prompt: "MODIFY IT: Change the revenue and costs values. Add a fourth call with different values.",
-            starterCode: `def calculate_profit(revenue, costs):\n    return revenue - costs\n\nprint(calculate_profit(10000, 3000))\nprint(calculate_profit(5000, 1200))\nprint(calculate_profit(25000, 8000))`,
-            whatItDoes: "Change the numbers and add one more print(calculate_profit()) line.",
-            check: (output) => output.split("\n").filter(l => /\d+/.test(l)).length >= 4,
-          },
-          {
-            prompt: "FROM SCRATCH: Write a function called weekly_pay that takes hours and rate and returns hours * rate. Call it 3 times.",
-            starterCode: `# Write your function below\n# def weekly_pay(hours, rate):\n#     return ?\n\n# Call it 3 times\n`,
-            whatItDoes: "Build the function yourself. Use def, inputs in parentheses, and return the calculation.",
-            check: (output) => output.split("\n").filter(l => /\d+/.test(l)).length >= 3,
-          },
-        ],
-        quiz: [
-          { question: "What keyword defines a function in Python?", answer: "def", choices: ["def", "function", "create", "make"] },
-          { question: "What does the return keyword do?", answer: "Sends a result back from the function", choices: ["Sends a result back from the function", "Prints the result", "Ends the program", "Creates a variable"] },
-          { question: "How do you call a function named calculate_profit?", answer: "calculate_profit(values)", choices: ["calculate_profit(values)", "run calculate_profit", "call calculate_profit()", "def calculate_profit"] },
-          { question: "What is the main benefit of using functions?", answer: "Write code once and reuse it forever", choices: ["Write code once and reuse it forever", "Makes code shorter", "Runs faster", "Uses less memory"] },
-          { question: "Complete: def double(number):\n    _____ number * 2", answer: "return", choices: ["return", "print", "give", "output"] },
-        ],
-      },
-      {
-        id: "lists", title: "Lists — Storing Multiple Things", xp: 125, analogy: "Think of a grocery list",
-        theory: [
-          { type: "plain", text: "A grocery list holds multiple items in one place: milk, eggs, bread, butter. You don't need a separate jar for each item — one list holds them all." },
-          { type: "highlight", text: "A list in Python stores multiple values in one variable. Use square brackets [ ] to create one." },
-          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `clients = ["Marcus", "Tamika", "DeShawn", "Keisha"]\n\nprint(clients)\nprint(clients[0])\n\nfor client in clients:\n    print("Sending invoice to:", client)` },
-          { type: "plain", text: "Lists start counting at 0 not 1. So clients[0] is the first item, clients[1] is second, and so on." },
-          { type: "plain", text: "Why this matters for money: imagine storing 500 customer names, 1000 product prices, or every order that came in today. Lists make that possible." },
-        ],
-        hints: ["Create a list like this: skills = [\"Python\", \"JavaScript\", \"Automation\"]", "To print one item use its position: print(skills[0])", "To loop: for skill in skills:  then indented: print(skill)"],
-        challenge: {
-          prompt: "Create a list called 'skills' with at least 3 coding skills you want to learn. Then loop through the list and print each one.",
-          starterCode: `skills = ["Python", "JavaScript", "Automation"]\n\nprint("My skills list:", skills)\n\nfor skill in skills:\n    print("Learning:", skill)\n\nskills.append("Web Scraping")\nprint("Updated list:", skills)`,
-          whatItDoes: "You created a list, looped through it, and added a new item with .append(). These are the building blocks of real apps.",
-          check: (output) => output.split("\n").filter(Boolean).length >= 3,
-        },
-      },
-      {
-        id: "dictionaries", title: "Dictionaries — Labeled Data", xp: 150, analogy: "Think of a contact card",
-        theory: [
-          { type: "plain", text: "A contact card for someone has labeled fields: Name: Marcus, Phone: 555-1234, Email: marcus@gmail.com. Each label points to a value." },
-          { type: "highlight", text: "A dictionary in Python stores data with labels (called keys) instead of just positions. Perfect for storing related information together." },
-          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `client = {\n    "name": "Marcus Johnson",\n    "email": "marcus@gmail.com",\n    "budget": 2500,\n    "project": "Website"\n}\n\nprint(client["name"])\nprint(client["budget"])\n\nclient["budget"] = 3000\nprint("Updated budget:", client["budget"])` },
-          { type: "plain", text: "Dictionaries use curly braces { }. Each entry has a 'key': 'value' pair separated by a colon. This is how real apps store user data, product info, and settings." },
-        ],
-        hints: ["Create a dict: person = {\"name\": \"Stanley\", \"age\": 30, \"goal\": \"financial freedom\"}", "Access a value: print(person[\"name\"])", "Loop: for key, value in person.items():  then indented: print(key, \":\", value)"],
-        challenge: {
-          prompt: "Create a dictionary called 'my_profile' with your name, your coding goal, and your target income. Then print each value.",
-          starterCode: `my_profile = {\n    "name": "Your Name",\n    "goal": "Financial Freedom",\n    "target_income": 100000,\n    "skills": ["Python", "JavaScript"]\n}\n\nprint("Name:", my_profile["name"])\nprint("Goal:", my_profile["goal"])\nprint("Target:", my_profile["target_income"])\n\nfor key, value in my_profile.items():\n    print(key, "->", value)`,
-          whatItDoes: "You built a data structure that could represent a user profile in a real app. This is exactly how apps store user information.",
-          check: (output) => output.split("\n").filter(Boolean).length >= 3,
-        },
-      },
-      {
-        id: "working-with-files", title: "Working With Files", xp: 175, analogy: "Think of a filing cabinet",
-        theory: [
-          { type: "plain", text: "A filing cabinet stores documents you can pull out later, read, add to, or replace. Your computer's files work exactly the same way." },
-          { type: "highlight", text: "Python can read from and write to files — this is how real automation works. Instead of manually opening Excel, Python opens it for you." },
-          { type: "code", label: "PYTHON — Writing a file", color: "#86efac", code: `with open("clients.txt", "w") as file:\n    file.write("Marcus Johnson\\n")\n    file.write("Tamika Williams\\n")\n    file.write("DeShawn Carter\\n")\n\nprint("File saved!")` },
-          { type: "code", label: "PYTHON — Reading a file", color: "#7dd3fc", code: `with open("clients.txt", "r") as file:\n    content = file.read()\n    print(content)` },
-          { type: "plain", text: "'w' means write (creates or overwrites). 'r' means read. 'a' means append. The 'with' statement automatically closes the file when done — always use it." },
-          { type: "plain", text: "Real money use: automatically generate client reports, save scraped data, process CSV files from clients. This is a billable skill right now." },
-        ],
-        hints: ["Use open(\"filename.txt\", \"w\") to create and write a file.", "Inside the with block, use file.write(\"your text\\n\") — the \\n creates a new line.", "To read: open(\"filename.txt\", \"r\") and file.read()"],
-        challenge: {
-          prompt: "Write a Python script that saves your name and coding goal to a file called 'mygoals.txt', then reads it back and prints it.",
-          starterCode: `with open("mygoals.txt", "w") as file:\n    file.write("Name: Stanley White\\n")\n    file.write("Goal: Financial Freedom\\n")\n    file.write("Timeline: 9 months\\n")\n\nprint("Goals saved!")\n\nwith open("mygoals.txt", "r") as file:\n    content = file.read()\n    print("\\nMy Goals:")\n    print(content)`,
-          whatItDoes: "You wrote data to a real file and read it back. This same pattern is used to process thousands of Excel rows, save scraped data, and generate automated reports.",
-          check: (output) => output.includes("saved") || output.includes("Goals") || output.length > 0,
-        },
-      },
     ],
   },
-  {
-    id: "decisions", title: "Making Decisions", icon: "🧠", color: "#ff6b35",
+  {id: "decisions", title: "Making Decisions", icon: "🧠", color: "#ff6b35",
     lessons: [
       {
         id: "if-statements", title: "If This, Then That", xp: 100, analogy: "Think of a bouncer at a club",
@@ -663,13 +503,13 @@ const CURRICULUM = [
         challenges: [
           {
             prompt: "GUIDED: Run this code and see how local and global variables work differently.",
-            starterCode: `business_name = "Stanley White Consulting"  # Global\nbase_rate = 75  # Global\n\ndef calculate_quote(hours, client):\n    total = hours * base_rate  # Uses global base_rate\n    message = f"Quote for {client}: ${total}"  # Local variable\n    return message\n\nprint(calculate_quote(20, "Marcus"))\nprint(calculate_quote(40, "Tamika"))\nprint("Business:", business_name)`,
+            starterCode: `business_name = "Stanley White Consulting"  # Global\nbase_rate = 75  # Global\n\ndef calculate_quote(hours, client):\n    total = hours * base_rate  # Uses global base_rate\n    message = "Quote for " + client + ": $" + str(total)  # Local variable\n    return message\n\nprint(calculate_quote(20, "Marcus"))\nprint(calculate_quote(40, "Tamika"))\nprint("Business:", business_name)`,
             whatItDoes: "The function uses the global base_rate but message is local to the function.",
             check: (output) => output.split("\n").filter(Boolean).length >= 3,
           },
           {
             prompt: "MODIFY IT: Change base_rate to 100 at the top and run it. Both quotes should update automatically.",
-            starterCode: `business_name = "Stanley White Consulting"\nbase_rate = 75\n\ndef calculate_quote(hours, client):\n    total = hours * base_rate\n    message = f"Quote for {client}: ${total}"\n    return message\n\nprint(calculate_quote(20, "Marcus"))\nprint(calculate_quote(40, "Tamika"))\nprint("Business:", business_name)`,
+            starterCode: `business_name = "Stanley White Consulting"\nbase_rate = 75\n\ndef calculate_quote(hours, client):\n    total = hours * base_rate\n    message = "Quote for " + client + ": $" + str(total)\n    return message\n\nprint(calculate_quote(20, "Marcus"))\nprint(calculate_quote(40, "Tamika"))\nprint("Business:", business_name)`,
             whatItDoes: "Change base_rate at the top. The function automatically uses the new value.",
             check: (output) => output.includes("2000") || output.includes("4000"),
           },
@@ -879,19 +719,19 @@ const CURRICULUM = [
         theory: [
           { type: "plain", text: "A spreadsheet has rows. Each row has multiple columns — name, email, amount, status. In Python you can store this as a list of dictionaries." },
           { type: "highlight", text: "Nested data means dictionaries inside lists. This is how real apps store collections of records — users, orders, products, clients." },
-          { type: "code", label: "PYTHON", color: "#67e8f9", code: `clients = [\n    {"name": "Marcus", "amount": 1500, "paid": True},\n    {"name": "Tamika", "amount": 2200, "paid": False},\n    {"name": "DeShawn", "amount": 900, "paid": True},\n]\n\nfor client in clients:\n    status = "✓ Paid" if client["paid"] else "⏳ Pending"\n    print(f"{client['name']}: ${client['amount']} — {status}")\n\ntotal = sum(c["amount"] for c in clients)\nprint("Total:", total)` },
+          { type: "code", label: "PYTHON", color: "#67e8f9", code: `clients = [\n    {"name": "Marcus", "amount": 1500, "paid": True},\n    {"name": "Tamika", "amount": 2200, "paid": False},\n    {"name": "DeShawn", "amount": 900, "paid": True},\n]\n\nfor client in clients:\n    status = "✓ Paid" if client["paid"] else "⏳ Pending"\n    print(client["name"] + ": $" + str(client["amount"]) + " - " + status)\n\ntotal = sum(c["amount"] for c in clients)\nprint("Total:", total)` },
         ],
         hints: ["Access nested data: clients[0]['name'] gets first client's name", "Loop with for client in clients: then client['key']", "List comprehension: [c['amount'] for c in clients] gets all amounts"],
         challenges: [
           {
             prompt: "GUIDED: Run this code and see how a list of dictionaries works like a database table.",
-            starterCode: `clients = [\n    {"name": "Marcus Johnson", "amount": 1500, "paid": True},\n    {"name": "Tamika Williams", "amount": 2200, "paid": False},\n    {"name": "DeShawn Carter", "amount": 900, "paid": True},\n    {"name": "Keisha Brown", "amount": 3100, "paid": False},\n]\n\nprint("=== CLIENT REPORT ===")\nfor client in clients:\n    status = "Paid" if client["paid"] else "Pending"\n    print(f"{client['name']}: ${client['amount']} — {status}")\n\ntotal = sum(c["amount"] for c in clients)\npaid_total = sum(c["amount"] for c in clients if c["paid"])\nprint(f"\nTotal: ${total}")\nprint(f"Collected: ${paid_total}")\nprint(f"Outstanding: ${total - paid_total}")`,
+            starterCode: `clients = [\n    {"name": "Marcus Johnson", "amount": 1500, "paid": True},\n    {"name": "Tamika Williams", "amount": 2200, "paid": False},\n    {"name": "DeShawn Carter", "amount": 900, "paid": True},\n    {"name": "Keisha Brown", "amount": 3100, "paid": False},\n]\n\nprint("=== CLIENT REPORT ===")\nfor client in clients:\n    status = "Paid" if client["paid"] else "Pending"\n    print(client["name"] + ": $" + str(client["amount"]) + " - " + status)\n\ntotal = sum(c["amount"] for c in clients)\npaid_total = sum(c["amount"] for c in clients if c["paid"])\nprint("\nTotal: $", total)\nprint("Collected: $", paid_total)\nprint("Outstanding: $", total - paid_total)`,
             whatItDoes: "You built a mini invoice tracking system using nested data.",
             check: (output) => output.includes("CLIENT REPORT") && output.includes("Total"),
           },
           {
             prompt: "MODIFY IT: Add your own 2 clients to the list. Change one paid status. Run and see the totals update automatically.",
-            starterCode: `clients = [\n    {"name": "Marcus Johnson", "amount": 1500, "paid": True},\n    {"name": "Tamika Williams", "amount": 2200, "paid": False},\n    {"name": "DeShawn Carter", "amount": 900, "paid": True},\n]\n\nfor client in clients:\n    status = "Paid" if client["paid"] else "Pending"\n    print(f"{client['name']}: ${client['amount']} — {status}")\n\ntotal = sum(c["amount"] for c in clients)\nprint("Total:", total)`,
+            starterCode: `clients = [\n    {"name": "Marcus Johnson", "amount": 1500, "paid": True},\n    {"name": "Tamika Williams", "amount": 2200, "paid": False},\n    {"name": "DeShawn Carter", "amount": 900, "paid": True},\n]\n\nfor client in clients:\n    status = "Paid" if client["paid"] else "Pending"\n    print(client["name"] + ": $" + str(client["amount"]) + " - " + status)\n\ntotal = sum(c["amount"] for c in clients)\nprint("Total:", total)`,
             whatItDoes: "Add 2 new client dictionaries to the list and see all calculations update.",
             check: (output) => output.split("\n").filter(Boolean).length >= 5,
           },

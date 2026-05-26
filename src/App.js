@@ -355,6 +355,238 @@ const CURRICULUM = [
     ],
   },
   {
+    id: "decisions", title: "Making Decisions", icon: "🧠", color: "#ff6b35",
+    lessons: [
+      {
+        id: "if-statements", title: "If This, Then That", xp: 100, analogy: "Think of a bouncer at a club",
+        theory: [
+          { type: "plain", text: "A bouncer checks one thing: Are you 21 or older? If YES you get in. If NO you do not." },
+          { type: "highlight", text: "An if-statement tells your code: IF something is true, THEN do this. OTHERWISE, do that." },
+          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `income = 5000\n\nif income > 3000:\n    print("You are profitable!")\nelse:\n    print("Keep grinding")` },
+        ],
+        hints: ["Start with: if income > 3000: do not forget the colon.", "The line after if must be indented.", "else: handles the false case."],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how Python makes decisions.",
+            starterCode: `income = 5000\n\nif income > 3000:\n    print("You are profitable!")\nelse:\n    print("Keep grinding")`,
+            whatItDoes: "Python checks if income is greater than 3000. Prints one thing if true, another if false.",
+            check: (output) => output.includes("profitable") || output.includes("grinding"),
+          },
+          {
+            prompt: "MODIFY IT: Change income to 1500 and run it. The output should change.",
+            starterCode: `income = 5000\n\nif income > 3000:\n    print("You are profitable!")\nelse:\n    print("Keep grinding")`,
+            whatItDoes: "Change the income value and see how the output changes.",
+            check: (output) => output.includes("grinding"),
+          },
+          {
+            prompt: "FROM SCRATCH: Write an if/else that checks if hourly_rate is above 50. Print Great rate! if yes, Negotiate higher if no.",
+            starterCode: `# Create an hourly_rate variable\n# Write an if/else statement\n`,
+            whatItDoes: "Build the condition yourself.",
+            check: (output) => output.length > 0,
+          },
+        ],
+        quiz: [
+          { question: "What keyword starts a conditional statement?", answer: "if", choices: ["if", "when", "check", "condition"] },
+          { question: "What keyword handles the false case?", answer: "else", choices: ["else", "otherwise", "if not", "fail"] },
+          { question: "What must come after the condition?", answer: "A colon :", choices: ["A colon :", "A semicolon ;", "Parentheses ()", "Nothing"] },
+          { question: "Code inside an if block must be _____", answer: "indented", choices: ["indented", "in quotes", "capitalized", "on one line"] },
+          { question: "if 10 > 5 is _____", answer: "True", choices: ["True", "False", "Error", "None"] },
+        ],
+      },
+      {
+        id: "loops", title: "Loops — Make the Computer Do the Boring Work", xp: 125, analogy: "Think of a photocopier",
+        theory: [
+          { type: "plain", text: "If you need 100 copies of a flyer, you do not hand-copy it 100 times. You set the copier to 100 and press go." },
+          { type: "highlight", text: "A loop tells your code: repeat this action X times." },
+          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `for i in range(5):\n    print("Sending invoice to client", i + 1)` },
+        ],
+        hints: ["Start with: for i in range(5):", "The line inside the loop must be indented.", "range(5) means repeat 5 times."],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how a loop repeats an action automatically.",
+            starterCode: `for i in range(5):\n    print("Processing client number", i + 1)\n\nprint("Done! All clients processed.")`,
+            whatItDoes: "The loop runs 5 times, printing a different number each time.",
+            check: (output) => output.includes("1") && output.split("\n").filter(Boolean).length >= 3,
+          },
+          {
+            prompt: "MODIFY IT: Change range(5) to range(10) and change the message to something about invoices.",
+            starterCode: `for i in range(5):\n    print("Processing client number", i + 1)\n\nprint("Done! All clients processed.")`,
+            whatItDoes: "Change the range number and the print message.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 10,
+          },
+          {
+            prompt: "FROM SCRATCH: Write a loop that prints numbers 1 through 7, then prints Week complete!",
+            starterCode: `# Write a for loop using range\n`,
+            whatItDoes: "Use for i in range(): and use i+1 to show 1-7.",
+            check: (output) => output.includes("7") && output.includes("complete"),
+          },
+        ],
+        quiz: [
+          { question: "What keyword starts a for loop?", answer: "for", choices: ["for", "loop", "repeat", "while"] },
+          { question: "range(5) makes the loop run _____ times", answer: "5", choices: ["5", "4", "6", "0"] },
+          { question: "What must the code inside a loop be?", answer: "Indented", choices: ["Indented", "Quoted", "Capitalized", "Numbered"] },
+          { question: "range(5) starts counting at _____", answer: "0", choices: ["0", "1", "5", "-1"] },
+          { question: "What prints Hello 3 times?", answer: "for i in range(3): print('Hello')", choices: ["for i in range(3): print('Hello')", "repeat(3): print('Hello')", "loop 3: print('Hello')", "print('Hello') * 3"] },
+        ],
+      },
+    ],
+  },
+  {
+    id: "functions", title: "Functions — Your Own Tools", icon: "🔧", color: "#a78bfa",
+    lessons: [
+      {
+        id: "what-is-function", title: "Functions — Building Your Toolbox", xp: 200, analogy: "Think of a microwave",
+        theory: [
+          { type: "plain", text: "You do not rewire a microwave every time you want to heat food. You built the machine once and now just press the button." },
+          { type: "highlight", text: "A function is code you write once and reuse forever." },
+          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `def calculate_profit(revenue, costs):\n    return revenue - costs\n\nprint(calculate_profit(10000, 3000))\nprint(calculate_profit(5000, 1200))` },
+        ],
+        hints: ["Start with: def function_name(inputs):", "Inside the function indented: return result", "Call it: print(function_name(values))"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how a function works.",
+            starterCode: `def calculate_profit(revenue, costs):\n    return revenue - costs\n\nprint(calculate_profit(10000, 3000))\nprint(calculate_profit(5000, 1200))\nprint(calculate_profit(25000, 8000))`,
+            whatItDoes: "The function runs 3 times with different numbers each time.",
+            check: (output) => output.split("\n").filter(l => /\d+/.test(l)).length >= 2,
+          },
+          {
+            prompt: "MODIFY IT: Change the revenue and costs values. Add a fourth call with different values.",
+            starterCode: `def calculate_profit(revenue, costs):\n    return revenue - costs\n\nprint(calculate_profit(10000, 3000))\nprint(calculate_profit(5000, 1200))\nprint(calculate_profit(25000, 8000))`,
+            whatItDoes: "Change the numbers and add one more print line.",
+            check: (output) => output.split("\n").filter(l => /\d+/.test(l)).length >= 4,
+          },
+          {
+            prompt: "FROM SCRATCH: Write a function called weekly_pay that takes hours and rate and returns hours * rate. Call it 3 times.",
+            starterCode: `# Write your function below\n# def weekly_pay(hours, rate):\n#     return ?\n\n# Call it 3 times\n`,
+            whatItDoes: "Build the function yourself.",
+            check: (output) => output.split("\n").filter(l => /\d+/.test(l)).length >= 3,
+          },
+        ],
+        quiz: [
+          { question: "What keyword defines a function in Python?", answer: "def", choices: ["def", "function", "create", "make"] },
+          { question: "What does the return keyword do?", answer: "Sends a result back from the function", choices: ["Sends a result back from the function", "Prints the result", "Ends the program", "Creates a variable"] },
+          { question: "How do you call a function named greet?", answer: "greet()", choices: ["greet()", "call greet", "run greet", "greet{}"] },
+          { question: "What is the main benefit of using functions?", answer: "Write code once and reuse it forever", choices: ["Write code once and reuse it forever", "Makes code shorter", "Runs faster", "Uses less memory"] },
+          { question: "Complete: def double(number):\n    _____ number * 2", answer: "return", choices: ["return", "print", "give", "output"] },
+        ],
+      },
+    ],
+  },
+  {
+    id: "data", title: "Working With Data", icon: "📦", color: "#22d3ee",
+    lessons: [
+      {
+        id: "lists", title: "Lists — Storing Multiple Things", xp: 175, analogy: "Think of a grocery list",
+        theory: [
+          { type: "plain", text: "A grocery list holds multiple items in one place. You do not need a separate jar for each item." },
+          { type: "highlight", text: "A list in Python stores multiple values in one variable. Use square brackets [ ] to create one." },
+          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `clients = ["Marcus", "Tamika", "DeShawn"]\n\nfor client in clients:\n    print("Sending invoice to:", client)` },
+        ],
+        hints: ["Create a list: skills = [\"Python\", \"JavaScript\"]", "Access one item: print(skills[0])", "Loop: for skill in skills: then print(skill)"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how a list stores multiple items.",
+            starterCode: `clients = ["Marcus", "Tamika", "DeShawn", "Keisha"]\n\nprint("All clients:", clients)\nprint("First client:", clients[0])\n\nfor client in clients:\n    print("Sending invoice to:", client)`,
+            whatItDoes: "A list stores 4 names. The loop goes through each one.",
+            check: (output) => output.includes("Marcus") && output.split("\n").filter(Boolean).length >= 4,
+          },
+          {
+            prompt: "MODIFY IT: Change the 4 names to your own. Add a 5th with .append(). Print the total count.",
+            starterCode: `clients = ["Marcus", "Tamika", "DeShawn", "Keisha"]\n\nfor client in clients:\n    print("Sending invoice to:", client)`,
+            whatItDoes: "Replace the names. Add clients.append('NewName') and print(len(clients))",
+            check: (output) => !output.includes("Marcus") && output.split("\n").filter(Boolean).length >= 4,
+          },
+          {
+            prompt: "FROM SCRATCH: Create a list called skills with 4 coding skills. Loop and print each one. Add a 5th with .append().",
+            starterCode: `# Create your skills list\n# Loop through and print each\n# Add a 5th skill\n`,
+            whatItDoes: "Build the list yourself. Use square brackets. Loop with for skill in skills.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 5,
+          },
+        ],
+        quiz: [
+          { question: "What brackets are used to create a list?", answer: "Square brackets [ ]", choices: ["Square brackets [ ]", "Curly brackets { }", "Round brackets ( )", "Angle brackets < >"] },
+          { question: "What index is the FIRST item in a list?", answer: "0", choices: ["0", "1", "-1", "first"] },
+          { question: "How do you add an item to a list?", answer: ".append(item)", choices: [".append(item)", ".add(item)", ".push(item)", ".insert(item)"] },
+          { question: "How do you count items in a list?", answer: "len(list)", choices: ["len(list)", "count(list)", "list.size()", "list.length"] },
+          { question: "Complete: for _____ in clients: print(client)", answer: "client", choices: ["client", "item", "i", "x"] },
+        ],
+      },
+      {
+        id: "dictionaries", title: "Dictionaries — Labeled Data", xp: 175, analogy: "Think of a contact card",
+        theory: [
+          { type: "plain", text: "A contact card has labeled fields: Name, Phone, Email. Each label points to a value." },
+          { type: "highlight", text: "A dictionary stores data with labels called keys. Perfect for storing related information together." },
+          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `client = {\n    "name": "Marcus Johnson",\n    "budget": 2500\n}\nprint(client["name"])\nprint(client["budget"])` },
+        ],
+        hints: ["Create: person = {\"name\": \"Stanley\", \"age\": 30}", "Access: print(person[\"name\"])", "Loop: for key, value in person.items():"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how a dictionary stores labeled data.",
+            starterCode: `client = {\n    "name": "Marcus Johnson",\n    "email": "marcus@gmail.com",\n    "budget": 2500,\n    "project": "Website"\n}\n\nfor key, value in client.items():\n    print(key, "->", value)`,
+            whatItDoes: "A dictionary stores 4 pieces of info about one client.",
+            check: (output) => output.includes("Marcus") && output.split("\n").filter(Boolean).length >= 4,
+          },
+          {
+            prompt: "MODIFY IT: Change all values to a real or made-up client. Add a new key called rate.",
+            starterCode: `client = {\n    "name": "Marcus Johnson",\n    "email": "marcus@gmail.com",\n    "budget": 2500,\n    "project": "Website"\n}\n\nfor key, value in client.items():\n    print(key, "->", value)`,
+            whatItDoes: "Replace all values and add a rate key.",
+            check: (output) => !output.includes("Marcus") && output.includes("rate"),
+          },
+          {
+            prompt: "FROM SCRATCH: Create a dictionary called my_profile with name, goal, target_income, and top_skill. Print each value.",
+            starterCode: `# Create your profile dictionary\n# Print each value individually\n`,
+            whatItDoes: "Build the dictionary yourself.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 4,
+          },
+        ],
+        quiz: [
+          { question: "What brackets are used to create a dictionary?", answer: "Curly brackets { }", choices: ["Curly brackets { }", "Square brackets [ ]", "Round brackets ( )", "Angle brackets < >"] },
+          { question: "How do you access a value in a dictionary?", answer: 'dict["key"]', choices: ['dict["key"]', "dict.key", "dict(key)", "dict->key"] },
+          { question: "What is a dictionary key?", answer: "A label that points to a value", choices: ["A label that points to a value", "A password", "An index number", "A variable name"] },
+          { question: "How do you loop through all key-value pairs?", answer: "for key, value in dict.items():", choices: ["for key, value in dict.items():", "for item in dict:", "for key in dict.keys():", "loop dict"] },
+          { question: "Which correctly adds a new key?", answer: 'client["phone"] = "555-1234"', choices: ['client["phone"] = "555-1234"', 'client.add("phone")', 'client.append("phone")', 'add client["phone"]'] },
+        ],
+      },
+      {
+        id: "working-with-files", title: "Working With Files", xp: 200, analogy: "Think of a filing cabinet",
+        theory: [
+          { type: "plain", text: "A filing cabinet stores documents you can pull out later, read, add to, or replace." },
+          { type: "highlight", text: "Python can read from and write to files. This is how real automation works." },
+          { type: "code", label: "PYTHON — Writing", color: "#86efac", code: `with open("clients.txt", "w") as file:\n    file.write("Marcus Johnson\\n")\nprint("File saved!")` },
+          { type: "code", label: "PYTHON — Reading", color: "#7dd3fc", code: `with open("clients.txt", "r") as file:\n    content = file.read()\n    print(content)` },
+        ],
+        hints: ["Use open(\"filename.txt\", \"w\") to create and write", "file.write(\"text\\n\")", "To read: open(\"filename.txt\", \"r\") then file.read()"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how Python writes to a file then reads it back.",
+            starterCode: `with open("mygoals.txt", "w") as file:\n    file.write("Name: Stanley White\\n")\n    file.write("Goal: Financial Freedom\\n")\n\nprint("File saved!")\n\nwith open("mygoals.txt", "r") as file:\n    content = file.read()\n    print(content)`,
+            whatItDoes: "Writes 3 lines to a file then reads them all back.",
+            check: (output) => output.includes("saved") && output.includes("Stanley"),
+          },
+          {
+            prompt: "MODIFY IT: Change the name and goal. Add a 4th line called Skills with your top skill.",
+            starterCode: `with open("mygoals.txt", "w") as file:\n    file.write("Name: Stanley White\\n")\n    file.write("Goal: Financial Freedom\\n")\n\nprint("File saved!")\n\nwith open("mygoals.txt", "r") as file:\n    content = file.read()\n    print(content)`,
+            whatItDoes: "Change the values and add a Skills line.",
+            check: (output) => !output.includes("Stanley White") && output.includes("Skills"),
+          },
+          {
+            prompt: "FROM SCRATCH: Write 3 client names to clients.txt, then read it back and print each line.",
+            starterCode: `# Write 3 client names to clients.txt\n# Then read and print the file\n`,
+            whatItDoes: "Write the whole thing yourself. Use w to write, r to read.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+        ],
+        quiz: [
+          { question: "What does the w mode do when opening a file?", answer: "Creates or overwrites the file for writing", choices: ["Creates or overwrites the file for writing", "Reads the file", "Appends to the file", "Deletes the file"] },
+          { question: "What does \\n do inside a file.write() string?", answer: "Creates a new line", choices: ["Creates a new line", "Adds a tab", "Ends the program", "Nothing"] },
+          { question: "Why do we use the with statement?", answer: "It automatically closes the file when done", choices: ["It automatically closes the file when done", "It makes the file bigger", "It reads faster", "It is required by Python"] },
+          { question: "How do you read all content from an open file?", answer: "file.read()", choices: ["file.read()", "file.open()", "file.get()", "file.load()"] },
+          { question: "Which mode appends without deleting?", answer: "a", choices: ["a", "w", "r", "x"] },
+        ],
+      },
+    ],
+  },
+  {
     id: "logic2", title: "Logic Level Up", icon: "⚡", color: "#f472b6",
     lessons: [
       {

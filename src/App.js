@@ -2050,7 +2050,8 @@ function Paywall({ onUnlock, onClose }) {
   };
 
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 200, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto" }}>
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 200, overflowY: "scroll", WebkitOverflowScrolling: "touch" }}>
+      <div style={{ display: "flex", justifyContent: "center", padding: "20px", minHeight: "100%" }}>
       <div style={{ marginTop: "20px", marginBottom: "20px", background: "#0d0d0d", border: "2px solid #fbbf2440", borderRadius: "16px", width: "100%", maxWidth: "480px", padding: "36px 28px", fontFamily: "'Space Mono', monospace" }}>
         <div style={{ fontSize: "36px", textAlign: "center", marginBottom: "12px" }}>🔐</div>
         <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "32px", letterSpacing: "3px", color: "#fbbf24", textAlign: "center", marginBottom: "8px" }}>PREMIUM ACCESS</div>
@@ -2088,6 +2089,7 @@ function Paywall({ onUnlock, onClose }) {
         {error && <p style={{ fontSize: "12px", color: "#ff6b6b", margin: "0 0 8px 0" }}>{error}</p>}
         {success && <p style={{ fontSize: "12px", color: "#00ff88", margin: "0 0 8px 0" }}>✅ Code accepted! Unlocking premium...</p>}
         <button onClick={onClose} style={{ width: "100%", background: "none", color: "#444", border: "none", cursor: "pointer", fontSize: "12px", fontFamily: "'Space Mono', monospace", marginTop: "8px" }}>Continue with free lessons</button>
+      </div>
       </div>
     </div>
   );
@@ -2290,7 +2292,8 @@ function MiniGame({ moduleId, moduleName, moduleColor, xpReward, onClose, onXpEa
     }, 1000);
   };
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 200, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto" }}>
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 200, overflowY: "scroll", WebkitOverflowScrolling: "touch" }}>
+      <div style={{ display: "flex", justifyContent: "center", padding: "20px", minHeight: "100%" }}>
       <div style={{ marginTop: "20px", marginBottom: "20px", background: "#0d0d0d", border: "1px solid " + moduleColor + "40", borderRadius: "16px", width: "100%", maxWidth: "520px", fontFamily: "monospace", overflow: "hidden" }}>
         <div style={{ padding: "16px 20px", borderBottom: "1px solid #1a1a1a", display: "flex", justifyContent: "space-between", alignItems: "center", background: moduleColor + "10" }}>
           <div>

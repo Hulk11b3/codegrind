@@ -429,8 +429,6 @@ const CURRICULUM = [
           { question: "What prints Hello 3 times?", answer: "for i in range(3): print('Hello')", choices: ["for i in range(3): print('Hello')", "repeat(3): print('Hello')", "loop 3: print('Hello')", "print('Hello') * 3"] },
         ],
       },
-    ],
-
       {
         id: "elif", title: "Multiple Choices with elif", xp: 125, analogy: "Think of a traffic light",
         theory: [
@@ -541,6 +539,7 @@ const CURRICULUM = [
           { question: "What is the difference between for and while loops?", answer: "for repeats a set number of times, while repeats until a condition is false", choices: ["for repeats a set number of times, while repeats until a condition is false", "They are the same", "while is faster", "for is more powerful"] },
         ],
       },
+    ],
   },
   {
     id: "functions", title: "Functions — Your Own Tools", icon: "🔧", color: "#a78bfa",
@@ -581,8 +580,6 @@ const CURRICULUM = [
           { question: "Complete: def double(number):\n    _____ number * 2", answer: "return", choices: ["return", "print", "give", "output"] },
         ],
       },
-    ],
-
       {
         id: "function-parameters", title: "Function Parameters and Defaults", xp: 175, analogy: "Think of ordering coffee",
         theory: [
@@ -691,6 +688,7 @@ const CURRICULUM = [
           { question: "company_name = 'CodeGrind' at the top of a file is a _____ variable", answer: "global", choices: ["global", "local", "function", "parameter"] },
         ],
       },
+    ],
   },
   {
     id: "data", title: "Working With Data", icon: "📦", color: "#22d3ee",
@@ -804,8 +802,6 @@ const CURRICULUM = [
           { question: "Which mode appends without deleting?", answer: "a", choices: ["a", "w", "r", "x"] },
         ],
       },
-    ],
-
       {
         id: "list-methods", title: "List Methods — Managing Collections", xp: 150, analogy: "Think of managing a team roster",
         theory: [
@@ -914,6 +910,7 @@ const CURRICULUM = [
           { question: "This data structure is similar to what in real apps?", answer: "A database table", choices: ["A database table", "A calculator", "A file system", "A loop"] },
         ],
       },
+    ],
   },
   {
     id: "logic2", title: "Logic Level Up", icon: "⚡", color: "#f472b6",

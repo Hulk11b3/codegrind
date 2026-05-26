@@ -906,7 +906,7 @@ const CURRICULUM = [
     ],
   },
   {
-    id: "python-pro"id: "python-pro", title: "Python Pro Skills", icon: "🐍", color: "#34d399",
+    id: "python-pro", title: "Python Pro Skills", icon: "🐍", color: "#34d399",
     lessons: [
       {
         id: "string-methods", title: "String Methods — Manipulating Text", xp: 150, analogy: "Think of a word processor",

@@ -754,6 +754,82 @@ const CURRICULUM = [
           check: (output) => output.includes("folder") || output.includes("Sorted") || output.includes("Created"),
         },
       },
+
+      {
+        id: "json-data", title: "Working with JSON", xp: 200, analogy: "Think of a digital form",
+        theory: [
+          { type: "plain", text: "Every time you use an app that loads data from the internet that data comes back as JSON. It is the universal language apps use to talk to each other." },
+          { type: "highlight", text: "JSON is the universal language apps use to talk to each other. Python reads and writes it instantly." },
+          { type: "code", label: "PYTHON", color: "#6ee7b7", code: `import json\n\ndata = {"name": "Stanley", "skills": ["Python", "JavaScript"]}\njson_string = json.dumps(data)\nprint("JSON:", json_string)\nparsed = json.loads(json_string)\nprint("Name:", parsed["name"])` },
+        ],
+        hints: ["import json at the top", "json.dumps() converts a dict to JSON string", "json.loads() converts JSON string back to dict"],
+        challenge: {
+          prompt: "Create a profile dictionary, save it as JSON to a file, read it back, and print your name and goal.",
+          starterCode: `import json\n\nprofile = {\n    "name": "Stanley White",\n    "goal": "Financial Freedom",\n    "skills": ["Python", "JavaScript"],\n    "target": 100000\n}\n\nwith open("profile.json", "w") as f:\n    json.dump(profile, f)\nprint("Saved!")\n\nwith open("profile.json", "r") as f:\n    loaded = json.load(f)\nprint("Name:", loaded["name"])\nprint("Goal:", loaded["goal"])`,
+          whatItDoes: "You saved and loaded real JSON data exactly how apps store user profiles.",
+          check: (output) => output.includes("Name:") || output.includes("Saved"),
+        },
+      },
+      {
+        id: "flask-basics", title: "Flask — Build Your First Web Server", xp: 275, analogy: "Think of a restaurant kitchen",
+        theory: [
+          { type: "plain", text: "A restaurant kitchen receives orders, prepares food, and sends it back out. A web server does the exact same thing." },
+          { type: "highlight", text: "Flask is a Python library that lets you build web servers and APIs in just a few lines of code." },
+          { type: "code", label: "PYTHON", color: "#6ee7b7", code: `from flask import Flask, jsonify\n\napp = Flask(__name__)\n\n@app.route("/")\ndef home():\n    return "Hello from your Python server!"\n\n@app.route("/api/profile")\ndef profile():\n    return jsonify({"name": "Stanley", "rate": "$75/hr"})` },
+        ],
+        hints: ["Install Flask: pip install flask", "@app.route() defines a URL endpoint", "jsonify() converts a Python dict to a JSON response"],
+        challenge: {
+          prompt: "Simulate a Flask app with 3 routes. Call each function and print the responses.",
+          starterCode: `def home():\n    return "Hello from your Python server!"\n\ndef api_profile():\n    return {"name": "Stanley White", "skills": ["Python", "Flask"], "rate": "$75/hr"}\n\ndef api_services():\n    return {"services": ["Websites", "Automation", "Chatbots"], "starting_at": "$200"}\n\nroutes = {"/": home, "/api/profile": api_profile, "/api/services": api_services}\n\nprint("=== FLASK SERVER SIMULATION ===")\nfor route, handler in routes.items():\n    print("\\nGET", route)\n    print("Response:", handler())`,
+          whatItDoes: "You simulated a real Flask web server with multiple routes.",
+          check: (output) => output.includes("FLASK") || output.includes("profile"),
+        },
+      },
+      {
+        id: "sqlite-basics", title: "SQLite — Simple Databases", xp: 250, analogy: "Think of a permanent spreadsheet",
+        theory: [
+          { type: "plain", text: "A spreadsheet breaks when you have thousands of rows. A database does everything faster and automatically." },
+          { type: "highlight", text: "SQLite is built into Python. No setup needed. Just import and start storing data permanently." },
+          { type: "code", label: "PYTHON", color: "#6ee7b7", code: `import sqlite3\n\nconn = sqlite3.connect("clients.db")\ncursor = conn.cursor()\ncursor.execute("CREATE TABLE IF NOT EXISTS clients (id INTEGER PRIMARY KEY, name TEXT, budget INTEGER)")\ncursor.execute("INSERT INTO clients (name, budget) VALUES (?, ?)", ("Marcus", 2500))\nconn.commit()\ncursor.execute("SELECT * FROM clients")\nprint(cursor.fetchall())\nconn.close()` },
+        ],
+        hints: ["sqlite3 is built into Python", "CREATE TABLE makes a table. INSERT adds data. SELECT retrieves it.", "Always commit() after inserting and close() when done"],
+        challenge: {
+          prompt: "Create a freelance.db with a projects table. Insert 3 projects and print them all.",
+          starterCode: `import sqlite3\n\nconn = sqlite3.connect("freelance.db")\ncursor = conn.cursor()\ncursor.execute("CREATE TABLE IF NOT EXISTS projects (id INTEGER PRIMARY KEY, client TEXT, service TEXT, amount INTEGER, status TEXT)")\n\nprojects = [("Marcus", "Website", 1500, "completed"), ("Tamika", "Automation", 800, "in progress"), ("DeShawn", "Chatbot", 1200, "completed")]\n\nfor p in projects:\n    cursor.execute("INSERT INTO projects (client, service, amount, status) VALUES (?, ?, ?, ?)", p)\nconn.commit()\n\nprint("=== FREELANCE DATABASE ===")\ncursor.execute("SELECT * FROM projects")\nfor row in cursor.fetchall():\n    print("Client:", row[1], "| Service:", row[2], "| $" + str(row[3]), "| Status:", row[4])\n\ncursor.execute("SELECT SUM(amount) FROM projects WHERE status = \'completed\'")\nprint("Total earned: $", cursor.fetchone()[0])\nconn.close()`,
+          whatItDoes: "You built a real database that stores freelance project data permanently.",
+          check: (output) => output.includes("DATABASE") || output.includes("Client:") || output.includes("Total"),
+        },
+      },
+      {
+        id: "virtual-environments", title: "Virtual Environments — Professional Python Setup", xp: 175, analogy: "Think of separate toolboxes for each job",
+        theory: [
+          { type: "plain", text: "A plumber keeps different toolboxes for different jobs. Virtual environments do the same for Python projects." },
+          { type: "highlight", text: "A virtual environment is an isolated Python setup for each project. Professional developers always use them." },
+          { type: "code", label: "TERMINAL", color: "#6ee7b7", code: `python3 -m venv myproject\nsource myproject/bin/activate\npip install flask requests pandas\npip freeze > requirements.txt\ndeactivate` },
+        ],
+        hints: ["python3 -m venv name creates the environment", "source name/bin/activate turns it on", "pip freeze > requirements.txt saves all your packages"],
+        challenge: {
+          prompt: "Simulate a virtual environment setup by printing each step and what it does.",
+          starterCode: `steps = [\n    ("python3 -m venv codegrind_env", "Creates an isolated Python environment"),\n    ("source codegrind_env/bin/activate", "Activates the environment"),\n    ("pip install flask requests pandas", "Installs packages only in this environment"),\n    ("pip freeze > requirements.txt", "Saves package list so others can replicate"),\n    ("deactivate", "Turns off the environment when done")\n]\n\nprint("=== VIRTUAL ENVIRONMENT SETUP ===")\nfor command, explanation in steps:\n    print("$ " + command)\n    print("  ->", explanation)\n    print()\n\nprint("Your project is now professionally set up!")`,
+          whatItDoes: "Virtual environments are standard practice in professional Python development.",
+          check: (output) => output.includes("VIRTUAL") || output.includes("professionally"),
+        },
+      },
+      {
+        id: "pandas-intro", title: "Pandas — Data Analysis Like a Pro", xp: 275, analogy: "Think of a supercharged spreadsheet",
+        theory: [
+          { type: "plain", text: "Excel crashes with large datasets. Pandas handles millions of rows in seconds." },
+          { type: "highlight", text: "Pandas is the most in-demand Python library for data work. It reads CSVs, Excel files, and databases instantly." },
+          { type: "code", label: "PYTHON", color: "#6ee7b7", code: `import pandas as pd\n\ndf = pd.read_csv("sales.csv")\nprint(df.head())\nprint("Total:", df["amount"].sum())\nprint("Average:", df["amount"].mean())` },
+        ],
+        hints: ["Install: pip install pandas", "pd.read_csv() loads a CSV into a DataFrame", "Use .sum(), .mean(), .groupby() to analyze"],
+        challenge: {
+          prompt: "Create a pandas DataFrame with sales data, calculate totals and averages, and find the top performer.",
+          starterCode: `import pandas as pd\n\ndata = {\n    "name": ["Marcus", "Tamika", "DeShawn", "Keisha", "Jerome"],\n    "sales": [1500, 2200, 900, 3100, 1800],\n    "region": ["South", "East", "West", "East", "South"]\n}\n\ndf = pd.DataFrame(data)\nprint("=== SALES REPORT ===")\nprint(df.to_string(index=False))\nprint("\\nTotal sales: $", df["sales"].sum())\nprint("Average sale: $", df["sales"].mean())\nprint("Top performer:", df.loc[df["sales"].idxmax(), "name"])`,
+          whatItDoes: "You analyzed a sales dataset with pandas exactly what data freelancers get paid for.",
+          check: (output) => output.includes("SALES") || output.includes("Total") || output.includes("performer"),
+        },
+      },
       {
         id: "mini-project-scraper", title: "Mini Project — Price Tracker", xp: 300, analogy: "Think of a personal shopper",
         theory: [
@@ -821,6 +897,82 @@ const CURRICULUM = [
           starterCode: `async function getRandomJoke() {\n  try {\n    const response = await fetch("https://official-joke-api.appspot.com/random_joke")\n    const joke = await response.json()\n    \n    console.log("Got a joke!")\n    console.log("Setup:", joke.setup)\n    console.log("Punchline:", joke.punchline)\n    \n    return joke\n  } catch (error) {\n    console.log("Something went wrong:", error.message)\n  }\n}\n\ngetRandomJoke()`,
           whatItDoes: "async/await makes asynchronous code readable. This is the standard way to write JavaScript in 2026 — every job posting expects you to know this.",
           check: (output) => output.includes("joke") || output.includes("Setup") || output.length > 5,
+        },
+      },
+
+      {
+        id: "js-local-storage", title: "Local Storage — Save Data in the Browser", xp: 175, analogy: "Think of a notepad the browser keeps", language: "javascript",
+        theory: [
+          { type: "plain", text: "When you close a tab and come back to a website and it still remembers you — that is Local Storage." },
+          { type: "highlight", text: "Local Storage lets JavaScript save data permanently in the browser. No server needed." },
+          { type: "code", label: "JAVASCRIPT", color: "#fcd34d", code: `localStorage.setItem("username", "Stanley")\nconst name = localStorage.getItem("username")\nconsole.log("Welcome back,", name)` },
+        ],
+        hints: ["localStorage.setItem('key', 'value') saves data", "localStorage.getItem('key') retrieves it", "Data is always stored as strings"],
+        challenge: {
+          prompt: "Simulate a Local Storage system that saves a user profile and updates the visit count.",
+          starterCode: `const storage = {}\nfunction setItem(key, value) { storage[key] = String(value) }\nfunction getItem(key) { return storage[key] || null }\n\nsetItem("username", "Stanley White")\nsetItem("visits", "1")\nconsole.log("=== LOCAL STORAGE ===")\nconsole.log("User:", getItem("username"))\nconsole.log("Visits:", getItem("visits"))\nconst visits = parseInt(getItem("visits")) + 1\nsetItem("visits", visits)\nconsole.log("Updated visits:", getItem("visits"))`,
+          whatItDoes: "You simulated browser Local Storage — the same system CodeGrind uses to save your XP.",
+          check: (output) => output.includes("LOCAL") || output.includes("User:") || output.includes("visits"),
+        },
+      },
+      {
+        id: "js-form-validation", title: "Form Validation — Making Forms That Work", xp: 200, analogy: "Think of a bouncer checking IDs", language: "javascript",
+        theory: [
+          { type: "plain", text: "A bouncer checks every person before letting them in. Form validation checks every input before accepting it." },
+          { type: "highlight", text: "Form validation is one of the most requested freelance JavaScript skills." },
+          { type: "code", label: "JAVASCRIPT", color: "#fcd34d", code: `function validateForm(name, email, password) {\n  const errors = []\n  if (!name || name.length < 2) errors.push("Name too short")\n  if (!email.includes("@")) errors.push("Invalid email")\n  if (!password || password.length < 8) errors.push("Password too short")\n  return errors\n}` },
+        ],
+        hints: ["Check if fields are empty with !value", "Use .includes('@') to check email", "Return an array of errors — empty means valid"],
+        challenge: {
+          prompt: "Build a form validator that checks name, email, and password. Test with valid and invalid data.",
+          starterCode: `function validateForm(name, email, password) {\n  const errors = []\n  if (!name || name.trim().length < 2) errors.push("Name must be at least 2 characters")\n  const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/\n  if (!emailRegex.test(email)) errors.push("Please enter a valid email")\n  if (!password || password.length < 8) errors.push("Password must be at least 8 characters")\n  return errors\n}\n\nconst test1 = validateForm("Stanley White", "stanley@gmail.com", "mypassword123")\nconsole.log("Test 1:", test1.length === 0 ? "VALID" : test1)\n\nconst test2 = validateForm("S", "notanemail", "short")\nconsole.log("Test 2:", test2)`,
+          whatItDoes: "A reusable form validator. Plug this into any website contact form.",
+          check: (output) => output.includes("VALID") || output.includes("Test"),
+        },
+      },
+      {
+        id: "js-promises", title: "Promises — Handling Future Results", xp: 200, analogy: "Think of a restaurant buzzer", language: "javascript",
+        theory: [
+          { type: "plain", text: "When you get a buzzer at a restaurant the kitchen is making a promise — your food will be ready eventually." },
+          { type: "highlight", text: "A Promise represents a value that will be available in the future. It is the foundation of all async JavaScript." },
+          { type: "code", label: "JAVASCRIPT", color: "#fcd34d", code: `const myPromise = new Promise((resolve, reject) => {\n  const success = true\n  if (success) { resolve("Data loaded!") }\n  else { reject("Something went wrong") }\n})\nmyPromise.then(result => console.log(result)).catch(error => console.log("Error:", error))` },
+        ],
+        hints: ["new Promise((resolve, reject) => {}) creates a promise", "resolve() means success — reject() means failure", ".then() handles success — .catch() handles errors"],
+        challenge: {
+          prompt: "Create a Promise that loads user data by ID. Resolve if user exists, reject if not.",
+          starterCode: `function loadUser(userId) {\n  return new Promise((resolve, reject) => {\n    const users = { 1: { name: "Stanley White", role: "Developer" }, 2: { name: "Marcus Johnson", role: "Designer" } }\n    const user = users[userId]\n    if (user) { resolve(user) } else { reject("User not found") }\n  })\n}\n\nloadUser(1).then(user => { console.log("Loaded:", user.name); console.log("Role:", user.role) }).catch(error => console.log("Error:", error))\nloadUser(99).then(user => console.log(user)).catch(error => console.log("Error:", error))`,
+          whatItDoes: "You built a Promise-based data loader — the same pattern used in every real web app.",
+          check: (output) => output.includes("Loaded:") || output.includes("Error:"),
+        },
+      },
+      {
+        id: "js-classes", title: "JavaScript Classes", xp: 225, analogy: "Think of a blueprint", language: "javascript",
+        theory: [
+          { type: "plain", text: "You learned Python classes already. JavaScript has them too — same concept, different syntax." },
+          { type: "highlight", text: "JavaScript classes are used everywhere in modern web development." },
+          { type: "code", label: "JAVASCRIPT", color: "#fcd34d", code: `class FreelanceClient {\n  constructor(name, budget) {\n    this.name = name\n    this.budget = budget\n  }\n  getQuote(hours) { return hours * 75 }\n}\nconst client = new FreelanceClient("Marcus", 2500)\nconsole.log(client.getQuote(20))` },
+        ],
+        hints: ["class Name { constructor() {} } creates a class", "this refers to the current object", "new ClassName() creates an instance"],
+        challenge: {
+          prompt: "Create a ShoppingCart class with addItem and getTotal methods. Test with 3 items.",
+          starterCode: `class ShoppingCart {\n  constructor(owner) { this.owner = owner; this.items = [] }\n  addItem(name, price) { this.items.push({ name, price }); console.log("Added:", name, "- $" + price) }\n  getTotal() { return this.items.reduce((sum, item) => sum + item.price, 0) }\n  printReceipt() {\n    console.log("\\n=== RECEIPT FOR", this.owner, "===")\n    this.items.forEach(item => console.log(item.name + ": $" + item.price))\n    console.log("TOTAL: $" + this.getTotal())\n  }\n}\n\nconst cart = new ShoppingCart("Stanley White")\ncart.addItem("Python Course", 49)\ncart.addItem("VS Code Theme", 9)\ncart.addItem("Domain Name", 12)\ncart.printReceipt()`,
+          whatItDoes: "You built a shopping cart class — the same pattern used in every e-commerce website.",
+          check: (output) => output.includes("RECEIPT") || output.includes("TOTAL") || output.includes("Added:"),
+        },
+      },
+      {
+        id: "js-error-handling", title: "Error Handling in JavaScript", xp: 175, analogy: "Think of a safety net", language: "javascript",
+        theory: [
+          { type: "plain", text: "A trapeze artist always has a safety net. JavaScript error handling is that safety net for your code." },
+          { type: "highlight", text: "try/catch in JavaScript works just like Python. Professional code always handles errors gracefully." },
+          { type: "code", label: "JAVASCRIPT", color: "#fcd34d", code: `try {\n  const data = JSON.parse("invalid json")\n  console.log(data)\n} catch (error) {\n  console.log("Caught error:", error.message)\n}\nconsole.log("Program keeps running!")` },
+        ],
+        hints: ["Wrap risky code in try { }", "Handle errors in catch (error) { }", "error.message gives you a readable description"],
+        challenge: {
+          prompt: "Write a function that safely parses JSON and returns null if it fails. Test with valid and invalid strings.",
+          starterCode: `function safeParseJSON(jsonString) {\n  try {\n    const result = JSON.parse(jsonString)\n    console.log("Parsed successfully")\n    return result\n  } catch (error) {\n    console.log("Parse failed:", error.message)\n    return null\n  }\n}\n\nconst valid = safeParseJSON('{"name": "Stanley", "goal": "Financial Freedom"}')\nconsole.log("Valid result:", valid ? valid.name : "null")\n\nconst invalid = safeParseJSON("this is not json")\nconsole.log("Invalid result:", invalid)`,
+          whatItDoes: "A safe JSON parser that never crashes your app.",
+          check: (output) => output.includes("Parsed") || output.includes("failed") || output.includes("Stanley"),
         },
       },
       {

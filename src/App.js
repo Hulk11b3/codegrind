@@ -430,6 +430,117 @@ const CURRICULUM = [
         ],
       },
     ],
+
+      {
+        id: "elif", title: "Multiple Choices with elif", xp: 125, analogy: "Think of a traffic light",
+        theory: [
+          { type: "plain", text: "A traffic light has three options: Red = Stop. Yellow = Slow. Green = Go. Life is not always yes or no — sometimes there are multiple choices." },
+          { type: "highlight", text: "elif means else if — check multiple conditions in order. The first one that is true runs." },
+          { type: "code", label: "PYTHON", color: "#ff9a7d", code: `score = 85\n\nif score >= 90:\n    print("A — Excellent!")\nelif score >= 80:\n    print("B — Good work")\nelif score >= 70:\n    print("C — Keep going")\nelse:\n    print("Keep practicing")` },
+        ],
+        hints: ["Start with if, then elif, then else.", "Each condition needs a colon at the end.", "Only the first true condition runs — the rest are skipped."],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how elif checks multiple conditions in order.",
+            starterCode: `score = 85\n\nif score >= 90:\n    print("A — Excellent!")\nelif score >= 80:\n    print("B — Good work")\nelif score >= 70:\n    print("C — Keep going")\nelse:\n    print("Keep practicing")`,
+            whatItDoes: "Python checks each condition top to bottom. The first true one runs and the rest are skipped.",
+            check: (output) => output.includes("Good") || output.includes("Excellent") || output.includes("Keep"),
+          },
+          {
+            prompt: "MODIFY IT: Change score to 95 and run it. Then change to 65 and run again. See how the output changes.",
+            starterCode: `score = 85\n\nif score >= 90:\n    print("A — Excellent!")\nelif score >= 80:\n    print("B — Good work")\nelif score >= 70:\n    print("C — Keep going")\nelse:\n    print("Keep practicing")`,
+            whatItDoes: "Change the score value and see which condition triggers.",
+            check: (output) => output.includes("Excellent") || output.includes("practicing"),
+          },
+          {
+            prompt: "FROM SCRATCH: Write an elif chain that checks hours worked. Over 40: Overtime pay. Over 20: Standard pay. Otherwise: Part time pay.",
+            starterCode: `# Create a hours variable\n# Write if/elif/else for the 3 pay rates\n`,
+            whatItDoes: "Build the elif chain yourself. Three conditions, three outcomes.",
+            check: (output) => output.includes("pay") || output.includes("Pay"),
+          },
+        ],
+        quiz: [
+          { question: "What does elif stand for?", answer: "else if", choices: ["else if", "end if", "extra if", "enter if"] },
+          { question: "How many elif statements can you have?", answer: "As many as you need", choices: ["As many as you need", "Only 1", "Only 2", "Maximum 3"] },
+          { question: "When does the else block run?", answer: "When no other condition is true", choices: ["When no other condition is true", "Always", "First", "Never"] },
+          { question: "In an if/elif/else chain, how many blocks actually run?", answer: "Only 1", choices: ["Only 1", "All of them", "2", "Depends on conditions"] },
+          { question: "What comes at the end of every if, elif, and else line?", answer: "A colon :", choices: ["A colon :", "A semicolon ;", "Parentheses ()", "Nothing"] },
+        ],
+      },
+      {
+        id: "combining-conditions", title: "AND / OR — Combining Conditions", xp: 125, analogy: "Think of a job application",
+        theory: [
+          { type: "plain", text: "A job posting says: you need 2 years experience AND a portfolio. Both must be true to get the interview." },
+          { type: "highlight", text: "AND means both conditions must be true. OR means at least one must be true." },
+          { type: "code", label: "PYTHON", color: "#ff9a7d", code: `has_portfolio = True\nhas_skills = True\nyears_exp = 3\n\nif has_portfolio and has_skills and years_exp >= 2:\n    print("You are hireable!")\nelse:\n    print("Keep building your skills")` },
+          { type: "plain", text: "OR example: if score >= 90 or bonus_points > 5: — either condition being true is enough." },
+        ],
+        hints: ["Use the word and between two conditions.", "Use or when either being true is enough.", "True and False must be capitalized in Python."],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how AND requires both conditions to be true.",
+            starterCode: `has_portfolio = True\nhas_skills = True\n\nif has_portfolio and has_skills:\n    print("You are hireable!")\nelse:\n    print("Missing requirements")\n\n# Now test OR\nincome = 2000\nbonus = 500\n\nif income > 3000 or bonus > 400:\n    print("Doing well financially!")\nelse:\n    print("Keep grinding")`,
+            whatItDoes: "AND requires both to be true. OR only needs one. Run it and see the difference.",
+            check: (output) => output.includes("hireable") || output.includes("financially"),
+          },
+          {
+            prompt: "MODIFY IT: Change has_portfolio to False and run it. Then change has_skills to False too.",
+            starterCode: `has_portfolio = True\nhas_skills = True\n\nif has_portfolio and has_skills:\n    print("You are hireable!")\nelse:\n    print("Missing requirements")`,
+            whatItDoes: "With AND both must be True. Change one to False and see what happens.",
+            check: (output) => output.includes("Missing"),
+          },
+          {
+            prompt: "FROM SCRATCH: A client gets a discount if they have more than 3 projects AND budget over 5000. Write the condition.",
+            starterCode: `projects = 4\nbudget = 6000\n\n# Write an if/else using AND\n# Print Discount applied! or No discount\n`,
+            whatItDoes: "Both conditions must be true for the discount.",
+            check: (output) => output.includes("Discount") || output.includes("discount") || output.includes("No"),
+          },
+        ],
+        quiz: [
+          { question: "AND requires _____ conditions to be true", answer: "both", choices: ["both", "one", "neither", "all or none"] },
+          { question: "OR requires _____ condition to be true", answer: "at least one", choices: ["at least one", "both", "neither", "exactly two"] },
+          { question: "True and False must be _____ in Python", answer: "capitalized", choices: ["capitalized", "lowercase", "in quotes", "in brackets"] },
+          { question: "if x > 5 and x < 10 — what range of x passes?", answer: "6 to 9", choices: ["6 to 9", "5 to 10", "Any number", "No number"] },
+          { question: "if x < 0 or x > 100 — what does this check?", answer: "x is out of range", choices: ["x is out of range", "x is in range", "x equals 0 or 100", "x is positive"] },
+        ],
+      },
+      {
+        id: "while-loops", title: "While Loops — Keep Going Until", xp: 150, analogy: "Think of a vending machine",
+        theory: [
+          { type: "plain", text: "A vending machine keeps waiting for money. While the amount inserted is less than the price, it keeps waiting. Once you insert enough — it gives you the item." },
+          { type: "highlight", text: "A while loop keeps running AS LONG AS a condition is true. When the condition becomes false, it stops." },
+          { type: "code", label: "PYTHON", color: "#ff9a7d", code: `counter = 1\n\nwhile counter <= 5:\n    print("Client", counter, "invoiced")\n    counter = counter + 1\n\nprint("All done!")` },
+          { type: "plain", text: "Warning: always update your counter inside the loop or it will run forever!" },
+        ],
+        hints: ["Start with a counter: counter = 1", "while counter <= 5: then indent your code", "Always add counter = counter + 1 inside the loop"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how a while loop keeps going until the condition is false.",
+            starterCode: `counter = 1\n\nwhile counter <= 5:\n    print("Processing order #", counter)\n    counter = counter + 1\n\nprint("All orders processed!")`,
+            whatItDoes: "The loop checks: is counter <= 5? If yes, run. Then counter increases. When counter hits 6 it stops.",
+            check: (output) => output.includes("5") && output.includes("All orders"),
+          },
+          {
+            prompt: "MODIFY IT: Change the limit from 5 to 8. Change the message to something about clients.",
+            starterCode: `counter = 1\n\nwhile counter <= 5:\n    print("Processing order #", counter)\n    counter = counter + 1\n\nprint("All orders processed!")`,
+            whatItDoes: "Change the number in while counter <= and the print message.",
+            check: (output) => output.includes("8") || output.split("\n").filter(Boolean).length >= 8,
+          },
+          {
+            prompt: "FROM SCRATCH: Write a while loop that starts at 1 and prints each number up to 10, then prints Done counting!",
+            starterCode: `# Create a counter starting at 1\n# Write while counter <= 10:\n# Print the counter\n# Increment counter\n# After loop print Done counting!\n`,
+            whatItDoes: "Build the whole loop yourself. Remember to increment counter each time.",
+            check: (output) => output.includes("10") && output.includes("Done"),
+          },
+        ],
+        quiz: [
+          { question: "A while loop runs as long as the condition is _____", answer: "True", choices: ["True", "False", "Running", "Complete"] },
+          { question: "What stops a while loop?", answer: "The condition becomes False", choices: ["The condition becomes False", "A print statement", "The def keyword", "A return value"] },
+          { question: "What happens if you forget to update the counter?", answer: "The loop runs forever", choices: ["The loop runs forever", "The loop stops immediately", "Python crashes", "Nothing happens"] },
+          { question: "counter = counter + 1 can also be written as _____", answer: "counter += 1", choices: ["counter += 1", "counter++", "counter + 1", "add(counter)"] },
+          { question: "What is the difference between for and while loops?", answer: "for repeats a set number of times, while repeats until a condition is false", choices: ["for repeats a set number of times, while repeats until a condition is false", "They are the same", "while is faster", "for is more powerful"] },
+        ],
+      },
   },
   {
     id: "functions", title: "Functions — Your Own Tools", icon: "🔧", color: "#a78bfa",
@@ -471,6 +582,115 @@ const CURRICULUM = [
         ],
       },
     ],
+
+      {
+        id: "function-parameters", title: "Function Parameters and Defaults", xp: 175, analogy: "Think of ordering coffee",
+        theory: [
+          { type: "plain", text: "At a coffee shop if you do not specify milk they use regular milk by default. You can still ask for oat milk if you want — it overrides the default." },
+          { type: "highlight", text: "Default parameters mean a function works even if you do not provide every input. You can always override them." },
+          { type: "code", label: "PYTHON", color: "#c4b5fd", code: `def send_invoice(client, amount, currency="USD", tax_rate=0.08):\n    tax = amount * tax_rate\n    total = amount + tax\n    print(f"Invoice for {client}: {currency}{total:.2f}")\n\nsend_invoice("Marcus", 1500)\nsend_invoice("Tamika", 2000, "EUR")\nsend_invoice("DeShawn", 800, tax_rate=0.0)` },
+        ],
+        hints: ["Default parameters go after required ones: def greet(name, greeting='Hello'):", "Call with just required args or override defaults", "Use keyword args: send_invoice('Marcus', 1500, tax_rate=0.0)"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how default parameters work.",
+            starterCode: `def send_invoice(client, amount, currency="USD", tax_rate=0.08):\n    tax = amount * tax_rate\n    total = amount + tax\n    print(f"Invoice for {client}: {currency}{total:.2f}")\n\nsend_invoice("Marcus", 1500)\nsend_invoice("Tamika", 2000, "EUR")\nsend_invoice("DeShawn", 800, tax_rate=0.0)`,
+            whatItDoes: "The function uses USD and 8% tax by default. You can override either or both.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+          {
+            prompt: "MODIFY IT: Add a fourth call with your own client name and a custom tax_rate of 0.05.",
+            starterCode: `def send_invoice(client, amount, currency="USD", tax_rate=0.08):\n    tax = amount * tax_rate\n    total = amount + tax\n    print(f"Invoice for {client}: {currency}{total:.2f}")\n\nsend_invoice("Marcus", 1500)\nsend_invoice("Tamika", 2000, "EUR")\nsend_invoice("DeShawn", 800, tax_rate=0.0)`,
+            whatItDoes: "Add your own call to the function with a custom tax rate.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 4,
+          },
+          {
+            prompt: "FROM SCRATCH: Write a function called project_quote that takes client_name and hours with a default rate of 75. Print a formatted quote.",
+            starterCode: `# def project_quote(client_name, hours, rate=75):\n#     total = hours * rate\n#     print(...)\n\n# Test with 3 different calls\n`,
+            whatItDoes: "Build the function with a default rate. Test it with and without the rate override.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+        ],
+        quiz: [
+          { question: "Default parameters must come _____ required parameters", answer: "after", choices: ["after", "before", "instead of", "mixed with"] },
+          { question: "If you call a function without providing a default parameter it uses _____", answer: "the default value", choices: ["the default value", "None", "0", "an error"] },
+          { question: "How do you override a default parameter?", answer: "Pass a value when calling the function", choices: ["Pass a value when calling the function", "Delete the default", "Use a loop", "Cannot be overridden"] },
+          { question: "def greet(name, greeting='Hello'): — which is required?", answer: "name", choices: ["name", "greeting", "both", "neither"] },
+          { question: "Calling send_invoice('Marcus', 1500, tax_rate=0.0) — what does tax_rate=0.0 do?", answer: "Overrides the default tax rate", choices: ["Overrides the default tax rate", "Creates a new variable", "Breaks the function", "Has no effect"] },
+        ],
+      },
+      {
+        id: "return-values", title: "Return Values — Getting Results Back", xp: 175, analogy: "Think of a calculator",
+        theory: [
+          { type: "plain", text: "A calculator does not just display the answer — it gives you a result you can use again. You can take that number and add it to something else." },
+          { type: "highlight", text: "return sends a value back from a function so you can use it elsewhere. A function without return gives you nothing back." },
+          { type: "code", label: "PYTHON", color: "#c4b5fd", code: `def get_stats(numbers):\n    total = sum(numbers)\n    average = total / len(numbers)\n    highest = max(numbers)\n    return total, average, highest\n\ntotal, avg, high = get_stats([1500, 2200, 900, 3100])\nprint("Total:", total)\nprint("Average:", avg)\nprint("Highest:", high)` },
+        ],
+        hints: ["return can send back multiple values separated by commas", "Capture multiple returns: total, avg = get_stats(numbers)", "Without return a function gives back None"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how a function can return multiple values at once.",
+            starterCode: `def get_stats(numbers):\n    total = sum(numbers)\n    average = total / len(numbers)\n    highest = max(numbers)\n    return total, average, highest\n\nsales = [1500, 2200, 900, 3100, 1800]\ntotal, avg, high = get_stats(sales)\nprint("Total sales:", total)\nprint("Average sale:", avg)\nprint("Best sale:", high)`,
+            whatItDoes: "The function calculates 3 things and returns all 3 at once.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+          {
+            prompt: "MODIFY IT: Add a fourth return value — the lowest sale. Capture it and print it.",
+            starterCode: `def get_stats(numbers):\n    total = sum(numbers)\n    average = total / len(numbers)\n    highest = max(numbers)\n    return total, average, highest\n\nsales = [1500, 2200, 900, 3100, 1800]\ntotal, avg, high = get_stats(sales)\nprint("Total sales:", total)\nprint("Average sale:", avg)\nprint("Best sale:", high)`,
+            whatItDoes: "Add lowest = min(numbers) to the function and return it with the others.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 4,
+          },
+          {
+            prompt: "FROM SCRATCH: Write a function called analyze_income that takes a list of monthly incomes and returns total, average, and whether average is above 5000.",
+            starterCode: `# def analyze_income(incomes):\n#     total = ...\n#     average = ...\n#     is_good = average > 5000\n#     return total, average, is_good\n\n# Test it\nmonthly = [4500, 5200, 6100, 4800, 5500]\n`,
+            whatItDoes: "Return 3 values including a boolean. Print all three results.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+        ],
+        quiz: [
+          { question: "What does return do in a function?", answer: "Sends a value back to the caller", choices: ["Sends a value back to the caller", "Prints the result", "Ends the program", "Creates a variable"] },
+          { question: "Can a function return multiple values?", answer: "Yes, separated by commas", choices: ["Yes, separated by commas", "No, only one", "Only if they are the same type", "Only numbers"] },
+          { question: "What does a function return if it has no return statement?", answer: "None", choices: ["None", "0", "False", "An error"] },
+          { question: "total, avg = get_stats(data) — what is this called?", answer: "Unpacking multiple return values", choices: ["Unpacking multiple return values", "Creating two variables", "A loop", "A condition"] },
+          { question: "Why use return instead of print inside a function?", answer: "So you can use the result in other calculations", choices: ["So you can use the result in other calculations", "Print is slower", "Return is required", "No reason"] },
+        ],
+      },
+      {
+        id: "scope", title: "Scope — Where Variables Live", xp: 150, analogy: "Think of rooms in a house",
+        theory: [
+          { type: "plain", text: "A TV in your bedroom is only in your bedroom. Someone in the kitchen cannot use it. Variables inside a function are like that TV — only accessible inside that room." },
+          { type: "highlight", text: "Scope determines where a variable can be seen. Local variables live inside functions. Global variables live everywhere." },
+          { type: "code", label: "PYTHON", color: "#c4b5fd", code: `company_name = "CodeGrind"  # Global\n\ndef get_client_info(name):\n    greeting = "Hello"  # Local to this function\n    return greeting + " " + name + " from " + company_name\n\nprint(get_client_info("Marcus"))\nprint(company_name)  # Works — it is global\n# print(greeting)  # Would crash — greeting is local` },
+        ],
+        hints: ["Variables created inside a function are local — only available in that function", "Variables created outside functions are global — available everywhere", "Use global keyword to modify a global variable inside a function"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how local and global variables work differently.",
+            starterCode: `business_name = "Stanley White Consulting"  # Global\nbase_rate = 75  # Global\n\ndef calculate_quote(hours, client):\n    total = hours * base_rate  # Uses global base_rate\n    message = f"Quote for {client}: ${total}"  # Local variable\n    return message\n\nprint(calculate_quote(20, "Marcus"))\nprint(calculate_quote(40, "Tamika"))\nprint("Business:", business_name)`,
+            whatItDoes: "The function uses the global base_rate but message is local to the function.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+          {
+            prompt: "MODIFY IT: Change base_rate to 100 at the top and run it. Both quotes should update automatically.",
+            starterCode: `business_name = "Stanley White Consulting"\nbase_rate = 75\n\ndef calculate_quote(hours, client):\n    total = hours * base_rate\n    message = f"Quote for {client}: ${total}"\n    return message\n\nprint(calculate_quote(20, "Marcus"))\nprint(calculate_quote(40, "Tamika"))\nprint("Business:", business_name)`,
+            whatItDoes: "Change base_rate at the top. The function automatically uses the new value.",
+            check: (output) => output.includes("2000") || output.includes("4000"),
+          },
+          {
+            prompt: "FROM SCRATCH: Create a global variable called company_rate set to 80. Write a function that uses it to calculate a project cost for any hours input.",
+            starterCode: `# Create company_rate = 80 globally\n\n# def project_cost(hours, client_name):\n#     Use company_rate inside\n#     return a formatted string\n\n# Test with 3 different calls\n`,
+            whatItDoes: "The function reads the global rate without it being passed as a parameter.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+        ],
+        quiz: [
+          { question: "A local variable is created _____", answer: "inside a function", choices: ["inside a function", "at the top of the file", "in a loop", "anywhere"] },
+          { question: "A global variable can be accessed _____", answer: "anywhere in the file", choices: ["anywhere in the file", "only in functions", "only in loops", "only once"] },
+          { question: "What happens if you try to use a local variable outside its function?", answer: "Python raises a NameError", choices: ["Python raises a NameError", "It returns None", "It uses the last value", "Nothing happens"] },
+          { question: "Why is scope important?", answer: "Prevents variables from accidentally conflicting", choices: ["Prevents variables from accidentally conflicting", "Makes code faster", "Required by Python", "Helps with printing"] },
+          { question: "company_name = 'CodeGrind' at the top of a file is a _____ variable", answer: "global", choices: ["global", "local", "function", "parameter"] },
+        ],
+      },
   },
   {
     id: "data", title: "Working With Data", icon: "📦", color: "#22d3ee",
@@ -585,6 +805,115 @@ const CURRICULUM = [
         ],
       },
     ],
+
+      {
+        id: "list-methods", title: "List Methods — Managing Collections", xp: 150, analogy: "Think of managing a team roster",
+        theory: [
+          { type: "plain", text: "A coach manages a team roster — adding players, removing ones who left, sorting by performance, finding who scored the most." },
+          { type: "highlight", text: "List methods are built-in tools for managing your lists. They let you add, remove, sort, search, and count." },
+          { type: "code", label: "PYTHON", color: "#67e8f9", code: `clients = ["Marcus", "Tamika", "DeShawn"]\nclients.append("Keisha")        # Add to end\nclients.insert(0, "Jerome")     # Add at position\nclients.remove("DeShawn")       # Remove by value\nclients.sort()                  # Sort alphabetically\nprint(clients)\nprint("Count:", len(clients))\nprint("Index of Tamika:", clients.index("Tamika"))` },
+        ],
+        hints: [".append() adds to end, .insert(position, value) adds anywhere", ".remove(value) removes by value, .pop() removes last item", ".sort() sorts in place, sorted(list) returns a new sorted list"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see all the ways you can manage a list.",
+            starterCode: `skills = ["Python", "JavaScript", "Excel"]\n\nskills.append("SQL")\nprint("After append:", skills)\n\nskills.insert(0, "Communication")\nprint("After insert:", skills)\n\nskills.remove("Excel")\nprint("After remove:", skills)\n\nskills.sort()\nprint("After sort:", skills)\nprint("Total skills:", len(skills))`,
+            whatItDoes: "You used 4 different list methods to manage the same list.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 5,
+          },
+          {
+            prompt: "MODIFY IT: Start with your own 4 skills. Add 2 more with append. Remove one. Sort and print the final list.",
+            starterCode: `skills = ["Python", "JavaScript", "Excel"]\n\nskills.append("SQL")\nprint("After append:", skills)\n\nskills.remove("Excel")\nprint("After remove:", skills)\n\nskills.sort()\nprint("After sort:", skills)`,
+            whatItDoes: "Replace the starter skills with your own and modify the operations.",
+            check: (output) => !output.includes("Excel") && output.split("\n").filter(Boolean).length >= 3,
+          },
+          {
+            prompt: "FROM SCRATCH: Create a client list with 5 names. Sort it. Find the index of one client. Remove the last one with .pop(). Print the final count.",
+            starterCode: `# Create clients list with 5 names\n# Sort it\n# Find index of one client\n# Remove last with .pop()\n# Print final count\n`,
+            whatItDoes: "Combine multiple list methods in sequence.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 4,
+          },
+        ],
+        quiz: [
+          { question: "Which method adds an item to the END of a list?", answer: ".append()", choices: [".append()", ".insert()", ".add()", ".push()"] },
+          { question: "Which method removes an item by its VALUE?", answer: ".remove()", choices: [".remove()", ".pop()", ".delete()", ".clear()"] },
+          { question: "Which method sorts a list in place?", answer: ".sort()", choices: [".sort()", ".order()", ".arrange()", "sorted()"] },
+          { question: ".pop() removes and returns _____", answer: "the last item", choices: ["the last item", "the first item", "a random item", "all items"] },
+          { question: "How do you find the position of an item in a list?", answer: ".index(value)", choices: [".index(value)", ".find(value)", ".position(value)", ".search(value)"] },
+        ],
+      },
+      {
+        id: "dictionary-methods", title: "Dictionary Methods — Working With Data", xp: 150, analogy: "Think of a smart contact book",
+        theory: [
+          { type: "plain", text: "A smart contact book lets you look up people safely, update their info, add new contacts, and get all names or all numbers at once." },
+          { type: "highlight", text: "Dictionary methods let you safely access, update, and loop through your data." },
+          { type: "code", label: "PYTHON", color: "#67e8f9", code: `client = {"name": "Marcus", "budget": 2500, "project": "Website"}\n\n# Safe access — returns None instead of crashing\nphone = client.get("phone", "No phone on file")\nprint(phone)\n\n# Update multiple keys at once\nclient.update({"budget": 3000, "status": "active"})\nprint(client)\n\n# Get all keys and values\nprint(list(client.keys()))\nprint(list(client.values()))` },
+        ],
+        hints: [".get(key, default) is safer than dict[key] — no crash if key missing", ".update({}) adds or updates multiple keys at once", ".keys() and .values() return all keys or values"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how dictionary methods make working with data safer and easier.",
+            starterCode: `profile = {"name": "Stanley White", "role": "Developer", "rate": 75}\n\n# Safe access\ncity = profile.get("city", "City not set")\nprint("City:", city)\n\n# Update multiple fields\nprofile.update({"city": "Atlanta", "available": True, "rate": 100})\nprint("Updated profile:", profile)\n\n# Loop through keys and values\nfor key, value in profile.items():\n    print(f"  {key}: {value}")`,
+            whatItDoes: "You used .get(), .update(), and .items() on the same dictionary.",
+            check: (output) => output.includes("Atlanta") && output.split("\n").filter(Boolean).length >= 5,
+          },
+          {
+            prompt: "MODIFY IT: Add your own fields using .update(). Use .get() to safely access a key that does not exist.",
+            starterCode: `profile = {"name": "Stanley White", "role": "Developer", "rate": 75}\n\ncity = profile.get("city", "City not set")\nprint("City:", city)\n\nprofile.update({"city": "Atlanta", "available": True})\nprint("Updated:", profile)`,
+            whatItDoes: "Add at least 2 new fields with update and safely access a missing key.",
+            check: (output) => !output.includes("City not set") || output.includes("Updated"),
+          },
+          {
+            prompt: "FROM SCRATCH: Create a client dictionary. Use .get() to safely check for a missing field. Use .update() to add 3 new fields. Print all keys and all values separately.",
+            starterCode: `# Create a client dictionary with 3 fields\n# Use .get() on a missing key\n# Use .update() to add 3 new fields\n# Print list(client.keys())\n# Print list(client.values())\n`,
+            whatItDoes: "Practice safe dictionary access and bulk updates.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 4,
+          },
+        ],
+        quiz: [
+          { question: "What is the advantage of .get() over dict[key]?", answer: "It returns a default value instead of crashing if key is missing", choices: ["It returns a default value instead of crashing if key is missing", "It is faster", "It creates the key automatically", "No difference"] },
+          { question: ".update({'rate': 100}) does what?", answer: "Adds or updates the rate key", choices: ["Adds or updates the rate key", "Creates a new dictionary", "Deletes rate", "Prints rate"] },
+          { question: "dict.keys() returns _____", answer: "All keys in the dictionary", choices: ["All keys in the dictionary", "All values", "The first key", "The length"] },
+          { question: "How do you remove a key from a dictionary?", answer: "del dict[key] or dict.pop(key)", choices: ["del dict[key] or dict.pop(key)", "dict.remove(key)", "dict.delete(key)", "dict[key] = None"] },
+          { question: "dict.items() is used for _____", answer: "Looping through key-value pairs", choices: ["Looping through key-value pairs", "Counting items", "Sorting the dictionary", "Finding a key"] },
+        ],
+      },
+      {
+        id: "nested-data", title: "Nested Data — Lists of Dictionaries", xp: 200, analogy: "Think of a spreadsheet with rows",
+        theory: [
+          { type: "plain", text: "A spreadsheet has rows. Each row has multiple columns — name, email, amount, status. In Python you can store this as a list of dictionaries." },
+          { type: "highlight", text: "Nested data means dictionaries inside lists. This is how real apps store collections of records — users, orders, products, clients." },
+          { type: "code", label: "PYTHON", color: "#67e8f9", code: `clients = [\n    {"name": "Marcus", "amount": 1500, "paid": True},\n    {"name": "Tamika", "amount": 2200, "paid": False},\n    {"name": "DeShawn", "amount": 900, "paid": True},\n]\n\nfor client in clients:\n    status = "✓ Paid" if client["paid"] else "⏳ Pending"\n    print(f"{client['name']}: ${client['amount']} — {status}")\n\ntotal = sum(c["amount"] for c in clients)\nprint("Total:", total)` },
+        ],
+        hints: ["Access nested data: clients[0]['name'] gets first client's name", "Loop with for client in clients: then client['key']", "List comprehension: [c['amount'] for c in clients] gets all amounts"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how a list of dictionaries works like a database table.",
+            starterCode: `clients = [\n    {"name": "Marcus Johnson", "amount": 1500, "paid": True},\n    {"name": "Tamika Williams", "amount": 2200, "paid": False},\n    {"name": "DeShawn Carter", "amount": 900, "paid": True},\n    {"name": "Keisha Brown", "amount": 3100, "paid": False},\n]\n\nprint("=== CLIENT REPORT ===")\nfor client in clients:\n    status = "Paid" if client["paid"] else "Pending"\n    print(f"{client['name']}: ${client['amount']} — {status}")\n\ntotal = sum(c["amount"] for c in clients)\npaid_total = sum(c["amount"] for c in clients if c["paid"])\nprint(f"\nTotal: ${total}")\nprint(f"Collected: ${paid_total}")\nprint(f"Outstanding: ${total - paid_total}")`,
+            whatItDoes: "You built a mini invoice tracking system using nested data.",
+            check: (output) => output.includes("CLIENT REPORT") && output.includes("Total"),
+          },
+          {
+            prompt: "MODIFY IT: Add your own 2 clients to the list. Change one paid status. Run and see the totals update automatically.",
+            starterCode: `clients = [\n    {"name": "Marcus Johnson", "amount": 1500, "paid": True},\n    {"name": "Tamika Williams", "amount": 2200, "paid": False},\n    {"name": "DeShawn Carter", "amount": 900, "paid": True},\n]\n\nfor client in clients:\n    status = "Paid" if client["paid"] else "Pending"\n    print(f"{client['name']}: ${client['amount']} — {status}")\n\ntotal = sum(c["amount"] for c in clients)\nprint("Total:", total)`,
+            whatItDoes: "Add 2 new client dictionaries to the list and see all calculations update.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 5,
+          },
+          {
+            prompt: "FROM SCRATCH: Create a list of 4 products with name, price, and in_stock fields. Loop through and print only the ones that are in stock. Calculate total value of all in-stock items.",
+            starterCode: `# Create products list with 4 dictionaries\n# Each has: name, price, in_stock (True/False)\n\n# Loop and print only in-stock products\n\n# Calculate total value of in-stock items\n`,
+            whatItDoes: "Filter and aggregate nested data — a real-world data skill.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+        ],
+        quiz: [
+          { question: "A list of dictionaries is useful for storing _____", answer: "Collections of records with multiple fields", choices: ["Collections of records with multiple fields", "Single values", "Numbers only", "Functions"] },
+          { question: "How do you access the name of the first client in clients[0]?", answer: "clients[0]['name']", choices: ["clients[0]['name']", "clients['name'][0]", "clients.name[0]", "clients[0].name"] },
+          { question: "sum(c['amount'] for c in clients) does what?", answer: "Adds up all amount values", choices: ["Adds up all amount values", "Counts clients", "Finds the highest amount", "Creates a new list"] },
+          { question: "How do you filter a list of dictionaries?", answer: "Use an if condition inside the loop", choices: ["Use an if condition inside the loop", "Use .filter()", "Use .where()", "Use .select()"] },
+          { question: "This data structure is similar to what in real apps?", answer: "A database table", choices: ["A database table", "A calculator", "A file system", "A loop"] },
+        ],
+      },
   },
   {
     id: "logic2", title: "Logic Level Up", icon: "⚡", color: "#f472b6",

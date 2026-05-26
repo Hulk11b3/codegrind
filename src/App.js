@@ -1096,7 +1096,7 @@ const CURRICULUM = [
     ],
   },
   {
-    id: "javascript"id: "javascript", title: "JavaScript — The Web Language", icon: "🌐", color: "#f59e0b",
+    id: "javascript", title: "JavaScript — The Web Language", icon: "🌐", color: "#f59e0b",
     lessons: [
       {
         id: "js-intro", title: "What is JavaScript?", xp: 75, analogy: "Think of a website as a house", language: "javascript",

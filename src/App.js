@@ -2505,7 +2505,10 @@ function CodeGrind() {
               onShowAI={() => setShowAI(true)}
               onBack={() => setView("curriculum")}
             />
-          )
+          )}
+        </div>
+      )}
+
       {showAI && activeLesson && <AITutor lesson={activeLesson} userCode={currentCode} onClose={() => setShowAI(false)} />}
       {showWeakness && <WeaknessTracker strikes={strikes} onClose={() => setShowWeakness(false)} onReview={(lesson) => { setShowWeakness(false); startLesson(lesson, true); }} />}
       {showEmailCapture && <EmailCapture onClose={() => setShowEmailCapture(false)} onSubmit={(email, name) => { setShowEmailCapture(false); saveEmail(email, name); }} />}

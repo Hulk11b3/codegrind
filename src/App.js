@@ -193,6 +193,10 @@ const CURRICULUM = [
           { question: "What does 8 * 75 equal in Python?", answer: "600", choices: ["600", "875", "83", "8.75"] },
         ],
       },
+    ],
+  },
+  {id: "decisions", title: "Making Decisions", icon: "🧠", color: "#ff6b35",
+    lessons: [
       {
         id: "if-statements", title: "If This, Then That", xp: 100, analogy: "Think of a bouncer at a club",
         theory: [
@@ -209,15 +213,15 @@ const CURRICULUM = [
             check: (output) => output.includes("profitable") || output.includes("grinding"),
           },
           {
-            prompt: "MODIFY IT: Change income to 1500 and run it. Then change the threshold from 3000 to 1000 and run again.",
+            prompt: "MODIFY IT: Change income to 1500 and run it. The output should change.",
             starterCode: `income = 5000\n\nif income > 3000:\n    print("You are profitable!")\nelse:\n    print("Keep grinding")`,
             whatItDoes: "Change the income value and see how the output changes.",
             check: (output) => output.includes("grinding"),
           },
           {
-            prompt: "FROM SCRATCH: Write an if/else that checks if hourly_rate is above 50. Print 'Great rate!' if yes, 'Negotiate higher' if no.",
+            prompt: "FROM SCRATCH: Write an if/else that checks if hourly_rate is above 50. Print Great rate! if yes, Negotiate higher if no.",
             starterCode: `# Create an hourly_rate variable\n# Write an if/else statement\n`,
-            whatItDoes: "Build the condition yourself. Use if rate > 50: then indented print, then else: then indented print.",
+            whatItDoes: "Build the condition yourself.",
             check: (output) => output.length > 0,
           },
         ],
@@ -251,9 +255,9 @@ const CURRICULUM = [
             check: (output) => output.split("\n").filter(Boolean).length >= 10,
           },
           {
-            prompt: "FROM SCRATCH: Write a loop that prints numbers 1 through 7, then prints 'Week complete!'",
+            prompt: "FROM SCRATCH: Write a loop that prints numbers 1 through 7, then prints Week complete!",
             starterCode: `# Write a for loop using range\n`,
-            whatItDoes: "Use for i in range(): and remember range starts at 0 so use i+1.",
+            whatItDoes: "Use for i in range(): and use i+1 to show 1-7.",
             check: (output) => output.includes("7") && output.includes("complete"),
           },
         ],
@@ -265,6 +269,121 @@ const CURRICULUM = [
           { question: "What prints Hello 3 times?", answer: "for i in range(3): print('Hello')", choices: ["for i in range(3): print('Hello')", "repeat(3): print('Hello')", "loop 3: print('Hello')", "print('Hello') * 3"] },
         ],
       },
+      {
+        id: "elif", title: "Multiple Choices with elif", xp: 125, analogy: "Think of a traffic light",
+        theory: [
+          { type: "plain", text: "A traffic light has three options: Red = Stop. Yellow = Slow. Green = Go. Life is not always yes or no — sometimes there are multiple choices." },
+          { type: "highlight", text: "elif means else if — check multiple conditions in order. The first one that is true runs." },
+          { type: "code", label: "PYTHON", color: "#ff9a7d", code: `score = 85\n\nif score >= 90:\n    print("A — Excellent!")\nelif score >= 80:\n    print("B — Good work")\nelif score >= 70:\n    print("C — Keep going")\nelse:\n    print("Keep practicing")` },
+        ],
+        hints: ["Start with if, then elif, then else.", "Each condition needs a colon at the end.", "Only the first true condition runs — the rest are skipped."],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how elif checks multiple conditions in order.",
+            starterCode: `score = 85\n\nif score >= 90:\n    print("A — Excellent!")\nelif score >= 80:\n    print("B — Good work")\nelif score >= 70:\n    print("C — Keep going")\nelse:\n    print("Keep practicing")`,
+            whatItDoes: "Python checks each condition top to bottom. The first true one runs and the rest are skipped.",
+            check: (output) => output.includes("Good") || output.includes("Excellent") || output.includes("Keep"),
+          },
+          {
+            prompt: "MODIFY IT: Change score to 95 and run it. Then change to 65 and run again. See how the output changes.",
+            starterCode: `score = 85\n\nif score >= 90:\n    print("A — Excellent!")\nelif score >= 80:\n    print("B — Good work")\nelif score >= 70:\n    print("C — Keep going")\nelse:\n    print("Keep practicing")`,
+            whatItDoes: "Change the score value and see which condition triggers.",
+            check: (output) => output.includes("Excellent") || output.includes("practicing"),
+          },
+          {
+            prompt: "FROM SCRATCH: Write an elif chain that checks hours worked. Over 40: Overtime pay. Over 20: Standard pay. Otherwise: Part time pay.",
+            starterCode: `# Create a hours variable\n# Write if/elif/else for the 3 pay rates\n`,
+            whatItDoes: "Build the elif chain yourself. Three conditions, three outcomes.",
+            check: (output) => output.includes("pay") || output.includes("Pay"),
+          },
+        ],
+        quiz: [
+          { question: "What does elif stand for?", answer: "else if", choices: ["else if", "end if", "extra if", "enter if"] },
+          { question: "How many elif statements can you have?", answer: "As many as you need", choices: ["As many as you need", "Only 1", "Only 2", "Maximum 3"] },
+          { question: "When does the else block run?", answer: "When no other condition is true", choices: ["When no other condition is true", "Always", "First", "Never"] },
+          { question: "In an if/elif/else chain, how many blocks actually run?", answer: "Only 1", choices: ["Only 1", "All of them", "2", "Depends on conditions"] },
+          { question: "What comes at the end of every if, elif, and else line?", answer: "A colon :", choices: ["A colon :", "A semicolon ;", "Parentheses ()", "Nothing"] },
+        ],
+      },
+      {
+        id: "combining-conditions", title: "AND / OR — Combining Conditions", xp: 125, analogy: "Think of a job application",
+        theory: [
+          { type: "plain", text: "A job posting says: you need 2 years experience AND a portfolio. Both must be true to get the interview." },
+          { type: "highlight", text: "AND means both conditions must be true. OR means at least one must be true." },
+          { type: "code", label: "PYTHON", color: "#ff9a7d", code: `has_portfolio = True\nhas_skills = True\nyears_exp = 3\n\nif has_portfolio and has_skills and years_exp >= 2:\n    print("You are hireable!")\nelse:\n    print("Keep building your skills")` },
+          { type: "plain", text: "OR example: if score >= 90 or bonus_points > 5: — either condition being true is enough." },
+        ],
+        hints: ["Use the word and between two conditions.", "Use or when either being true is enough.", "True and False must be capitalized in Python."],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how AND requires both conditions to be true.",
+            starterCode: `has_portfolio = True\nhas_skills = True\n\nif has_portfolio and has_skills:\n    print("You are hireable!")\nelse:\n    print("Missing requirements")\n\n# Now test OR\nincome = 2000\nbonus = 500\n\nif income > 3000 or bonus > 400:\n    print("Doing well financially!")\nelse:\n    print("Keep grinding")`,
+            whatItDoes: "AND requires both to be true. OR only needs one. Run it and see the difference.",
+            check: (output) => output.includes("hireable") || output.includes("financially"),
+          },
+          {
+            prompt: "MODIFY IT: Change has_portfolio to False and run it. Then change has_skills to False too.",
+            starterCode: `has_portfolio = True\nhas_skills = True\n\nif has_portfolio and has_skills:\n    print("You are hireable!")\nelse:\n    print("Missing requirements")`,
+            whatItDoes: "With AND both must be True. Change one to False and see what happens.",
+            check: (output) => output.includes("Missing"),
+          },
+          {
+            prompt: "FROM SCRATCH: A client gets a discount if they have more than 3 projects AND budget over 5000. Write the condition.",
+            starterCode: `projects = 4\nbudget = 6000\n\n# Write an if/else using AND\n# Print Discount applied! or No discount\n`,
+            whatItDoes: "Both conditions must be true for the discount.",
+            check: (output) => output.includes("Discount") || output.includes("discount") || output.includes("No"),
+          },
+        ],
+        quiz: [
+          { question: "AND requires _____ conditions to be true", answer: "both", choices: ["both", "one", "neither", "all or none"] },
+          { question: "OR requires _____ condition to be true", answer: "at least one", choices: ["at least one", "both", "neither", "exactly two"] },
+          { question: "True and False must be _____ in Python", answer: "capitalized", choices: ["capitalized", "lowercase", "in quotes", "in brackets"] },
+          { question: "if x > 5 and x < 10 — what range of x passes?", answer: "6 to 9", choices: ["6 to 9", "5 to 10", "Any number", "No number"] },
+          { question: "if x < 0 or x > 100 — what does this check?", answer: "x is out of range", choices: ["x is out of range", "x is in range", "x equals 0 or 100", "x is positive"] },
+        ],
+      },
+      {
+        id: "while-loops", title: "While Loops — Keep Going Until", xp: 150, analogy: "Think of a vending machine",
+        theory: [
+          { type: "plain", text: "A vending machine keeps waiting for money. While the amount inserted is less than the price, it keeps waiting. Once you insert enough — it gives you the item." },
+          { type: "highlight", text: "A while loop keeps running AS LONG AS a condition is true. When the condition becomes false, it stops." },
+          { type: "code", label: "PYTHON", color: "#ff9a7d", code: `counter = 1\n\nwhile counter <= 5:\n    print("Client", counter, "invoiced")\n    counter = counter + 1\n\nprint("All done!")` },
+          { type: "plain", text: "Warning: always update your counter inside the loop or it will run forever!" },
+        ],
+        hints: ["Start with a counter: counter = 1", "while counter <= 5: then indent your code", "Always add counter = counter + 1 inside the loop"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how a while loop keeps going until the condition is false.",
+            starterCode: `counter = 1\n\nwhile counter <= 5:\n    print("Processing order #", counter)\n    counter = counter + 1\n\nprint("All orders processed!")`,
+            whatItDoes: "The loop checks: is counter <= 5? If yes, run. Then counter increases. When counter hits 6 it stops.",
+            check: (output) => output.includes("5") && output.includes("All orders"),
+          },
+          {
+            prompt: "MODIFY IT: Change the limit from 5 to 8. Change the message to something about clients.",
+            starterCode: `counter = 1\n\nwhile counter <= 5:\n    print("Processing order #", counter)\n    counter = counter + 1\n\nprint("All orders processed!")`,
+            whatItDoes: "Change the number in while counter <= and the print message.",
+            check: (output) => output.includes("8") || output.split("\n").filter(Boolean).length >= 8,
+          },
+          {
+            prompt: "FROM SCRATCH: Write a while loop that starts at 1 and prints each number up to 10, then prints Done counting!",
+            starterCode: `# Create a counter starting at 1\n# Write while counter <= 10:\n# Print the counter\n# Increment counter\n# After loop print Done counting!\n`,
+            whatItDoes: "Build the whole loop yourself. Remember to increment counter each time.",
+            check: (output) => output.includes("10") && output.includes("Done"),
+          },
+        ],
+        quiz: [
+          { question: "A while loop runs as long as the condition is _____", answer: "True", choices: ["True", "False", "Running", "Complete"] },
+          { question: "What stops a while loop?", answer: "The condition becomes False", choices: ["The condition becomes False", "A print statement", "The def keyword", "A return value"] },
+          { question: "What happens if you forget to update the counter?", answer: "The loop runs forever", choices: ["The loop runs forever", "The loop stops immediately", "Python crashes", "Nothing happens"] },
+          { question: "counter = counter + 1 can also be written as _____", answer: "counter += 1", choices: ["counter += 1", "counter++", "counter + 1", "add(counter)"] },
+          { question: "What is the difference between for and while loops?", answer: "for repeats a set number of times, while repeats until a condition is false", choices: ["for repeats a set number of times, while repeats until a condition is false", "They are the same", "while is faster", "for is more powerful"] },
+        ],
+      },
+    ],
+  },
+  {
+    id: "functions", title: "Functions — Your Own Tools", icon: "🔧", color: "#a78bfa",
+    lessons: [
       {
         id: "what-is-function", title: "Functions — Building Your Toolbox", xp: 200, analogy: "Think of a microwave",
         theory: [
@@ -283,74 +402,353 @@ const CURRICULUM = [
           {
             prompt: "MODIFY IT: Change the revenue and costs values. Add a fourth call with different values.",
             starterCode: `def calculate_profit(revenue, costs):\n    return revenue - costs\n\nprint(calculate_profit(10000, 3000))\nprint(calculate_profit(5000, 1200))\nprint(calculate_profit(25000, 8000))`,
-            whatItDoes: "Change the numbers and add one more print(calculate_profit()) line.",
+            whatItDoes: "Change the numbers and add one more print line.",
             check: (output) => output.split("\n").filter(l => /\d+/.test(l)).length >= 4,
           },
           {
             prompt: "FROM SCRATCH: Write a function called weekly_pay that takes hours and rate and returns hours * rate. Call it 3 times.",
             starterCode: `# Write your function below\n# def weekly_pay(hours, rate):\n#     return ?\n\n# Call it 3 times\n`,
-            whatItDoes: "Build the function yourself. Use def, inputs in parentheses, and return the calculation.",
+            whatItDoes: "Build the function yourself.",
             check: (output) => output.split("\n").filter(l => /\d+/.test(l)).length >= 3,
           },
         ],
         quiz: [
           { question: "What keyword defines a function in Python?", answer: "def", choices: ["def", "function", "create", "make"] },
           { question: "What does the return keyword do?", answer: "Sends a result back from the function", choices: ["Sends a result back from the function", "Prints the result", "Ends the program", "Creates a variable"] },
-          { question: "How do you call a function named calculate_profit?", answer: "calculate_profit(values)", choices: ["calculate_profit(values)", "run calculate_profit", "call calculate_profit()", "def calculate_profit"] },
+          { question: "How do you call a function named greet?", answer: "greet()", choices: ["greet()", "call greet", "run greet", "greet{}"] },
           { question: "What is the main benefit of using functions?", answer: "Write code once and reuse it forever", choices: ["Write code once and reuse it forever", "Makes code shorter", "Runs faster", "Uses less memory"] },
           { question: "Complete: def double(number):\n    _____ number * 2", answer: "return", choices: ["return", "print", "give", "output"] },
         ],
       },
       {
-        id: "lists", title: "Lists — Storing Multiple Things", xp: 125, analogy: "Think of a grocery list",
+        id: "function-parameters", title: "Function Parameters and Defaults", xp: 175, analogy: "Think of ordering coffee",
         theory: [
-          { type: "plain", text: "A grocery list holds multiple items in one place: milk, eggs, bread, butter. You don't need a separate jar for each item — one list holds them all." },
+          { type: "plain", text: "At a coffee shop if you do not specify milk they use regular milk by default. You can still ask for oat milk if you want — it overrides the default." },
+          { type: "highlight", text: "Default parameters mean a function works even if you do not provide every input. You can always override them." },
+          { type: "code", label: "PYTHON", color: "#c4b5fd", code: `def send_invoice(client, amount, currency="USD", tax_rate=0.08):\n    tax = amount * tax_rate\n    total = amount + tax\n    print(f"Invoice for {client}: {currency}{total:.2f}")\n\nsend_invoice("Marcus", 1500)\nsend_invoice("Tamika", 2000, "EUR")\nsend_invoice("DeShawn", 800, tax_rate=0.0)` },
+        ],
+        hints: ["Default parameters go after required ones: def greet(name, greeting='Hello'):", "Call with just required args or override defaults", "Use keyword args: send_invoice('Marcus', 1500, tax_rate=0.0)"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how default parameters work.",
+            starterCode: `def send_invoice(client, amount, currency="USD", tax_rate=0.08):\n    tax = amount * tax_rate\n    total = amount + tax\n    print(f"Invoice for {client}: {currency}{total:.2f}")\n\nsend_invoice("Marcus", 1500)\nsend_invoice("Tamika", 2000, "EUR")\nsend_invoice("DeShawn", 800, tax_rate=0.0)`,
+            whatItDoes: "The function uses USD and 8% tax by default. You can override either or both.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+          {
+            prompt: "MODIFY IT: Add a fourth call with your own client name and a custom tax_rate of 0.05.",
+            starterCode: `def send_invoice(client, amount, currency="USD", tax_rate=0.08):\n    tax = amount * tax_rate\n    total = amount + tax\n    print(f"Invoice for {client}: {currency}{total:.2f}")\n\nsend_invoice("Marcus", 1500)\nsend_invoice("Tamika", 2000, "EUR")\nsend_invoice("DeShawn", 800, tax_rate=0.0)`,
+            whatItDoes: "Add your own call to the function with a custom tax rate.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 4,
+          },
+          {
+            prompt: "FROM SCRATCH: Write a function called project_quote that takes client_name and hours with a default rate of 75. Print a formatted quote.",
+            starterCode: `# def project_quote(client_name, hours, rate=75):\n#     total = hours * rate\n#     print(...)\n\n# Test with 3 different calls\n`,
+            whatItDoes: "Build the function with a default rate. Test it with and without the rate override.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+        ],
+        quiz: [
+          { question: "Default parameters must come _____ required parameters", answer: "after", choices: ["after", "before", "instead of", "mixed with"] },
+          { question: "If you call a function without providing a default parameter it uses _____", answer: "the default value", choices: ["the default value", "None", "0", "an error"] },
+          { question: "How do you override a default parameter?", answer: "Pass a value when calling the function", choices: ["Pass a value when calling the function", "Delete the default", "Use a loop", "Cannot be overridden"] },
+          { question: "def greet(name, greeting='Hello'): — which is required?", answer: "name", choices: ["name", "greeting", "both", "neither"] },
+          { question: "Calling send_invoice('Marcus', 1500, tax_rate=0.0) — what does tax_rate=0.0 do?", answer: "Overrides the default tax rate", choices: ["Overrides the default tax rate", "Creates a new variable", "Breaks the function", "Has no effect"] },
+        ],
+      },
+      {
+        id: "return-values", title: "Return Values — Getting Results Back", xp: 175, analogy: "Think of a calculator",
+        theory: [
+          { type: "plain", text: "A calculator does not just display the answer — it gives you a result you can use again. You can take that number and add it to something else." },
+          { type: "highlight", text: "return sends a value back from a function so you can use it elsewhere. A function without return gives you nothing back." },
+          { type: "code", label: "PYTHON", color: "#c4b5fd", code: `def get_stats(numbers):\n    total = sum(numbers)\n    average = total / len(numbers)\n    highest = max(numbers)\n    return total, average, highest\n\ntotal, avg, high = get_stats([1500, 2200, 900, 3100])\nprint("Total:", total)\nprint("Average:", avg)\nprint("Highest:", high)` },
+        ],
+        hints: ["return can send back multiple values separated by commas", "Capture multiple returns: total, avg = get_stats(numbers)", "Without return a function gives back None"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how a function can return multiple values at once.",
+            starterCode: `def get_stats(numbers):\n    total = sum(numbers)\n    average = total / len(numbers)\n    highest = max(numbers)\n    return total, average, highest\n\nsales = [1500, 2200, 900, 3100, 1800]\ntotal, avg, high = get_stats(sales)\nprint("Total sales:", total)\nprint("Average sale:", avg)\nprint("Best sale:", high)`,
+            whatItDoes: "The function calculates 3 things and returns all 3 at once.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+          {
+            prompt: "MODIFY IT: Add a fourth return value — the lowest sale. Capture it and print it.",
+            starterCode: `def get_stats(numbers):\n    total = sum(numbers)\n    average = total / len(numbers)\n    highest = max(numbers)\n    return total, average, highest\n\nsales = [1500, 2200, 900, 3100, 1800]\ntotal, avg, high = get_stats(sales)\nprint("Total sales:", total)\nprint("Average sale:", avg)\nprint("Best sale:", high)`,
+            whatItDoes: "Add lowest = min(numbers) to the function and return it with the others.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 4,
+          },
+          {
+            prompt: "FROM SCRATCH: Write a function called analyze_income that takes a list of monthly incomes and returns total, average, and whether average is above 5000.",
+            starterCode: `# def analyze_income(incomes):\n#     total = ...\n#     average = ...\n#     is_good = average > 5000\n#     return total, average, is_good\n\n# Test it\nmonthly = [4500, 5200, 6100, 4800, 5500]\n`,
+            whatItDoes: "Return 3 values including a boolean. Print all three results.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+        ],
+        quiz: [
+          { question: "What does return do in a function?", answer: "Sends a value back to the caller", choices: ["Sends a value back to the caller", "Prints the result", "Ends the program", "Creates a variable"] },
+          { question: "Can a function return multiple values?", answer: "Yes, separated by commas", choices: ["Yes, separated by commas", "No, only one", "Only if they are the same type", "Only numbers"] },
+          { question: "What does a function return if it has no return statement?", answer: "None", choices: ["None", "0", "False", "An error"] },
+          { question: "total, avg = get_stats(data) — what is this called?", answer: "Unpacking multiple return values", choices: ["Unpacking multiple return values", "Creating two variables", "A loop", "A condition"] },
+          { question: "Why use return instead of print inside a function?", answer: "So you can use the result in other calculations", choices: ["So you can use the result in other calculations", "Print is slower", "Return is required", "No reason"] },
+        ],
+      },
+      {
+        id: "scope", title: "Scope — Where Variables Live", xp: 150, analogy: "Think of rooms in a house",
+        theory: [
+          { type: "plain", text: "A TV in your bedroom is only in your bedroom. Someone in the kitchen cannot use it. Variables inside a function are like that TV — only accessible inside that room." },
+          { type: "highlight", text: "Scope determines where a variable can be seen. Local variables live inside functions. Global variables live everywhere." },
+          { type: "code", label: "PYTHON", color: "#c4b5fd", code: `company_name = "CodeGrind"  # Global\n\ndef get_client_info(name):\n    greeting = "Hello"  # Local to this function\n    return greeting + " " + name + " from " + company_name\n\nprint(get_client_info("Marcus"))\nprint(company_name)  # Works — it is global\n# print(greeting)  # Would crash — greeting is local` },
+        ],
+        hints: ["Variables created inside a function are local — only available in that function", "Variables created outside functions are global — available everywhere", "Use global keyword to modify a global variable inside a function"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how local and global variables work differently.",
+            starterCode: `business_name = "Stanley White Consulting"  # Global\nbase_rate = 75  # Global\n\ndef calculate_quote(hours, client):\n    total = hours * base_rate  # Uses global base_rate\n    message = "Quote for " + client + ": $" + str(total)  # Local variable\n    return message\n\nprint(calculate_quote(20, "Marcus"))\nprint(calculate_quote(40, "Tamika"))\nprint("Business:", business_name)`,
+            whatItDoes: "The function uses the global base_rate but message is local to the function.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+          {
+            prompt: "MODIFY IT: Change base_rate to 100 at the top and run it. Both quotes should update automatically.",
+            starterCode: `business_name = "Stanley White Consulting"\nbase_rate = 75\n\ndef calculate_quote(hours, client):\n    total = hours * base_rate\n    message = "Quote for " + client + ": $" + str(total)\n    return message\n\nprint(calculate_quote(20, "Marcus"))\nprint(calculate_quote(40, "Tamika"))\nprint("Business:", business_name)`,
+            whatItDoes: "Change base_rate at the top. The function automatically uses the new value.",
+            check: (output) => output.includes("2000") || output.includes("4000"),
+          },
+          {
+            prompt: "FROM SCRATCH: Create a global variable called company_rate set to 80. Write a function that uses it to calculate a project cost for any hours input.",
+            starterCode: `# Create company_rate = 80 globally\n\n# def project_cost(hours, client_name):\n#     Use company_rate inside\n#     return a formatted string\n\n# Test with 3 different calls\n`,
+            whatItDoes: "The function reads the global rate without it being passed as a parameter.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+        ],
+        quiz: [
+          { question: "A local variable is created _____", answer: "inside a function", choices: ["inside a function", "at the top of the file", "in a loop", "anywhere"] },
+          { question: "A global variable can be accessed _____", answer: "anywhere in the file", choices: ["anywhere in the file", "only in functions", "only in loops", "only once"] },
+          { question: "What happens if you try to use a local variable outside its function?", answer: "Python raises a NameError", choices: ["Python raises a NameError", "It returns None", "It uses the last value", "Nothing happens"] },
+          { question: "Why is scope important?", answer: "Prevents variables from accidentally conflicting", choices: ["Prevents variables from accidentally conflicting", "Makes code faster", "Required by Python", "Helps with printing"] },
+          { question: "company_name = 'CodeGrind' at the top of a file is a _____ variable", answer: "global", choices: ["global", "local", "function", "parameter"] },
+        ],
+      },
+    ],
+  },
+  {
+    id: "data", title: "Working With Data", icon: "📦", color: "#22d3ee",
+    lessons: [
+      {
+        id: "lists", title: "Lists — Storing Multiple Things", xp: 175, analogy: "Think of a grocery list",
+        theory: [
+          { type: "plain", text: "A grocery list holds multiple items in one place. You do not need a separate jar for each item." },
           { type: "highlight", text: "A list in Python stores multiple values in one variable. Use square brackets [ ] to create one." },
-          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `clients = ["Marcus", "Tamika", "DeShawn", "Keisha"]\n\nprint(clients)\nprint(clients[0])\n\nfor client in clients:\n    print("Sending invoice to:", client)` },
-          { type: "plain", text: "Lists start counting at 0 not 1. So clients[0] is the first item, clients[1] is second, and so on." },
-          { type: "plain", text: "Why this matters for money: imagine storing 500 customer names, 1000 product prices, or every order that came in today. Lists make that possible." },
+          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `clients = ["Marcus", "Tamika", "DeShawn"]\n\nfor client in clients:\n    print("Sending invoice to:", client)` },
         ],
-        hints: ["Create a list like this: skills = [\"Python\", \"JavaScript\", \"Automation\"]", "To print one item use its position: print(skills[0])", "To loop: for skill in skills:  then indented: print(skill)"],
-        challenge: {
-          prompt: "Create a list called 'skills' with at least 3 coding skills you want to learn. Then loop through the list and print each one.",
-          starterCode: `skills = ["Python", "JavaScript", "Automation"]\n\nprint("My skills list:", skills)\n\nfor skill in skills:\n    print("Learning:", skill)\n\nskills.append("Web Scraping")\nprint("Updated list:", skills)`,
-          whatItDoes: "You created a list, looped through it, and added a new item with .append(). These are the building blocks of real apps.",
-          check: (output) => output.split("\n").filter(Boolean).length >= 3,
-        },
+        hints: ["Create a list: skills = [\"Python\", \"JavaScript\"]", "Access one item: print(skills[0])", "Loop: for skill in skills: then print(skill)"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how a list stores multiple items.",
+            starterCode: `clients = ["Marcus", "Tamika", "DeShawn", "Keisha"]\n\nprint("All clients:", clients)\nprint("First client:", clients[0])\n\nfor client in clients:\n    print("Sending invoice to:", client)`,
+            whatItDoes: "A list stores 4 names. The loop goes through each one.",
+            check: (output) => output.includes("Marcus") && output.split("\n").filter(Boolean).length >= 4,
+          },
+          {
+            prompt: "MODIFY IT: Change the 4 names to your own. Add a 5th with .append(). Print the total count.",
+            starterCode: `clients = ["Marcus", "Tamika", "DeShawn", "Keisha"]\n\nfor client in clients:\n    print("Sending invoice to:", client)`,
+            whatItDoes: "Replace the names. Add clients.append('NewName') and print(len(clients))",
+            check: (output) => !output.includes("Marcus") && output.split("\n").filter(Boolean).length >= 4,
+          },
+          {
+            prompt: "FROM SCRATCH: Create a list called skills with 4 coding skills. Loop and print each one. Add a 5th with .append().",
+            starterCode: `# Create your skills list\n# Loop through and print each\n# Add a 5th skill\n`,
+            whatItDoes: "Build the list yourself. Use square brackets. Loop with for skill in skills.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 5,
+          },
+        ],
+        quiz: [
+          { question: "What brackets are used to create a list?", answer: "Square brackets [ ]", choices: ["Square brackets [ ]", "Curly brackets { }", "Round brackets ( )", "Angle brackets < >"] },
+          { question: "What index is the FIRST item in a list?", answer: "0", choices: ["0", "1", "-1", "first"] },
+          { question: "How do you add an item to a list?", answer: ".append(item)", choices: [".append(item)", ".add(item)", ".push(item)", ".insert(item)"] },
+          { question: "How do you count items in a list?", answer: "len(list)", choices: ["len(list)", "count(list)", "list.size()", "list.length"] },
+          { question: "Complete: for _____ in clients: print(client)", answer: "client", choices: ["client", "item", "i", "x"] },
+        ],
       },
       {
-        id: "dictionaries", title: "Dictionaries — Labeled Data", xp: 150, analogy: "Think of a contact card",
+        id: "dictionaries", title: "Dictionaries — Labeled Data", xp: 175, analogy: "Think of a contact card",
         theory: [
-          { type: "plain", text: "A contact card for someone has labeled fields: Name: Marcus, Phone: 555-1234, Email: marcus@gmail.com. Each label points to a value." },
-          { type: "highlight", text: "A dictionary in Python stores data with labels (called keys) instead of just positions. Perfect for storing related information together." },
-          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `client = {\n    "name": "Marcus Johnson",\n    "email": "marcus@gmail.com",\n    "budget": 2500,\n    "project": "Website"\n}\n\nprint(client["name"])\nprint(client["budget"])\n\nclient["budget"] = 3000\nprint("Updated budget:", client["budget"])` },
-          { type: "plain", text: "Dictionaries use curly braces { }. Each entry has a 'key': 'value' pair separated by a colon. This is how real apps store user data, product info, and settings." },
+          { type: "plain", text: "A contact card has labeled fields: Name, Phone, Email. Each label points to a value." },
+          { type: "highlight", text: "A dictionary stores data with labels called keys. Perfect for storing related information together." },
+          { type: "code", label: "PYTHON", color: "#7dd3fc", code: `client = {\n    "name": "Marcus Johnson",\n    "budget": 2500\n}\nprint(client["name"])\nprint(client["budget"])` },
         ],
-        hints: ["Create a dict: person = {\"name\": \"Stanley\", \"age\": 30, \"goal\": \"financial freedom\"}", "Access a value: print(person[\"name\"])", "Loop: for key, value in person.items():  then indented: print(key, \":\", value)"],
-        challenge: {
-          prompt: "Create a dictionary called 'my_profile' with your name, your coding goal, and your target income. Then print each value.",
-          starterCode: `my_profile = {\n    "name": "Your Name",\n    "goal": "Financial Freedom",\n    "target_income": 100000,\n    "skills": ["Python", "JavaScript"]\n}\n\nprint("Name:", my_profile["name"])\nprint("Goal:", my_profile["goal"])\nprint("Target:", my_profile["target_income"])\n\nfor key, value in my_profile.items():\n    print(key, "->", value)`,
-          whatItDoes: "You built a data structure that could represent a user profile in a real app. This is exactly how apps store user information.",
-          check: (output) => output.split("\n").filter(Boolean).length >= 3,
-        },
+        hints: ["Create: person = {\"name\": \"Stanley\", \"age\": 30}", "Access: print(person[\"name\"])", "Loop: for key, value in person.items():"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how a dictionary stores labeled data.",
+            starterCode: `client = {\n    "name": "Marcus Johnson",\n    "email": "marcus@gmail.com",\n    "budget": 2500,\n    "project": "Website"\n}\n\nfor key, value in client.items():\n    print(key, "->", value)`,
+            whatItDoes: "A dictionary stores 4 pieces of info about one client.",
+            check: (output) => output.includes("Marcus") && output.split("\n").filter(Boolean).length >= 4,
+          },
+          {
+            prompt: "MODIFY IT: Change all values to a real or made-up client. Add a new key called rate.",
+            starterCode: `client = {\n    "name": "Marcus Johnson",\n    "email": "marcus@gmail.com",\n    "budget": 2500,\n    "project": "Website"\n}\n\nfor key, value in client.items():\n    print(key, "->", value)`,
+            whatItDoes: "Replace all values and add a rate key.",
+            check: (output) => !output.includes("Marcus") && output.includes("rate"),
+          },
+          {
+            prompt: "FROM SCRATCH: Create a dictionary called my_profile with name, goal, target_income, and top_skill. Print each value.",
+            starterCode: `# Create your profile dictionary\n# Print each value individually\n`,
+            whatItDoes: "Build the dictionary yourself.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 4,
+          },
+        ],
+        quiz: [
+          { question: "What brackets are used to create a dictionary?", answer: "Curly brackets { }", choices: ["Curly brackets { }", "Square brackets [ ]", "Round brackets ( )", "Angle brackets < >"] },
+          { question: "How do you access a value in a dictionary?", answer: 'dict["key"]', choices: ['dict["key"]', "dict.key", "dict(key)", "dict->key"] },
+          { question: "What is a dictionary key?", answer: "A label that points to a value", choices: ["A label that points to a value", "A password", "An index number", "A variable name"] },
+          { question: "How do you loop through all key-value pairs?", answer: "for key, value in dict.items():", choices: ["for key, value in dict.items():", "for item in dict:", "for key in dict.keys():", "loop dict"] },
+          { question: "Which correctly adds a new key?", answer: 'client["phone"] = "555-1234"', choices: ['client["phone"] = "555-1234"', 'client.add("phone")', 'client.append("phone")', 'add client["phone"]'] },
+        ],
       },
       {
-        id: "working-with-files", title: "Working With Files", xp: 175, analogy: "Think of a filing cabinet",
+        id: "working-with-files", title: "Working With Files", xp: 200, analogy: "Think of a filing cabinet",
         theory: [
-          { type: "plain", text: "A filing cabinet stores documents you can pull out later, read, add to, or replace. Your computer's files work exactly the same way." },
-          { type: "highlight", text: "Python can read from and write to files — this is how real automation works. Instead of manually opening Excel, Python opens it for you." },
-          { type: "code", label: "PYTHON — Writing a file", color: "#86efac", code: `with open("clients.txt", "w") as file:\n    file.write("Marcus Johnson\\n")\n    file.write("Tamika Williams\\n")\n    file.write("DeShawn Carter\\n")\n\nprint("File saved!")` },
-          { type: "code", label: "PYTHON — Reading a file", color: "#7dd3fc", code: `with open("clients.txt", "r") as file:\n    content = file.read()\n    print(content)` },
-          { type: "plain", text: "'w' means write (creates or overwrites). 'r' means read. 'a' means append. The 'with' statement automatically closes the file when done — always use it." },
-          { type: "plain", text: "Real money use: automatically generate client reports, save scraped data, process CSV files from clients. This is a billable skill right now." },
+          { type: "plain", text: "A filing cabinet stores documents you can pull out later, read, add to, or replace." },
+          { type: "highlight", text: "Python can read from and write to files. This is how real automation works." },
+          { type: "code", label: "PYTHON — Writing", color: "#86efac", code: `with open("clients.txt", "w") as file:\n    file.write("Marcus Johnson\\n")\nprint("File saved!")` },
+          { type: "code", label: "PYTHON — Reading", color: "#7dd3fc", code: `with open("clients.txt", "r") as file:\n    content = file.read()\n    print(content)` },
         ],
-        hints: ["Use open(\"filename.txt\", \"w\") to create and write a file.", "Inside the with block, use file.write(\"your text\\n\") — the \\n creates a new line.", "To read: open(\"filename.txt\", \"r\") and file.read()"],
-        challenge: {
-          prompt: "Write a Python script that saves your name and coding goal to a file called 'mygoals.txt', then reads it back and prints it.",
-          starterCode: `with open("mygoals.txt", "w") as file:\n    file.write("Name: Stanley White\\n")\n    file.write("Goal: Financial Freedom\\n")\n    file.write("Timeline: 9 months\\n")\n\nprint("Goals saved!")\n\nwith open("mygoals.txt", "r") as file:\n    content = file.read()\n    print("\\nMy Goals:")\n    print(content)`,
-          whatItDoes: "You wrote data to a real file and read it back. This same pattern is used to process thousands of Excel rows, save scraped data, and generate automated reports.",
-          check: (output) => output.includes("saved") || output.includes("Goals") || output.length > 0,
-        },
+        hints: ["Use open(\"filename.txt\", \"w\") to create and write", "file.write(\"text\\n\")", "To read: open(\"filename.txt\", \"r\") then file.read()"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how Python writes to a file then reads it back.",
+            starterCode: `with open("mygoals.txt", "w") as file:\n    file.write("Name: Stanley White\\n")\n    file.write("Goal: Financial Freedom\\n")\n\nprint("File saved!")\n\nwith open("mygoals.txt", "r") as file:\n    content = file.read()\n    print(content)`,
+            whatItDoes: "Writes 3 lines to a file then reads them all back.",
+            check: (output) => output.includes("saved") && output.includes("Stanley"),
+          },
+          {
+            prompt: "MODIFY IT: Change the name and goal. Add a 4th line called Skills with your top skill.",
+            starterCode: `with open("mygoals.txt", "w") as file:\n    file.write("Name: Stanley White\\n")\n    file.write("Goal: Financial Freedom\\n")\n\nprint("File saved!")\n\nwith open("mygoals.txt", "r") as file:\n    content = file.read()\n    print(content)`,
+            whatItDoes: "Change the values and add a Skills line.",
+            check: (output) => !output.includes("Stanley White") && output.includes("Skills"),
+          },
+          {
+            prompt: "FROM SCRATCH: Write 3 client names to clients.txt, then read it back and print each line.",
+            starterCode: `# Write 3 client names to clients.txt\n# Then read and print the file\n`,
+            whatItDoes: "Write the whole thing yourself. Use w to write, r to read.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+        ],
+        quiz: [
+          { question: "What does the w mode do when opening a file?", answer: "Creates or overwrites the file for writing", choices: ["Creates or overwrites the file for writing", "Reads the file", "Appends to the file", "Deletes the file"] },
+          { question: "What does \\n do inside a file.write() string?", answer: "Creates a new line", choices: ["Creates a new line", "Adds a tab", "Ends the program", "Nothing"] },
+          { question: "Why do we use the with statement?", answer: "It automatically closes the file when done", choices: ["It automatically closes the file when done", "It makes the file bigger", "It reads faster", "It is required by Python"] },
+          { question: "How do you read all content from an open file?", answer: "file.read()", choices: ["file.read()", "file.open()", "file.get()", "file.load()"] },
+          { question: "Which mode appends without deleting?", answer: "a", choices: ["a", "w", "r", "x"] },
+        ],
+      },
+      {
+        id: "list-methods", title: "List Methods — Managing Collections", xp: 150, analogy: "Think of managing a team roster",
+        theory: [
+          { type: "plain", text: "A coach manages a team roster — adding players, removing ones who left, sorting by performance, finding who scored the most." },
+          { type: "highlight", text: "List methods are built-in tools for managing your lists. They let you add, remove, sort, search, and count." },
+          { type: "code", label: "PYTHON", color: "#67e8f9", code: `clients = ["Marcus", "Tamika", "DeShawn"]\nclients.append("Keisha")        # Add to end\nclients.insert(0, "Jerome")     # Add at position\nclients.remove("DeShawn")       # Remove by value\nclients.sort()                  # Sort alphabetically\nprint(clients)\nprint("Count:", len(clients))\nprint("Index of Tamika:", clients.index("Tamika"))` },
+        ],
+        hints: [".append() adds to end, .insert(position, value) adds anywhere", ".remove(value) removes by value, .pop() removes last item", ".sort() sorts in place, sorted(list) returns a new sorted list"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see all the ways you can manage a list.",
+            starterCode: `skills = ["Python", "JavaScript", "Excel"]\n\nskills.append("SQL")\nprint("After append:", skills)\n\nskills.insert(0, "Communication")\nprint("After insert:", skills)\n\nskills.remove("Excel")\nprint("After remove:", skills)\n\nskills.sort()\nprint("After sort:", skills)\nprint("Total skills:", len(skills))`,
+            whatItDoes: "You used 4 different list methods to manage the same list.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 5,
+          },
+          {
+            prompt: "MODIFY IT: Start with your own 4 skills. Add 2 more with append. Remove one. Sort and print the final list.",
+            starterCode: `skills = ["Python", "JavaScript", "Excel"]\n\nskills.append("SQL")\nprint("After append:", skills)\n\nskills.remove("Excel")\nprint("After remove:", skills)\n\nskills.sort()\nprint("After sort:", skills)`,
+            whatItDoes: "Replace the starter skills with your own and modify the operations.",
+            check: (output) => !output.includes("Excel") && output.split("\n").filter(Boolean).length >= 3,
+          },
+          {
+            prompt: "FROM SCRATCH: Create a client list with 5 names. Sort it. Find the index of one client. Remove the last one with .pop(). Print the final count.",
+            starterCode: `# Create clients list with 5 names\n# Sort it\n# Find index of one client\n# Remove last with .pop()\n# Print final count\n`,
+            whatItDoes: "Combine multiple list methods in sequence.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 4,
+          },
+        ],
+        quiz: [
+          { question: "Which method adds an item to the END of a list?", answer: ".append()", choices: [".append()", ".insert()", ".add()", ".push()"] },
+          { question: "Which method removes an item by its VALUE?", answer: ".remove()", choices: [".remove()", ".pop()", ".delete()", ".clear()"] },
+          { question: "Which method sorts a list in place?", answer: ".sort()", choices: [".sort()", ".order()", ".arrange()", "sorted()"] },
+          { question: ".pop() removes and returns _____", answer: "the last item", choices: ["the last item", "the first item", "a random item", "all items"] },
+          { question: "How do you find the position of an item in a list?", answer: ".index(value)", choices: [".index(value)", ".find(value)", ".position(value)", ".search(value)"] },
+        ],
+      },
+      {
+        id: "dictionary-methods", title: "Dictionary Methods — Working With Data", xp: 150, analogy: "Think of a smart contact book",
+        theory: [
+          { type: "plain", text: "A smart contact book lets you look up people safely, update their info, add new contacts, and get all names or all numbers at once." },
+          { type: "highlight", text: "Dictionary methods let you safely access, update, and loop through your data." },
+          { type: "code", label: "PYTHON", color: "#67e8f9", code: `client = {"name": "Marcus", "budget": 2500, "project": "Website"}\n\n# Safe access — returns None instead of crashing\nphone = client.get("phone", "No phone on file")\nprint(phone)\n\n# Update multiple keys at once\nclient.update({"budget": 3000, "status": "active"})\nprint(client)\n\n# Get all keys and values\nprint(list(client.keys()))\nprint(list(client.values()))` },
+        ],
+        hints: [".get(key, default) is safer than dict[key] — no crash if key missing", ".update({}) adds or updates multiple keys at once", ".keys() and .values() return all keys or values"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how dictionary methods make working with data safer and easier.",
+            starterCode: `profile = {"name": "Stanley White", "role": "Developer", "rate": 75}\n\n# Safe access\ncity = profile.get("city", "City not set")\nprint("City:", city)\n\n# Update multiple fields\nprofile.update({"city": "Atlanta", "available": True, "rate": 100})\nprint("Updated profile:", profile)\n\n# Loop through keys and values\nfor key, value in profile.items():\n    print(f"  {key}: {value}")`,
+            whatItDoes: "You used .get(), .update(), and .items() on the same dictionary.",
+            check: (output) => output.includes("Atlanta") && output.split("\n").filter(Boolean).length >= 5,
+          },
+          {
+            prompt: "MODIFY IT: Add your own fields using .update(). Use .get() to safely access a key that does not exist.",
+            starterCode: `profile = {"name": "Stanley White", "role": "Developer", "rate": 75}\n\ncity = profile.get("city", "City not set")\nprint("City:", city)\n\nprofile.update({"city": "Atlanta", "available": True})\nprint("Updated:", profile)`,
+            whatItDoes: "Add at least 2 new fields with update and safely access a missing key.",
+            check: (output) => !output.includes("City not set") || output.includes("Updated"),
+          },
+          {
+            prompt: "FROM SCRATCH: Create a client dictionary. Use .get() to safely check for a missing field. Use .update() to add 3 new fields. Print all keys and all values separately.",
+            starterCode: `# Create a client dictionary with 3 fields\n# Use .get() on a missing key\n# Use .update() to add 3 new fields\n# Print list(client.keys())\n# Print list(client.values())\n`,
+            whatItDoes: "Practice safe dictionary access and bulk updates.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 4,
+          },
+        ],
+        quiz: [
+          { question: "What is the advantage of .get() over dict[key]?", answer: "It returns a default value instead of crashing if key is missing", choices: ["It returns a default value instead of crashing if key is missing", "It is faster", "It creates the key automatically", "No difference"] },
+          { question: ".update({'rate': 100}) does what?", answer: "Adds or updates the rate key", choices: ["Adds or updates the rate key", "Creates a new dictionary", "Deletes rate", "Prints rate"] },
+          { question: "dict.keys() returns _____", answer: "All keys in the dictionary", choices: ["All keys in the dictionary", "All values", "The first key", "The length"] },
+          { question: "How do you remove a key from a dictionary?", answer: "del dict[key] or dict.pop(key)", choices: ["del dict[key] or dict.pop(key)", "dict.remove(key)", "dict.delete(key)", "dict[key] = None"] },
+          { question: "dict.items() is used for _____", answer: "Looping through key-value pairs", choices: ["Looping through key-value pairs", "Counting items", "Sorting the dictionary", "Finding a key"] },
+        ],
+      },
+      {
+        id: "nested-data", title: "Nested Data — Lists of Dictionaries", xp: 200, analogy: "Think of a spreadsheet with rows",
+        theory: [
+          { type: "plain", text: "A spreadsheet has rows. Each row has multiple columns — name, email, amount, status. In Python you can store this as a list of dictionaries." },
+          { type: "highlight", text: "Nested data means dictionaries inside lists. This is how real apps store collections of records — users, orders, products, clients." },
+          { type: "code", label: "PYTHON", color: "#67e8f9", code: `clients = [\n    {"name": "Marcus", "amount": 1500, "paid": True},\n    {"name": "Tamika", "amount": 2200, "paid": False},\n    {"name": "DeShawn", "amount": 900, "paid": True},\n]\n\nfor client in clients:\n    status = "✓ Paid" if client["paid"] else "⏳ Pending"\n    print(client["name"] + ": $" + str(client["amount"]) + " - " + status)\n\ntotal = sum(c["amount"] for c in clients)\nprint("Total:", total)` },
+        ],
+        hints: ["Access nested data: clients[0]['name'] gets first client's name", "Loop with for client in clients: then client['key']", "List comprehension: [c['amount'] for c in clients] gets all amounts"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see how a list of dictionaries works like a database table.",
+            starterCode: `clients = [\n    {"name": "Marcus Johnson", "amount": 1500, "paid": True},\n    {"name": "Tamika Williams", "amount": 2200, "paid": False},\n    {"name": "DeShawn Carter", "amount": 900, "paid": True},\n    {"name": "Keisha Brown", "amount": 3100, "paid": False},\n]\n\nprint("=== CLIENT REPORT ===")\nfor client in clients:\n    status = "Paid" if client["paid"] else "Pending"\n    print(client["name"] + ": $" + str(client["amount"]) + " - " + status)\n\ntotal = sum(c["amount"] for c in clients)\npaid_total = sum(c["amount"] for c in clients if c["paid"])\nprint("\nTotal: $", total)\nprint("Collected: $", paid_total)\nprint("Outstanding: $", total - paid_total)`,
+            whatItDoes: "You built a mini invoice tracking system using nested data.",
+            check: (output) => output.includes("CLIENT REPORT") && output.includes("Total"),
+          },
+          {
+            prompt: "MODIFY IT: Add your own 2 clients to the list. Change one paid status. Run and see the totals update automatically.",
+            starterCode: `clients = [\n    {"name": "Marcus Johnson", "amount": 1500, "paid": True},\n    {"name": "Tamika Williams", "amount": 2200, "paid": False},\n    {"name": "DeShawn Carter", "amount": 900, "paid": True},\n]\n\nfor client in clients:\n    status = "Paid" if client["paid"] else "Pending"\n    print(client["name"] + ": $" + str(client["amount"]) + " - " + status)\n\ntotal = sum(c["amount"] for c in clients)\nprint("Total:", total)`,
+            whatItDoes: "Add 2 new client dictionaries to the list and see all calculations update.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 5,
+          },
+          {
+            prompt: "FROM SCRATCH: Create a list of 4 products with name, price, and in_stock fields. Loop through and print only the ones that are in stock. Calculate total value of all in-stock items.",
+            starterCode: `# Create products list with 4 dictionaries\n# Each has: name, price, in_stock (True/False)\n\n# Loop and print only in-stock products\n\n# Calculate total value of in-stock items\n`,
+            whatItDoes: "Filter and aggregate nested data — a real-world data skill.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+        ],
+        quiz: [
+          { question: "A list of dictionaries is useful for storing _____", answer: "Collections of records with multiple fields", choices: ["Collections of records with multiple fields", "Single values", "Numbers only", "Functions"] },
+          { question: "How do you access the name of the first client in clients[0]?", answer: "clients[0]['name']", choices: ["clients[0]['name']", "clients['name'][0]", "clients.name[0]", "clients[0].name"] },
+          { question: "sum(c['amount'] for c in clients) does what?", answer: "Adds up all amount values", choices: ["Adds up all amount values", "Counts clients", "Finds the highest amount", "Creates a new list"] },
+          { question: "How do you filter a list of dictionaries?", answer: "Use an if condition inside the loop", choices: ["Use an if condition inside the loop", "Use .filter()", "Use .where()", "Use .select()"] },
+          { question: "This data structure is similar to what in real apps?", answer: "A database table", choices: ["A database table", "A calculator", "A file system", "A loop"] },
+        ],
       },
     ],
   },
@@ -360,69 +758,150 @@ const CURRICULUM = [
       {
         id: "elif", title: "Multiple Choices with elif", xp: 125, analogy: "Think of a traffic light",
         theory: [
-          { type: "plain", text: "A traffic light doesn't just have two options. It has three: Red = Stop. Yellow = Slow down. Green = Go. If/else only gives you two paths — but elif gives you as many as you need." },
-          { type: "highlight", text: "elif means 'else if' — it lets you check multiple conditions in order until one is true." },
-          { type: "code", label: "PYTHON", color: "#f9a8d4", code: `score = 85\n\nif score >= 90:\n    print("A — Excellent!")\nelif score >= 80:\n    print("B — Good work")\nelif score >= 70:\n    print("C — Passing")\nelse:\n    print("Keep practicing")` },
-          { type: "plain", text: "Python checks each condition top to bottom and stops at the first one that's true." },
-          { type: "plain", text: "Real use: pricing tiers. If a client wants 1 page → $500. elif 5 pages → $1500. elif 10 pages → $3000. else → custom quote." },
+          { type: "plain", text: "A traffic light has three options: Red = Stop. Yellow = Slow. Green = Go. Life is not always yes or no — sometimes there are multiple choices." },
+          { type: "highlight", text: "elif means else if — check multiple conditions in order. The first one that is true runs. The rest are skipped." },
+          { type: "code", label: "PYTHON", color: "#f9a8d4", code: `score = 85\n\nif score >= 90:\n    print("A — Excellent!")\nelif score >= 80:\n    print("B — Good work")\nelif score >= 70:\n    print("C — Keep going")\nelse:\n    print("Keep practicing")` },
+          { type: "plain", text: "Real use: pricing tiers, income brackets, skill levels — anything with more than two outcomes." },
         ],
-        hints: ["Start with if, then use elif (not else if — it's one word in Python), then end with else.", "Each condition needs a colon at the end.", "The indented line under each condition is what runs when that condition is true."],
-        challenge: {
-          prompt: "Build a freelance pricing calculator. If hours > 40: Senior rate. elif > 20: Standard rate. else: Starter rate.",
-          starterCode: `hours = 25\n\nif hours > 40:\n    print("Senior rate: $150/hr")\nelif hours > 20:\n    print("Standard rate: $100/hr")\nelse:\n    print("Starter rate: $75/hr")\n\n# Try changing hours to 10, then 25, then 50`,
-          whatItDoes: "Your code checks hours and picks the right pricing tier automatically. This is how real billing software works.",
-          check: (output) => output.includes("rate") || output.includes("$"),
-        },
+        hints: ["Start with if, then elif, then else.", "Each line needs a colon at the end.", "Only the FIRST true condition runs — the rest are skipped entirely."],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code. Change score to 95, then 72, then 55. See how different conditions trigger each time.",
+            starterCode: `score = 85\n\nif score >= 90:\n    print("A — Excellent!")\nelif score >= 80:\n    print("B — Good work")\nelif score >= 70:\n    print("C — Keep going")\nelse:\n    print("Keep practicing")`,
+            whatItDoes: "Python checks each condition top to bottom. The first true one runs and the rest are ignored.",
+            check: (output) => output.includes("Good") || output.includes("Excellent") || output.includes("Keep"),
+          },
+          {
+            prompt: "MODIFY IT: Change this to a freelance pricing system. Over 40 hours: Senior rate $150/hr. Over 20: Standard $100/hr. Otherwise: Starter $75/hr.",
+            starterCode: `score = 85\n\nif score >= 90:\n    print("A — Excellent!")\nelif score >= 80:\n    print("B — Good work")\nelif score >= 70:\n    print("C — Keep going")\nelse:\n    print("Keep practicing")`,
+            whatItDoes: "Replace score with hours. Replace each condition and print statement with pricing logic.",
+            check: (output) => output.includes("rate") || output.includes("Rate") || output.includes("/hr"),
+          },
+          {
+            prompt: "FROM SCRATCH: Build an income level classifier. Under 2000: Tight budget. Under 4000: Getting by. Under 7000: Comfortable. Otherwise: Thriving.",
+            starterCode: `# Create an income variable\n# Write if/elif/elif/else\n# Print the correct classification\n`,
+            whatItDoes: "Four possible outcomes. Only one runs based on income value.",
+            check: (output) => output.length > 0,
+          },
+        ],
+        quiz: [
+          { question: "What does elif stand for?", answer: "else if", choices: ["else if", "end if", "extra if", "enter if"] },
+          { question: "How many elif blocks can you have after an if?", answer: "As many as you need", choices: ["As many as you need", "Only 1", "Only 2", "Maximum 3"] },
+          { question: "When does the else block run?", answer: "When no other condition is true", choices: ["When no other condition is true", "Always", "First", "Never"] },
+          { question: "In an if/elif/else chain, how many blocks actually run?", answer: "Only 1", choices: ["Only 1", "All of them", "2", "Depends on the value"] },
+          { question: "What must appear at the end of every if, elif, and else line?", answer: "A colon :", choices: ["A colon :", "A semicolon ;", "Parentheses ()", "Nothing"] },
+        ],
       },
       {
         id: "combining-conditions", title: "AND / OR — Combining Conditions", xp: 125, analogy: "Think of a job application",
         theory: [
-          { type: "plain", text: "A job posting says: you need 2+ years experience AND a degree. Both must be true. That's AND. Another job says: Python OR JavaScript. Either works. That's OR." },
-          { type: "highlight", text: "AND means both conditions must be true. OR means at least one must be true." },
-          { type: "code", label: "PYTHON", color: "#f9a8d4", code: `has_portfolio = True\nhas_skills = True\n\nif has_portfolio and has_skills:\n    print("You're hireable!")\n\nknows_python = True\nknows_javascript = False\n\nif knows_python or knows_javascript:\n    print("You qualify!")` },
-          { type: "plain", text: "You can combine as many as you want: if age > 18 and has_id and not banned — that's three conditions checked at once." },
+          { type: "plain", text: "A job posting says: you need 2 years experience AND a portfolio. Both must be true to get the interview. One is not enough." },
+          { type: "highlight", text: "AND means both conditions must be true. OR means at least one must be true. These let you write precise, powerful conditions." },
+          { type: "code", label: "PYTHON", color: "#f9a8d4", code: `has_portfolio = True\nhas_skills = True\nyears_exp = 3\n\nif has_portfolio and has_skills and years_exp >= 2:\n    print("You are hireable!")\nelse:\n    print("Keep building")\n\n# OR example\nincome = 2000\nbonus = 500\nif income > 3000 or bonus > 400:\n    print("Financially on track!")` },
+          { type: "plain", text: "Real use: access control, discount eligibility, qualification checks — any logic that requires multiple conditions." },
         ],
-        hints: ["Use the word 'and' between two conditions: if condition1 and condition2:", "Use 'or' when either condition being true is enough.", "True and False must be capitalized in Python."],
-        challenge: {
-          prompt: "A client qualifies for a discount if they have more than 3 projects AND their budget is over 5000. Write the check and print 'Discount applied!' or 'No discount'.",
-          starterCode: `projects = 4\nbudget = 6000\n\nif projects > 3 and budget > 5000:\n    print("Discount applied!")\nelse:\n    print("No discount")\n\n# Try changing projects to 2 — what happens?`,
-          whatItDoes: "Both conditions must be true for the discount to apply. Change the numbers to see how AND works in practice.",
-          check: (output) => output.includes("Discount") || output.includes("discount") || output.includes("No"),
-        },
+        hints: ["Use the word 'and' between two conditions — both must be True.", "Use 'or' when either being true is enough.", "True and False must be capitalized in Python."],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code. Then change has_portfolio to False and run again. See how AND breaks when one condition fails.",
+            starterCode: `has_portfolio = True\nhas_skills = True\n\nif has_portfolio and has_skills:\n    print("You are hireable!")\nelse:\n    print("Missing requirements")\n\nincome = 2000\nbonus = 500\n\nif income > 3000 or bonus > 400:\n    print("Financially on track!")\nelse:\n    print("Keep grinding")`,
+            whatItDoes: "AND requires both True. OR only needs one. Run both and see the difference.",
+            check: (output) => output.includes("hireable") || output.includes("track") || output.includes("grinding"),
+          },
+          {
+            prompt: "MODIFY IT: A client gets a VIP discount if they have more than 5 projects AND budget over 10000. Write that condition. Test with values that pass and values that fail.",
+            starterCode: `has_portfolio = True\nhas_skills = True\n\nif has_portfolio and has_skills:\n    print("You are hireable!")\nelse:\n    print("Missing requirements")`,
+            whatItDoes: "Replace the condition with project count and budget check. Test both pass and fail cases.",
+            check: (output) => output.includes("discount") || output.includes("VIP") || output.includes("No"),
+          },
+          {
+            prompt: "FROM SCRATCH: Write a function called qualifies that takes income and years_experience. Returns True if income > 50000 AND years_experience >= 2, or if years_experience >= 5 regardless of income. Test it 3 times.",
+            starterCode: `# def qualifies(income, years_experience):\n#     Use and + or logic\n#     return True or False\n\n# Test 3 times with different values\n`,
+            whatItDoes: "Combine AND and OR in one condition. Return a boolean result.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+        ],
+        quiz: [
+          { question: "AND requires _____ conditions to be true", answer: "both", choices: ["both", "one", "neither", "any number"] },
+          { question: "OR requires _____ condition to be true", answer: "at least one", choices: ["at least one", "both", "neither", "exactly two"] },
+          { question: "True and False must be _____ in Python", answer: "capitalized", choices: ["capitalized", "lowercase", "in quotes", "in brackets"] },
+          { question: "if x > 5 and x < 10 — which value of x passes?", answer: "7", choices: ["7", "5", "10", "15"] },
+          { question: "if x < 0 or x > 100 — this checks that x is _____", answer: "out of range", choices: ["out of range", "in range", "equal to 0 or 100", "positive"] },
+        ],
       },
       {
         id: "while-loops", title: "While Loops — Keep Going Until", xp: 150, analogy: "Think of a vending machine",
         theory: [
-          { type: "plain", text: "A vending machine keeps waiting for money. While the amount inserted is less than the price, it keeps waiting. The moment you insert enough — it gives you the item and stops." },
-          { type: "highlight", text: "A while loop keeps running AS LONG AS a condition is true. It stops the moment the condition becomes false." },
-          { type: "code", label: "PYTHON", color: "#f9a8d4", code: `counter = 1\n\nwhile counter <= 5:\n    print("Client", counter, "invoiced")\n    counter = counter + 1\n\nprint("All clients invoiced!")` },
-          { type: "plain", text: "IMPORTANT: always make sure your while loop will eventually stop. Always update the variable inside the loop." },
-          { type: "plain", text: "Real use: keep checking for new orders until none are left. Keep retrying a failed connection until it works." },
+          { type: "plain", text: "A vending machine keeps waiting for money. While the amount inserted is less than the price, it keeps waiting. Once you insert enough — it gives you the item and stops." },
+          { type: "highlight", text: "A while loop keeps running AS LONG AS a condition is true. When the condition becomes false, it stops. You control when it stops." },
+          { type: "code", label: "PYTHON", color: "#f9a8d4", code: `counter = 1\n\nwhile counter <= 5:\n    print("Client", counter, "invoiced")\n    counter = counter + 1\n\nprint("All done!")` },
+          { type: "plain", text: "Critical rule: always update your counter inside the loop. If you forget, the condition never becomes false and the loop runs forever." },
         ],
-        hints: ["Start with: counter = 1  then while counter <= 5:", "Inside the loop: do your action AND update counter = counter + 1", "Without counter = counter + 1, the loop runs forever."],
-        challenge: {
-          prompt: "Write a while loop that starts at 1 and prints each number up to 10, then prints 'Done!'",
-          starterCode: `number = 1\n\nwhile number <= 10:\n    print("Number:", number)\n    number = number + 1\n\nprint("Done! Counted to 10.")`,
-          whatItDoes: "The loop runs 10 times, printing each number. number = number + 1 makes sure it eventually stops at 10.",
-          check: (output) => output.includes("10") && output.includes("Done"),
-        },
+        hints: ["Start with a counter: counter = 1", "while counter <= 5: — do not forget the colon", "Always update counter inside the loop: counter = counter + 1"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code. Then change the limit from 5 to 8 and run again.",
+            starterCode: `counter = 1\n\nwhile counter <= 5:\n    print("Processing order #", counter)\n    counter = counter + 1\n\nprint("All orders processed!")`,
+            whatItDoes: "The loop checks: is counter <= 5? Yes: run. counter increases. When it hits 6 — condition is False — loop stops.",
+            check: (output) => output.includes("5") && output.includes("All orders"),
+          },
+          {
+            prompt: "MODIFY IT: Change this to a savings tracker. Start at 0. While savings < 1000, add 200 each loop and print the running total. After the loop print Goal reached!",
+            starterCode: `counter = 1\n\nwhile counter <= 5:\n    print("Processing order #", counter)\n    counter = counter + 1\n\nprint("All orders processed!")`,
+            whatItDoes: "Replace counter logic with savings logic. Print the balance each time through.",
+            check: (output) => output.includes("1000") || output.includes("Goal") || output.includes("reached"),
+          },
+          {
+            prompt: "FROM SCRATCH: Write a while loop that simulates collecting invoices. Start with total = 0. Each loop add a payment of 500. Keep going until total reaches 3000. Print each addition and the final total.",
+            starterCode: `# total = 0\n# while total < 3000:\n#     add 500 to total\n#     print current total\n# print final message\n`,
+            whatItDoes: "Build the whole loop yourself. The condition, the body, and the update all need to be correct.",
+            check: (output) => output.includes("3000") || output.includes("3500"),
+          },
+        ],
+        quiz: [
+          { question: "A while loop runs as long as the condition is _____", answer: "True", choices: ["True", "False", "Running", "Complete"] },
+          { question: "What stops a while loop?", answer: "The condition becomes False", choices: ["The condition becomes False", "A print statement", "The def keyword", "A return value"] },
+          { question: "What happens if you forget to update the counter?", answer: "The loop runs forever", choices: ["The loop runs forever", "It stops after 10 runs", "Python crashes immediately", "Nothing happens"] },
+          { question: "counter = counter + 1 can be written as _____", answer: "counter += 1", choices: ["counter += 1", "counter++", "counter + 1", "add(counter, 1)"] },
+          { question: "What is the key difference between for and while loops?", answer: "for repeats a fixed number of times, while repeats until a condition is false", choices: ["for repeats a fixed number of times, while repeats until a condition is false", "They are identical", "while is always faster", "for can only count up"] },
+        ],
       },
       {
         id: "error-handling", title: "Error Handling — When Things Go Wrong", xp: 150, analogy: "Think of a seatbelt",
         theory: [
-          { type: "plain", text: "A seatbelt doesn't stop car crashes from happening. But it protects you when they do. Error handling in code works the same way — you can't prevent every error, but you can handle them gracefully." },
-          { type: "highlight", text: "try/except lets your code attempt something risky and handle it cleanly if it fails — instead of crashing." },
-          { type: "code", label: "PYTHON", color: "#f9a8d4", code: `try:\n    result = 100 / 0\n    print(result)\nexcept:\n    print("Something went wrong — can't divide by zero")\n\nprint("Program keeps running!")` },
-          { type: "plain", text: "Real use: when reading a file that might not exist. When calling an API that might be down. Professional code always handles errors." },
-          { type: "plain", text: "This is one of the things that separates beginner code from code you can sell. Clients don't want apps that crash." },
+          { type: "plain", text: "A seatbelt does not stop car crashes. But when a crash happens, it protects you from the worst outcome. Your program can crash too — error handling is your seatbelt." },
+          { type: "highlight", text: "try/except lets your code attempt something risky and handle it cleanly if it fails — instead of crashing and losing everything." },
+          { type: "code", label: "PYTHON", color: "#f9a8d4", code: `try:\n    result = 100 / 0\n    print(result)\nexcept ZeroDivisionError:\n    print("Cannot divide by zero!")\nexcept Exception as e:\n    print("Something went wrong:", e)\n\nprint("Program keeps running!")` },
+          { type: "plain", text: "Real use: any code that reads files, calls APIs, does math with user input, or connects to a database should have error handling. Professional code never crashes silently." },
         ],
-        hints: ["Wrap the risky code in try:  then indent the code under it.", "Under except:  write what should happen if it fails.", "The code after the try/except block always runs — the program doesn't crash."],
-        challenge: {
-          prompt: "Write a try/except that tries to convert 'hello' to a number using int('hello'), catches the error, and prints 'That is not a valid number'.",
-          starterCode: `try:\n    number = int("hello")\n    print("Converted:", number)\nexcept:\n    print("That is not a valid number")\n\nprint("Program finished without crashing!")`,
-          whatItDoes: "int('hello') would normally crash your program. The try/except catches it and prints a friendly message instead.",
-          check: (output) => output.includes("not a valid") || output.includes("finished") || output.length > 0,
-        },
+        hints: ["Wrap risky code in try: then indent it.", "Under except: write what happens if it fails.", "except Exception as e: catches any error and gives you the message in e."],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code. It tries to divide by zero — a crash waiting to happen — but error handling catches it and the program keeps running.",
+            starterCode: `try:\n    result = 100 / 0\n    print(result)\nexcept ZeroDivisionError:\n    print("Cannot divide by zero!")\n\nprint("Program keeps running!")\n\n# Now test with a valid number\ntry:\n    result = 100 / 4\n    print("Result:", result)\nexcept ZeroDivisionError:\n    print("Cannot divide by zero!")`,
+            whatItDoes: "The first try fails. The except catches it. The second try succeeds. In both cases the program keeps running.",
+            check: (output) => output.includes("keeps running") || output.includes("Result"),
+          },
+          {
+            prompt: "MODIFY IT: Wrap this JSON parsing in a try/except. If it fails print Invalid data received. If it succeeds print the name from the data.",
+            starterCode: `import json\n\nraw_data = '{invalid json here'\n\n# Wrap this in try/except\ndata = json.loads(raw_data)\nprint("Name:", data["name"])`,
+            whatItDoes: "json.loads() crashes on invalid JSON. Catch the error and print a friendly message instead.",
+            check: (output) => output.includes("Invalid") || output.includes("wrong") || output.includes("failed"),
+          },
+          {
+            prompt: "FROM SCRATCH: Write a safe_divide function that takes two numbers. If the divisor is zero, return None and print Cannot divide by zero. Otherwise return the result. Test it 3 times — once with zero.",
+            starterCode: `# def safe_divide(a, b):\n#     try:\n#         ...\n#     except ZeroDivisionError:\n#         ...\n\n# Test 3 times\n`,
+            whatItDoes: "A reusable safe division function. This pattern is used everywhere in professional code.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+        ],
+        quiz: [
+          { question: "What does try/except prevent?", answer: "Your program crashing when an error occurs", choices: ["Your program crashing when an error occurs", "All errors from happening", "Slow code", "Infinite loops"] },
+          { question: "What runs inside the except block?", answer: "Code that handles the error gracefully", choices: ["Code that handles the error gracefully", "The normal code", "Nothing", "The try block again"] },
+          { question: "except Exception as e: — what is e?", answer: "The error message", choices: ["The error message", "A variable name you must use", "The line number", "The function name"] },
+          { question: "What happens to code after a try/except block?", answer: "It always runs whether or not an error occurred", choices: ["It always runs whether or not an error occurred", "It only runs if no error occurred", "It only runs if an error occurred", "It never runs"] },
+          { question: "Which is better professional practice?", answer: "Wrapping risky code in try/except", choices: ["Wrapping risky code in try/except", "Hoping the code never fails", "Printing errors and crashing", "Ignoring errors"] },
+        ],
       },
     ],
   },
@@ -432,82 +911,187 @@ const CURRICULUM = [
       {
         id: "string-methods", title: "String Methods — Manipulating Text", xp: 150, analogy: "Think of a word processor",
         theory: [
-          { type: "plain", text: "Microsoft Word lets you do things to text — make it uppercase, find and replace words, count characters, trim spaces. Python has all of those built in for strings." },
-          { type: "highlight", text: "String methods are built-in tools that manipulate text. You use them with a dot after the variable name." },
-          { type: "code", label: "PYTHON", color: "#6ee7b7", code: `name = "stanley white"\n\nprint(name.upper())\nprint(name.title())\nprint(name.replace("white", "johnson"))\nprint(len(name))\nprint(name.strip())\nprint(name.split(" "))` },
-          { type: "plain", text: "Real money use: cleaning up messy data from clients. If someone gives you a spreadsheet with names in random capitalization or extra spaces, 2 lines of Python fixes 10,000 rows instantly." },
+          { type: "plain", text: "Microsoft Word lets you uppercase text, find and replace words, count characters, and trim spaces. Python has all of those built in — available instantly on any string." },
+          { type: "highlight", text: "String methods are built-in tools for manipulating text. You call them with a dot after the variable name." },
+          { type: "code", label: "PYTHON", color: "#6ee7b7", code: `name = "stanley white"\n\nprint(name.upper())       # STANLEY WHITE\nprint(name.title())       # Stanley White\nprint(name.replace("white", "williams"))\nprint(len(name))          # 13\nprint(name.strip())       # removes leading/trailing spaces` },
+          { type: "plain", text: "Real use: cleaning messy data from spreadsheets, formatting client names, processing form inputs, building reports automatically." },
         ],
-        hints: ["Call a method with a dot: name.upper() or name.title()", "len(variable) counts the characters — it goes outside the variable, not after a dot.", "Try chaining methods: name.strip().title()"],
-        challenge: {
-          prompt: "Take the messy string '   FINANCIAL freedom   ' and clean it up — strip the spaces, convert to title case, and print the result.",
-          starterCode: `messy = "   FINANCIAL freedom   "\n\ncleaned = messy.strip()\ncleaned = cleaned.title()\n\nprint(cleaned)\nprint("Length:", len(cleaned))`,
-          whatItDoes: "You cleaned messy text automatically. This exact skill — data cleaning — is one of the most in-demand Python freelance skills. Businesses pay $50-100/hr for it.",
-          check: (output) => output.includes("Financial Freedom") || output.includes("financial freedom") || output.length > 0,
-        },
+        hints: ["Call a method with a dot: name.upper()", "Chain methods: name.strip().title()", "len(variable) counts characters — it is a function, not a method"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and see all the string methods in action. Notice how each one transforms the same string differently.",
+            starterCode: `name = "  stanley white  "\n\nprint("Original:", repr(name))\nprint("Stripped:", name.strip())\nprint("Upper:", name.strip().upper())\nprint("Title:", name.strip().title())\nprint("Length:", len(name.strip()))\nprint("Replace:", name.strip().title().replace("White", "Williams"))`,
+            whatItDoes: "Each method transforms the string. Chaining methods applies them in sequence left to right.",
+            check: (output) => output.includes("STANLEY") || output.includes("Stanley"),
+          },
+          {
+            prompt: "MODIFY IT: Take the messy client string below and clean it up — strip spaces, convert to title case, then check if it contains the word 'johnson'. Print all results.",
+            starterCode: `client = "  MARCUS johnson   "\n\n# Clean it up\ncleaned = client.strip()\nprint("Stripped:", cleaned)\nprint("Title:", cleaned.title())\nprint("Upper:", cleaned.upper())\nprint("Contains johnson:", "johnson" in client.lower())`,
+            whatItDoes: "Process a realistic messy string the way you would with data from a spreadsheet or form.",
+            check: (output) => output.includes("Marcus") || output.includes("MARCUS") || output.includes("johnson"),
+          },
+          {
+            prompt: "FROM SCRATCH: Write a function called clean_name that takes any messy string, strips whitespace, converts to title case, and returns it. Test it on 5 different messy inputs.",
+            starterCode: `# def clean_name(raw):\n#     # strip, then title case\n#     return ...\n\n# Test on 5 messy inputs\n`,
+            whatItDoes: "A reusable text cleaner. This exact function is used in real data processing pipelines.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 5,
+          },
+        ],
+        quiz: [
+          { question: "How do you call a string method?", answer: "variable.method()", choices: ["variable.method()", "method(variable)", "string.call(method)", "run(method, variable)"] },
+          { question: "name.upper() returns _____", answer: "The string in ALL CAPS", choices: ["The string in ALL CAPS", "The string reversed", "The length", "Nothing"] },
+          { question: "name.strip() removes _____", answer: "Leading and trailing whitespace", choices: ["Leading and trailing whitespace", "All spaces", "Punctuation", "Numbers"] },
+          { question: "name.title() does what?", answer: "Capitalizes the first letter of each word", choices: ["Capitalizes the first letter of each word", "Makes everything uppercase", "Reverses the string", "Counts words"] },
+          { question: "How do you chain two methods?", answer: "name.strip().title()", choices: ["name.strip().title()", "name.strip() + title()", "title(name.strip())", "name.(strip)(title)"] },
+        ],
       },
       {
         id: "list-methods", title: "List Methods — Managing Collections", xp: 150, analogy: "Think of managing a team roster",
         theory: [
-          { type: "plain", text: "A coach manages a team roster — adding new players, removing ones who left, sorting by jersey number, finding how many players are on the team. Python lists have all of these built in." },
-          { type: "highlight", text: "List methods let you add, remove, sort, and search through your lists without writing complex code." },
-          { type: "code", label: "PYTHON", color: "#6ee7b7", code: `clients = ["Marcus", "Tamika", "DeShawn"]\n\nclients.append("Keisha")\nclients.remove("DeShawn")\nclients.sort()\nprint(len(clients))\nprint("Marcus" in clients)\nprint(clients[0])\nprint(clients[-1])` },
-          { type: "plain", text: "The 'in' keyword is powerful — it checks if something exists in a list. This is how you check if a user exists, if a product is in stock, if a name is on a list." },
+          { type: "plain", text: "A coach manages a roster — adding players, removing ones who left, sorting by performance, counting the team. Python lists have all of these operations built in." },
+          { type: "highlight", text: "List methods let you add, remove, sort, search, and count. They are the tools that make lists powerful." },
+          { type: "code", label: "PYTHON", color: "#6ee7b7", code: `clients = ["Marcus", "Tamika", "DeShawn"]\nclients.append("Keisha")       # Add to end\nclients.insert(0, "Jerome")    # Add at position 0\nclients.remove("DeShawn")      # Remove by value\nclients.sort()                 # Sort alphabetically\nprint(clients)\nprint("Count:", len(clients))\nprint("Position of Tamika:", clients.index("Tamika"))` },
+          { type: "plain", text: "Real use: building client pipelines, filtering lists of data, sorting results, managing queues — essential for any automation script." },
         ],
-        hints: ["Add items with .append('item')  — remove with .remove('item')", "Sort alphabetically with .sort()  — count items with len(list)", "Check if something exists: if 'item' in list_name:"],
-        challenge: {
-          prompt: "Start with a list of 3 skills. Add 2 more with append. Remove one. Sort the list. Print the final list and how many skills you have.",
-          starterCode: `skills = ["Python", "JavaScript", "Automation"]\n\nskills.append("Web Scraping")\nskills.append("Data Analysis")\n\nskills.remove("JavaScript")\n\nskills.sort()\n\nprint("My skills:", skills)\nprint("Total skills:", len(skills))`,
-          whatItDoes: "You managed a dynamic list — adding, removing, sorting, counting. This is how apps manage user data, shopping carts, and playlists.",
-          check: (output) => output.includes("skills") || output.split("\n").filter(Boolean).length >= 2,
-        },
+        hints: [".append() adds to end, .insert(0, value) adds at the front", ".remove(value) removes by value — .pop() removes and returns the last item", ".sort() sorts in place and changes the original list"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code and watch how each method changes the list. Pay attention to the order of operations.",
+            starterCode: `skills = ["Python", "JavaScript", "Excel"]\n\nskills.append("SQL")\nprint("After append:", skills)\n\nskills.insert(0, "Communication")\nprint("After insert:", skills)\n\nskills.remove("Excel")\nprint("After remove:", skills)\n\nskills.sort()\nprint("After sort:", skills)\nprint("Total skills:", len(skills))`,
+            whatItDoes: "Four different methods each transform the list in a different way.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 5,
+          },
+          {
+            prompt: "MODIFY IT: Start with your own 5 skills. Add 2 more with append. Remove one by value. Sort and print the final result. Print the index of one specific skill.",
+            starterCode: `skills = ["Python", "JavaScript", "Excel"]\n\nskills.append("SQL")\nprint("After append:", skills)\n\nskills.remove("Excel")\nprint("After remove:", skills)\n\nskills.sort()\nprint("Sorted:", skills)`,
+            whatItDoes: "Replace with your own skills and demonstrate all four operations.",
+            check: (output) => !output.includes("Excel") && output.split("\n").filter(Boolean).length >= 3,
+          },
+          {
+            prompt: "FROM SCRATCH: Create a client waitlist with 6 names. Sort it. Find the index of one client. Move the last client to the front using .pop() and .insert(). Print the final waitlist.",
+            starterCode: `# Create waitlist with 6 names\n# Sort it\n# Find index of one client\n# Pop last, insert at front\n# Print final waitlist\n`,
+            whatItDoes: "Combine multiple list methods to manage a realistic data set.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 4,
+          },
+        ],
+        quiz: [
+          { question: "Which method adds an item to the END of a list?", answer: ".append()", choices: [".append()", ".insert()", ".add()", ".push()"] },
+          { question: "Which method removes an item by its VALUE?", answer: ".remove()", choices: [".remove()", ".pop()", ".delete()", ".discard()"] },
+          { question: ".sort() changes _____", answer: "The original list in place", choices: ["The original list in place", "A copy of the list", "Nothing", "The list type"] },
+          { question: ".pop() removes and returns _____", answer: "The last item", choices: ["The last item", "The first item", "A random item", "All items"] },
+          { question: "How do you find the position of an item in a list?", answer: ".index(value)", choices: [".index(value)", ".find(value)", ".position(value)", ".where(value)"] },
+        ],
       },
       {
-        id: "functions-advanced", title: "Functions — Default Values & Multiple Returns", xp: 175, analogy: "Think of a coffee order",
+        id: "functions-advanced", title: "Functions — Default Values and Multiple Returns", xp: 175, analogy: "Think of a professional calculator",
         theory: [
-          { type: "plain", text: "At a coffee shop, if you don't specify milk, they use regular milk by default. But you can always override it. Functions work the same — you can set default values for inputs." },
-          { type: "highlight", text: "Default parameters mean a function works even if you don't provide every input. Multiple returns let a function give back more than one value." },
-          { type: "code", label: "PYTHON", color: "#6ee7b7", code: `def greet(name, greeting="Hello"):\n    return greeting + ", " + name\n\nprint(greet("Marcus"))\nprint(greet("Tamika", "Hey"))\n\ndef get_stats(numbers):\n    total = sum(numbers)\n    average = total / len(numbers)\n    return total, average\n\nt, avg = get_stats([100, 200, 300])\nprint("Total:", t)\nprint("Average:", avg)` },
-          { type: "plain", text: "Returning multiple values is huge for business logic — calculate revenue AND profit AND tax all in one function call." },
+          { type: "plain", text: "A professional calculator remembers your last settings. When you open it, it defaults to degrees not radians. You can change it — but you do not have to every single time." },
+          { type: "highlight", text: "Default parameters mean a function works without every input. Multiple return values mean one function can give you several results at once." },
+          { type: "code", label: "PYTHON", color: "#6ee7b7", code: `def project_quote(client, hours, rate=75, tax=0.08):\n    subtotal = hours * rate\n    tax_amount = subtotal * tax\n    total = subtotal + tax_amount\n    return subtotal, tax_amount, total\n\nsub, tax, total = project_quote("Marcus", 20)\nprint("Subtotal: $" + str(sub))\nprint("Tax: $" + str(tax))\nprint("Total: $" + str(total))` },
+          { type: "plain", text: "Real use: invoice generators, pricing calculators, data analysis functions — any function that produces multiple related results benefits from this pattern." },
         ],
-        hints: ["Set a default: def greet(name, greeting='Hello'):", "Return multiple values separated by commas: return total, average", "Capture multiple returns: total, average = get_stats(numbers)"],
-        challenge: {
-          prompt: "Build a function called 'project_quote' that takes client_name and hours, with a default rate of 75. Return both the total cost and a formatted quote message.",
-          starterCode: `def project_quote(client_name, hours, rate=75):\n    total = hours * rate\n    message = "Quote for " + client_name + ": $" + str(total)\n    return total, message\n\ncost, quote = project_quote("Marcus", 20)\nprint(quote)\n\ncost2, quote2 = project_quote("Tamika", 40, 100)\nprint(quote2)`,
-          whatItDoes: "A reusable quote generator. Pass in a client name and hours, get back a professional quote. This is the kind of tool you'd build for a client and charge $300+ for.",
-          check: (output) => output.includes("Quote") || output.includes("$") || output.split("\n").filter(Boolean).length >= 2,
-        },
+        hints: ["Default parameters go after required ones: def func(required, optional=default):", "Capture multiple returns: a, b, c = my_function()", "If you only want one return value: result = my_function() gives you a tuple"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this project quote function. Then call it with a custom rate of 100 and tax of 0.0 and see how the defaults are overridden.",
+            starterCode: `def project_quote(client, hours, rate=75, tax=0.08):\n    subtotal = hours * rate\n    tax_amount = subtotal * tax\n    total = subtotal + tax_amount\n    return subtotal, tax_amount, total\n\n# Default rate and tax\nsub, tax_amt, total = project_quote("Marcus", 20)\nprint("Client: Marcus | Hours: 20 | Rate: $75")\nprint("Subtotal:", sub, "| Tax:", tax_amt, "| Total:", total)\n\n# Override both\nsub2, tax2, total2 = project_quote("Tamika", 40, rate=100, tax=0.0)\nprint("Client: Tamika | Hours: 40 | Rate: $100")\nprint("Subtotal:", sub2, "| Tax:", tax2, "| Total:", total2)`,
+            whatItDoes: "The same function handles two completely different pricing scenarios without changing the function itself.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 4,
+          },
+          {
+            prompt: "MODIFY IT: Add a fourth return value — the profit margin as a percentage assuming costs are 60% of the subtotal. Capture and print all four values.",
+            starterCode: `def project_quote(client, hours, rate=75, tax=0.08):\n    subtotal = hours * rate\n    tax_amount = subtotal * tax\n    total = subtotal + tax_amount\n    return subtotal, tax_amount, total\n\nsub, tax_amt, total = project_quote("Marcus", 20)\nprint("Subtotal:", sub, "| Tax:", tax_amt, "| Total:", total)`,
+            whatItDoes: "Add margin = subtotal * 0.4 to the function and return it as a fourth value.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 2,
+          },
+          {
+            prompt: "FROM SCRATCH: Write a function called analyze_week that takes a list of daily earnings. Return total, average, highest day, and lowest day. Test it with two different weeks of data.",
+            starterCode: `# def analyze_week(earnings):\n#     total = sum(earnings)\n#     average = total / len(earnings)\n#     highest = max(earnings)\n#     lowest = min(earnings)\n#     return total, average, highest, lowest\n\n# Test with 2 weeks\nweek1 = [200, 350, 0, 420, 180, 300, 0]\n`,
+            whatItDoes: "A real weekly income analyzer. Returns 4 values in one call.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 4,
+          },
+        ],
+        quiz: [
+          { question: "Default parameters must come _____ required parameters", answer: "after", choices: ["after", "before", "instead of", "anywhere"] },
+          { question: "If you do not provide a default parameter when calling a function it uses _____", answer: "the default value", choices: ["the default value", "None", "0", "raises an error"] },
+          { question: "a, b, c = my_function() — this is called _____", answer: "unpacking multiple return values", choices: ["unpacking multiple return values", "creating three variables", "calling three functions", "a loop"] },
+          { question: "What does a function return if it has no return statement?", answer: "None", choices: ["None", "0", "False", "An empty string"] },
+          { question: "Why use return instead of print inside a function?", answer: "So the result can be used in further calculations", choices: ["So the result can be used in further calculations", "Print is deprecated", "Return is faster", "No real reason"] },
+        ],
       },
       {
-        id: "modules", title: "Modules — Using Other People's Code", xp: 175, analogy: "Think of a toolbox",
+        id: "modules", title: "Modules — Using Other People's Code", xp: 175, analogy: "Think of a professional toolbox",
         theory: [
-          { type: "plain", text: "A plumber doesn't forge their own wrenches. They buy a toolbox full of tools other people made. Python has thousands of pre-built toolboxes called modules — you just import them and use them." },
-          { type: "highlight", text: "A module is a collection of ready-made functions you can import and use. This is how you access Python's real power without writing everything from scratch." },
-          { type: "code", label: "PYTHON", color: "#6ee7b7", code: `import random\nimport math\nimport datetime\n\nprint(random.randint(1, 100))\nprint(math.ceil(4.2))\n\ntoday = datetime.date.today()\nprint("Today is:", today)` },
-          { type: "plain", text: "Beyond built-in modules, you can install thousands more. requests lets you pull data from any website. pandas processes massive spreadsheets. These are the tools that make automation scripts worth thousands of dollars." },
+          { type: "plain", text: "A plumber does not forge their own wrenches. They buy a professional toolbox full of tools built by experts. Python modules are that toolbox — thousands of tools built by experts, free to use." },
+          { type: "highlight", text: "A module is a collection of ready-made functions you import and use. Python comes with dozens built in. Thousands more are available via pip." },
+          { type: "code", label: "PYTHON", color: "#6ee7b7", code: `import random\nimport datetime\nimport math\n\nprint(random.randint(1, 100))      # Random number\nprint(datetime.date.today())       # Today's date\nprint(math.ceil(4.2))              # Round up = 5\nprint(math.floor(4.9))             # Round down = 4` },
+          { type: "plain", text: "Real use: random for unique IDs and passwords, datetime for invoices and scheduling, math for financial calculations, os for file automation." },
         ],
-        hints: ["Import a module at the top: import random  then use it: random.randint(1, 100)", "import datetime  then datetime.date.today() gives you today's date.", "import math  then math.ceil() rounds up, math.floor() rounds down."],
-        challenge: {
-          prompt: "Import datetime and random. Print today's date with a label. Then generate a random invoice number between 1000 and 9999 and print it.",
-          starterCode: `import datetime\nimport random\n\ntoday = datetime.date.today()\nprint("Invoice Date:", today)\n\ninvoice_num = random.randint(1000, 9999)\nprint("Invoice #:", invoice_num)\n\nprint("Invoice ready to send!")`,
-          whatItDoes: "You just used two real Python modules to generate a professional invoice header. No math needed — Python's built-in tools did the work.",
-          check: (output) => output.includes("Invoice") || output.includes("2026") || output.length > 0,
-        },
+        hints: ["Import at the top: import random", "Use the module name then dot: random.randint(1, 100)", "Import specific tools: from datetime import date — then just use date.today()"],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this code. See how three different modules each provide specialized tools you would otherwise have to build from scratch.",
+            starterCode: `import random\nimport datetime\nimport math\n\n# Invoice number generator\ninvoice_num = random.randint(10000, 99999)\nprint("Invoice #:", invoice_num)\n\n# Today's date\ntoday = datetime.date.today()\nprint("Date:", today)\n\n# Financial rounding\nhours = 7.3\nrate = 75\nraw_total = hours * rate\nrounded_total = math.ceil(raw_total)\nprint("Hours:", hours, "| Raw:", raw_total, "| Billed:", rounded_total)`,
+            whatItDoes: "Three modules working together to power a real invoice generation workflow.",
+            check: (output) => output.includes("Invoice") && output.includes("Date"),
+          },
+          {
+            prompt: "MODIFY IT: Add the os module. Use os.getcwd() to print the current working directory. Use random to generate a 6-digit verification code. Print both.",
+            starterCode: `import random\nimport datetime\nimport math\n\ninvoice_num = random.randint(10000, 99999)\nprint("Invoice #:", invoice_num)\n\ntoday = datetime.date.today()\nprint("Date:", today)`,
+            whatItDoes: "Add os import and use os.getcwd(). Generate a 6-digit code with random.randint(100000, 999999).",
+            check: (output) => output.split("\n").filter(Boolean).length >= 4,
+          },
+          {
+            prompt: "FROM SCRATCH: Build a professional invoice header generator. Use datetime for the date, random for a unique invoice ID, and math to round up any decimal amounts. Print a formatted invoice header.",
+            starterCode: `import random\nimport datetime\nimport math\n\n# Generate invoice header\n# invoice_id = random 5-digit number\n# date = today\n# amount = 847.30\n# billed_amount = rounded up\n# Print a formatted header\n`,
+            whatItDoes: "Combine three modules into one useful real-world tool.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 4,
+          },
+        ],
+        quiz: [
+          { question: "How do you import a module?", answer: "import module_name", choices: ["import module_name", "use module_name", "require module_name", "include module_name"] },
+          { question: "random.randint(1, 10) returns _____", answer: "A random integer between 1 and 10", choices: ["A random integer between 1 and 10", "Always 5", "A random decimal", "10"] },
+          { question: "from datetime import date lets you _____", answer: "Use date directly without writing datetime.date", choices: ["Use date directly without writing datetime.date", "Import all datetime functions", "Create a new date", "Nothing different"] },
+          { question: "math.ceil(4.1) returns _____", answer: "5", choices: ["5", "4", "4.1", "4.5"] },
+          { question: "What is pip used for?", answer: "Installing third-party modules not built into Python", choices: ["Installing third-party modules not built into Python", "Running Python files", "Debugging code", "Importing modules"] },
+        ],
       },
       {
-        id: "real-project", title: "Mini Project — Client Invoice Generator", xp: 250, analogy: "Think of your first paid job",
+        id: "real-project", title: "Mini Project — Client Invoice Generator", xp: 250, analogy: "Think of your first paid deliverable",
         theory: [
-          { type: "plain", text: "Every skill you've learned so far — variables, functions, lists, dictionaries, modules, loops, conditionals — they all come together in real projects. This is your first one." },
-          { type: "highlight", text: "A real project combines multiple concepts to solve a real problem. This invoice generator is something you could actually sell to small businesses." },
-          { type: "code", label: "PYTHON — Full Invoice Generator", color: "#6ee7b7", code: `import datetime\nimport random\n\ndef create_invoice(client, services, rate=75):\n    today = datetime.date.today()\n    invoice_id = random.randint(1000, 9999)\n    total = sum(services.values()) * rate\n    print("=" * 40)\n    print("INVOICE #", invoice_id)\n    print("Date:", today)\n    print("Client:", client)\n    print("-" * 40)\n    for service, hours in services.items():\n        cost = hours * rate\n        print(service + ":", hours, "hrs @ $" + str(rate) + " = $" + str(cost))\n    print("-" * 40)\n    print("TOTAL DUE: $", total)\n    print("=" * 40)\n    return total` },
-          { type: "plain", text: "This script uses: functions, dictionaries, loops, modules, string formatting, and math. That's 6 concepts working together. This is what 'knowing how to code' actually looks like." },
+          { type: "plain", text: "Every skill you have learned in this module comes together here. Variables, functions, string methods, list methods, modules — all of it combined into one real tool." },
+          { type: "highlight", text: "This is how professional coding works. You do not use one skill at a time. You combine them all to solve a real problem." },
+          { type: "code", label: "PYTHON", color: "#fbbf24", code: `import datetime, random, math\n\ndef create_invoice(client, services, rate=75):\n    today = datetime.date.today()\n    invoice_id = random.randint(10000, 99999)\n    subtotal = sum(services.values()) * rate\n    tax = math.ceil(subtotal * 0.08)\n    total = subtotal + tax\n    print("=" * 40)\n    print("INVOICE #" + str(invoice_id) + " | " + str(today))\n    print("Client: " + client)\n    for service, hours in services.items():\n        print("  " + service + ": " + str(hours) + "hrs x $" + str(rate) + " = $" + str(hours*rate))\n    print("Tax: $" + str(tax) + " | TOTAL: $" + str(total))\n    print("=" * 40)` },
+          { type: "plain", text: "This is billable work. A small business owner who cannot code would pay $200-500 for a tool like this. You just built it." },
         ],
-        hints: ["Run the starter code first — don't change anything, just see it work.", "Then change the client name and add your own services to the dictionary.", "Try changing the rate from 75 to 100 and see how the total changes automatically."],
-        challenge: {
-          prompt: "Run the invoice generator with your own client name, your own services, and your own hourly rate. Make it real — use actual services you could offer.",
-          starterCode: `import datetime\nimport random\n\ndef create_invoice(client, services, rate=75):\n    today = datetime.date.today()\n    invoice_id = random.randint(1000, 9999)\n    total = sum(services.values()) * rate\n    print("=" * 40)\n    print("INVOICE #", invoice_id)\n    print("Date:", today)\n    print("Bill To:", client)\n    print("-" * 40)\n    for service, hours in services.items():\n        cost = hours * rate\n        print(service + ":", hours, "hrs = $" + str(cost))\n    print("-" * 40)\n    print("TOTAL DUE: $", total)\n    print("=" * 40)\n    return total\n\ncreate_invoice(\n    "Marcus Johnson",\n    {\n        "Website Design": 10,\n        "Automation Script": 5,\n        "Consultation": 2\n    },\n    rate=75\n)`,
-          whatItDoes: "A real invoice generator using variables, functions, dictionaries, loops, and modules all at once. This is a sellable script — small businesses pay for exactly this.",
-          check: (output) => output.includes("INVOICE") || output.includes("TOTAL") || output.includes("$"),
-        },
+        hints: ["Run the starter code first and understand every line.", "Change the client name and services to your own.", "Try adding a discount parameter — if total > 5000, apply 10% off."],
+        challenges: [
+          {
+            prompt: "GUIDED: Run this invoice generator. Read every line carefully. Understand what each module and function contributes.",
+            starterCode: `import datetime, random, math\n\ndef create_invoice(client, services, rate=75):\n    today = datetime.date.today()\n    invoice_id = random.randint(10000, 99999)\n    subtotal = sum(services.values()) * rate\n    tax = math.ceil(subtotal * 0.08)\n    total = subtotal + tax\n    print("=" * 40)\n    print("INVOICE #" + str(invoice_id) + " | " + str(today))\n    print("Client:", client)\n    for service, hours in services.items():\n        print("  " + service + ": " + str(hours) + "hrs x $" + str(rate) + " = $" + str(hours * rate))\n    print("Tax: $" + str(tax) + " | TOTAL: $" + str(total))\n    print("=" * 40)\n\ncreate_invoice("Marcus Johnson", {"Website": 10, "Automation": 5}, rate=75)`,
+            whatItDoes: "A complete invoice generator using datetime, random, math, functions, loops, and dictionaries.",
+            check: (output) => output.includes("INVOICE") || output.includes("TOTAL"),
+          },
+          {
+            prompt: "MODIFY IT: Call create_invoice with your own client name, your own services, and a different rate. Add a third service.",
+            starterCode: `import datetime, random, math\n\ndef create_invoice(client, services, rate=75):\n    today = datetime.date.today()\n    invoice_id = random.randint(10000, 99999)\n    subtotal = sum(services.values()) * rate\n    tax = math.ceil(subtotal * 0.08)\n    total = subtotal + tax\n    print("=" * 40)\n    print("INVOICE #" + str(invoice_id) + " | " + str(today))\n    print("Client:", client)\n    for service, hours in services.items():\n        print("  " + service + ": " + str(hours) + "hrs x $" + str(rate) + " = $" + str(hours * rate))\n    print("Tax: $" + str(tax) + " | TOTAL: $" + str(total))\n    print("=" * 40)\n\ncreate_invoice("Marcus Johnson", {"Website": 10, "Automation": 5}, rate=75)`,
+            whatItDoes: "Use your own data. Show that you can adapt this tool to any client.",
+            check: (output) => !output.includes("Marcus Johnson") && output.includes("INVOICE"),
+          },
+          {
+            prompt: "FROM SCRATCH: Extend create_invoice to accept a discount percentage parameter (default 0). If discount > 0, apply it to the total and show the savings. Generate two invoices — one with discount, one without.",
+            starterCode: `import datetime, random, math\n\n# Add discount parameter to create_invoice\n# Show original total, discount amount, final total\n# Call it twice - one with discount, one without\n`,
+            whatItDoes: "Real feature extension. This is how professional code grows — you add capabilities without breaking what already works.",
+            check: (output) => output.includes("INVOICE") && output.split("INVOICE").length >= 3,
+          },
+        ],
+        quiz: [
+          { question: "What does sum(services.values()) do?", answer: "Adds up all the hours in the services dictionary", choices: ["Adds up all the hours in the services dictionary", "Counts the services", "Returns the service names", "Converts to a list"] },
+          { question: "Why use math.ceil() for tax?", answer: "To always round up — you never undercharge tax", choices: ["To always round up — you never undercharge tax", "It is more accurate", "Required by law", "math.ceil is faster"] },
+          { question: "What is the benefit of a default rate=75 parameter?", answer: "You can call the function without specifying rate every time", choices: ["You can call the function without specifying rate every time", "Rate is locked at 75", "It prevents errors", "It is required"] },
+          { question: "for service, hours in services.items() — what does this loop over?", answer: "Each key-value pair in the services dictionary", choices: ["Each key-value pair in the services dictionary", "Each character in a string", "A range of numbers", "A list of services"] },
+          { question: "This project combines how many different Python concepts?", answer: "6 or more — modules, functions, loops, dicts, math, strings", choices: ["6 or more — modules, functions, loops, dicts, math, strings", "1 — just functions", "2 — loops and variables", "3 — math, strings, lists"] },
+        ],
       },
     ],
   },
@@ -754,6 +1338,82 @@ const CURRICULUM = [
           check: (output) => output.includes("folder") || output.includes("Sorted") || output.includes("Created"),
         },
       },
+
+      {
+        id: "json-data", title: "Working with JSON", xp: 200, analogy: "Think of a digital form",
+        theory: [
+          { type: "plain", text: "Every time you use an app that loads data from the internet that data comes back as JSON. It is the universal language apps use to talk to each other." },
+          { type: "highlight", text: "JSON is the universal language apps use to talk to each other. Python reads and writes it instantly." },
+          { type: "code", label: "PYTHON", color: "#6ee7b7", code: `import json\n\ndata = {"name": "Stanley", "skills": ["Python", "JavaScript"]}\njson_string = json.dumps(data)\nprint("JSON:", json_string)\nparsed = json.loads(json_string)\nprint("Name:", parsed["name"])` },
+        ],
+        hints: ["import json at the top", "json.dumps() converts a dict to JSON string", "json.loads() converts JSON string back to dict"],
+        challenge: {
+          prompt: "Create a profile dictionary, save it as JSON to a file, read it back, and print your name and goal.",
+          starterCode: `import json\n\nprofile = {\n    "name": "Stanley White",\n    "goal": "Financial Freedom",\n    "skills": ["Python", "JavaScript"],\n    "target": 100000\n}\n\nwith open("profile.json", "w") as f:\n    json.dump(profile, f)\nprint("Saved!")\n\nwith open("profile.json", "r") as f:\n    loaded = json.load(f)\nprint("Name:", loaded["name"])\nprint("Goal:", loaded["goal"])`,
+          whatItDoes: "You saved and loaded real JSON data exactly how apps store user profiles.",
+          check: (output) => output.includes("Name:") || output.includes("Saved"),
+        },
+      },
+      {
+        id: "flask-basics", title: "Flask — Build Your First Web Server", xp: 275, analogy: "Think of a restaurant kitchen",
+        theory: [
+          { type: "plain", text: "A restaurant kitchen receives orders, prepares food, and sends it back out. A web server does the exact same thing." },
+          { type: "highlight", text: "Flask is a Python library that lets you build web servers and APIs in just a few lines of code." },
+          { type: "code", label: "PYTHON", color: "#6ee7b7", code: `from flask import Flask, jsonify\n\napp = Flask(__name__)\n\n@app.route("/")\ndef home():\n    return "Hello from your Python server!"\n\n@app.route("/api/profile")\ndef profile():\n    return jsonify({"name": "Stanley", "rate": "$75/hr"})` },
+        ],
+        hints: ["Install Flask: pip install flask", "@app.route() defines a URL endpoint", "jsonify() converts a Python dict to a JSON response"],
+        challenge: {
+          prompt: "Simulate a Flask app with 3 routes. Call each function and print the responses.",
+          starterCode: `def home():\n    return "Hello from your Python server!"\n\ndef api_profile():\n    return {"name": "Stanley White", "skills": ["Python", "Flask"], "rate": "$75/hr"}\n\ndef api_services():\n    return {"services": ["Websites", "Automation", "Chatbots"], "starting_at": "$200"}\n\nroutes = {"/": home, "/api/profile": api_profile, "/api/services": api_services}\n\nprint("=== FLASK SERVER SIMULATION ===")\nfor route, handler in routes.items():\n    print("\\nGET", route)\n    print("Response:", handler())`,
+          whatItDoes: "You simulated a real Flask web server with multiple routes.",
+          check: (output) => output.includes("FLASK") || output.includes("profile"),
+        },
+      },
+      {
+        id: "sqlite-basics", title: "SQLite — Simple Databases", xp: 250, analogy: "Think of a permanent spreadsheet",
+        theory: [
+          { type: "plain", text: "A spreadsheet breaks when you have thousands of rows. A database does everything faster and automatically." },
+          { type: "highlight", text: "SQLite is built into Python. No setup needed. Just import and start storing data permanently." },
+          { type: "code", label: "PYTHON", color: "#6ee7b7", code: `import sqlite3\n\nconn = sqlite3.connect("clients.db")\ncursor = conn.cursor()\ncursor.execute("CREATE TABLE IF NOT EXISTS clients (id INTEGER PRIMARY KEY, name TEXT, budget INTEGER)")\ncursor.execute("INSERT INTO clients (name, budget) VALUES (?, ?)", ("Marcus", 2500))\nconn.commit()\ncursor.execute("SELECT * FROM clients")\nprint(cursor.fetchall())\nconn.close()` },
+        ],
+        hints: ["sqlite3 is built into Python", "CREATE TABLE makes a table. INSERT adds data. SELECT retrieves it.", "Always commit() after inserting and close() when done"],
+        challenge: {
+          prompt: "Create a freelance.db with a projects table. Insert 3 projects and print them all.",
+          starterCode: `import sqlite3\n\nconn = sqlite3.connect("freelance.db")\ncursor = conn.cursor()\ncursor.execute("CREATE TABLE IF NOT EXISTS projects (id INTEGER PRIMARY KEY, client TEXT, service TEXT, amount INTEGER, status TEXT)")\n\nprojects = [("Marcus", "Website", 1500, "completed"), ("Tamika", "Automation", 800, "in progress"), ("DeShawn", "Chatbot", 1200, "completed")]\n\nfor p in projects:\n    cursor.execute("INSERT INTO projects (client, service, amount, status) VALUES (?, ?, ?, ?)", p)\nconn.commit()\n\nprint("=== FREELANCE DATABASE ===")\ncursor.execute("SELECT * FROM projects")\nfor row in cursor.fetchall():\n    print("Client:", row[1], "| Service:", row[2], "| $" + str(row[3]), "| Status:", row[4])\n\ncursor.execute("SELECT SUM(amount) FROM projects WHERE status = \'completed\'")\nprint("Total earned: $", cursor.fetchone()[0])\nconn.close()`,
+          whatItDoes: "You built a real database that stores freelance project data permanently.",
+          check: (output) => output.includes("DATABASE") || output.includes("Client:") || output.includes("Total"),
+        },
+      },
+      {
+        id: "virtual-environments", title: "Virtual Environments — Professional Python Setup", xp: 175, analogy: "Think of separate toolboxes for each job",
+        theory: [
+          { type: "plain", text: "A plumber keeps different toolboxes for different jobs. Virtual environments do the same for Python projects." },
+          { type: "highlight", text: "A virtual environment is an isolated Python setup for each project. Professional developers always use them." },
+          { type: "code", label: "TERMINAL", color: "#6ee7b7", code: `python3 -m venv myproject\nsource myproject/bin/activate\npip install flask requests pandas\npip freeze > requirements.txt\ndeactivate` },
+        ],
+        hints: ["python3 -m venv name creates the environment", "source name/bin/activate turns it on", "pip freeze > requirements.txt saves all your packages"],
+        challenge: {
+          prompt: "Simulate a virtual environment setup by printing each step and what it does.",
+          starterCode: `steps = [\n    ("python3 -m venv codegrind_env", "Creates an isolated Python environment"),\n    ("source codegrind_env/bin/activate", "Activates the environment"),\n    ("pip install flask requests pandas", "Installs packages only in this environment"),\n    ("pip freeze > requirements.txt", "Saves package list so others can replicate"),\n    ("deactivate", "Turns off the environment when done")\n]\n\nprint("=== VIRTUAL ENVIRONMENT SETUP ===")\nfor command, explanation in steps:\n    print("$ " + command)\n    print("  ->", explanation)\n    print()\n\nprint("Your project is now professionally set up!")`,
+          whatItDoes: "Virtual environments are standard practice in professional Python development.",
+          check: (output) => output.includes("VIRTUAL") || output.includes("professionally"),
+        },
+      },
+      {
+        id: "pandas-intro", title: "Pandas — Data Analysis Like a Pro", xp: 275, analogy: "Think of a supercharged spreadsheet",
+        theory: [
+          { type: "plain", text: "Excel crashes with large datasets. Pandas handles millions of rows in seconds." },
+          { type: "highlight", text: "Pandas is the most in-demand Python library for data work. It reads CSVs, Excel files, and databases instantly." },
+          { type: "code", label: "PYTHON", color: "#6ee7b7", code: `import pandas as pd\n\ndf = pd.read_csv("sales.csv")\nprint(df.head())\nprint("Total:", df["amount"].sum())\nprint("Average:", df["amount"].mean())` },
+        ],
+        hints: ["Install: pip install pandas", "pd.read_csv() loads a CSV into a DataFrame", "Use .sum(), .mean(), .groupby() to analyze"],
+        challenge: {
+          prompt: "Create a pandas DataFrame with sales data, calculate totals and averages, and find the top performer.",
+          starterCode: `import pandas as pd\n\ndata = {\n    "name": ["Marcus", "Tamika", "DeShawn", "Keisha", "Jerome"],\n    "sales": [1500, 2200, 900, 3100, 1800],\n    "region": ["South", "East", "West", "East", "South"]\n}\n\ndf = pd.DataFrame(data)\nprint("=== SALES REPORT ===")\nprint(df.to_string(index=False))\nprint("\\nTotal sales: $", df["sales"].sum())\nprint("Average sale: $", df["sales"].mean())\nprint("Top performer:", df.loc[df["sales"].idxmax(), "name"])`,
+          whatItDoes: "You analyzed a sales dataset with pandas exactly what data freelancers get paid for.",
+          check: (output) => output.includes("SALES") || output.includes("Total") || output.includes("performer"),
+        },
+      },
       {
         id: "mini-project-scraper", title: "Mini Project — Price Tracker", xp: 300, analogy: "Think of a personal shopper",
         theory: [
@@ -821,6 +1481,82 @@ const CURRICULUM = [
           starterCode: `async function getRandomJoke() {\n  try {\n    const response = await fetch("https://official-joke-api.appspot.com/random_joke")\n    const joke = await response.json()\n    \n    console.log("Got a joke!")\n    console.log("Setup:", joke.setup)\n    console.log("Punchline:", joke.punchline)\n    \n    return joke\n  } catch (error) {\n    console.log("Something went wrong:", error.message)\n  }\n}\n\ngetRandomJoke()`,
           whatItDoes: "async/await makes asynchronous code readable. This is the standard way to write JavaScript in 2026 — every job posting expects you to know this.",
           check: (output) => output.includes("joke") || output.includes("Setup") || output.length > 5,
+        },
+      },
+
+      {
+        id: "js-local-storage", title: "Local Storage — Save Data in the Browser", xp: 175, analogy: "Think of a notepad the browser keeps", language: "javascript",
+        theory: [
+          { type: "plain", text: "When you close a tab and come back to a website and it still remembers you — that is Local Storage." },
+          { type: "highlight", text: "Local Storage lets JavaScript save data permanently in the browser. No server needed." },
+          { type: "code", label: "JAVASCRIPT", color: "#fcd34d", code: `localStorage.setItem("username", "Stanley")\nconst name = localStorage.getItem("username")\nconsole.log("Welcome back,", name)` },
+        ],
+        hints: ["localStorage.setItem('key', 'value') saves data", "localStorage.getItem('key') retrieves it", "Data is always stored as strings"],
+        challenge: {
+          prompt: "Simulate a Local Storage system that saves a user profile and updates the visit count.",
+          starterCode: `const storage = {}\nfunction setItem(key, value) { storage[key] = String(value) }\nfunction getItem(key) { return storage[key] || null }\n\nsetItem("username", "Stanley White")\nsetItem("visits", "1")\nconsole.log("=== LOCAL STORAGE ===")\nconsole.log("User:", getItem("username"))\nconsole.log("Visits:", getItem("visits"))\nconst visits = parseInt(getItem("visits")) + 1\nsetItem("visits", visits)\nconsole.log("Updated visits:", getItem("visits"))`,
+          whatItDoes: "You simulated browser Local Storage — the same system CodeGrind uses to save your XP.",
+          check: (output) => output.includes("LOCAL") || output.includes("User:") || output.includes("visits"),
+        },
+      },
+      {
+        id: "js-form-validation", title: "Form Validation — Making Forms That Work", xp: 200, analogy: "Think of a bouncer checking IDs", language: "javascript",
+        theory: [
+          { type: "plain", text: "A bouncer checks every person before letting them in. Form validation checks every input before accepting it." },
+          { type: "highlight", text: "Form validation is one of the most requested freelance JavaScript skills." },
+          { type: "code", label: "JAVASCRIPT", color: "#fcd34d", code: `function validateForm(name, email, password) {\n  const errors = []\n  if (!name || name.length < 2) errors.push("Name too short")\n  if (!email.includes("@")) errors.push("Invalid email")\n  if (!password || password.length < 8) errors.push("Password too short")\n  return errors\n}` },
+        ],
+        hints: ["Check if fields are empty with !value", "Use .includes('@') to check email", "Return an array of errors — empty means valid"],
+        challenge: {
+          prompt: "Build a form validator that checks name, email, and password. Test with valid and invalid data.",
+          starterCode: `function validateForm(name, email, password) {\n  const errors = []\n  if (!name || name.trim().length < 2) errors.push("Name must be at least 2 characters")\n  const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/\n  if (!emailRegex.test(email)) errors.push("Please enter a valid email")\n  if (!password || password.length < 8) errors.push("Password must be at least 8 characters")\n  return errors\n}\n\nconst test1 = validateForm("Stanley White", "stanley@gmail.com", "mypassword123")\nconsole.log("Test 1:", test1.length === 0 ? "VALID" : test1)\n\nconst test2 = validateForm("S", "notanemail", "short")\nconsole.log("Test 2:", test2)`,
+          whatItDoes: "A reusable form validator. Plug this into any website contact form.",
+          check: (output) => output.includes("VALID") || output.includes("Test"),
+        },
+      },
+      {
+        id: "js-promises", title: "Promises — Handling Future Results", xp: 200, analogy: "Think of a restaurant buzzer", language: "javascript",
+        theory: [
+          { type: "plain", text: "When you get a buzzer at a restaurant the kitchen is making a promise — your food will be ready eventually." },
+          { type: "highlight", text: "A Promise represents a value that will be available in the future. It is the foundation of all async JavaScript." },
+          { type: "code", label: "JAVASCRIPT", color: "#fcd34d", code: `const myPromise = new Promise((resolve, reject) => {\n  const success = true\n  if (success) { resolve("Data loaded!") }\n  else { reject("Something went wrong") }\n})\nmyPromise.then(result => console.log(result)).catch(error => console.log("Error:", error))` },
+        ],
+        hints: ["new Promise((resolve, reject) => {}) creates a promise", "resolve() means success — reject() means failure", ".then() handles success — .catch() handles errors"],
+        challenge: {
+          prompt: "Create a Promise that loads user data by ID. Resolve if user exists, reject if not.",
+          starterCode: `function loadUser(userId) {\n  return new Promise((resolve, reject) => {\n    const users = { 1: { name: "Stanley White", role: "Developer" }, 2: { name: "Marcus Johnson", role: "Designer" } }\n    const user = users[userId]\n    if (user) { resolve(user) } else { reject("User not found") }\n  })\n}\n\nloadUser(1).then(user => { console.log("Loaded:", user.name); console.log("Role:", user.role) }).catch(error => console.log("Error:", error))\nloadUser(99).then(user => console.log(user)).catch(error => console.log("Error:", error))`,
+          whatItDoes: "You built a Promise-based data loader — the same pattern used in every real web app.",
+          check: (output) => output.includes("Loaded:") || output.includes("Error:"),
+        },
+      },
+      {
+        id: "js-classes", title: "JavaScript Classes", xp: 225, analogy: "Think of a blueprint", language: "javascript",
+        theory: [
+          { type: "plain", text: "You learned Python classes already. JavaScript has them too — same concept, different syntax." },
+          { type: "highlight", text: "JavaScript classes are used everywhere in modern web development." },
+          { type: "code", label: "JAVASCRIPT", color: "#fcd34d", code: `class FreelanceClient {\n  constructor(name, budget) {\n    this.name = name\n    this.budget = budget\n  }\n  getQuote(hours) { return hours * 75 }\n}\nconst client = new FreelanceClient("Marcus", 2500)\nconsole.log(client.getQuote(20))` },
+        ],
+        hints: ["class Name { constructor() {} } creates a class", "this refers to the current object", "new ClassName() creates an instance"],
+        challenge: {
+          prompt: "Create a ShoppingCart class with addItem and getTotal methods. Test with 3 items.",
+          starterCode: `class ShoppingCart {\n  constructor(owner) { this.owner = owner; this.items = [] }\n  addItem(name, price) { this.items.push({ name, price }); console.log("Added:", name, "- $" + price) }\n  getTotal() { return this.items.reduce((sum, item) => sum + item.price, 0) }\n  printReceipt() {\n    console.log("\\n=== RECEIPT FOR", this.owner, "===")\n    this.items.forEach(item => console.log(item.name + ": $" + item.price))\n    console.log("TOTAL: $" + this.getTotal())\n  }\n}\n\nconst cart = new ShoppingCart("Stanley White")\ncart.addItem("Python Course", 49)\ncart.addItem("VS Code Theme", 9)\ncart.addItem("Domain Name", 12)\ncart.printReceipt()`,
+          whatItDoes: "You built a shopping cart class — the same pattern used in every e-commerce website.",
+          check: (output) => output.includes("RECEIPT") || output.includes("TOTAL") || output.includes("Added:"),
+        },
+      },
+      {
+        id: "js-error-handling", title: "Error Handling in JavaScript", xp: 175, analogy: "Think of a safety net", language: "javascript",
+        theory: [
+          { type: "plain", text: "A trapeze artist always has a safety net. JavaScript error handling is that safety net for your code." },
+          { type: "highlight", text: "try/catch in JavaScript works just like Python. Professional code always handles errors gracefully." },
+          { type: "code", label: "JAVASCRIPT", color: "#fcd34d", code: `try {\n  const data = JSON.parse("invalid json")\n  console.log(data)\n} catch (error) {\n  console.log("Caught error:", error.message)\n}\nconsole.log("Program keeps running!")` },
+        ],
+        hints: ["Wrap risky code in try { }", "Handle errors in catch (error) { }", "error.message gives you a readable description"],
+        challenge: {
+          prompt: "Write a function that safely parses JSON and returns null if it fails. Test with valid and invalid strings.",
+          starterCode: `function safeParseJSON(jsonString) {\n  try {\n    const result = JSON.parse(jsonString)\n    console.log("Parsed successfully")\n    return result\n  } catch (error) {\n    console.log("Parse failed:", error.message)\n    return null\n  }\n}\n\nconst valid = safeParseJSON('{"name": "Stanley", "goal": "Financial Freedom"}')\nconsole.log("Valid result:", valid ? valid.name : "null")\n\nconst invalid = safeParseJSON("this is not json")\nconsole.log("Invalid result:", invalid)`,
+          whatItDoes: "A safe JSON parser that never crashes your app.",
+          check: (output) => output.includes("Parsed") || output.includes("failed") || output.includes("Stanley"),
         },
       },
       {
@@ -1287,7 +2023,7 @@ function AITutor({ lesson, userCode, onClose }) {
 
 // ─── PREMIUM SYSTEM ───────────────────────────────────────────────────────────
 const PREMIUM_CODES = ["CODEGRIND99", "PREMIUM2026", "CHAMP11B", "STANLEY01", "CG2026A", "CG2026B", "CG2026C", "CG2026D", "CG2026E", "CG2026F"];
-const FREE_LESSON_LIMIT = 10;
+const FREE_LESSON_LIMIT = 15;
 
 function isPremium() { return localStorage.getItem("cg_premium") === "true"; }
 
@@ -1314,8 +2050,8 @@ function Paywall({ onUnlock, onClose }) {
   };
 
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
-      <div style={{ background: "#0d0d0d", border: "2px solid #fbbf2440", borderRadius: "16px", width: "100%", maxWidth: "480px", padding: "36px 28px", fontFamily: "'Space Mono', monospace" }}>
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 200, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto" }}>
+      <div style={{ marginTop: "20px", marginBottom: "20px", background: "#0d0d0d", border: "2px solid #fbbf2440", borderRadius: "16px", width: "100%", maxWidth: "480px", padding: "36px 28px", fontFamily: "'Space Mono', monospace" }}>
         <div style={{ fontSize: "36px", textAlign: "center", marginBottom: "12px" }}>🔐</div>
         <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "32px", letterSpacing: "3px", color: "#fbbf24", textAlign: "center", marginBottom: "8px" }}>PREMIUM ACCESS</div>
         <p style={{ fontSize: "13px", color: "#888", lineHeight: "1.8", textAlign: "center", marginBottom: "24px" }}>
@@ -1388,6 +2124,375 @@ function MilestonePopup({ milestone, onClose, onShowPaywall, isPremiumUser }) {
 }
 
 // ─── MAIN APP ─────────────────────────────────────────────────────────────────
+
+async function updateLeaderboard(email, firstName, xp, lessonsCompleted) {
+  try {
+    const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
+    const SUPABASE_KEY = process.env.REACT_APP_SUPABASE_KEY;
+    await fetch(`${SUPABASE_URL}/rest/v1/leaderboard`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`,
+        "Prefer": "resolution=merge-duplicates",
+      },
+      body: JSON.stringify({ email, first_name: firstName, xp, lessons_completed: lessonsCompleted, updated_at: new Date().toISOString() }),
+    });
+  } catch {}
+}
+
+async function fetchLeaderboard() {
+  try {
+    const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
+    const SUPABASE_KEY = process.env.REACT_APP_SUPABASE_KEY;
+    if (!SUPABASE_URL || !SUPABASE_KEY) return [];
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/leaderboard?order=xp.desc&limit=10`, {
+      headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` },
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch { return []; }
+}
+
+function LeaderboardView() {
+  const [leaders, setLeaders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    fetchLeaderboard().then(data => { setLeaders(Array.isArray(data) ? data : []); setLoading(false); }).catch(() => setLoading(false));
+  }, []);
+  const medals = ["🥇", "🥈", "🥉"];
+  return (
+    <div style={{ maxWidth: "680px", margin: "0 auto", padding: "32px 18px" }}>
+      <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "44px", letterSpacing: "3px", marginBottom: "8px" }}>
+        LEADER<span style={{ color: "#fbbf24" }}>BOARD</span>
+      </div>
+      <p style={{ fontSize: "13px", color: "#555", marginBottom: "28px" }}>Top coders by XP. Keep grinding. 🔥</p>
+      {loading ? (
+        <div style={{ textAlign: "center", color: "#444", padding: "40px", fontSize: "13px" }}>Loading...</div>
+      ) : leaders.length === 0 ? (
+        <div style={{ background: "#0d0d0d", border: "1px solid #1a1a1a", borderRadius: "12px", padding: "40px", textAlign: "center" }}>
+          <div style={{ fontSize: "32px", marginBottom: "12px" }}>🏆</div>
+          <div style={{ fontSize: "14px", color: "#ccc" }}>No one on the board yet. Complete lessons to claim the top spot.</div>
+        </div>
+      ) : (
+        <div>
+          {leaders.map((user, idx) => (
+            <div key={idx} style={{ background: idx === 0 ? "#0a0d00" : "#0d0d0d", border: "1px solid " + (idx === 0 ? "#fbbf2430" : "#1a1a1a"), borderRadius: "12px", padding: "16px 20px", marginBottom: "8px", display: "flex", alignItems: "center", gap: "16px" }}>
+              <div style={{ fontSize: "24px", width: "36px", textAlign: "center" }}>
+                {idx < 3 ? medals[idx] : <span style={{ fontSize: "14px", color: "#444" }}>#{idx + 1}</span>}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: "14px", fontWeight: "bold", color: idx === 0 ? "#fbbf24" : "#ccc" }}>{user.first_name || "Anonymous"}</div>
+                <div style={{ fontSize: "11px", color: "#444" }}>{user.lessons_completed || 0} lessons completed</div>
+              </div>
+              <div style={{ fontSize: "16px", fontWeight: "bold", color: "#00ff88" }}>{user.xp || 0} XP</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+const MINI_GAMES = {
+  "start": {
+    title: "Python Basics Quiz", icon: "🌱", color: "#00ff88", xpReward: 150,
+    questions: [
+      { question: 'Complete the code:\n\n_____ ("Hello World")', answer: "print", choices: ["print", "display", "show", "output"] },
+      { question: 'Create a variable:\n\nname _____ "Stanley"', answer: "=", choices: ["=", "==", "->", ":"] },
+      { question: "What symbol is used for comments in Python?", answer: "#", choices: ["#", "//", "/*", "--"] },
+      { question: "What type of data needs quotes?", answer: "Text", choices: ["Text", "Numbers", "Both", "Neither"] },
+      { question: "Code is instructions for a _____", answer: "computer", choices: ["computer", "human", "robot", "printer"] },
+    ],
+  },
+  "decisions": {
+    title: "Logic & Decisions Quiz", icon: "🧠", color: "#ff6b35", xpReward: 175,
+    questions: [
+      { question: 'Complete:\n\nif age _____ 18:', answer: ">", choices: [">", "<", "=", "=>"] },
+      { question: "What keyword comes after the if block?", answer: "else", choices: ["else", "elif", "then", "otherwise"] },
+      { question: 'Complete:\n\nfor i in _____(5):', answer: "range", choices: ["range", "loop", "repeat", "count"] },
+      { question: "AND means both conditions must be _____", answer: "True", choices: ["True", "False", "Either", "Neither"] },
+      { question: 'Complete:\n\nwhile counter _____ 10:', answer: "<=", choices: ["<=", ">=", "==", "!="] },
+    ],
+  },
+  "functions": {
+    title: "Functions Quiz", icon: "🔧", color: "#a78bfa", xpReward: 200,
+    questions: [
+      { question: "What keyword defines a function in Python?", answer: "def", choices: ["def", "fun", "function", "define"] },
+      { question: "What keyword sends back a result from a function?", answer: "return", choices: ["return", "send", "output", "give"] },
+      { question: "How do you call a function named greet?", answer: "greet()", choices: ["greet()", "call greet", "run greet", "greet{}"] },
+      { question: "Default parameters mean the function works even without _____", answer: "every input", choices: ["every input", "any code", "a name", "parentheses"] },
+      { question: "Complete: def double(n):\n    _____ n * 2", answer: "return", choices: ["return", "print", "give", "output"] },
+    ],
+  },
+  "data": {
+    title: "Data Structures Quiz", icon: "📦", color: "#22d3ee", xpReward: 200,
+    questions: [
+      { question: "Lists use _____ brackets", answer: "square [ ]", choices: ["square [ ]", "curly { }", "round ( )", "angle < >"] },
+      { question: "How do you add an item to a list?", answer: ".append()", choices: [".append()", ".add()", ".push()", ".insert()"] },
+      { question: "Dictionaries store data as _____", answer: "key: value pairs", choices: ["key: value pairs", "indexed items", "numbered lists", "single values"] },
+      { question: "Lists start counting at _____", answer: "0", choices: ["0", "1", "2", "-1"] },
+      { question: "What mode opens a file for writing?", answer: "w", choices: ["w", "r", "a", "x"] },
+    ],
+  },
+  "javascript": {
+    title: "JavaScript Quiz", icon: "🌐", color: "#f59e0b", xpReward: 225,
+    questions: [
+      { question: "JavaScript uses _____ instead of print()", answer: "console.log()", choices: ["console.log()", "print()", "output()", "display()"] },
+      { question: 'Create a variable:\n\n_____ name = "Stanley"', answer: "let", choices: ["let", "var", "def", "const"] },
+      { question: "JavaScript functions use _____ keyword", answer: "function", choices: ["function", "def", "func", "method"] },
+      { question: "Arrays use _____ to add items", answer: ".push()", choices: [".push()", ".append()", ".add()", ".insert()"] },
+      { question: "The DOM stands for _____", answer: "Document Object Model", choices: ["Document Object Model", "Data Object Manager", "Dynamic Output Method", "Display Object Mode"] },
+    ],
+  },
+};
+
+function MiniGame({ moduleId, moduleName, moduleColor, xpReward, onClose, onXpEarned }) {
+  const game = MINI_GAMES[moduleId];
+  const [phase, setPhase] = useState("intro");
+  const [currentQ, setCurrentQ] = useState(0);
+  const [selectedChoice, setSelectedChoice] = useState(null);
+  const [typedAnswer, setTypedAnswer] = useState("");
+  const [choiceResult, setChoiceResult] = useState(null);
+  const [typeResult, setTypeResult] = useState(null);
+  const [score, setScore] = useState(0);
+  const [answers, setAnswers] = useState([]);
+  if (!game) return null;
+  const question = game.questions[currentQ];
+  const totalQ = game.questions.length;
+  const handleChoice = (choice) => {
+    if (choiceResult) return;
+    setSelectedChoice(choice);
+    const correct = choice === question.answer;
+    setChoiceResult(correct ? "correct" : "wrong");
+    if (correct) setPhase("type");
+  };
+  const handleType = () => {
+    if (!typedAnswer.trim()) return;
+    const correct = typedAnswer.trim().toLowerCase() === question.answer.toLowerCase();
+    setTypeResult(correct ? "correct" : "wrong");
+    const points = choiceResult === "correct" && correct ? 2 : choiceResult === "correct" ? 1 : 0;
+    setTimeout(() => {
+      const next = [...answers, { correct, answer: question.answer, points }];
+      setAnswers(next);
+      if (currentQ + 1 < totalQ) {
+        setCurrentQ(prev => prev + 1);
+        setSelectedChoice(null); setTypedAnswer(""); setChoiceResult(null); setTypeResult(null); setPhase("question");
+      } else {
+        const finalScore = next.reduce((s, a) => s + a.points, 0);
+        setScore(finalScore);
+        setPhase("results");
+        const earnedXp = Math.round((finalScore / (totalQ * 2)) * xpReward);
+        if (earnedXp > 0) onXpEarned(earnedXp);
+      }
+    }, 1000);
+  };
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 200, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto" }}>
+      <div style={{ marginTop: "20px", marginBottom: "20px", background: "#0d0d0d", border: "1px solid " + moduleColor + "40", borderRadius: "16px", width: "100%", maxWidth: "520px", fontFamily: "monospace", overflow: "hidden" }}>
+        <div style={{ padding: "16px 20px", borderBottom: "1px solid #1a1a1a", display: "flex", justifyContent: "space-between", alignItems: "center", background: moduleColor + "10" }}>
+          <div>
+            <div style={{ fontSize: "11px", color: moduleColor, letterSpacing: "2px" }}>MINI GAME</div>
+            <div style={{ fontSize: "14px", fontWeight: "bold", color: "#fff" }}>{game.title}</div>
+          </div>
+          <button onClick={onClose} style={{ background: "none", border: "none", color: "#555", cursor: "pointer", fontSize: "22px" }}>×</button>
+        </div>
+        {phase === "intro" && (
+          <div style={{ padding: "40px 28px", textAlign: "center" }}>
+            <div style={{ fontSize: "48px", marginBottom: "16px" }}>{game.icon}</div>
+            <div style={{ fontSize: "16px", fontWeight: "bold", color: "#fff", marginBottom: "8px" }}>{game.title}</div>
+            <p style={{ fontSize: "13px", color: "#777", lineHeight: "1.8", marginBottom: "24px" }}>{totalQ} questions. Pick the answer then type it. Earn up to {xpReward} bonus XP.</p>
+            <button onClick={() => setPhase("question")} style={{ background: moduleColor, color: "#000", border: "none", borderRadius: "8px", padding: "14px 32px", cursor: "pointer", fontWeight: "bold", fontSize: "14px" }}>Start Game →</button>
+          </div>
+        )}
+        {phase === "question" && (
+          <div style={{ padding: "24px 28px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
+              <span style={{ fontSize: "11px", color: "#444" }}>Question {currentQ + 1} of {totalQ}</span>
+              <span style={{ fontSize: "11px", color: moduleColor }}>Step 1 — Choose</span>
+            </div>
+            <div style={{ background: "#111", borderRadius: "10px", padding: "16px", marginBottom: "20px" }}>
+              <pre style={{ fontSize: "13px", color: "#ccc", whiteSpace: "pre-wrap", margin: 0, lineHeight: "1.8" }}>{question.question}</pre>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+              {question.choices.map((choice, i) => (
+                <button key={i} onClick={() => handleChoice(choice)}
+                  style={{ background: choiceResult ? (choice === question.answer ? "#00ff8820" : choice === selectedChoice ? "#ff444420" : "#111") : "#111", border: "1px solid " + (choiceResult ? (choice === question.answer ? "#00ff8860" : choice === selectedChoice ? "#ff444460" : "#1f1f1f") : "#1f1f1f"), borderRadius: "8px", padding: "12px", cursor: choiceResult ? "default" : "pointer", color: choiceResult ? (choice === question.answer ? "#00ff88" : choice === selectedChoice ? "#ff4444" : "#555") : "#ccc", fontSize: "12px", textAlign: "left" }}>
+                  {choice}
+                </button>
+              ))}
+            </div>
+            {choiceResult && <div style={{ marginTop: "12px", padding: "10px 14px", background: choiceResult === "correct" ? "#00ff8815" : "#ff444415", border: "1px solid " + (choiceResult === "correct" ? "#00ff8840" : "#ff444440"), borderRadius: "8px", fontSize: "12px", color: choiceResult === "correct" ? "#00ff88" : "#ff6666" }}>
+              {choiceResult === "correct" ? "✓ Correct! Now type it to confirm." : "✗ Wrong. The answer is: " + question.answer + ". Now type the correct answer below."}
+            </div>}
+          </div>
+        )}
+        {phase === "type" && (
+          <div style={{ padding: "24px 28px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
+              <span style={{ fontSize: "11px", color: "#444" }}>Question {currentQ + 1} of {totalQ}</span>
+              <span style={{ fontSize: "11px", color: moduleColor }}>Step 2 — Type it</span>
+            </div>
+            <div style={{ background: "#111", borderRadius: "10px", padding: "16px", marginBottom: "20px" }}>
+              <pre style={{ fontSize: "13px", color: "#ccc", whiteSpace: "pre-wrap", margin: 0, lineHeight: "1.8" }}>{question.question}</pre>
+            </div>
+            <input value={typedAnswer} onChange={(e) => setTypedAnswer(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleType()}
+              placeholder="Type your answer here..."
+              style={{ width: "100%", background: "#111", border: "1px solid #252525", borderRadius: "8px", padding: "12px 14px", color: "#fff", fontSize: "13px", outline: "none", fontFamily: "monospace", boxSizing: "border-box", marginBottom: "10px" }} />
+            {!typeResult && <button onClick={handleType} style={{ width: "100%", background: moduleColor, color: "#000", border: "none", borderRadius: "8px", padding: "12px", cursor: "pointer", fontWeight: "bold", fontSize: "13px" }}>Submit Answer</button>}
+            {typeResult && <div style={{ padding: "10px 14px", background: typeResult === "correct" ? "#00ff8815" : "#ff444415", border: "1px solid " + (typeResult === "correct" ? "#00ff8840" : "#ff444440"), borderRadius: "8px", fontSize: "12px", color: typeResult === "correct" ? "#00ff88" : "#ff6666" }}>
+              {typeResult === "correct" ? "✓ Perfect! Full marks." : "✗ The answer was: " + question.answer}
+            </div>}
+          </div>
+        )}
+        {phase === "results" && (
+          <div style={{ padding: "32px 28px", textAlign: "center" }}>
+            <div style={{ fontSize: "48px", marginBottom: "12px" }}>{score >= totalQ * 1.5 ? "🏆" : "💪"}</div>
+            <div style={{ fontSize: "11px", color: moduleColor, letterSpacing: "3px", marginBottom: "8px" }}>GAME COMPLETE</div>
+            <div style={{ fontSize: "22px", fontWeight: "bold", color: "#fff", marginBottom: "20px" }}>{score} / {totalQ * 2} points</div>
+            <div style={{ background: "#111", borderRadius: "10px", padding: "16px", marginBottom: "20px", textAlign: "left" }}>
+              {[{ label: "Score", value: score + " / " + (totalQ * 2) }, { label: "Accuracy", value: Math.round((score / (totalQ * 2)) * 100) + "%" }, { label: "Bonus XP", value: "+" + Math.round((score / (totalQ * 2)) * xpReward) + " XP" }].map(({ label, value }) => (
+                <div key={label} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid #1a1a1a", fontSize: "13px" }}>
+                  <span style={{ color: "#555" }}>{label}</span>
+                  <span style={{ color: label === "Bonus XP" ? "#00ff88" : "#ccc", fontWeight: "bold" }}>{value}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: "flex", gap: "8px" }}>
+              <button onClick={() => { setCurrentQ(0); setSelectedChoice(null); setTypedAnswer(""); setChoiceResult(null); setTypeResult(null); setScore(0); setAnswers([]); setPhase("intro"); }} style={{ flex: 1, background: "#181818", color: moduleColor, border: "1px solid " + moduleColor + "30", borderRadius: "8px", padding: "12px", cursor: "pointer", fontSize: "12px" }}>Play Again</button>
+              <button onClick={onClose} style={{ flex: 1, background: moduleColor, color: "#000", border: "none", borderRadius: "8px", padding: "12px", cursor: "pointer", fontWeight: "bold", fontSize: "13px" }}>Back to Lessons</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function MultiChallenge({ lesson, lessonStrikes, completed, onComplete, onCodeChange, onStrike, onReviewNeeded, onShowAI, onBack }) {
+  const challenges = lesson.challenges || [lesson.challenge];
+  const quiz = lesson.quiz || null;
+  const [step, setStep] = useState(0);
+  const [stepsCompleted, setStepsCompleted] = useState([]);
+  const [quizStep, setQuizStep] = useState(0);
+  const [quizAnswers, setQuizAnswers] = useState([]);
+  const [quizSelected, setQuizSelected] = useState(null);
+  const [quizResult, setQuizResult] = useState(null);
+  const [quizDone, setQuizDone] = useState(false);
+  const [showingQuiz, setShowingQuiz] = useState(false);
+  const totalSteps = challenges.length + (quiz ? 1 : 0);
+  const progressPct = Math.round((stepsCompleted.length / totalSteps) * 100);
+  const handleChallengePass = () => {
+    if (!stepsCompleted.includes(step)) {
+      const next = [...stepsCompleted, step];
+      setStepsCompleted(next);
+      if (step + 1 < challenges.length) { setTimeout(() => setStep(step + 1), 800); }
+      else if (quiz) { setTimeout(() => setShowingQuiz(true), 800); }
+      else { onComplete(); }
+    }
+  };
+  const handleQuizAnswer = (choice) => {
+    if (quizResult) return;
+    const q = quiz[quizStep];
+    const correct = choice === q.answer;
+    setQuizSelected(choice);
+    setQuizResult(correct ? "correct" : "wrong");
+    setTimeout(() => {
+      const next = [...quizAnswers, { correct, answer: q.answer }];
+      setQuizAnswers(next);
+      if (quizStep + 1 < quiz.length) { setQuizStep(quizStep + 1); setQuizSelected(null); setQuizResult(null); }
+      else {
+        setQuizDone(true);
+        const correctCount = next.filter(a => a.correct).length;
+        if (correctCount >= Math.ceil(quiz.length * 0.7)) { if (!stepsCompleted.includes("quiz")) { setStepsCompleted(prev => [...prev, "quiz"]); onComplete(); } }
+      }
+    }, 1000);
+  };
+  const retryQuiz = () => { setQuizStep(0); setQuizAnswers([]); setQuizSelected(null); setQuizResult(null); setQuizDone(false); };
+  const currentChallenge = challenges[step];
+  const stepLabels = [...challenges.map((c, i) => ({ label: i === 0 ? "Guided" : i === 1 ? "Modified" : "From Scratch", icon: i === 0 ? "🟢" : i === 1 ? "🟡" : "🔴" })), ...(quiz ? [{ label: "Quiz", icon: "🧠" }] : [])];
+  return (
+    <div>
+      <div style={{ background: "#0d0d0d", border: "1px solid #181818", borderRadius: "12px", padding: "16px 20px", marginBottom: "14px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+          <div style={{ fontSize: "11px", color: "#444" }}>LESSON PROGRESS</div>
+          <div style={{ fontSize: "11px", color: "#00ff88" }}>{progressPct}%</div>
+        </div>
+        <div style={{ height: "4px", background: "#181818", borderRadius: "2px", marginBottom: "12px" }}>
+          <div style={{ width: progressPct + "%", height: "100%", background: "linear-gradient(90deg, #00ff88, #fbbf24)", borderRadius: "2px", transition: "width 0.5s" }} />
+        </div>
+        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+          {stepLabels.map((s, i) => {
+            const isDone = i < challenges.length ? stepsCompleted.includes(i) : stepsCompleted.includes("quiz");
+            const isCurrent = showingQuiz ? i === challenges.length : i === step && !showingQuiz;
+            return (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: "4px", background: isDone ? "#00ff8815" : isCurrent ? "#ffffff10" : "#111", border: "1px solid " + (isDone ? "#00ff8830" : isCurrent ? "#ffffff20" : "#1a1a1a"), borderRadius: "6px", padding: "4px 10px", fontSize: "10px", color: isDone ? "#00ff88" : isCurrent ? "#fff" : "#444" }}>
+                <span>{s.icon}</span><span>{s.label}</span>{isDone && <span>✓</span>}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      {!showingQuiz && (
+        <div style={{ background: "#0d0d0d", border: "1px solid #181818", borderRadius: "12px", padding: "20px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
+            <div style={{ fontSize: "10px", color: "#ff6b35", letterSpacing: "2px" }}>{step === 0 ? "CHALLENGE 1 — GUIDED" : step === 1 ? "CHALLENGE 2 — MODIFY IT" : "CHALLENGE 3 — FROM SCRATCH"}</div>
+            <div style={{ fontSize: "10px", color: "#444" }}>{step + 1} of {challenges.length}</div>
+          </div>
+          <p style={{ fontSize: "13px", color: "#ccc", lineHeight: "1.8", marginBottom: "16px" }}>{currentChallenge.prompt}</p>
+          {lesson.language === "javascript" ? (
+            <JSRunner key={step} starterCode={currentChallenge.starterCode} whatItDoes={currentChallenge.whatItDoes} check={currentChallenge.check} hints={lesson.hints} strikes={lessonStrikes} onPass={handleChallengePass} onCodeChange={onCodeChange} onStrike={onStrike} onReviewNeeded={onReviewNeeded} requiresChange={step > 0} />
+          ) : (
+            <CodeRunner key={step} starterCode={currentChallenge.starterCode} whatItDoes={currentChallenge.whatItDoes} check={currentChallenge.check} hints={lesson.hints} strikes={lessonStrikes} onPass={handleChallengePass} onCodeChange={onCodeChange} onStrike={onStrike} onReviewNeeded={onReviewNeeded} requiresChange={step > 0} />
+          )}
+          <div style={{ display: "flex", gap: "8px", marginTop: "14px" }}>
+            <button onClick={onShowAI} style={{ flex: 1, background: "#181818", color: "#a78bfa", border: "1px solid #252525", borderRadius: "8px", padding: "12px", cursor: "pointer", fontSize: "12px" }}>🤖 Ask AI Tutor</button>
+            {completed && <button onClick={onBack} style={{ flex: 1, background: "#0a160e", color: "#00ff88", border: "1px solid #00ff8825", borderRadius: "8px", padding: "12px", cursor: "pointer", fontSize: "12px" }}>← Back to Lessons</button>}
+          </div>
+        </div>
+      )}
+      {showingQuiz && !quizDone && (
+        <div style={{ background: "#0d0d0d", border: "1px solid #a78bfa30", borderRadius: "12px", padding: "20px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px" }}>
+            <div style={{ fontSize: "10px", color: "#a78bfa", letterSpacing: "2px" }}>KNOWLEDGE CHECK</div>
+            <div style={{ fontSize: "10px", color: "#444" }}>{quizStep + 1} of {quiz.length}</div>
+          </div>
+          <p style={{ fontSize: "14px", color: "#ccc", lineHeight: "1.8", marginBottom: "20px" }}>{quiz[quizStep].question}</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            {quiz[quizStep].choices.map((choice, i) => (
+              <button key={i} onClick={() => handleQuizAnswer(choice)}
+                style={{ background: quizResult ? (choice === quiz[quizStep].answer ? "#00ff8820" : choice === quizSelected ? "#ff444420" : "#111") : "#111", border: "1px solid " + (quizResult ? (choice === quiz[quizStep].answer ? "#00ff8860" : choice === quizSelected ? "#ff444460" : "#1f1f1f") : "#1f1f1f"), borderRadius: "8px", padding: "12px 16px", cursor: quizResult ? "default" : "pointer", color: quizResult ? (choice === quiz[quizStep].answer ? "#00ff88" : choice === quizSelected ? "#ff4444" : "#555") : "#ccc", fontSize: "13px", textAlign: "left" }}>
+                {choice}
+              </button>
+            ))}
+          </div>
+          {quizResult && <div style={{ marginTop: "12px", padding: "10px 14px", background: quizResult === "correct" ? "#00ff8815" : "#ff444415", border: "1px solid " + (quizResult === "correct" ? "#00ff8840" : "#ff444440"), borderRadius: "8px", fontSize: "12px", color: quizResult === "correct" ? "#00ff88" : "#ff6666" }}>
+            {quizResult === "correct" ? "✓ Correct!" : "✗ The answer is: " + quiz[quizStep].answer}
+          </div>}
+        </div>
+      )}
+      {showingQuiz && quizDone && (() => {
+        const correct = quizAnswers.filter(a => a.correct).length;
+        const passed = correct >= Math.ceil(quiz.length * 0.7);
+        return (
+          <div style={{ background: "#0d0d0d", border: "1px solid #1a1a1a", borderRadius: "12px", padding: "28px", textAlign: "center" }}>
+            <div style={{ fontSize: "40px", marginBottom: "12px" }}>{passed ? "🏆" : "💪"}</div>
+            <div style={{ fontSize: "16px", fontWeight: "bold", color: passed ? "#00ff88" : "#fbbf24", marginBottom: "8px" }}>{passed ? "Lesson Complete!" : "Almost there!"}</div>
+            <div style={{ fontSize: "13px", color: "#777", marginBottom: "20px" }}>{correct} / {quiz.length} correct — {passed ? "you passed!" : "need " + Math.ceil(quiz.length * 0.7) + " to pass."}</div>
+            {passed ? (
+              <button onClick={onBack} style={{ width: "100%", background: "#00ff88", color: "#000", border: "none", borderRadius: "8px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px" }}>← Back to Lessons</button>
+            ) : (
+              <button onClick={retryQuiz} style={{ width: "100%", background: "#fbbf24", color: "#000", border: "none", borderRadius: "8px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px" }}>Retry Quiz →</button>
+            )}
+          </div>
+        );
+      })()}
+    </div>
+  );
+}
+
 function LandingPage({ onEnter }) {
   const [visible, setVisible] = useState(false);
   const [exiting, setExiting] = useState(false);
@@ -1761,6 +2866,7 @@ function CodeGrind() {
   const [showEmailCapture, setShowEmailCapture] = useState(false);
   const [showCertificate, setShowCertificate] = useState(false);
   const [showStreakReminder, setShowStreakReminder] = useState(false);
+  const [showMiniGame, setShowMiniGame] = useState(null);
   const [showConfetti, setShowConfetti] = useState(false);
   const [showMilestone, setShowMilestone] = useState(null);
   const [showPaywall, setShowPaywall] = useState(false);
@@ -1832,6 +2938,7 @@ function CodeGrind() {
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 3000);
       if (MILESTONES[next.size]) setTimeout(() => setShowMilestone(MILESTONES[next.size]), 800);
+      updateLeaderboard(userEmail, userName, newXp, next.size);
       if (next.size === ALL_LESSONS.length) setTimeout(() => setShowCertificate(true), 1000);
       return next;
     });
@@ -1896,6 +3003,7 @@ function CodeGrind() {
           {completed.size === ALL_LESSONS.length && <button onClick={() => setShowCertificate(true)} style={{ background: "none", border: "1px solid #fbbf2440", color: "#fbbf24", cursor: "pointer", padding: "4px 10px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace" }}>🏆</button>}
           <button onClick={() => { setView(view === "hire" ? "curriculum" : "hire"); window.scrollTo(0,0); }} style={{ background: view === "hire" ? "#00ff8820" : "none", border: `1px solid ${view === "hire" ? "#00ff8840" : "#1f1f1f"}`, color: view === "hire" ? "#00ff88" : "#888", cursor: "pointer", padding: "4px 10px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace" }}>💼 Hire</button>
           <button onClick={() => { setView("roadmap"); window.scrollTo(0,0); }} style={{ background: "none", border: "1px solid #1f1f1f", color: view === "roadmap" ? "#fbbf24" : "#555", cursor: "pointer", padding: "4px 10px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace" }}>💰</button>
+          <button onClick={() => { setView("leaderboard"); window.scrollTo(0,0); }} style={{ background: view === "leaderboard" ? "#fbbf2420" : "none", border: "1px solid #1f1f1f", color: view === "leaderboard" ? "#fbbf24" : "#555", cursor: "pointer", padding: "4px 10px", borderRadius: "6px", fontSize: "11px" }}>🏆 Board</button>
           <span style={{ fontSize: "11px", color: "#444" }}>LVL {level}</span>
           <div style={{ width: "50px", height: "4px", background: "#181818", borderRadius: "2px" }}>
             <div style={{ width: `${((xp % 200) / 200) * 100}%`, height: "100%", background: "#00ff88", borderRadius: "2px", transition: "width 0.5s" }} />
@@ -1905,6 +3013,7 @@ function CodeGrind() {
       </div>
 
       {view === "roadmap" && <RoadmapView completedLessons={completed.size} />}
+      {view === "leaderboard" && <LeaderboardView />}
 
       {view === "hire" && (
         <div style={{ maxWidth: "680px", margin: "0 auto", padding: "32px 18px" }}>
@@ -2041,6 +3150,9 @@ function CodeGrind() {
                 <span style={{ fontSize: "13px", fontWeight: "bold", color: module.color }}>{module.title}</span>
                 <div style={{ flex: 1, height: "1px", background: "#141414" }} />
                 <span style={{ fontSize: "11px", color: "#2a2a2a" }}>{module.lessons.filter(l => completed.has(l.id)).length}/{module.lessons.length}</span>
+                {MINI_GAMES[module.id] && module.lessons.every(l => completed.has(l.id)) && (
+                  <button onClick={() => setShowMiniGame(module)} style={{ background: module.color + "20", color: module.color, border: "1px solid " + module.color + "40", borderRadius: "6px", padding: "3px 10px", cursor: "pointer", fontSize: "10px", fontFamily: "monospace" }}>🎮 PLAY</button>
+                )}
               </div>
               {module.lessons.map((lesson, idx) => {
                 const done = completed.has(lesson.id);
@@ -2119,46 +3231,20 @@ function CodeGrind() {
               <div style={{ background: "#0d0d0d", border: "1px solid #181818", borderRadius: "12px", padding: "22px", marginBottom: "14px" }}>
                 {activeLesson.theory.map((block, i) => <TheoryBlock key={i} block={block} />)}
               </div>
-              <button onClick={() => setTab("code")} style={{ width: "100%", background: "#00ff88", color: "#000", border: "none", borderRadius: "10px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace" }}>Got it — let me try the code →</button>
+              <button onClick={() => setTab("code")} style={{ width: "100%", background: "#00ff88", color: "#000", border: "none", borderRadius: "10px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px" }}>Got it — let me try the challenges →</button>
             </div>
           ) : (
-            <div style={{ background: "#0d0d0d", border: "1px solid #181818", borderRadius: "12px", padding: "20px" }}>
-              <div style={{ fontSize: "10px", color: "#ff6b35", letterSpacing: "2px", marginBottom: "10px" }}>
-                YOUR CHALLENGE {lessonStrikes > 0 && <span style={{ color: "#ff6b35" }}>— Attempt {lessonStrikes + 1}</span>}
-              </div>
-              <p style={{ fontSize: "14px", color: "#ccc", lineHeight: "1.8", marginBottom: "16px" }}>{activeLesson.challenge.prompt}</p>
-              {activeLesson.language === "javascript" ? (
-                <JSRunner
-                  starterCode={activeLesson.challenge.starterCode}
-                  whatItDoes={activeLesson.challenge.whatItDoes}
-                  check={activeLesson.challenge.check}
-                  hints={activeLesson.hints}
-                  strikes={lessonStrikes}
-                  onPass={() => markComplete(activeLesson.id, activeLesson.xp)}
-                  onCodeChange={setCurrentCode}
-                  onStrike={(count) => handleStrike(activeLesson.id, count)}
-                  onReviewNeeded={handleReviewNeeded}
-                />
-              ) : (
-                <CodeRunner
-                  starterCode={activeLesson.challenge.starterCode}
-                  whatItDoes={activeLesson.challenge.whatItDoes}
-                  check={activeLesson.challenge.check}
-                  hints={activeLesson.hints}
-                  strikes={lessonStrikes}
-                  onPass={() => markComplete(activeLesson.id, activeLesson.xp)}
-                  onCodeChange={setCurrentCode}
-                  onStrike={(count) => handleStrike(activeLesson.id, count)}
-                  onReviewNeeded={handleReviewNeeded}
-                />
-              )}
-              <div style={{ display: "flex", gap: "8px", marginTop: "14px" }}>
-                <button onClick={() => setShowAI(true)} style={{ flex: 1, background: "#181818", color: "#a78bfa", border: "1px solid #252525", borderRadius: "8px", padding: "12px", cursor: "pointer", fontSize: "12px", fontFamily: "'Space Mono', monospace" }}>🤖 Ask the AI Tutor</button>
-                {completed.has(activeLesson.id) && (
-                  <button onClick={() => setView("curriculum")} style={{ flex: 1, background: "#0a160e", color: "#00ff88", border: "1px solid #00ff8825", borderRadius: "8px", padding: "12px", cursor: "pointer", fontSize: "12px", fontFamily: "'Space Mono', monospace" }}>← Back to Lessons</button>
-                )}
-              </div>
-            </div>
+            <MultiChallenge
+              lesson={activeLesson}
+              lessonStrikes={lessonStrikes}
+              completed={completed.has(activeLesson.id)}
+              onComplete={() => markComplete(activeLesson.id, activeLesson.xp)}
+              onCodeChange={setCurrentCode}
+              onStrike={(count) => handleStrike(activeLesson.id, count)}
+              onReviewNeeded={handleReviewNeeded}
+              onShowAI={() => setShowAI(true)}
+              onBack={() => setView("curriculum")}
+            />
           )}
         </div>
       )}
@@ -2171,6 +3257,7 @@ function CodeGrind() {
       {showConfetti && <Confetti />}
       {showMilestone && <MilestonePopup milestone={showMilestone} onClose={() => setShowMilestone(null)} onShowPaywall={() => setShowPaywall(true)} isPremiumUser={premium} />}
       {showPaywall && <Paywall onUnlock={() => setPremium(true)} onClose={() => setShowPaywall(false)} />}
+      {showMiniGame && <MiniGame moduleId={showMiniGame.id} moduleName={showMiniGame.title} moduleColor={showMiniGame.color} xpReward={MINI_GAMES[showMiniGame.id]?.xpReward || 150} onClose={() => setShowMiniGame(null)} onXpEarned={(earned) => { setXp(prev => { const newXp = prev + earned; saveProgress(newXp, completed, strikes, bookmarks, streak, userEmail); return newXp; }); }} />}
       {cloudLoading && (
         <div style={{ position: "fixed", bottom: "16px", left: "50%", transform: "translateX(-50%)", background: "#0d0d0d", border: "1px solid #00ff8830", borderRadius: "8px", padding: "8px 16px", fontSize: "11px", color: "#00ff88", fontFamily: "'Space Mono', monospace", zIndex: 50, display: "flex", alignItems: "center", gap: "8px" }}>
           <div style={{ width: "8px", height: "8px", background: "#00ff88", borderRadius: "50%", animation: "glow 1s ease infinite" }} />

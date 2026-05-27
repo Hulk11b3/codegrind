@@ -115,7 +115,7 @@ const CURRICULUM = [
         quiz: [
           { question: "What does the print() function do in Python?", answer: "Displays text on the screen", choices: ["Displays text on the screen", "Saves a file", "Creates a variable", "Runs a loop"] },
           { question: "What symbol is used for comments in Python?", answer: "#", choices: ["#", "//", "/*", "--"] },
-          { question: "Complete the code to display Hello:", answer: "print", choices: ["print", "display", "show", "output"] },
+          { question: "Complete the code: _____('Hello')", answer: "print", choices: ["print", "display", "show", "output"] },
           { question: "Code is instructions for a _____", answer: "computer", choices: ["computer", "human", "robot", "printer"] },
           { question: "Changing the text inside quotes changes the _____", answer: "output", choices: ["output", "variable", "function", "comment"] },
         ],
@@ -182,7 +182,7 @@ const CURRICULUM = [
             prompt: "FROM SCRATCH: Calculate monthly income. Create hourly_rate, hours_per_day, and days_per_month. Multiply them and print the result.",
             starterCode: `# Create your 3 variables and multiply them\n`,
             whatItDoes: "Write all the math yourself. Use * to multiply. No quotes on numbers.",
-            check: (output) => /\d{3,}/.test(output),
+            check: (output) => { const nums = output.match(/\d+/g); return nums && nums.some(n => parseInt(n) >= 100); },
           },
         ],
         quiz: [
@@ -219,10 +219,10 @@ const CURRICULUM = [
             check: (output) => output.includes("grinding"),
           },
           {
-            prompt: "FROM SCRATCH: Write an if/else that checks if hourly_rate is above 50. Print Great rate! if yes, Negotiate higher if no.",
+            prompt: "FROM SCRATCH: Write an if/else that checks if hourly_rate is above 50. Print 'Great rate!' if yes, 'Negotiate higher' if no.",
             starterCode: `# Create an hourly_rate variable\n# Write an if/else statement\n`,
-            whatItDoes: "Build the condition yourself.",
-            check: (output) => output.length > 0,
+            whatItDoes: "Build the condition yourself. Use if hourly_rate > 50: then indented print, then else: then indented print.",
+            check: (output) => output.toLowerCase().includes("great") || output.toLowerCase().includes("negotiate"),
           },
         ],
         quiz: [
@@ -400,9 +400,9 @@ const CURRICULUM = [
             check: (output) => output.split("\n").filter(l => /\d+/.test(l)).length >= 2,
           },
           {
-            prompt: "MODIFY IT: Change the revenue and costs values. Add a fourth call with different values.",
+            prompt: "MODIFY IT: Change the numbers in the existing 3 calls to your own revenue/costs. Then add a 4th call — try calculate_profit(8000, 2500) or your own values.",
             starterCode: `def calculate_profit(revenue, costs):\n    return revenue - costs\n\nprint(calculate_profit(10000, 3000))\nprint(calculate_profit(5000, 1200))\nprint(calculate_profit(25000, 8000))`,
-            whatItDoes: "Change the numbers and add one more print line.",
+            whatItDoes: "Change the numbers in each call and add a 4th line. The function definition stays the same — only the inputs change.",
             check: (output) => output.split("\n").filter(l => /\d+/.test(l)).length >= 4,
           },
           {
@@ -612,6 +612,7 @@ const CURRICULUM = [
           { type: "highlight", text: "Python can read from and write to files. This is how real automation works." },
           { type: "code", label: "PYTHON — Writing", color: "#86efac", code: `with open("clients.txt", "w") as file:\n    file.write("Marcus Johnson\\n")\nprint("File saved!")` },
           { type: "code", label: "PYTHON — Reading", color: "#7dd3fc", code: `with open("clients.txt", "r") as file:\n    content = file.read()\n    print(content)` },
+          { type: "plain", text: "Sandbox note: in this browser environment files are temporary and won't appear on your computer. In real Python they save to your hard drive permanently." },
         ],
         hints: ["Use open(\"filename.txt\", \"w\") to create and write", "file.write(\"text\\n\")", "To read: open(\"filename.txt\", \"r\") then file.read()"],
         challenges: [
@@ -625,7 +626,7 @@ const CURRICULUM = [
             prompt: "MODIFY IT: Change the name and goal. Add a 4th line called Skills with your top skill.",
             starterCode: `with open("mygoals.txt", "w") as file:\n    file.write("Name: Stanley White\\n")\n    file.write("Goal: Financial Freedom\\n")\n\nprint("File saved!")\n\nwith open("mygoals.txt", "r") as file:\n    content = file.read()\n    print(content)`,
             whatItDoes: "Change the values and add a Skills line.",
-            check: (output) => !output.includes("Stanley White") && output.includes("Skills"),
+            check: (output) => !output.includes("Stanley White") && output.toLowerCase().includes("skills"),
           },
           {
             prompt: "FROM SCRATCH: Write 3 client names to clients.txt, then read it back and print each line.",
@@ -661,7 +662,7 @@ const CURRICULUM = [
             prompt: "MODIFY IT: Start with your own 4 skills. Add 2 more with append. Remove one. Sort and print the final list.",
             starterCode: `skills = ["Python", "JavaScript", "Excel"]\n\nskills.append("SQL")\nprint("After append:", skills)\n\nskills.remove("Excel")\nprint("After remove:", skills)\n\nskills.sort()\nprint("After sort:", skills)`,
             whatItDoes: "Replace the starter skills with your own and modify the operations.",
-            check: (output) => !output.includes("Excel") && output.split("\n").filter(Boolean).length >= 3,
+            check: (output) => output.toLowerCase().includes("after") && output.split("\n").filter(Boolean).length >= 3,
           },
           {
             prompt: "FROM SCRATCH: Create a client list with 5 names. Sort it. Find the index of one client. Remove the last one with .pop(). Print the final count.",
@@ -739,7 +740,7 @@ const CURRICULUM = [
             prompt: "FROM SCRATCH: Create a list of 4 products with name, price, and in_stock fields. Loop through and print only the ones that are in stock. Calculate total value of all in-stock items.",
             starterCode: `# Create products list with 4 dictionaries\n# Each has: name, price, in_stock (True/False)\n\n# Loop and print only in-stock products\n\n# Calculate total value of in-stock items\n`,
             whatItDoes: "Filter and aggregate nested data — a real-world data skill.",
-            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+            check: (output) => output.split("\n").filter(Boolean).length >= 2 && /\d+/.test(output) && (output.toLowerCase().includes("total") || output.toLowerCase().includes("stock")),
           },
         ],
         quiz: [
@@ -781,7 +782,7 @@ const CURRICULUM = [
             prompt: "FROM SCRATCH: Build an income level classifier. Under 2000: Tight budget. Under 4000: Getting by. Under 7000: Comfortable. Otherwise: Thriving.",
             starterCode: `# Create an income variable\n# Write if/elif/elif/else\n# Print the correct classification\n`,
             whatItDoes: "Four possible outcomes. Only one runs based on income value.",
-            check: (output) => output.length > 0,
+            check: (output) => output.toLowerCase().includes("budget") || output.toLowerCase().includes("getting") || output.toLowerCase().includes("comfortable") || output.toLowerCase().includes("thriving"),
           },
         ],
         quiz: [
@@ -883,9 +884,9 @@ const CURRICULUM = [
             check: (output) => output.includes("keeps running") || output.includes("Result"),
           },
           {
-            prompt: "MODIFY IT: Wrap this JSON parsing in a try/except. If it fails print Invalid data received. If it succeeds print the name from the data.",
+            prompt: "MODIFY IT: Wrap this JSON parsing in a try/except. If it fails print 'Invalid data received'. If it succeeds print the name from the data. (json.loads converts text into a Python dictionary — if the text is malformed it crashes.)",
             starterCode: `import json\n\nraw_data = '{invalid json here'\n\n# Wrap this in try/except\ndata = json.loads(raw_data)\nprint("Name:", data["name"])`,
-            whatItDoes: "json.loads() crashes on invalid JSON. Catch the error and print a friendly message instead.",
+            whatItDoes: "json.loads() converts text to a dictionary but crashes on invalid input. Wrap it in try/except to handle the failure gracefully.",
             check: (output) => output.includes("Invalid") || output.includes("wrong") || output.includes("failed"),
           },
           {
@@ -1001,8 +1002,8 @@ const CURRICULUM = [
           {
             prompt: "MODIFY IT: Add a fourth return value — the profit margin as a percentage assuming costs are 60% of the subtotal. Capture and print all four values.",
             starterCode: `def project_quote(client, hours, rate=75, tax=0.08):\n    subtotal = hours * rate\n    tax_amount = subtotal * tax\n    total = subtotal + tax_amount\n    return subtotal, tax_amount, total\n\nsub, tax_amt, total = project_quote("Marcus", 20)\nprint("Subtotal:", sub, "| Tax:", tax_amt, "| Total:", total)`,
-            whatItDoes: "Add margin = subtotal * 0.4 to the function and return it as a fourth value.",
-            check: (output) => output.split("\n").filter(Boolean).length >= 2,
+            whatItDoes: "Add margin = subtotal * 0.4 to the function and return it as a fourth value. Capture all four: sub, tax_amt, total, margin = project_quote(...).",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
           },
           {
             prompt: "FROM SCRATCH: Write a function called analyze_week that takes a list of daily earnings. Return total, average, highest day, and lowest day. Test it with two different weeks of data.",

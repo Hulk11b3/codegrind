@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Component } from "react";
 
 const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
 const SUPABASE_KEY = process.env.REACT_APP_SUPABASE_KEY;
@@ -1337,12 +1337,36 @@ const CURRICULUM = [
           { type: "list", items: ["🌐 Every website runs JavaScript", "💰 Full stack web developer salary: $80k-$150k/year", "🚀 Learn JavaScript = build anything on the web"] },
         ],
         hints: ["Use console.log() to display output — it's JavaScript's version of Python's print()", "Create variables with let: let name = 'Stanley'", "Run the code and see the output — then change the values and run again"],
-        challenge: {
-          prompt: "Run the code. Then change the name and goal variables to your own values and run it again.",
-          starterCode: `let name = "Stanley"\nlet goal = "financial freedom"\nlet year = 2026\n\nconsole.log("Name:", name)\nconsole.log("Goal:", goal)\nconsole.log("Year:", year)\nconsole.log("Let's get it!")`,
-          whatItDoes: "JavaScript displays your variables with console.log(). Same concept as Python's print() — just different syntax.",
-          check: (output) => output.length > 0 && output.includes("\n"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Run the code. Then change the name and goal variables to your own values and run it again.",
+            starterCode: `let name = "Stanley"\nlet goal = "financial freedom"\nlet year = 2026\n\nconsole.log("Name:", name)\nconsole.log("Goal:", goal)\nconsole.log("Year:", year)\nconsole.log("Let's get it!")`,
+            whatItDoes: "JavaScript displays your variables with console.log(). Same concept as Python's print() — just different syntax.",
+            check: (output) => output.length > 0 && output.includes("\n"),
+          },
+          {
+            type: "modify",
+            prompt: "Add hourlyRate and hoursPerWeek variables. Calculate weeklyIncome = hourlyRate * hoursPerWeek. Log each variable with a label.",
+            starterCode: `let name = "Stanley"\nlet hourlyRate = 75\nlet hoursPerWeek = 20\nlet weeklyIncome = hourlyRate * hoursPerWeek\n\nconsole.log("Name:", name)\nconsole.log("Rate: $" + hourlyRate + "/hr")\nconsole.log("Hours per week:", hoursPerWeek)\nconsole.log("Weekly income: $" + weeklyIncome)`,
+            whatItDoes: "Math in JavaScript: multiply two variables and store the result. This pattern powers every income calculator, tip tool, and pricing widget on the web.",
+            check: (output) => output.includes("income") || output.includes("$") || output.includes("Rate"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a digital business card. Declare variables for name, skill, city, and hourlyRate. Print a formatted card with dividers.",
+            starterCode: `let name = "Stanley White"\nlet skill = "Python Developer"\nlet city = "Atlanta, GA"\nlet hourlyRate = 75\n\nconsole.log("================================")\nconsole.log("  Name:  " + name)\nconsole.log("  Skill: " + skill)\nconsole.log("  City:  " + city)\nconsole.log("  Rate:  $" + hourlyRate + "/hr")\nconsole.log("================================")`,
+            whatItDoes: "Your first JavaScript business card. This is exactly how Fiverr, Upwork, and every freelance platform displays your profile data.",
+            check: (output) => output.includes("=") || output.includes("Name") || output.length > 20,
+          },
+        ],
+        quiz: [
+          { q: "How do you create a variable in JavaScript?", options: ["var x = 5", "let x = 5", "x = 5", "def x = 5"], answer: 1 },
+          { q: "What is JavaScript's version of Python's print()?", options: ["log()", "console.print()", "console.log()", "display()"], answer: 2 },
+          { q: "JavaScript is to a website what ___ is to a house.", options: ["The walls", "The paint", "The electricity", "The roof"], answer: 2 },
+          { q: "What does `let rate = 75` create?", options: ["A function called rate", "A variable storing the number 75", "A class called rate", "An error"], answer: 1 },
+          { q: "Where does JavaScript run by default?", options: ["Only on servers", "Only in Node.js", "In the browser on the user's device", "Only on mobile"], answer: 2 },
+        ],
       },
       {
         id: "js-functions", title: "JavaScript Functions", xp: 100, analogy: "Think of a vending machine button", language: "javascript",
@@ -1353,12 +1377,36 @@ const CURRICULUM = [
           { type: "plain", text: "JavaScript uses curly braces { } to wrap the function body. Python uses indentation. Both work the same way — they're just different styles." },
         ],
         hints: ["Start with: function greet(name) {", "Inside the curly braces: return 'Hello, ' + name", "Close with } then test it: console.log(greet('Stanley'))"],
-        challenge: {
-          prompt: "Write a JavaScript function called 'greet' that takes a name and returns 'Hello, ' + name. Then call it with your own name.",
-          starterCode: `function greet(name) {\n  return "Hello, " + name\n}\n\nconsole.log(greet("Stanley"))\nconsole.log(greet("World"))\n\nfunction weeklyPay(hours, rate) {\n  return hours * rate\n}\n\nconsole.log("Weekly pay: $" + weeklyPay(40, 75))`,
-          whatItDoes: "You built two reusable JavaScript functions. Same concept as Python functions — different syntax.",
-          check: (output) => output.includes("Hello") || output.length > 0,
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Write a JavaScript function called 'greet' that takes a name and returns 'Hello, ' + name. Then call it with your own name.",
+            starterCode: `function greet(name) {\n  return "Hello, " + name\n}\n\nconsole.log(greet("Stanley"))\nconsole.log(greet("World"))\n\nfunction weeklyPay(hours, rate) {\n  return hours * rate\n}\n\nconsole.log("Weekly pay: $" + weeklyPay(40, 75))`,
+            whatItDoes: "You built two reusable JavaScript functions. Same concept as Python functions — different syntax.",
+            check: (output) => output.includes("Hello") || output.length > 0,
+          },
+          {
+            type: "modify",
+            prompt: "Add a formatMoney(amount) function that returns the amount formatted as a dollar string like '$75.00'. Use it in the weeklyPay output.",
+            starterCode: `function formatMoney(amount) {\n  return "$" + amount.toFixed(2)\n}\n\nfunction weeklyPay(hours, rate) {\n  return hours * rate\n}\n\nconst pay = weeklyPay(40, 75)\nconsole.log("Weekly pay: " + formatMoney(pay))\nconsole.log("Monthly (4 weeks): " + formatMoney(pay * 4))\nconsole.log("Annual (48 weeks): " + formatMoney(pay * 48))`,
+            whatItDoes: ".toFixed(2) always shows 2 decimal places — essential for any money display in real apps.",
+            check: (output) => output.includes("$") || output.includes("weekly") || output.includes("Monthly"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build calculateProjectCost(hours, rate, taxPercent) that returns total with tax. Print an itemized breakdown: base cost, tax amount, and total.",
+            starterCode: `function calculateProjectCost(hours, rate, taxPercent) {\n  const base = hours * rate\n  const tax = base * (taxPercent / 100)\n  const total = base + tax\n  return { base, tax, total }\n}\n\nconst project = calculateProjectCost(20, 75, 8)\nconsole.log("=== PROJECT QUOTE ===")\nconsole.log("Base cost: $" + project.base)\nconsole.log("Tax (8%):  $" + project.tax.toFixed(2))\nconsole.log("Total:     $" + project.total.toFixed(2))`,
+            whatItDoes: "A real project quote calculator. Swap in client hours and your rate and it's a billable quote.",
+            check: (output) => output.includes("QUOTE") || output.includes("Total") || output.includes("$"),
+          },
+        ],
+        quiz: [
+          { q: "What keyword defines a function in JavaScript (not an arrow function)?", options: ["def", "func", "function", "fn"], answer: 2 },
+          { q: "What does `return hours * rate` do inside a function?", options: ["Prints the result", "Ends the program", "Sends the result back to whoever called the function", "Creates a variable"], answer: 2 },
+          { q: "How do you call a function named getTotal with argument 5?", options: ["call getTotal(5)", "getTotal 5", "getTotal(5)", "run getTotal(5)"], answer: 2 },
+          { q: "What does .toFixed(2) do to a number?", options: ["Rounds to nearest integer", "Converts to string with exactly 2 decimal places", "Adds 2 to the number", "Removes decimals"], answer: 1 },
+          { q: "Python uses 'def' for functions. JavaScript uses ___.", options: ["fn", "define", "function", "method"], answer: 2 },
+        ],
       },
       {
         id: "js-dom", title: "The DOM — Controlling Websites", xp: 150, analogy: "Think of a TV remote", language: "javascript",
@@ -1370,12 +1418,36 @@ const CURRICULUM = [
           { type: "plain", text: "Real money use: a client pays you $500 to make their contact form work. That form is 20 lines of JavaScript using the DOM." },
         ],
         hints: ["document.getElementById() finds an element by its id attribute", "Use .textContent to change the text of an element", "Use .addEventListener('click', function(){}) to respond to clicks"],
-        challenge: {
-          prompt: "Run this code and see how JavaScript can build interactive content. Then change the message and colors to make it your own.",
-          starterCode: `function buildWebpage() {\n  let title = "Welcome to CodeGrind"\n  let color = "green"\n  let buttonText = "Start Learning"\n  \n  console.log("Page Title:", title)\n  console.log("Title Color:", color)\n  console.log("Button:", buttonText)\n  console.log("")\n  console.log("User clicked the button...")\n  console.log("Showing lesson 1!")\n}\n\nbuildWebpage()`,
-          whatItDoes: "In a real browser this code would change visible elements on a webpage. The DOM is JavaScript's superpower — it makes static pages come alive.",
-          check: (output) => output.includes("Title") || output.includes("Page") || output.length > 0,
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Run this code and see how JavaScript can build interactive content. Then change the message and colors to make it your own.",
+            starterCode: `function buildWebpage() {\n  let title = "Welcome to CodeGrind"\n  let color = "green"\n  let buttonText = "Start Learning"\n  \n  console.log("Page Title:", title)\n  console.log("Title Color:", color)\n  console.log("Button:", buttonText)\n  console.log("")\n  console.log("User clicked the button...")\n  console.log("Showing lesson 1!")\n}\n\nbuildWebpage()`,
+            whatItDoes: "In a real browser this code would change visible elements on a webpage. The DOM is JavaScript's superpower — it makes static pages come alive.",
+            check: (output) => output.includes("Title") || output.includes("Page") || output.length > 0,
+          },
+          {
+            type: "modify",
+            prompt: "Add an updateStatus(message) function that logs '[STATUS]: message' in a formatted way. Call it 3 times with different messages like 'Loading...', 'Ready', 'Complete'.",
+            starterCode: `function updateStatus(message) {\n  console.log("[STATUS]: " + message)\n}\n\nfunction buildWebpage(title) {\n  updateStatus("Loading...")\n  console.log("Setting title:", title)\n  updateStatus("Rendering content...")\n  console.log("Building page sections...")\n  updateStatus("Complete")\n  console.log("Page is live!")\n}\n\nbuildWebpage("My Freelance Portfolio")`,
+            whatItDoes: "Status updates simulate what a real DOM manipulator does — logging each step. Real apps show loading spinners this way.",
+            check: (output) => output.includes("STATUS") || output.includes("Loading") || output.includes("Complete"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a renderPage(title, sections, ctaText) function. It should log: the title as a header, each section name with a '•' bullet, and the CTA button text at the bottom.",
+            starterCode: `function renderPage(title, sections, ctaText) {\n  console.log("\\n" + "=".repeat(title.length + 4))\n  console.log("  " + title)\n  console.log("=".repeat(title.length + 4))\n  console.log("\\nSECTIONS:")\n  for (let i = 0; i < sections.length; i++) {\n    console.log("  • " + sections[i])\n  }\n  console.log("\\n[ " + ctaText + " ]")\n}\n\nrenderPage(\n  "My Portfolio",\n  ["About Me", "My Skills", "Projects", "Contact"],\n  "Hire Me →"\n)`,
+            whatItDoes: "A page layout renderer. In a real browser each console.log becomes an innerHTML update. The logic is identical.",
+            check: (output) => output.includes("SECTIONS") || output.includes("•") || output.includes("="),
+          },
+        ],
+        quiz: [
+          { q: "What does DOM stand for?", options: ["Digital Object Maker", "Document Object Model", "Data Object Method", "Display Output Mode"], answer: 1 },
+          { q: "What is document.getElementById('title') doing?", options: ["Creating an element", "Deleting an element", "Finding an existing element by its id attribute", "Running JavaScript"], answer: 2 },
+          { q: "What makes JavaScript different from Python in terms of where it runs?", options: ["Python is faster", "JavaScript runs in the browser and can change what users see in real time", "JavaScript is server-side only", "They run in the same place"], answer: 1 },
+          { q: "A client pays $800 for a working contact form. What makes that form work?", options: ["HTML structure", "CSS styling", "JavaScript event listeners and DOM manipulation", "A database"], answer: 2 },
+          { q: "What does .style.color = 'green' do?", options: ["Sets the background color", "Changes the text color of the selected element", "Removes the element", "Adds a CSS class"], answer: 1 },
+        ],
       },
       {
         id: "js-arrays", title: "Arrays — JavaScript Lists", xp: 100, analogy: "Think of a playlist", language: "javascript",
@@ -1386,12 +1458,36 @@ const CURRICULUM = [
           { type: "plain", text: "Python uses .append() to add items. JavaScript uses .push(). Python uses len() for length. JavaScript uses .length. Same ideas, different words." },
         ],
         hints: ["Create an array: let skills = ['JavaScript', 'Python', 'HTML']", "Add items with .push('new item')", "Loop: for (let i = 0; i < skills.length; i++) { console.log(skills[i]) }"],
-        challenge: {
-          prompt: "Create a JavaScript array of your top 3 coding skills. Add one more with .push(). Loop through and print each one.",
-          starterCode: `let skills = ["JavaScript", "Python", "Automation"]\n\nskills.push("Web Scraping")\n\nconsole.log("My skills:")\nfor (let i = 0; i < skills.length; i++) {\n  console.log((i + 1) + ".", skills[i])\n}\n\nconsole.log("Total skills:", skills.length)`,
-          whatItDoes: "You managed a dynamic JavaScript array — adding items and looping through them. This is how web apps manage shopping carts, user lists, and data.",
-          check: (output) => output.split("\n").filter(Boolean).length >= 3,
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Create a JavaScript array of your top 3 coding skills. Add one more with .push(). Loop through and print each one.",
+            starterCode: `let skills = ["JavaScript", "Python", "Automation"]\n\nskills.push("Web Scraping")\n\nconsole.log("My skills:")\nfor (let i = 0; i < skills.length; i++) {\n  console.log((i + 1) + ".", skills[i])\n}\n\nconsole.log("Total skills:", skills.length)`,
+            whatItDoes: "You managed a dynamic JavaScript array — adding items and looping through them. This is how web apps manage shopping carts, user lists, and data.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+          {
+            type: "modify",
+            prompt: "Use .filter() to create a filteredSkills array that only includes skills with the word 'Script' or 'Python' in them. Log the filtered list.",
+            starterCode: `let skills = ["JavaScript", "Python", "HTML", "TypeScript", "CSS", "Automation"]\n\nconst codingSkills = skills.filter(function(skill) {\n  return skill.includes("Script") || skill.includes("Python")\n})\n\nconsole.log("All skills:", skills)\nconsole.log("Filtered (" + codingSkills.length + "):", codingSkills)`,
+            whatItDoes: ".filter() creates a new array with only items that pass your test. Used in every search feature, tag filter, and product category on the web.",
+            check: (output) => output.includes("Filtered") || output.includes("Script") || output.includes("Python"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a client invoice tracker. Create an array of 4 clients (each with name and amount). Loop through, log each invoice line, then log the total amount owed.",
+            starterCode: `let clients = [\n  { name: "Marcus Johnson", amount: 1500 },\n  { name: "Tamika Williams", amount: 800 },\n  { name: "DeShawn Carter", amount: 2200 },\n  { name: "Keisha Brown", amount: 600 },\n]\n\nconsole.log("=== OUTSTANDING INVOICES ===")\nlet total = 0\nfor (let i = 0; i < clients.length; i++) {\n  console.log(clients[i].name + ": $" + clients[i].amount)\n  total += clients[i].amount\n}\nconsole.log("----------------------------")\nconsole.log("Total owed: $" + total)`,
+            whatItDoes: "A real invoice tracker. Arrays of objects power every CRM, client management tool, and billing system in existence.",
+            check: (output) => output.includes("Total") || output.includes("INVOICES") || output.includes("$"),
+          },
+        ],
+        quiz: [
+          { q: "How do you access the first item in a JavaScript array called `items`?", options: ["items[1]", "items.first()", "items[0]", "items.get(0)"], answer: 2 },
+          { q: "Which method adds an item to the END of an array?", options: [".add()", ".append()", ".push()", ".insert()"], answer: 2 },
+          { q: "What does `items.length` return?", options: ["The last item", "The index of the last item", "The total number of items", "Nothing — it's not valid"], answer: 2 },
+          { q: "What does .filter() return?", options: ["A single item", "True or false", "A new array with only items that pass the test", "The index of matching items"], answer: 2 },
+          { q: "Python uses .append() to add to a list. JavaScript uses ___.", options: [".add()", ".push()", ".append()", ".insert()"], answer: 1 },
+        ],
       },
       {
         id: "js-events", title: "Events — Making Pages Interactive", xp: 150, analogy: "Think of a doorbell", language: "javascript",
@@ -1403,12 +1499,36 @@ const CURRICULUM = [
           { type: "plain", text: "A client paying $800 for a working contact form is really paying for 3 event listeners. That's the value of knowing this." },
         ],
         hints: ["addEventListener takes two arguments: the event name in quotes, then a function", "Common events: 'click', 'input', 'submit', 'mouseover'", "The function inside runs every time that event happens"],
-        challenge: {
-          prompt: "Simulate an event system. Create a function that handles different user actions and logs what happened.",
-          starterCode: `function handleEvent(eventType, data) {\n  if (eventType === "click") {\n    console.log("Button clicked! Data:", data)\n  } else if (eventType === "input") {\n    console.log("User typed:", data)\n  } else if (eventType === "submit") {\n    console.log("Form submitted with:", data)\n  }\n}\n\nhandleEvent("click", "Submit Button")\nhandleEvent("input", "Stanley White")\nhandleEvent("submit", "stanleywhiteiii87@gmail.com")\nhandleEvent("click", "Buy Now Button")`,
-          whatItDoes: "You built an event handler system. In a real browser this would respond to actual user interactions — clicks, typing, form submissions.",
-          check: (output) => output.split("\n").filter(Boolean).length >= 3,
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Simulate an event system. Create a function that handles different user actions and logs what happened.",
+            starterCode: `function handleEvent(eventType, data) {\n  if (eventType === "click") {\n    console.log("Button clicked! Data:", data)\n  } else if (eventType === "input") {\n    console.log("User typed:", data)\n  } else if (eventType === "submit") {\n    console.log("Form submitted with:", data)\n  }\n}\n\nhandleEvent("click", "Submit Button")\nhandleEvent("input", "Stanley White")\nhandleEvent("submit", "stanleywhiteiii87@gmail.com")\nhandleEvent("click", "Buy Now Button")`,
+            whatItDoes: "You built an event handler system. In a real browser this would respond to actual user interactions — clicks, typing, form submissions.",
+            check: (output) => output.split("\n").filter(Boolean).length >= 3,
+          },
+          {
+            type: "modify",
+            prompt: "Add a clickCount variable. Increment it every time a 'click' event fires. Log the running total after all events: 'Total clicks: N'.",
+            starterCode: `let clickCount = 0\n\nfunction handleEvent(eventType, data) {\n  if (eventType === "click") {\n    clickCount++\n    console.log("Click #" + clickCount + ": " + data)\n  } else if (eventType === "input") {\n    console.log("Typed: " + data)\n  } else if (eventType === "submit") {\n    console.log("Submitted: " + data)\n  }\n}\n\nhandleEvent("click", "Hero Button")\nhandleEvent("input", "Stanley")\nhandleEvent("click", "CTA Button")\nhandleEvent("submit", "Contact Form")\nhandleEvent("click", "Buy Button")\n\nconsole.log("Total clicks: " + clickCount)`,
+            whatItDoes: "Click tracking is how every analytics tool (Google Analytics, Mixpanel, Hotjar) works under the hood — event listeners + counters.",
+            check: (output) => output.includes("Total clicks") || output.includes("Click #") || output.includes("clicks"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build an event log. Create an empty log array. Each event call should push an object {type, data} into the array. After all events, loop through and print each log entry.",
+            starterCode: `const eventLog = []\n\nfunction logEvent(eventType, data) {\n  eventLog.push({ type: eventType, data: data })\n}\n\nlogEvent("click", "Sign Up Button")\nlogEvent("input", "user@email.com")\nlogEvent("click", "Submit")\nlogEvent("submit", "Registration Form")\nlogEvent("click", "Dashboard Link")\n\nconsole.log("=== EVENT LOG (" + eventLog.length + " events) ===")\nfor (let i = 0; i < eventLog.length; i++) {\n  console.log((i + 1) + ". [" + eventLog[i].type.toUpperCase() + "] " + eventLog[i].data)\n}`,
+            whatItDoes: "An event log is how debugging tools, session replay apps, and audit trails work. You just built the core of a product like FullStory or LogRocket.",
+            check: (output) => output.includes("EVENT LOG") || output.includes("CLICK") || output.includes("events"),
+          },
+        ],
+        quiz: [
+          { q: "What method attaches an event listener to a DOM element?", options: [".onEvent()", ".addEventListener()", ".listenFor()", ".attach()"], answer: 1 },
+          { q: "Which event fires when a user clicks a button?", options: ["'press'", "'tap'", "'click'", "'touch'"], answer: 2 },
+          { q: "What does e.preventDefault() do inside a form submit handler?", options: ["Deletes the form", "Stops the default browser behavior (e.g. page reload)", "Clears form fields", "Submits the form twice"], answer: 1 },
+          { q: "A client pays $800 for a working contact form. The event that handles the submit button is ___.", options: ["'input'", "'change'", "'submit'", "'click'"], answer: 2 },
+          { q: "Events let JavaScript code ___ to what users do.", options: ["ignore", "predict", "react", "prevent"], answer: 2 },
+        ],
       },
     ],
   },
@@ -1425,12 +1545,36 @@ const CURRICULUM = [
           { type: "plain", text: "This is exactly the kind of tool small restaurants pay $50-200 for. A working tip calculator with tax, split by party size — you could sell this on Fiverr today." },
         ],
         hints: ["The function takes bill amount, tip percentage, and number of people", "tip_amount = bill * (tip_percent / 100) — divide by 100 to convert percent to decimal", "Use round(number, 2) to round to 2 decimal places for money"],
-        challenge: {
-          prompt: "Run the tip calculator. Then modify it to also include an 8% tax. Print the tax amount separately. Change the values to a real dinner you've had.",
-          starterCode: `def calculate_tip(bill, tip_percent, tax_percent, people):\n    tip_amount = bill * (tip_percent / 100)\n    tax_amount = bill * (tax_percent / 100)\n    total = bill + tip_amount + tax_amount\n    per_person = total / people\n    \n    print("=== BILL BREAKDOWN ===")\n    print("Original bill: $", bill)\n    print("Tip (", tip_percent, "%): $", round(tip_amount, 2))\n    print("Tax (", tax_percent, "%): $", round(tax_amount, 2))\n    print("Total: $", round(total, 2))\n    print("Each person pays: $", round(per_person, 2))\n\ncalculate_tip(\n    bill=85.50,\n    tip_percent=20,\n    tax_percent=8,\n    people=4\n)`,
-          whatItDoes: "A complete bill splitting tool with tip and tax. This is a real sellable product — restaurants, event planners, and groups pay for tools like this.",
-          check: (output) => (output.includes("$") && output.includes("Total")) || output.includes("bill"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Run the tip calculator. Then modify it to also include an 8% tax. Print the tax amount separately. Change the values to a real dinner you've had.",
+            starterCode: `def calculate_tip(bill, tip_percent, tax_percent, people):\n    tip_amount = bill * (tip_percent / 100)\n    tax_amount = bill * (tax_percent / 100)\n    total = bill + tip_amount + tax_amount\n    per_person = total / people\n    \n    print("=== BILL BREAKDOWN ===")\n    print("Original bill: $", bill)\n    print("Tip (", tip_percent, "%): $", round(tip_amount, 2))\n    print("Tax (", tax_percent, "%): $", round(tax_amount, 2))\n    print("Total: $", round(total, 2))\n    print("Each person pays: $", round(per_person, 2))\n\ncalculate_tip(\n    bill=85.50,\n    tip_percent=20,\n    tax_percent=8,\n    people=4\n)`,
+            whatItDoes: "A complete bill splitting tool with tip and tax. This is a real sellable product — restaurants, event planners, and groups pay for tools like this.",
+            check: (output) => (output.includes("$") && output.includes("Total")) || output.includes("bill"),
+          },
+          {
+            type: "modify",
+            prompt: "Add a tip_suggestion(service_quality) function that returns the recommended tip percent: 'excellent' → 25, 'good' → 20, 'okay' → 15. Use it before calculating.",
+            starterCode: `def tip_suggestion(service_quality):\n    if service_quality == "excellent":\n        return 25\n    elif service_quality == "good":\n        return 20\n    elif service_quality == "okay":\n        return 15\n    else:\n        return 18  # default\n\ndef calculate_tip(bill, service_quality, people):\n    tip_percent = tip_suggestion(service_quality)\n    tip_amount = bill * (tip_percent / 100)\n    total = bill + tip_amount\n    per_person = total / people\n    print("Service: " + service_quality + " -> " + str(tip_percent) + "% tip")\n    print("Tip: $" + str(round(tip_amount, 2)))\n    print("Total: $" + str(round(total, 2)))\n    print("Each: $" + str(round(per_person, 2)))\n\ncalculate_tip(120.00, "excellent", 3)\nprint()\ncalculate_tip(45.50, "okay", 2)`,
+            whatItDoes: "Chaining functions: one function feeds input into another. This is how real apps compose small pieces into bigger features.",
+            check: (output) => output.includes("Service") || output.includes("tip") || output.includes("Each"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build an event catering calculator. Takes: food_cost, bar_cost, num_guests, tip_percent. Prints an itemized breakdown: food, bar, subtotal, gratuity, total, and cost per guest.",
+            starterCode: `def catering_quote(food_cost, bar_cost, num_guests, tip_percent):\n    subtotal = food_cost + bar_cost\n    gratuity = subtotal * (tip_percent / 100)\n    total = subtotal + gratuity\n    per_guest = total / num_guests\n    \n    print("=== EVENT CATERING QUOTE ===")\n    print("Food:      $" + str(food_cost))\n    print("Bar:       $" + str(bar_cost))\n    print("Subtotal:  $" + str(subtotal))\n    print("Gratuity (" + str(tip_percent) + "%):" + " $" + str(round(gratuity, 2)))\n    print("Total:     $" + str(round(total, 2)))\n    print("Per guest: $" + str(round(per_guest, 2)))\n\ncatering_quote(2400, 800, 50, 18)`,
+            whatItDoes: "Event planners pay $200-500 for this tool. It's the same math, just packaged for a specific industry.",
+            check: (output) => output.includes("CATERING") || output.includes("Total") || output.includes("Per guest"),
+          },
+        ],
+        quiz: [
+          { q: "Why do we divide tip_percent by 100 in the calculation?", options: ["It's required by Python", "To convert the percentage to a decimal (20% = 0.20)", "To make the number smaller", "To avoid errors"], answer: 1 },
+          { q: "What does round(number, 2) do?", options: ["Rounds to nearest integer", "Rounds to 2 decimal places", "Rounds up always", "Removes decimals"], answer: 1 },
+          { q: "In calculate_tip(bill, tip_percent, tax_percent, people), what are bill, tip_percent, tax_percent, people called?", options: ["Return values", "Global variables", "Parameters", "Modules"], answer: 2 },
+          { q: "What does per_person = total / people calculate?", options: ["The tip per person", "Each person's share of the total", "The average bill", "The tax rate"], answer: 1 },
+          { q: "A restaurant pays you $300 for this calculator. What did you actually sell them?", options: ["A website", "A database", "A Python function that solves a real daily problem", "A mobile app"], answer: 2 },
+        ],
       },
       {
         id: "freelance-math", title: "The Freelance Math", xp: 150, analogy: "Think of a skilled trade",
@@ -1441,12 +1585,156 @@ const CURRICULUM = [
           { type: "plain", text: "Where to find these jobs: Fiverr, Upwork, or just telling people you know. Most small business owners have no idea what simple automation can do for them." },
         ],
         hints: ["Change hourly_rate and hours_per_week to numbers that match your real goals.", "The calculation is just multiplication: hourly_rate * hours_per_week * weeks_per_year", "Run it, then try different numbers — what if you charged $100/hr instead of $75?"],
-        challenge: {
-          prompt: "Run this income calculator. Then change the numbers to match your own goals and see what your first year could look like.",
-          starterCode: `hourly_rate = 75\nhours_per_week = 20\nweeks_per_year = 48\n\nprojects_per_month = 2\navg_project_price = 800\n\nhourly_annual = hourly_rate * hours_per_week * weeks_per_year\nproject_annual = projects_per_month * avg_project_price * 12\ntotal = hourly_annual + project_annual\n\nprint("=== YOUR FIRST YEAR ESTIMATE ===")\nprint("Hourly work income: $", hourly_annual)\nprint("Project income: $", project_annual)\nprint("TOTAL POTENTIAL: $", total)`,
-          whatItDoes: "Real math on real income. Change any variable and re-run to see how your income shifts.",
-          check: (output) => output.includes("$") || output.includes("TOTAL"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Run this income calculator. Then change the numbers to match your own goals and see what your first year could look like.",
+            starterCode: `hourly_rate = 75\nhours_per_week = 20\nweeks_per_year = 48\n\nprojects_per_month = 2\navg_project_price = 800\n\nhourly_annual = hourly_rate * hours_per_week * weeks_per_year\nproject_annual = projects_per_month * avg_project_price * 12\ntotal = hourly_annual + project_annual\n\nprint("=== YOUR FIRST YEAR ESTIMATE ===")\nprint("Hourly work income: $", hourly_annual)\nprint("Project income: $", project_annual)\nprint("TOTAL POTENTIAL: $", total)`,
+            whatItDoes: "Real math on real income. Change any variable and re-run to see how your income shifts.",
+            check: (output) => output.includes("$") || output.includes("TOTAL"),
+          },
+          {
+            type: "modify",
+            prompt: "Add months_to_goal(current_monthly, goal_annual). It calculates how many months to reach the annual goal at the current monthly rate. Print it for both $3k/month and $5k/month scenarios.",
+            starterCode: `import math\n\ndef months_to_goal(current_monthly, goal_annual):\n    if current_monthly <= 0:\n        return float('inf')\n    months = goal_annual / current_monthly\n    return math.ceil(months)\n\ngoal = 60000\n\nprint("Goal: $" + str(goal) + "/year")\nprint()\nprint("At $3,000/month:", months_to_goal(3000, goal), "months")\nprint("At $5,000/month:", months_to_goal(5000, goal), "months")\nprint("At $8,000/month:", months_to_goal(8000, goal), "months")`,
+            whatItDoes: "math.ceil() rounds up — you can't reach a goal in a fraction of a month. This is how financial planning tools work.",
+            check: (output) => output.includes("months") || output.includes("Goal"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a freelance business health check. Given: hourly_rate, billable_hours_week, monthly_expenses. Print: monthly_revenue, monthly_profit, profit_margin_percent, and a status: 'HEALTHY' if margin > 50%, 'TIGHT' if 30-50%, 'DANGER' if below 30%.",
+            starterCode: `def business_health(hourly_rate, billable_hours_week, monthly_expenses):\n    monthly_revenue = hourly_rate * billable_hours_week * 4\n    monthly_profit = monthly_revenue - monthly_expenses\n    profit_margin = (monthly_profit / monthly_revenue) * 100\n    \n    if profit_margin > 50:\n        status = "HEALTHY"\n    elif profit_margin >= 30:\n        status = "TIGHT"\n    else:\n        status = "DANGER"\n    \n    print("=== BUSINESS HEALTH CHECK ===")\n    print("Revenue: $" + str(monthly_revenue))\n    print("Expenses: $" + str(monthly_expenses))\n    print("Profit: $" + str(monthly_profit))\n    print("Margin: " + str(round(profit_margin, 1)) + "%")\n    print("Status: " + status)\n\nbusiness_health(75, 20, 800)\nprint()\nbusiness_health(50, 10, 1200)`,
+            whatItDoes: "Every real business tracks these numbers. You just built a CFO dashboard in 20 lines of Python.",
+            check: (output) => output.includes("HEALTH") || output.includes("Revenue") || output.includes("Margin"),
+          },
+        ],
+        quiz: [
+          { q: "What does math.ceil(4.1) return?", options: ["4", "4.1", "5", "Error"], answer: 2 },
+          { q: "If revenue is $5,000 and expenses are $2,000, what is profit margin?", options: ["40%", "60%", "30%", "50%"], answer: 1 },
+          { q: "Why do freelancers track billable vs non-billable hours?", options: ["For tax reasons only", "To know how much of their time actually earns money", "Clients require it", "To bill more hours"], answer: 1 },
+          { q: "In the formula `hourly_rate * hours_per_week * weeks_per_year`, what does the result represent?", options: ["Monthly income", "Weekly income", "Annual income from hourly work", "Tax owed"], answer: 2 },
+          { q: "What does float('inf') represent in Python?", options: ["A very large float number", "Positive infinity — useful when a goal is unreachable", "A float error", "The number 0.0"], answer: 1 },
+        ],
+      },
+      {
+        id: "first-client", title: "Landing Your First Paying Client", xp: 175, analogy: "Think of a plumber getting their first call",
+        theory: [
+          { type: "plain", text: "Your first client is not found — they're already around you. Friends, family, former coworkers, local businesses. Every professional started with one person who said yes." },
+          { type: "highlight", text: "You don't need Upwork yet. The fastest path to your first $500: tell 10 people what you do and what problem you solve. One will need it." },
+          { type: "code", label: "PYTHON — Outreach tracker", color: "#fbbf24", code: `outreach = [\n    {"contact": "Mike (cousin)", "what_you_offered": "Fix his restaurant website", "status": "sent", "follow_up": "Thursday"},\n    {"contact": "Old coworker Lisa", "what_you_offered": "Automate her Excel reports", "status": "interested", "follow_up": "Tuesday"},\n    {"contact": "Barber shop owner", "what_you_offered": "Simple booking page", "status": "no response", "follow_up": "Next week"},\n]\n\nfor lead in outreach:\n    print(lead["contact"] + " -- " + lead["status"].upper())\n    print("  Offer: " + lead["what_you_offered"])\n    print("  Follow up: " + lead["follow_up"])` },
+          { type: "plain", text: "Most freelancers fail not from lack of skill — but from lack of outreach. Tracking is the difference between wishing and closing." },
+        ],
+        hints: ["Each lead is a dictionary with contact, offer, status, and follow-up date", "Loop over the list and print each contact's status", "Change status to 'closed' when they say yes — that's your first client"],
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Run the outreach tracker. Add yourself as a 4th entry with a real person you could contact, a specific offer, and a follow-up date.",
+            starterCode: `outreach = [\n    {"contact": "Mike (cousin)", "what_you_offered": "Fix his restaurant website", "status": "sent", "follow_up": "Thursday"},\n    {"contact": "Lisa from old job", "what_you_offered": "Automate her Excel reports", "status": "interested", "follow_up": "Tuesday"},\n    {"contact": "Local barber", "what_you_offered": "Simple booking page", "status": "no response", "follow_up": "Next week"},\n    {"contact": "Add your own", "what_you_offered": "Your specific offer here", "status": "not sent", "follow_up": "This week"},\n]\n\nfor lead in outreach:\n    print(lead["contact"] + " -- " + lead["status"].upper())\n    print("  Offer: " + lead["what_you_offered"])\n    print("  Follow up: " + lead["follow_up"])\n    print()`,
+            whatItDoes: "A real outreach tracker. The act of tracking forces clarity — you know exactly who you've talked to and what happens next.",
+            check: (output) => output.includes("sent") || output.includes("SENT") || output.includes("Follow"),
+          },
+          {
+            type: "modify",
+            prompt: "Add a count of how many leads are 'interested' vs 'sent' vs 'closed'. Print a summary at the end: 'Pipeline: X interested, Y sent, Z closed'.",
+            starterCode: `outreach = [\n    {"contact": "Mike", "what_you_offered": "Website fix", "status": "interested"},\n    {"contact": "Lisa", "what_you_offered": "Excel automation", "status": "interested"},\n    {"contact": "Barber", "what_you_offered": "Booking page", "status": "sent"},\n    {"contact": "Former boss", "what_you_offered": "Monthly reports", "status": "closed"},\n    {"contact": "Neighbor", "what_you_offered": "Simple website", "status": "sent"},\n]\n\ncounts = {"interested": 0, "sent": 0, "closed": 0}\nfor lead in outreach:\n    if lead["status"] in counts:\n        counts[lead["status"]] += 1\n\nprint("PIPELINE SUMMARY:")\nprint("Interested:", counts["interested"])\nprint("Awaiting response:", counts["sent"])\nprint("Closed (clients):", counts["closed"])`,
+            whatItDoes: "Pipeline tracking. Every sales team in the world uses this. You built it yourself in 10 lines.",
+            check: (output) => output.includes("PIPELINE") || output.includes("Interested") || output.includes("Closed"),
+          },
+          {
+            type: "scratch",
+            prompt: "Write a pitch generator. Given contact_name, their_problem, and your_solution, print a 3-sentence DM/text message pitch you could send right now.",
+            starterCode: `def generate_pitch(contact_name, their_problem, your_solution, your_price):\n    pitch = (\n        "Hey " + contact_name + ", I noticed " + their_problem + ". \\n"\n        "I've been learning to code and I can " + your_solution + ". \\n"\n        "I'd do it for $" + str(your_price) + " — want me to show you what it'd look like?"\n    )\n    print("--- PITCH ---")\n    print(pitch)\n    print("--- END ---")\n\ngenerate_pitch(\n    "Mike",\n    "your restaurant website is outdated",\n    "build you a clean new page with your menu and hours",\n    300\n)\n\nprint()\n\ngenerate_pitch(\n    "Lisa",\n    "you spend hours every Friday on those reports",\n    "automate that whole process down to 2 minutes",\n    150\n)`,
+            whatItDoes: "A repeatable pitch formula. Copy the output, paste it into a text message, and send it. That's a real client conversation starting.",
+            check: (output) => output.includes("PITCH") || output.includes("Hey") || output.includes("$"),
+          },
+        ],
+        quiz: [
+          { q: "Where is the fastest place to find your first client?", options: ["Upwork", "Fiverr", "People you already know", "LinkedIn ads"], answer: 2 },
+          { q: "In the outreach tracker, what data structure holds all the leads?", options: ["A tuple", "A dictionary", "A list of dictionaries", "A set"], answer: 2 },
+          { q: "What does `counts[lead['status']] += 1` do?", options: ["Creates a new status", "Increments the count for that status key", "Deletes the lead", "Prints the count"], answer: 1 },
+          { q: "What makes a freelance pitch effective?", options: ["Technical jargon", "Naming their specific problem and your specific solution", "Long detailed explanations", "Showing your portfolio first"], answer: 1 },
+          { q: "What is `if lead['status'] in counts:` checking?", options: ["If the status is True", "If the count is zero", "If the status key exists in the counts dictionary", "If the lead is closed"], answer: 2 },
+        ],
+      },
+      {
+        id: "upwork-proposal", title: "Writing a Winning Upwork Proposal", xp: 175, analogy: "Think of a job application that takes 5 minutes",
+        theory: [
+          { type: "plain", text: "Upwork has millions of freelancers. Most proposals start with 'Hi, I am an experienced developer...' — they all sound the same. The ones that win start with the client's problem." },
+          { type: "highlight", text: "The winning formula: address their pain point first, show you understand the work, give one specific relevant example, and end with a low-friction question." },
+          { type: "code", label: "PYTHON — Proposal builder", color: "#fbbf24", code: `def build_proposal(job_title, client_pain_point, your_relevant_experience, question):\n    proposal = (\n        "I saw you need " + job_title + ". \\n\\n"\n        "From your description: " + client_pain_point + ". \\n\\n"\n        "I recently " + your_relevant_experience + ". \\n\\n"\n        "Quick question before I send a full quote: " + question\n    )\n    return proposal\n\nprint(build_proposal(\n    job_title="a Python script to clean a CSV file",\n    client_pain_point="you\\'re spending hours fixing data manually every week",\n    your_relevant_experience="built a data cleaner for a client that reduced their prep time from 4 hours to 10 minutes",\n    question="What does the messy data look like — is it duplicate rows, bad formatting, or something else?"\n))` },
+          { type: "plain", text: "That ending question is the secret. It shows you're thinking like a professional, not just copying a template. It also starts a conversation — which leads to the job." },
+        ],
+        hints: ["The proposal starts with THEIR situation, not yours", "One specific example beats five vague claims", "The question at the end shows you're already solving the problem in your head"],
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Run the proposal builder. Then call it with a different job type — maybe a web scraping job or a data analysis task.",
+            starterCode: `def build_proposal(job_title, client_pain_point, your_relevant_experience, question):\n    proposal = (\n        "I saw you need " + job_title + ".\\n\\n"\n        "From your post: " + client_pain_point + ".\\n\\n"\n        "I recently " + your_relevant_experience + ".\\n\\n"\n        "Before I quote — " + question\n    )\n    return proposal\n\nprint(build_proposal(\n    job_title="a Python script to clean a CSV file",\n    client_pain_point="you\\'re spending hours fixing data manually",\n    your_relevant_experience="built a CSV cleaner that cut a client\\'s prep time from 4 hrs to 10 min",\n    question="What does the messy data look like — duplicates, formatting, or missing values?"\n))\n\nprint("\\n" + "="*50 + "\\n")\n\nprint(build_proposal(\n    job_title="a web scraper for product prices",\n    client_pain_point="you\\'re checking competitor prices manually",\n    your_relevant_experience="scraped 500+ product listings from a retail site for analysis",\n    question="Which sites do you need to track — are they JavaScript-heavy or simple HTML?"\n))`,
+            whatItDoes: "Two tailored proposals in seconds. Change the inputs to any job posting and you have a custom proposal ready to send.",
+            check: (output) => output.includes("saw you need") || output.includes("Before") || output.includes("="),
+          },
+          {
+            type: "modify",
+            prompt: "Add a delivery_time and price parameter. Append a final line: 'I can have this done in X days for $Y. Let me know if you want to move forward.'",
+            starterCode: `def build_proposal(job_title, client_pain_point, experience, question, delivery_days, price):\n    proposal = (\n        "I saw you need " + job_title + ".\\n\\n"\n        "From your post: " + client_pain_point + ".\\n\\n"\n        "I recently " + experience + ".\\n\\n"\n        "Before I quote — " + question + "\\n\\n"\n        "I can have this done in " + str(delivery_days) + " days for $" + str(price) + ". Let me know if you want to move forward."\n    )\n    return proposal\n\nprint(build_proposal(\n    job_title="a Python automation script",\n    client_pain_point="this manual process is killing your team\\'s time",\n    experience="automated a similar workflow that saved a client 10 hrs/week",\n    question="Can you share a sample of the data or process?",\n    delivery_days=3,\n    price=350\n))`,
+            whatItDoes: "Always include a specific price and timeline. Vague proposals get skipped. Specific ones get responses.",
+            check: (output) => output.includes("days for") || output.includes("move forward") || output.includes("$"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a proposal scorecard. Given a job post (as a string), check if it contains: a budget mention, a timeline, and 3+ sentences. Score 1 point each. Print 'APPLY' if score >= 2, 'SKIP' if less.",
+            starterCode: `def score_job_post(post_text):\n    score = 0\n    reasons = []\n    \n    budget_words = ["$", "budget", "rate", "pay", "usd"]\n    has_budget = any(word in post_text.lower() for word in budget_words)\n    if has_budget:\n        score += 1\n        reasons.append("Has budget info")\n    \n    timeline_words = ["week", "day", "month", "asap", "urgent", "deadline"]\n    has_timeline = any(word in post_text.lower() for word in timeline_words)\n    if has_timeline:\n        score += 1\n        reasons.append("Has timeline")\n    \n    if post_text.count(".") >= 3:\n        score += 1\n        reasons.append("Detailed description")\n    \n    verdict = "APPLY" if score >= 2 else "SKIP"\n    print("Score: " + str(score) + "/3 -- " + verdict)\n    for r in reasons:\n        print("  + " + r)\n\ngood_post = "I need a Python script to clean my CSV data. Budget is $200-400. Need it done within 1 week. The data has duplicates and missing values that need fixing. I have about 10k rows."\nbad_post = "Need coder for project."\n\nprint("Post 1:")\nscore_job_post(good_post)\nprint("\\nPost 2:")\nscore_job_post(bad_post)`,
+            whatItDoes: "A real job filtering tool. Apply only to quality posts and your acceptance rate goes up. This is how top Upwork freelancers stay selective.",
+            check: (output) => output.includes("APPLY") || output.includes("SKIP") || output.includes("Score"),
+          },
+        ],
+        quiz: [
+          { q: "What is the biggest mistake most freelance proposals make?", options: ["Being too short", "Starting with YOUR background instead of THEIR problem", "Including a price", "Asking questions"], answer: 1 },
+          { q: "Why end a proposal with a question?", options: ["To seem uncertain", "It starts a conversation and shows you're already thinking about their problem", "Clients require questions", "To avoid committing"], answer: 1 },
+          { q: "What does `any(word in post.lower() for word in budget_words)` do?", options: ["Checks if ALL budget words are in the post", "Returns True if ANY budget word appears in the post", "Counts budget mentions", "Converts the post to lowercase"], answer: 1 },
+          { q: "In the scorecard, what's the purpose of the `reasons` list?", options: ["To store errors", "To track which criteria passed so the feedback is actionable", "Required by Python", "To count total words"], answer: 1 },
+          { q: "What's the key difference between a winning proposal and a generic one?", options: ["Length", "Technical vocabulary", "Addressing the client's specific situation vs. a copy-paste template", "Number of attachments"], answer: 2 },
+        ],
+      },
+      {
+        id: "build-your-portfolio", title: "Your Portfolio: The Freelancer's Resume", xp: 200, analogy: "Think of a chef's tasting menu",
+        theory: [
+          { type: "plain", text: "A chef doesn't describe their food — they let you taste it. Your portfolio is the taste. Code projects that solve real problems are worth a hundred words about your skills." },
+          { type: "highlight", text: "3 targeted portfolio projects beat 10 random ones. Each project should answer: What problem did I solve? Who would pay for this? How do I prove it works?" },
+          { type: "code", label: "PYTHON — Portfolio project tracker", color: "#fbbf24", code: `portfolio = [\n    {\n        "title": "CSV Sales Cleaner",\n        "problem": "Messy sales data wasting 4 hours/week",\n        "solution": "Python script that cleans, deduplicates, and exports in 30 seconds",\n        "client_type": "Small business, e-commerce",\n        "price_range": "$150-400",\n        "proof": "Before/after CSV files, processing speed demo"\n    },\n    {\n        "title": "Invoice Auto-Sender",\n        "problem": "Manually emailing invoices to 50+ clients",\n        "solution": "Python script that reads client list and sends personalized invoices",\n        "client_type": "Freelancers, consultants",\n        "price_range": "$200-500",\n        "proof": "Code + demo video showing 50 emails sent in 10 seconds"\n    }\n]\n\nfor p in portfolio:\n    print("PROJECT: " + p["title"])\n    print("  Problem:", p["problem"])\n    print("  Solution:", p["solution"])\n    print("  Target clients:", p["client_type"])\n    print("  Rate: " + p["price_range"])` },
+          { type: "plain", text: "Host your projects on GitHub. Add a README that explains the problem, shows sample output, and includes instructions. That README IS your portfolio page for technical clients." },
+        ],
+        hints: ["Each portfolio item is a dictionary with problem, solution, client type, and pricing", "3 good projects in one niche beats 10 scattered ones", "Always include proof — code, screenshots, or demo video"],
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Run the portfolio tracker. Add a 3rd project that YOU could build right now based on what you've learned. Include all fields.",
+            starterCode: `portfolio = [\n    {\n        "title": "CSV Sales Cleaner",\n        "problem": "Messy sales data taking hours to fix",\n        "solution": "Python script: cleans, deduplicates, exports in 30 sec",\n        "client_type": "Small business, e-commerce",\n        "price_range": "$150-400",\n    },\n    {\n        "title": "Invoice Auto-Sender",\n        "problem": "Manually emailing 50+ clients",\n        "solution": "Script reads client list, sends personalized invoices",\n        "client_type": "Freelancers, consultants",\n        "price_range": "$200-500",\n    },\n    {\n        "title": "Your project here",\n        "problem": "Describe the real problem",\n        "solution": "Your Python solution",\n        "client_type": "Who would pay",\n        "price_range": "$XXX-XXX",\n    },\n]\n\nfor i, p in enumerate(portfolio, 1):\n    print(str(i) + ". " + p["title"] + " (" + p["price_range"] + ")")\n    print("   Problem: " + p["problem"])\n    print("   Solution: " + p["solution"])\n    print()`,
+            whatItDoes: "A structured portfolio — problem + solution + price + target client. This format answers every question a paying client has.",
+            check: (output) => output.includes("Problem") || output.includes("Solution") || output.includes("$"),
+          },
+          {
+            type: "modify",
+            prompt: "Add a `total_potential_value` that sums the maximum price range across all 3 projects. Parse the price_range strings to get the max value (hint: split on '-' and take the last number).",
+            starterCode: `portfolio = [\n    {"title": "CSV Cleaner", "price_range": "$150-400"},\n    {"title": "Invoice Sender", "price_range": "$200-500"},\n    {"title": "Web Scraper", "price_range": "$300-800"},\n]\n\ntotal_max = 0\nfor p in portfolio:\n    # Parse "$150-400" -> take 400\n    parts = p["price_range"].replace("$", "").split("-")\n    max_val = int(parts[-1])\n    total_max += max_val\n    print(p["title"] + ": up to $" + str(max_val))\n\nprint("\\nMax pipeline value: $" + str(total_max))`,
+            whatItDoes: "String parsing: split a string to extract a number. This exact pattern is used in price scrapers and data cleaners you'll build for clients.",
+            check: (output) => output.includes("pipeline") || output.includes("Max") || output.includes("$"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a GitHub README generator. Given a project dict with title, problem, solution, and usage_example — print a formatted markdown-style README.",
+            starterCode: `def generate_readme(project):\n    print("# " + project["title"])\n    print()\n    print("## Problem")\n    print(project["problem"])\n    print()\n    print("## Solution")\n    print(project["solution"])\n    print()\n    print("## Usage")\n    print("    " + project["usage_example"])\n    print()\n    print("---")\n    print("Built by a CodeGrind graduate. Available on Fiverr.")\n\ngenerate_readme({\n    "title": "CSV Data Cleaner",\n    "problem": "Businesses waste hours manually fixing messy CSV exports. Duplicate rows, inconsistent formatting, missing values.",\n    "solution": "Python script that reads any CSV, removes duplicates, standardizes formatting, and exports clean data in seconds.",\n    "usage_example": "python cleaner.py input.csv output.csv"\n})`,
+            whatItDoes: "An actual GitHub README. Copy this output, paste it into a GitHub repo, and you have a live portfolio project. That's how you get hired.",
+            check: (output) => output.includes("Problem") || output.includes("Solution") || output.includes("Usage"),
+          },
+        ],
+        quiz: [
+          { q: "How many well-chosen portfolio projects does a new freelancer need to start landing clients?", options: ["10+", "At least 20", "3 targeted projects", "1 massive project"], answer: 2 },
+          { q: "What should every portfolio project answer?", options: ["What language it uses", "What problem it solves and who would pay for it", "How long it took to build", "Which framework you used"], answer: 1 },
+          { q: "Where should you host portfolio code to share with clients?", options: ["Dropbox", "GitHub", "Google Drive", "Email attachments"], answer: 1 },
+          { q: "In the price range parser, what does `p['price_range'].replace('$','').split('-')` return for '$150-400'?", options: ["['$150', '400']", "['150', '400']", "['150-400']", "['$', '150', '400']"], answer: 1 },
+          { q: "What makes a portfolio README valuable to a technical client?", options: ["Fancy formatting", "It shows you solved a real problem and proves it works", "Length", "Using multiple languages"], answer: 1 },
+        ],
       },
     ],
   },
@@ -1462,12 +1750,36 @@ const CURRICULUM = [
           { type: "plain", text: "Real money: A client gives you a 10,000 row sales CSV. They want totals by region. Without Python — 4 hours of manual work. With Python — 10 lines of code, done in 30 seconds. They pay you $150." },
         ],
         hints: ["Import csv at the top: import csv", "Use with open('file.csv', 'r') as file: to open it safely", "csv.DictReader gives you each row as a dictionary with column names as keys"],
-        challenge: {
-          prompt: "Write a script that creates a CSV file with 3 sales records, then reads it back and prints each row with a total.",
-          starterCode: `import csv\n\nwith open("sales.csv", "w", newline="") as file:\n    writer = csv.writer(file)\n    writer.writerow(["name", "amount", "region"])\n    writer.writerow(["Marcus", 500, "South"])\n    writer.writerow(["Tamika", 750, "East"])\n    writer.writerow(["DeShawn", 300, "West"])\n\nprint("CSV created!")\n\nwith open("sales.csv", "r") as file:\n    reader = csv.DictReader(file)\n    total = 0\n    for row in reader:\n        print(row["name"], "sold $" + row["amount"])\n        total += int(row["amount"])\n\nprint("Total sales: $", total)`,
-          whatItDoes: "You created and read a real CSV file. Processing sales data is one of the most requested Python freelance tasks.",
-          check: (output) => output.includes("CSV") || output.includes("sold") || output.includes("Total"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Write a script that creates a CSV file with 3 sales records, then reads it back and prints each row with a total.",
+            starterCode: `import csv\n\nwith open("sales.csv", "w", newline="") as file:\n    writer = csv.writer(file)\n    writer.writerow(["name", "amount", "region"])\n    writer.writerow(["Marcus", 500, "South"])\n    writer.writerow(["Tamika", 750, "East"])\n    writer.writerow(["DeShawn", 300, "West"])\n\nprint("CSV created!")\n\nwith open("sales.csv", "r") as file:\n    reader = csv.DictReader(file)\n    total = 0\n    for row in reader:\n        print(row["name"], "sold $" + row["amount"])\n        total += int(row["amount"])\n\nprint("Total sales: $", total)`,
+            whatItDoes: "You created and read a real CSV file. Processing sales data is one of the most requested Python freelance tasks.",
+            check: (output) => output.includes("CSV") || output.includes("sold") || output.includes("Total"),
+          },
+          {
+            type: "modify",
+            prompt: "Add filtering: after reading the CSV, print only rows where amount > 400. Add a line showing how many rows were filtered out.",
+            starterCode: `import csv\n\nwith open("sales.csv", "w", newline="") as file:\n    writer = csv.writer(file)\n    writer.writerow(["name", "amount", "region"])\n    writer.writerow(["Marcus", 500, "South"])\n    writer.writerow(["Tamika", 750, "East"])\n    writer.writerow(["DeShawn", 300, "West"])\n    writer.writerow(["Keisha", 1200, "East"])\n\nwith open("sales.csv", "r") as file:\n    reader = csv.DictReader(file)\n    rows = list(reader)\n\nhigh_value = [r for r in rows if int(r["amount"]) > 400]\nprint("High-value sales (>$400):")\nfor row in high_value:\n    print("  " + row["name"] + ": $" + row["amount"])\nprint("Filtered " + str(len(rows) - len(high_value)) + " low-value row(s) out")`,
+            whatItDoes: "List comprehension filtering: `[x for x in list if condition]`. This is how real data analysts remove noise from datasets.",
+            check: (output) => output.includes("High-value") || output.includes("Filtered") || output.includes("$"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build an expense tracker. Write 5 expense rows to a CSV (date, category, amount, description). Read them back, calculate total by category, and print the summary.",
+            starterCode: `import csv\n\nexpenses = [\n    ["2026-01-05", "Software", 29, "VS Code Pro"],\n    ["2026-01-10", "Marketing", 50, "Facebook ads"],\n    ["2026-01-12", "Software", 15, "Domain name"],\n    ["2026-01-18", "Equipment", 120, "Keyboard"],\n    ["2026-01-20", "Marketing", 30, "LinkedIn Premium"],\n]\n\nwith open("expenses.csv", "w", newline="") as f:\n    writer = csv.writer(f)\n    writer.writerow(["date", "category", "amount", "description"])\n    writer.writerows(expenses)\n\ncategory_totals = {}\nwith open("expenses.csv", "r") as f:\n    reader = csv.DictReader(f)\n    for row in reader:\n        cat = row["category"]\n        category_totals[cat] = category_totals.get(cat, 0) + int(row["amount"])\n\nprint("=== EXPENSE SUMMARY ===")\nfor cat, total in category_totals.items():\n    print(cat + ": $" + str(total))\nprint("Total: $" + str(sum(category_totals.values())))`,
+            whatItDoes: "A real business expense tracker. Accountants and small business owners pay $200-500 for tools like this.",
+            check: (output) => output.includes("EXPENSE") || output.includes("Total") || output.includes("$"),
+          },
+        ],
+        quiz: [
+          { q: "What does csv.DictReader do?", options: ["Writes CSV rows", "Reads each row as a dictionary with column headers as keys", "Creates a new CSV", "Converts JSON to CSV"], answer: 1 },
+          { q: "What does `with open('file.csv', 'w') as f:` do?", options: ["Reads the file", "Opens the file for writing and auto-closes when done", "Deletes the file", "Appends to the file"], answer: 1 },
+          { q: "What is the `newline=''` argument for when writing CSVs?", options: ["Adds blank lines between rows", "Prevents Python from adding extra newlines on Windows", "Sets the CSV delimiter", "Required for DictReader"], answer: 1 },
+          { q: "How do you get totals by category from rows of data?", options: ["Sort the list", "Use a dictionary to accumulate sums by category key", "Filter duplicates", "Use a set"], answer: 1 },
+          { q: "Why is CSV processing one of the most requested Python freelance skills?", options: ["CSV is hard to learn", "Almost every business runs on spreadsheet data that needs processing", "Python only reads CSV", "Clients don't know Excel"], answer: 1 },
+        ],
       },
       {
         id: "web-scraping", title: "Web Scraping — Get Any Data", xp: 225, analogy: "Think of a research assistant",
@@ -1479,12 +1791,36 @@ const CURRICULUM = [
           { type: "plain", text: "Note: Always check a website's terms of service before scraping. Most public data is fair game. Never scrape private or personal data." },
         ],
         hints: ["import requests gets the webpage. BeautifulSoup parses the HTML.", "soup.find('tag') finds the first element. soup.find_all('tag') finds all of them.", "Use .text to get the text content of an element."],
-        challenge: {
-          prompt: "Write a web scraper that fetches 'https://books.toscrape.com' and prints the page title and first 5 book titles.",
-          starterCode: `import requests\nfrom bs4 import BeautifulSoup\n\nurl = "https://books.toscrape.com"\nresponse = requests.get(url)\nsoup = BeautifulSoup(response.text, "html.parser")\n\ntitle = soup.find("title").text\nprint("Page:", title)\n\nbooks = soup.find_all("h3")\nprint("\\nFirst 5 books:")\nfor book in books[:5]:\n    print("-", book.find("a")["title"])`,
-          whatItDoes: "You scraped a real website and extracted real data. books.toscrape.com is a practice site made for scraping — safe and legal to use.",
-          check: (output) => output.length > 0 && (output.includes("Page") || output.includes("book") || output.includes("-")),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Write a web scraper that fetches 'https://books.toscrape.com' and prints the page title and first 5 book titles.",
+            starterCode: `import requests\nfrom bs4 import BeautifulSoup\n\nurl = "https://books.toscrape.com"\nresponse = requests.get(url)\nsoup = BeautifulSoup(response.text, "html.parser")\n\ntitle = soup.find("title").text\nprint("Page:", title)\n\nbooks = soup.find_all("h3")\nprint("\\nFirst 5 books:")\nfor book in books[:5]:\n    print("-", book.find("a")["title"])`,
+            whatItDoes: "You scraped a real website and extracted real data. books.toscrape.com is a practice site made for scraping — safe and legal to use.",
+            check: (output) => output.length > 0 && (output.includes("Page") || output.includes("book") || output.includes("-")),
+          },
+          {
+            type: "modify",
+            prompt: "Add price extraction. For each of the first 5 books, also print its price. Find the price in the 'p' tag with class 'price_color'.",
+            starterCode: `import requests\nfrom bs4 import BeautifulSoup\n\nurl = "https://books.toscrape.com"\nresponse = requests.get(url)\nsoup = BeautifulSoup(response.text, "html.parser")\n\narticles = soup.find_all("article", class_="product_pod")[:5]\n\nprint("TOP 5 BOOKS WITH PRICES:")\nfor article in articles:\n    title = article.find("h3").find("a")["title"]\n    price = article.find("p", class_="price_color").text\n    print("  " + title[:40] + "...")\n    print("  Price: " + price)\n    print()`,
+            whatItDoes: "Extracting multiple fields from each scraped item — this is the core of every price monitoring and competitive analysis tool.",
+            check: (output) => output.includes("BOOKS") || output.includes("Price") || output.includes("Pound"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a lead scraper simulator. Create a fake HTML string with 3 business listings (name, phone, category). Parse it with BeautifulSoup and extract all 3 businesses into a list of dicts.",
+            starterCode: `from bs4 import BeautifulSoup\n\nfake_html = """\n<div class="listings">\n  <div class="business">\n    <h2 class="name">Joe's Plumbing</h2>\n    <span class="phone">404-555-0101</span>\n    <span class="category">Plumbing</span>\n  </div>\n  <div class="business">\n    <h2 class="name">Atlanta Cleaning Co</h2>\n    <span class="phone">404-555-0202</span>\n    <span class="category">Cleaning</span>\n  </div>\n  <div class="business">\n    <h2 class="name">Quick Tax Services</h2>\n    <span class="phone">404-555-0303</span>\n    <span class="category">Accounting</span>\n  </div>\n</div>\n"""\n\nsoup = BeautifulSoup(fake_html, "html.parser")\nleads = []\nfor biz in soup.find_all("div", class_="business"):\n    leads.append({\n        "name": biz.find("h2").text,\n        "phone": biz.find("span", class_="phone").text,\n        "category": biz.find("span", class_="category").text\n    })\n\nprint("SCRAPED LEADS:")\nfor lead in leads:\n    print(lead["name"] + " | " + lead["phone"] + " | " + lead["category"])`,
+            whatItDoes: "Lead generation scraping — businesses pay $300-1,000 for scripts that extract their competitors' customer info from directories.",
+            check: (output) => output.includes("SCRAPED") || output.includes("Plumbing") || output.includes("404"),
+          },
+        ],
+        quiz: [
+          { q: "What does BeautifulSoup do?", options: ["Makes HTTP requests", "Parses HTML/XML and lets you search it like a document", "Sends emails", "Saves data to CSV"], answer: 1 },
+          { q: "What does soup.find_all('div', class_='product') return?", options: ["The first div with class product", "All divs with class product as a list", "True if product exists", "The HTML string"], answer: 1 },
+          { q: "What is the difference between soup.find() and soup.find_all()?", options: ["find() is faster", "find() returns first match; find_all() returns all matches as a list", "They're identical", "find_all() only works on tables"], answer: 1 },
+          { q: "Why should you always check a site's terms before scraping?", options: ["Python requires it", "Some sites prohibit scraping and you can be legally responsible", "It makes scraping faster", "To get an API key"], answer: 1 },
+          { q: "What does response.text contain after requests.get(url)?", options: ["A Python dictionary", "The raw HTML of the webpage as a string", "The status code", "A BeautifulSoup object"], answer: 1 },
+        ],
       },
       {
         id: "working-with-apis", title: "APIs — Getting Live Data", xp: 225, analogy: "Think of a waiter",
@@ -1495,12 +1831,36 @@ const CURRICULUM = [
           { type: "plain", text: "Real money: Every app that shows weather, maps, prices, or news uses APIs. Developers who know how to connect to APIs are worth $75-150/hr. This is a core skill." },
         ],
         hints: ["requests.get(url) fetches data from a URL", "response.json() converts the response to a Python dictionary", "Use ['key'] to access specific values in the dictionary"],
-        challenge: {
-          prompt: "Call the free joke API at 'https://official-joke-api.appspot.com/random_joke' and print the setup and punchline of a random joke.",
-          starterCode: `import requests\n\nurl = "https://official-joke-api.appspot.com/random_joke"\nresponse = requests.get(url)\njoke = response.json()\n\nprint("Setup:", joke["setup"])\nprint("Punchline:", joke["punchline"])\nprint("\\nType:", joke["type"])`,
-          whatItDoes: "You called a real live API and got real data back. This exact pattern — request URL, parse JSON, use the data — works with any API in the world.",
-          check: (output) => output.includes("Setup") || output.includes("Punchline") || output.length > 0,
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Call the free joke API at 'https://official-joke-api.appspot.com/random_joke' and print the setup and punchline of a random joke.",
+            starterCode: `import requests\n\nurl = "https://official-joke-api.appspot.com/random_joke"\nresponse = requests.get(url)\njoke = response.json()\n\nprint("Setup:", joke["setup"])\nprint("Punchline:", joke["punchline"])\nprint("\\nType:", joke["type"])`,
+            whatItDoes: "You called a real live API and got real data back. This exact pattern — request URL, parse JSON, use the data — works with any API in the world.",
+            check: (output) => output.includes("Setup") || output.includes("Punchline") || output.length > 0,
+          },
+          {
+            type: "modify",
+            prompt: "Add error handling with try/except. If the API is unreachable, print a fallback joke instead of crashing. Also print the HTTP status code on success.",
+            starterCode: `import requests\n\ndef get_joke():\n    try:\n        response = requests.get("https://official-joke-api.appspot.com/random_joke", timeout=5)\n        print("Status:", response.status_code)\n        joke = response.json()\n        print("Setup:", joke["setup"])\n        print("Punchline:", joke["punchline"])\n    except Exception as e:\n        print("API unavailable:", str(e))\n        print("Fallback joke:")\n        print("Setup: Why do programmers prefer dark mode?")\n        print("Punchline: Because light attracts bugs.")\n\nget_joke()`,
+            whatItDoes: "Always wrap API calls in try/except. Real apps never crash from network errors — they fall back gracefully.",
+            check: (output) => output.includes("Status") || output.includes("Setup") || output.includes("Fallback"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a weather widget simulator. Use the Open-Meteo free API: fetch current temperature for latitude=40.71 (New York), longitude=-74.01. Print temp in °F and a status label (hot/warm/cool/cold).",
+            starterCode: `import requests\n\ndef get_weather(lat, lon):\n    url = "https://api.open-meteo.com/v1/forecast"\n    params = {\n        "latitude": lat,\n        "longitude": lon,\n        "current_weather": True,\n        "temperature_unit": "fahrenheit"\n    }\n    try:\n        response = requests.get(url, params=params, timeout=5)\n        data = response.json()\n        temp = data["current_weather"]["temperature"]\n        \n        if temp >= 85: status = "HOT"\n        elif temp >= 70: status = "WARM"\n        elif temp >= 55: status = "COOL"\n        else: status = "COLD"\n        \n        print("Location: New York, NY")\n        print("Temperature: " + str(temp) + "F")\n        print("Status: " + status)\n    except Exception as e:\n        print("Weather unavailable:", str(e))\n\nget_weather(40.71, -74.01)`,
+            whatItDoes: "A real weather API call — no key needed. This pattern (URL + params dict + JSON parsing) works for every API you'll ever use.",
+            check: (output) => output.includes("Temperature") || output.includes("New York") || output.includes("F"),
+          },
+        ],
+        quiz: [
+          { q: "What does response.json() return?", options: ["A string of JSON text", "A Python dictionary parsed from the JSON response", "The raw HTML", "A list of keys"], answer: 1 },
+          { q: "What is an API endpoint?", options: ["A Python package", "A specific URL that returns data when you make a request to it", "A database table", "A function name"], answer: 1 },
+          { q: "Why use `requests.get(url, timeout=5)`?", options: ["It speeds up the request", "It limits how long to wait — prevents the program from hanging forever", "It's required by the API", "It sets the request type"], answer: 1 },
+          { q: "What does status code 200 mean?", options: ["Error", "Redirect", "Success — the request worked", "Server busy"], answer: 2 },
+          { q: "What is the difference between requests.get() and requests.post()?", options: ["They're identical", "GET retrieves data; POST sends data", "POST is faster", "GET only works with JSON"], answer: 1 },
+        ],
       },
       {
         id: "automate-email", title: "Automate Emails with Python", xp: 250, analogy: "Think of a mail merge",
@@ -1512,12 +1872,36 @@ const CURRICULUM = [
           { type: "plain", text: "Real money: Small businesses pay $200-500 for a script that automatically sends invoices, appointment reminders, or follow-up emails. Write it once, they use it forever." },
         ],
         hints: ["smtplib handles the connection to Gmail's mail server", "MIMEText creates the email message — use 'html' for HTML, 'plain' for plain text", "Always use App Passwords, never your real Gmail password in code"],
-        challenge: {
-          prompt: "Write the email sending function and simulate sending to 3 clients by printing what would be sent instead of actually sending.",
-          starterCode: `def simulate_email(to_email, subject, body):\n    print("=" * 40)\n    print(f"TO: {to_email}")\n    print(f"SUBJECT: {subject}")\n    print(f"BODY: {body}")\n    print("STATUS: Sent")\n    print("=" * 40)\n\nclients = [\n    {"name": "Marcus", "email": "marcus@example.com", "amount": 500},\n    {"name": "Tamika", "email": "tamika@example.com", "amount": 750},\n    {"name": "DeShawn", "email": "deshawn@example.com", "amount": 300},\n]\n\nfor client in clients:\n    subject = "Invoice from CodeGrind - $" + str(client["amount"]) + " due"\n    body = "Hi " + client["name"] + ", your invoice for $" + str(client["amount"]) + " is ready."\n    simulate_email(client["email"], subject, body)\n\nprint(str(len(clients)) + " invoices sent!")`,
-          whatItDoes: "You built an automated invoice system. Replace simulate_email with the real send_email function and you have a script worth $200-500 to any small business.",
-          check: (output) => output.includes("TO:") || output.includes("Sent") || output.includes("invoices"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Write the email sending function and simulate sending to 3 clients by printing what would be sent instead of actually sending.",
+            starterCode: `def simulate_email(to_email, subject, body):\n    print("=" * 40)\n    print("TO: " + to_email)\n    print("SUBJECT: " + subject)\n    print("BODY: " + body)\n    print("STATUS: Sent")\n    print("=" * 40)\n\nclients = [\n    {"name": "Marcus", "email": "marcus@example.com", "amount": 500},\n    {"name": "Tamika", "email": "tamika@example.com", "amount": 750},\n    {"name": "DeShawn", "email": "deshawn@example.com", "amount": 300},\n]\n\nfor client in clients:\n    subject = "Invoice from CodeGrind - $" + str(client["amount"]) + " due"\n    body = "Hi " + client["name"] + ", your invoice for $" + str(client["amount"]) + " is ready."\n    simulate_email(client["email"], subject, body)\n\nprint(str(len(clients)) + " invoices sent!")`,
+            whatItDoes: "You built an automated invoice system. Replace simulate_email with the real send_email function and you have a script worth $200-500 to any small business.",
+            check: (output) => output.includes("TO:") || output.includes("Sent") || output.includes("invoices"),
+          },
+          {
+            type: "modify",
+            prompt: "Add an HTML body option. If `html=True`, wrap the body text in `<p>` and `<strong>` tags. Print 'Format: HTML' or 'Format: Plain' in the output.",
+            starterCode: `def simulate_email(to_email, subject, body, html=False):\n    formatted_body = "<p>" + body + "</p>" if html else body\n    fmt = "HTML" if html else "Plain"\n    print("TO: " + to_email)\n    print("SUBJECT: " + subject)\n    print("FORMAT: " + fmt)\n    print("BODY: " + formatted_body)\n    print("-" * 30)\n\nsimulate_email(\n    "client@example.com",\n    "Your invoice is ready",\n    "Hi Marcus, your $500 invoice is attached.",\n    html=False\n)\n\nsimulate_email(\n    "vip@example.com",\n    "Special offer just for you",\n    "Hi Tamika, your exclusive deal expires Friday.",\n    html=True\n)`,
+            whatItDoes: "HTML emails look professional — logos, bold text, colors. Plain emails feel personal. Choosing the right format is a real copywriting skill.",
+            check: (output) => output.includes("FORMAT") || output.includes("HTML") || output.includes("Plain"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a follow-up email sequence. Create a list of 3 follow-up emails (day, subject, body). Print each one in order with its send day and a preview of the body.",
+            starterCode: `follow_up_sequence = [\n    {\n        "day": 1,\n        "subject": "Quick question about your project",\n        "body": "Hi [name], I sent over a proposal yesterday. Do you have 10 minutes to chat this week?"\n    },\n    {\n        "day": 4,\n        "subject": "Still interested in automating your reports?",\n        "body": "Hi [name], following up on my Python automation proposal. Happy to adjust scope or price."\n    },\n    {\n        "day": 10,\n        "subject": "Last check-in",\n        "body": "Hi [name], last message from me on this. If timing isn't right, no worries — keep my contact for later."\n    }\n]\n\nprint("=== FOLLOW-UP SEQUENCE ===")\nfor email in follow_up_sequence:\n    print("Day " + str(email["day"]) + ": " + email["subject"])\n    preview = email["body"][:60] + "..."\n    print("  Preview: " + preview)\n    print()`,
+            whatItDoes: "An automated follow-up sequence. Top freelancers close 80% of their deals in follow-ups, not the first message. This is that system.",
+            check: (output) => output.includes("SEQUENCE") || output.includes("Day") || output.includes("Preview"),
+          },
+        ],
+        quiz: [
+          { q: "What Python module handles sending emails via Gmail's SMTP server?", options: ["email", "gmail", "smtplib", "mail"], answer: 2 },
+          { q: "Why should you use an App Password instead of your real Gmail password in code?", options: ["It's faster", "If your code is exposed, your real account stays safe", "App Passwords are required by Python", "Gmail blocks real passwords"], answer: 1 },
+          { q: "What does `MIMEText(body, 'html')` create?", options: ["A plain text email", "An HTML-formatted email message", "A PDF attachment", "An email subject"], answer: 1 },
+          { q: "What does a follow-up email sequence do for freelance income?", options: ["Nothing significant", "Most clients decide after 2-3 touches, so sequences close deals that first messages miss", "Annoys clients", "Reduces your rate"], answer: 1 },
+          { q: "In the simulation, why loop over a clients list instead of writing 3 separate calls?", options: ["Python requires it", "Loops scale — the same code handles 3 clients or 3,000", "Lists are faster", "It's shorter"], answer: 1 },
+        ],
       },
       {
         id: "classes-objects", title: "Classes — Blueprint for Everything", xp: 250, analogy: "Think of a blueprint",
@@ -1528,12 +1912,36 @@ const CURRICULUM = [
           { type: "plain", text: "Every app you've ever used is built with classes. Users, products, orders, payments — all classes. Understanding this unlocks the ability to build real apps." },
         ],
         hints: ["__init__ is the constructor — it runs when you create a new object", "self refers to the object itself — use self.name to store data on the object", "Create objects: client = Client('Marcus', 'email', 1000)"],
-        challenge: {
-          prompt: "Create a FreelanceProject class with name, client, and rate properties. Add a calculate_cost method that takes hours and returns rate * hours. Create 2 projects and call the method.",
-          starterCode: `class FreelanceProject:\n    def __init__(self, name, client, rate):\n        self.name = name\n        self.client = client\n        self.rate = rate\n    \n    def calculate_cost(self, hours):\n        total = self.rate * hours\n        print("Project:", self.name)\n        print("Client:", self.client)\n        print("Hours:", hours, "@ $" + str(self.rate) + "/hr")\n        print("Total: $" + str(total))\n        return total\n\nproject1 = FreelanceProject("Website Redesign", "Marcus Johnson", 75)\nproject2 = FreelanceProject("Automation Script", "Tamika Williams", 100)\n\nproject1.calculate_cost(20)\nprint()\nproject2.calculate_cost(8)`,
-          whatItDoes: "You built a class that models real freelance work. This is how professional project management software works at its core.",
-          check: (output) => output.includes("Project") || output.includes("Total") || output.includes("$"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Create a FreelanceProject class with name, client, and rate properties. Add a calculate_cost method that takes hours and returns rate * hours. Create 2 projects and call the method.",
+            starterCode: `class FreelanceProject:\n    def __init__(self, name, client, rate):\n        self.name = name\n        self.client = client\n        self.rate = rate\n    \n    def calculate_cost(self, hours):\n        total = self.rate * hours\n        print("Project:", self.name)\n        print("Client:", self.client)\n        print("Hours:", hours, "@ $" + str(self.rate) + "/hr")\n        print("Total: $" + str(total))\n        return total\n\nproject1 = FreelanceProject("Website Redesign", "Marcus Johnson", 75)\nproject2 = FreelanceProject("Automation Script", "Tamika Williams", 100)\n\nproject1.calculate_cost(20)\nprint()\nproject2.calculate_cost(8)`,
+            whatItDoes: "You built a class that models real freelance work. This is how professional project management software works at its core.",
+            check: (output) => output.includes("Project") || output.includes("Total") || output.includes("$"),
+          },
+          {
+            type: "modify",
+            prompt: "Add a to_dict() method that returns a dictionary representation of the project (name, client, rate). Then create 2 projects, call to_dict() on each, and print the results.",
+            starterCode: `class FreelanceProject:\n    def __init__(self, name, client, rate):\n        self.name = name\n        self.client = client\n        self.rate = rate\n    \n    def calculate_cost(self, hours):\n        return self.rate * hours\n    \n    def to_dict(self):\n        return {"name": self.name, "client": self.client, "rate": self.rate}\n\nprojects = [\n    FreelanceProject("Website Redesign", "Marcus Johnson", 75),\n    FreelanceProject("Automation Script", "Tamika Williams", 100),\n]\n\nfor p in projects:\n    d = p.to_dict()\n    print(d["name"] + " for " + d["client"] + " @ $" + str(d["rate"]) + "/hr")`,
+            whatItDoes: "to_dict() is used everywhere — saving objects to JSON, databases, and APIs. A class that can serialize itself is a professional class.",
+            check: (output) => output.includes("for") || output.includes("/hr") || output.includes("$"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a Client class with name, email, and budget. Add methods: can_afford(amount) that returns True if amount <= budget, and get_summary() that prints their full profile.",
+            starterCode: `class Client:\n    def __init__(self, name, email, budget):\n        self.name = name\n        self.email = email\n        self.budget = budget\n    \n    def can_afford(self, amount):\n        return amount <= self.budget\n    \n    def get_summary(self):\n        print("Client: " + self.name)\n        print("Email: " + self.email)\n        print("Budget: $" + str(self.budget))\n\nclient1 = Client("Marcus Johnson", "marcus@gmail.com", 1500)\nclient2 = Client("Tamika Williams", "tamika@gmail.com", 400)\n\nclient1.get_summary()\nprint("Can afford $800?", client1.can_afford(800))\nprint()\nclient2.get_summary()\nprint("Can afford $800?", client2.can_afford(800))`,
+            whatItDoes: "A real CRM model. Every app that manages users, clients, or customers uses a class like this.",
+            check: (output) => output.includes("Client") || output.includes("Budget") || output.includes("afford"),
+          },
+        ],
+        quiz: [
+          { q: "What does __init__ do in a Python class?", options: ["Imports the class", "Runs automatically when you create a new object", "Deletes the object", "Returns a value"], answer: 1 },
+          { q: "What does `self` refer to in a class method?", options: ["The class itself", "The specific object instance that called the method", "The parent class", "Python's interpreter"], answer: 1 },
+          { q: "How do you create an object from a class called Client?", options: ["Client.new('name')", "new Client('name')", "client = Client('name', 'email', 1000)", "create Client('name')"], answer: 2 },
+          { q: "Why add a to_dict() method to a class?", options: ["It's required", "Dictionaries are faster", "It makes the object easy to save, send, and display", "to_dict() is built in"], answer: 2 },
+          { q: "What's the advantage of using a class over separate variables for client data?", options: ["Classes use less memory", "Classes bundle related data and behavior together — one object instead of 3 separate vars", "Classes are required for client data", "Variables can't store email"], answer: 1 },
+        ],
       },
       {
         id: "regex", title: "Regex — Finding Patterns in Text", xp: 200, analogy: "Think of a search filter",
@@ -1544,12 +1952,36 @@ const CURRICULUM = [
           { type: "plain", text: "Real money: Data cleaning is a $50-100/hr skill. Extracting emails from text, validating phone numbers, parsing addresses — all regex. Businesses have mountains of messy data." },
         ],
         hints: ["import re at the top", "re.findall(pattern, text) returns a list of all matches", "\\d means any digit, {3} means exactly 3 of them"],
-        challenge: {
-          prompt: "Write a script that takes a contact list string and extracts all valid email addresses from it.",
-          starterCode: `import re\n\nraw_data = "Contact list: John Smith jsmith@company.com, Tamika Jones tjones@business.net, Marcus Brown mbrown@startup.io, Invalid notanemail"\n\nemail_pattern = r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"\nemails = re.findall(email_pattern, raw_data)\n\nprint("Found", len(emails), "email addresses:")\nfor email in emails:\n    print(" -", email)`,
-          whatItDoes: "You extracted structured data from messy text automatically. This exact task — cleaning client data — is one of the most requested Python freelance jobs.",
-          check: (output) => output.includes("@") || output.includes("email") || output.includes("Found"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Write a script that takes a contact list string and extracts all valid email addresses from it.",
+            starterCode: `import re\n\nraw_data = "Contact list: John Smith jsmith@company.com, Tamika Jones tjones@business.net, Marcus Brown mbrown@startup.io, Invalid notanemail"\n\nemail_pattern = r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"\nemails = re.findall(email_pattern, raw_data)\n\nprint("Found", len(emails), "email addresses:")\nfor email in emails:\n    print(" -", email)`,
+            whatItDoes: "You extracted structured data from messy text automatically. This exact task — cleaning client data — is one of the most requested Python freelance jobs.",
+            check: (output) => output.includes("@") || output.includes("email") || output.includes("Found"),
+          },
+          {
+            type: "modify",
+            prompt: "Add US phone number extraction. Use the pattern for formats like 404-555-1234 or (404) 555-1234. Extract both emails and phones from the test string.",
+            starterCode: `import re\n\ncontact_dump = "Call Mike at 404-555-0101 or email mike@business.com. For Tamika: (678) 555-0202, tamika@startup.io. Also try 770.555.0303"\n\nemail_pat = r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"\nphone_pat = r"\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}"\n\nemails = re.findall(email_pat, contact_dump)\nphones = re.findall(phone_pat, contact_dump)\n\nprint("Emails found:", emails)\nprint("Phones found:", phones)`,
+            whatItDoes: "Extracting multiple pattern types from one string. This is how lead list cleaners, CRM importers, and data pipelines work.",
+            check: (output) => output.includes("Emails") || output.includes("Phones") || output.includes("@"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a data cleaner. Given messy_text with prices like '$1,200' or '$45.99', extract all prices, convert them to floats (remove $, commas), and print the total.",
+            starterCode: `import re\n\nmessy_text = "Project costs: website $1,200, automation script $450.00, monthly maintenance $89.99 and setup fee $250"\n\nprice_pattern = r"\\$[\\d,]+\\.?\\d*"\nraw_prices = re.findall(price_pattern, messy_text)\n\nprices = []\nfor raw in raw_prices:\n    cleaned = raw.replace("$", "").replace(",", "")\n    prices.append(float(cleaned))\n\nprint("Found prices:", raw_prices)\nprint("Cleaned:", prices)\nprint("Total: $" + str(sum(prices)))`,
+            whatItDoes: "Price extraction from unstructured text. This exact pattern powers invoice parsers, receipt scanners, and financial data tools.",
+            check: (output) => output.includes("Total") || output.includes("prices") || output.includes("$"),
+          },
+        ],
+        quiz: [
+          { q: "What does `re.findall(pattern, text)` return?", options: ["True/False", "The first match", "A list of all non-overlapping matches", "The match position"], answer: 2 },
+          { q: "What does `\\d` match in a regex pattern?", options: ["Any letter", "Any digit (0-9)", "A whitespace character", "Any character"], answer: 1 },
+          { q: "What does `{3}` mean in the pattern `\\d{3}`?", options: ["At least 3 digits", "Exactly 3 digits", "Up to 3 digits", "3 or more digits"], answer: 1 },
+          { q: "Why is `import re` needed?", options: ["re is a built-in function", "Regex is in the standard library but must be imported", "It downloads regex from the internet", "Python requires all imports"], answer: 1 },
+          { q: "What is the real business value of regex skills for a freelancer?", options: ["It's mainly academic", "Data cleaning is $50-100/hr and almost every business has messy data", "Only backend devs use regex", "It replaces databases"], answer: 1 },
+        ],
       },
       {
         id: "file-automation", title: "File Automation — Organize Anything", xp: 225, analogy: "Think of a filing clerk",
@@ -1560,12 +1992,36 @@ const CURRICULUM = [
           { type: "plain", text: "Real money: A small business owner has 3 years of unsorted invoice PDFs. You write a 20-line script that sorts them by year and client. They pay you $200. Takes you 30 minutes." },
         ],
         hints: ["os.makedirs creates folders — exist_ok=True means don't error if it already exists", "os.listdir('.') lists all files in the current folder", "shutil.move(source, destination) moves a file"],
-        challenge: {
-          prompt: "Write a script that creates 3 folders (reports, invoices, misc) and simulates sorting 5 files into them based on their names.",
-          starterCode: `import os\n\nfolders = ["reports", "invoices", "misc"]\nfor folder in folders:\n    os.makedirs(folder, exist_ok=True)\n    print("Created folder:", folder)\n\nfiles = [\n    "report_jan_2026.pdf",\n    "invoice_marcus_001.pdf",\n    "notes.txt",\n    "report_feb_2026.pdf",\n    "invoice_tamika_002.pdf"\n]\n\nfor filename in files:\n    if "report" in filename:\n        destination = "reports/" + filename\n    elif "invoice" in filename:\n        destination = "invoices/" + filename\n    else:\n        destination = "misc/" + filename\n    print("Sorted:", filename, "->", destination)`,
-          whatItDoes: "You built a file sorting system. Connect this to shutil.move() and it physically moves real files. This script alone is worth $150-300 to any disorganized small business.",
-          check: (output) => output.includes("folder") || output.includes("Sorted") || output.includes("Created"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Write a script that creates 3 folders (reports, invoices, misc) and simulates sorting 5 files into them based on their names.",
+            starterCode: `import os\n\nfolders = ["reports", "invoices", "misc"]\nfor folder in folders:\n    os.makedirs(folder, exist_ok=True)\n    print("Created folder:", folder)\n\nfiles = [\n    "report_jan_2026.pdf",\n    "invoice_marcus_001.pdf",\n    "notes.txt",\n    "report_feb_2026.pdf",\n    "invoice_tamika_002.pdf"\n]\n\nfor filename in files:\n    if "report" in filename:\n        destination = "reports/" + filename\n    elif "invoice" in filename:\n        destination = "invoices/" + filename\n    else:\n        destination = "misc/" + filename\n    print("Sorted:", filename, "->", destination)`,
+            whatItDoes: "You built a file sorting system. Connect this to shutil.move() and it physically moves real files. This script alone is worth $150-300 to any disorganized small business.",
+            check: (output) => output.includes("folder") || output.includes("Sorted") || output.includes("Created"),
+          },
+          {
+            type: "modify",
+            prompt: "Add a date prefix to each sorted filename. Extract the year from filenames containing a year (like '2026') and prepend it: '2026_invoice_marcus_001.pdf'. Files without a year get 'undated_' prefix.",
+            starterCode: `import re\n\nfiles = [\n    "report_jan_2026.pdf",\n    "invoice_marcus_001.pdf",\n    "notes.txt",\n    "report_feb_2026.pdf",\n    "invoice_tamika_002.pdf"\n]\n\nfor filename in files:\n    year_match = re.search(r"\\d{4}", filename)\n    if year_match:\n        year = year_match.group()\n        new_name = year + "_" + filename\n    else:\n        new_name = "undated_" + filename\n    print(filename + "  ->  " + new_name)`,
+            whatItDoes: "Automated file renaming with date extraction. Businesses pay for scripts that rename thousands of legacy files with consistent naming conventions.",
+            check: (output) => output.includes("->") || output.includes("2026") || output.includes("undated"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build an invoice batch renamer. Given a list of files like 'inv_marcus_jan.pdf', rename them to 'INVOICE_2026_01_MARCUS.pdf' format. Print old name -> new name for each.",
+            starterCode: `files = [\n    "inv_marcus_jan.pdf",\n    "inv_tamika_feb.pdf",\n    "inv_deshawn_jan.pdf",\n    "inv_keisha_mar.pdf",\n]\n\nmonth_map = {"jan": "01", "feb": "02", "mar": "03", "apr": "04", "may": "05", "jun": "06"}\n\nfor filename in files:\n    parts = filename.replace(".pdf", "").split("_")\n    client = parts[1].upper()\n    month_key = parts[2].lower()\n    month_num = month_map.get(month_key, "00")\n    new_name = "INVOICE_2026_" + month_num + "_" + client + ".pdf"\n    print(filename + "  ->  " + new_name)`,
+            whatItDoes: "A real file naming standardizer. Every accounting firm, law office, and logistics company has this problem. You just solved it.",
+            check: (output) => output.includes("INVOICE") || output.includes("->") || output.includes("2026"),
+          },
+        ],
+        quiz: [
+          { q: "What does `os.makedirs('folder', exist_ok=True)` do?", options: ["Creates a folder and raises an error if it exists", "Creates a folder and ignores the error if it already exists", "Lists folder contents", "Renames a folder"], answer: 1 },
+          { q: "What does `os.listdir('.')` return?", options: ["A single file path", "A list of all files and folders in the current directory", "The current working directory path", "True if the folder exists"], answer: 1 },
+          { q: "What does `shutil.move(source, destination)` do?", options: ["Copies the file", "Deletes the file", "Moves the file to a new location", "Renames the folder"], answer: 2 },
+          { q: "Why use `exist_ok=True` when creating folders?", options: ["Required by Python", "It speeds up folder creation", "Prevents an error if the folder already exists", "It creates nested folders"], answer: 2 },
+          { q: "What kind of client would pay $200 for a file automation script?", options: ["Large enterprise IT teams only", "Any small business with years of unsorted files — a very common problem", "Only law firms", "No one — this isn't a real product"], answer: 1 },
+        ],
       },
 
       {
@@ -1576,12 +2032,36 @@ const CURRICULUM = [
           { type: "code", label: "PYTHON", color: "#6ee7b7", code: `import json\n\ndata = {"name": "Stanley", "skills": ["Python", "JavaScript"]}\njson_string = json.dumps(data)\nprint("JSON:", json_string)\nparsed = json.loads(json_string)\nprint("Name:", parsed["name"])` },
         ],
         hints: ["import json at the top", "json.dumps() converts a dict to JSON string", "json.loads() converts JSON string back to dict"],
-        challenge: {
-          prompt: "Create a profile dictionary, save it as JSON to a file, read it back, and print your name and goal.",
-          starterCode: `import json\n\nprofile = {\n    "name": "Stanley White",\n    "goal": "Financial Freedom",\n    "skills": ["Python", "JavaScript"],\n    "target": 100000\n}\n\nwith open("profile.json", "w") as f:\n    json.dump(profile, f)\nprint("Saved!")\n\nwith open("profile.json", "r") as f:\n    loaded = json.load(f)\nprint("Name:", loaded["name"])\nprint("Goal:", loaded["goal"])`,
-          whatItDoes: "You saved and loaded real JSON data exactly how apps store user profiles.",
-          check: (output) => output.includes("Name:") || output.includes("Saved"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Create a profile dictionary, save it as JSON to a file, read it back, and print your name and goal.",
+            starterCode: `import json\n\nprofile = {\n    "name": "Stanley White",\n    "goal": "Financial Freedom",\n    "skills": ["Python", "JavaScript"],\n    "target": 100000\n}\n\nwith open("profile.json", "w") as f:\n    json.dump(profile, f)\nprint("Saved!")\n\nwith open("profile.json", "r") as f:\n    loaded = json.load(f)\nprint("Name:", loaded["name"])\nprint("Goal:", loaded["goal"])`,
+            whatItDoes: "You saved and loaded real JSON data exactly how apps store user profiles.",
+            check: (output) => output.includes("Name:") || output.includes("Saved"),
+          },
+          {
+            type: "modify",
+            prompt: "Add a `config.json` file with app settings (theme, language, notifications). Load it on startup and print each setting. Update one setting and save it back.",
+            starterCode: `import json\n\ndefault_config = {\n    "theme": "dark",\n    "language": "en",\n    "notifications": True,\n    "currency": "USD"\n}\n\nwith open("config.json", "w") as f:\n    json.dump(default_config, f, indent=2)\n\nwith open("config.json", "r") as f:\n    config = json.load(f)\n\nprint("=== APP SETTINGS ===")\nfor key, value in config.items():\n    print(key + ": " + str(value))\n\nconfig["theme"] = "light"\nwith open("config.json", "w") as f:\n    json.dump(config, f, indent=2)\nprint("\\nTheme updated to: " + config["theme"])`,
+            whatItDoes: "A config file system — how every app saves user preferences. Used in VS Code, Sublime Text, and every professional tool.",
+            check: (output) => output.includes("SETTINGS") || output.includes("theme") || output.includes("updated"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a JSON data pipeline. Create a list of 3 client records, save as JSON, load it back, add a 'status: active' field to each record, and save the updated version.",
+            starterCode: `import json\n\nclients = [\n    {"id": 1, "name": "Marcus Johnson", "email": "marcus@example.com", "budget": 2500},\n    {"id": 2, "name": "Tamika Williams", "email": "tamika@example.com", "budget": 1500},\n    {"id": 3, "name": "DeShawn Carter", "email": "deshawn@example.com", "budget": 800},\n]\n\nwith open("clients.json", "w") as f:\n    json.dump(clients, f, indent=2)\nprint("Saved", len(clients), "clients")\n\nwith open("clients.json", "r") as f:\n    loaded = json.load(f)\n\nfor client in loaded:\n    client["status"] = "active"\n\nwith open("clients.json", "w") as f:\n    json.dump(loaded, f, indent=2)\n\nprint("Updated all clients to status: active")\nfor c in loaded:\n    print(c["name"] + " -- " + c["status"])`,
+            whatItDoes: "A data migration pipeline: load → transform → save. This is how ETL (Extract-Transform-Load) processes work in real data engineering.",
+            check: (output) => output.includes("active") || output.includes("Saved") || output.includes("Updated"),
+          },
+        ],
+        quiz: [
+          { q: "What does json.dumps(data) return?", options: ["A file object", "A Python dict", "A JSON string", "Nothing — it saves to a file"], answer: 2 },
+          { q: "What is the difference between json.dump() and json.dumps()?", options: ["They're identical", "dump() writes to a file; dumps() returns a string", "dumps() writes to a file; dump() returns a string", "dump() is faster"], answer: 1 },
+          { q: "What format does JSON use for arrays?", options: ["Parentheses ()", "Curly braces {}", "Square brackets []", "Angle brackets <>"], answer: 2 },
+          { q: "Why is JSON the 'universal language' for apps?", options: ["It's the fastest format", "Every programming language can read and write it — perfect for APIs and data exchange", "It's smaller than CSV", "JSON is required by browsers"], answer: 1 },
+          { q: "What does `indent=2` do in `json.dump(data, f, indent=2)`?", options: ["Adds 2 extra fields", "Pretty-prints with 2-space indentation (human readable)", "Compresses the JSON", "Adds 2 to all numbers"], answer: 1 },
+        ],
       },
       {
         id: "flask-basics", title: "Flask — Build Your First Web Server", xp: 275, analogy: "Think of a restaurant kitchen",
@@ -1591,12 +2071,36 @@ const CURRICULUM = [
           { type: "code", label: "PYTHON", color: "#6ee7b7", code: `from flask import Flask, jsonify\n\napp = Flask(__name__)\n\n@app.route("/")\ndef home():\n    return "Hello from your Python server!"\n\n@app.route("/api/profile")\ndef profile():\n    return jsonify({"name": "Stanley", "rate": "$75/hr"})` },
         ],
         hints: ["Install Flask: pip install flask", "@app.route() defines a URL endpoint", "jsonify() converts a Python dict to a JSON response"],
-        challenge: {
-          prompt: "Simulate a Flask app with 3 routes. Call each function and print the responses.",
-          starterCode: `def home():\n    return "Hello from your Python server!"\n\ndef api_profile():\n    return {"name": "Stanley White", "skills": ["Python", "Flask"], "rate": "$75/hr"}\n\ndef api_services():\n    return {"services": ["Websites", "Automation", "Chatbots"], "starting_at": "$200"}\n\nroutes = {"/": home, "/api/profile": api_profile, "/api/services": api_services}\n\nprint("=== FLASK SERVER SIMULATION ===")\nfor route, handler in routes.items():\n    print("\\nGET", route)\n    print("Response:", handler())`,
-          whatItDoes: "You simulated a real Flask web server with multiple routes.",
-          check: (output) => output.includes("FLASK") || output.includes("profile"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Simulate a Flask app with 3 routes. Call each function and print the responses.",
+            starterCode: `def home():\n    return "Hello from your Python server!"\n\ndef api_profile():\n    return {"name": "Stanley White", "skills": ["Python", "Flask"], "rate": "$75/hr"}\n\ndef api_services():\n    return {"services": ["Websites", "Automation", "Chatbots"], "starting_at": "$200"}\n\nroutes = {"/": home, "/api/profile": api_profile, "/api/services": api_services}\n\nprint("=== FLASK SERVER SIMULATION ===")\nfor route, handler in routes.items():\n    print("\\nGET", route)\n    print("Response:", handler())`,
+            whatItDoes: "You simulated a real Flask web server with multiple routes.",
+            check: (output) => output.includes("FLASK") || output.includes("profile"),
+          },
+          {
+            type: "modify",
+            prompt: "Add a 404 handler. If a route is not in the routes dict, return {'error': 'Route not found', 'status': 404}. Test it by looking up '/api/missing'.",
+            starterCode: `def home():\n    return {"message": "Welcome", "status": 200}\n\ndef api_profile():\n    return {"name": "Stanley White", "rate": "$75/hr", "status": 200}\n\nroutes = {"/": home, "/api/profile": api_profile}\n\ndef handle_request(path):\n    if path in routes:\n        return routes[path]()\n    else:\n        return {"error": "Route not found", "status": 404}\n\nfor path in ["/", "/api/profile", "/api/missing", "/dashboard"]:\n    result = handle_request(path)\n    print("GET " + path + " ->", result["status"])\n    print("  ", result)`,
+            whatItDoes: "404 handling: never let an unknown route crash your server. This is the #1 production issue new Flask developers encounter.",
+            check: (output) => output.includes("404") || output.includes("not found") || output.includes("GET"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a REST API simulator. Create endpoints: GET /products (returns a list), GET /products/1 (returns product by id), POST /products (adds a product). Simulate all 3 requests.",
+            starterCode: `products = [\n    {"id": 1, "name": "CSV Cleaner Script", "price": 299},\n    {"id": 2, "name": "Invoice Automation", "price": 499},\n]\n\ndef get_products():\n    return {"products": products, "count": len(products)}\n\ndef get_product(product_id):\n    for p in products:\n        if p["id"] == product_id:\n            return p\n    return {"error": "Not found"}\n\ndef create_product(name, price):\n    new_id = max(p["id"] for p in products) + 1\n    new_product = {"id": new_id, "name": name, "price": price}\n    products.append(new_product)\n    return {"created": new_product}\n\nprint("GET /products:", get_products())\nprint("GET /products/1:", get_product(1))\nprint("POST /products:", create_product("Web Scraper", 399))\nprint("GET /products:", get_products())`,
+            whatItDoes: "A complete REST API — GET all, GET one, POST new. This is the pattern behind every API you've ever used.",
+            check: (output) => output.includes("products") || output.includes("GET") || output.includes("created"),
+          },
+        ],
+        quiz: [
+          { q: "What does `@app.route('/')` do in Flask?", options: ["Creates a database table", "Maps a URL path to a Python function", "Imports Flask", "Starts the server"], answer: 1 },
+          { q: "What does `jsonify(data)` do in Flask?", options: ["Converts data to a CSV", "Returns a JSON HTTP response with correct headers", "Prints data", "Saves data to a file"], answer: 1 },
+          { q: "What HTTP method do you use to retrieve data from a server?", options: ["POST", "PUT", "DELETE", "GET"], answer: 3 },
+          { q: "What does a 404 status code mean?", options: ["Server error", "Success", "Redirect", "Resource not found"], answer: 3 },
+          { q: "Flask is described as 'micro' framework. What does that mean?", options: ["It only runs on small computers", "It includes everything you need out of the box", "It provides minimal setup — you add what you need", "It's slower than other frameworks"], answer: 2 },
+        ],
       },
       {
         id: "sqlite-basics", title: "SQLite — Simple Databases", xp: 250, analogy: "Think of a permanent spreadsheet",
@@ -1606,12 +2110,36 @@ const CURRICULUM = [
           { type: "code", label: "PYTHON", color: "#6ee7b7", code: `import sqlite3\n\nconn = sqlite3.connect("clients.db")\ncursor = conn.cursor()\ncursor.execute("CREATE TABLE IF NOT EXISTS clients (id INTEGER PRIMARY KEY, name TEXT, budget INTEGER)")\ncursor.execute("INSERT INTO clients (name, budget) VALUES (?, ?)", ("Marcus", 2500))\nconn.commit()\ncursor.execute("SELECT * FROM clients")\nprint(cursor.fetchall())\nconn.close()` },
         ],
         hints: ["sqlite3 is built into Python", "CREATE TABLE makes a table. INSERT adds data. SELECT retrieves it.", "Always commit() after inserting and close() when done"],
-        challenge: {
-          prompt: "Create a freelance.db with a projects table. Insert 3 projects and print them all.",
-          starterCode: `import sqlite3\n\nconn = sqlite3.connect("freelance.db")\ncursor = conn.cursor()\ncursor.execute("CREATE TABLE IF NOT EXISTS projects (id INTEGER PRIMARY KEY, client TEXT, service TEXT, amount INTEGER, status TEXT)")\n\nprojects = [("Marcus", "Website", 1500, "completed"), ("Tamika", "Automation", 800, "in progress"), ("DeShawn", "Chatbot", 1200, "completed")]\n\nfor p in projects:\n    cursor.execute("INSERT INTO projects (client, service, amount, status) VALUES (?, ?, ?, ?)", p)\nconn.commit()\n\nprint("=== FREELANCE DATABASE ===")\ncursor.execute("SELECT * FROM projects")\nfor row in cursor.fetchall():\n    print("Client:", row[1], "| Service:", row[2], "| $" + str(row[3]), "| Status:", row[4])\n\ncursor.execute("SELECT SUM(amount) FROM projects WHERE status = \'completed\'")\nprint("Total earned: $", cursor.fetchone()[0])\nconn.close()`,
-          whatItDoes: "You built a real database that stores freelance project data permanently.",
-          check: (output) => output.includes("DATABASE") || output.includes("Client:") || output.includes("Total"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Create a freelance.db with a projects table. Insert 3 projects and print them all.",
+            starterCode: `import sqlite3\n\nconn = sqlite3.connect("freelance.db")\ncursor = conn.cursor()\ncursor.execute("CREATE TABLE IF NOT EXISTS projects (id INTEGER PRIMARY KEY, client TEXT, service TEXT, amount INTEGER, status TEXT)")\n\nprojects = [("Marcus", "Website", 1500, "completed"), ("Tamika", "Automation", 800, "in progress"), ("DeShawn", "Chatbot", 1200, "completed")]\n\nfor p in projects:\n    cursor.execute("INSERT INTO projects (client, service, amount, status) VALUES (?, ?, ?, ?)", p)\nconn.commit()\n\nprint("=== FREELANCE DATABASE ===")\ncursor.execute("SELECT * FROM projects")\nfor row in cursor.fetchall():\n    print("Client:", row[1], "| Service:", row[2], "| $" + str(row[3]), "| Status:", row[4])\n\ncursor.execute("SELECT SUM(amount) FROM projects WHERE status = 'completed'")\nprint("Total earned: $", cursor.fetchone()[0])\nconn.close()`,
+            whatItDoes: "You built a real database that stores freelance project data permanently.",
+            check: (output) => output.includes("DATABASE") || output.includes("Client:") || output.includes("Total"),
+          },
+          {
+            type: "modify",
+            prompt: "Add UPDATE and DELETE operations. Update the 'in progress' project to 'completed'. Delete any project with amount < 1000. Print the final database state.",
+            starterCode: `import sqlite3\n\nconn = sqlite3.connect("freelance2.db")\ncursor = conn.cursor()\ncursor.execute("CREATE TABLE IF NOT EXISTS projects (id INTEGER PRIMARY KEY, client TEXT, amount INTEGER, status TEXT)")\n\ndata = [("Marcus", 1500, "completed"), ("Tamika", 800, "in progress"), ("DeShawn", 500, "completed")]\nfor d in data:\n    cursor.execute("INSERT INTO projects (client, amount, status) VALUES (?, ?, ?)", d)\nconn.commit()\n\ncursor.execute("UPDATE projects SET status = 'completed' WHERE status = 'in progress'")\nprint("Updated in-progress to completed")\n\ncursor.execute("DELETE FROM projects WHERE amount < 1000")\nprint("Deleted low-value projects")\nconn.commit()\n\nprint("\\n=== FINAL DATABASE ===")\ncursor.execute("SELECT * FROM projects")\nfor row in cursor.fetchall():\n    print(row[1], "| $" + str(row[2]) + " | " + row[3])\nconn.close()`,
+            whatItDoes: "Full CRUD: Create, Read, Update, Delete. This is the foundation of every app with persistent data.",
+            check: (output) => output.includes("Updated") || output.includes("FINAL") || output.includes("Deleted"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a client tracker database. Create a clients table with name, email, total_paid, and active columns. Insert 3 clients, query total revenue from active clients, and list them sorted by total_paid.",
+            starterCode: `import sqlite3\n\nconn = sqlite3.connect("clients.db")\ncursor = conn.cursor()\n\ncursor.execute("""\n    CREATE TABLE IF NOT EXISTS clients (\n        id INTEGER PRIMARY KEY,\n        name TEXT,\n        email TEXT,\n        total_paid INTEGER,\n        active INTEGER\n    )\n""")\n\nclients = [\n    ("Marcus Johnson", "marcus@ex.com", 4500, 1),\n    ("Tamika Williams", "tamika@ex.com", 1200, 1),\n    ("DeShawn Carter", "deshawn@ex.com", 800, 0),\n]\nfor c in clients:\n    cursor.execute("INSERT INTO clients (name, email, total_paid, active) VALUES (?, ?, ?, ?)", c)\nconn.commit()\n\ncursor.execute("SELECT SUM(total_paid) FROM clients WHERE active = 1")\nrevenue = cursor.fetchone()[0]\nprint("Active client revenue: $" + str(revenue))\n\nprint("\\nClients by revenue:")\ncursor.execute("SELECT name, total_paid, active FROM clients ORDER BY total_paid DESC")\nfor row in cursor.fetchall():\n    status = "Active" if row[2] else "Inactive"\n    print(row[0] + ": $" + str(row[1]) + " -- " + status)\n\nconn.close()`,
+            whatItDoes: "A real CRM database with filtering and sorting. This is the data layer behind every client management tool.",
+            check: (output) => output.includes("revenue") || output.includes("Active") || output.includes("$"),
+          },
+        ],
+        quiz: [
+          { q: "What does sqlite3 need to run?", options: ["A separate installation", "An internet connection", "Nothing — it's built into Python", "A license"], answer: 2 },
+          { q: "What is the purpose of `conn.commit()` after inserting data?", options: ["Closes the connection", "Saves the changes permanently to the database", "Returns the inserted data", "Creates an index"], answer: 1 },
+          { q: "What does `cursor.fetchall()` return?", options: ["The number of rows", "The first row", "All rows from the last SELECT query as a list of tuples", "A dictionary"], answer: 2 },
+          { q: "Why use `?` placeholders in SQL queries instead of string formatting?", options: ["It's required by SQLite", "Prevents SQL injection attacks", "Makes queries faster", "Works with any database"], answer: 1 },
+          { q: "What SQL keyword filters rows by a condition?", options: ["FILTER", "WHERE", "FIND", "SELECT"], answer: 1 },
+        ],
       },
       {
         id: "virtual-environments", title: "Virtual Environments — Professional Python Setup", xp: 175, analogy: "Think of separate toolboxes for each job",
@@ -1621,12 +2149,36 @@ const CURRICULUM = [
           { type: "code", label: "TERMINAL", color: "#6ee7b7", code: `python3 -m venv myproject\nsource myproject/bin/activate\npip install flask requests pandas\npip freeze > requirements.txt\ndeactivate` },
         ],
         hints: ["python3 -m venv name creates the environment", "source name/bin/activate turns it on", "pip freeze > requirements.txt saves all your packages"],
-        challenge: {
-          prompt: "Simulate a virtual environment setup by printing each step and what it does.",
-          starterCode: `steps = [\n    ("python3 -m venv codegrind_env", "Creates an isolated Python environment"),\n    ("source codegrind_env/bin/activate", "Activates the environment"),\n    ("pip install flask requests pandas", "Installs packages only in this environment"),\n    ("pip freeze > requirements.txt", "Saves package list so others can replicate"),\n    ("deactivate", "Turns off the environment when done")\n]\n\nprint("=== VIRTUAL ENVIRONMENT SETUP ===")\nfor command, explanation in steps:\n    print("$ " + command)\n    print("  ->", explanation)\n    print()\n\nprint("Your project is now professionally set up!")`,
-          whatItDoes: "Virtual environments are standard practice in professional Python development.",
-          check: (output) => output.includes("VIRTUAL") || output.includes("professionally"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Simulate a virtual environment setup by printing each step and what it does.",
+            starterCode: `steps = [\n    ("python3 -m venv codegrind_env", "Creates an isolated Python environment"),\n    ("source codegrind_env/bin/activate", "Activates the environment"),\n    ("pip install flask requests pandas", "Installs packages only in this environment"),\n    ("pip freeze > requirements.txt", "Saves package list so others can replicate"),\n    ("deactivate", "Turns off the environment when done")\n]\n\nprint("=== VIRTUAL ENVIRONMENT SETUP ===")\nfor command, explanation in steps:\n    print("$ " + command)\n    print("  ->", explanation)\n    print()\n\nprint("Your project is now professionally set up!")`,
+            whatItDoes: "Virtual environments are standard practice in professional Python development.",
+            check: (output) => output.includes("VIRTUAL") || output.includes("professionally"),
+          },
+          {
+            type: "modify",
+            prompt: "Add version numbers to the install step. Print 'Installed: flask==3.0.0, requests==2.31.0, pandas==2.1.0' after each package install. Simulate pip freeze output with those versions.",
+            starterCode: `packages = [\n    ("flask", "3.0.0"),\n    ("requests", "2.31.0"),\n    ("pandas", "2.1.0"),\n    ("python-dotenv", "1.0.0"),\n]\n\nprint("=== INSTALLING PACKAGES ===")\nfor name, version in packages:\n    print("Installing " + name + "==" + version + "...")\n    print("  Installed: " + name + "-" + version)\n    print()\n\nprint("=== requirements.txt ===")\nfor name, version in packages:\n    print(name + "==" + version)`,
+            whatItDoes: "requirements.txt with pinned versions is how professional Python projects are shared. Any developer can replicate your setup exactly.",
+            check: (output) => output.includes("==") || output.includes("requirements") || output.includes("Installing"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a project scaffolder. Given a project name, print the commands to: create a folder, create a venv, activate it, create a main.py file, and create a requirements.txt. Include the exact bash commands.",
+            starterCode: `def scaffold_project(project_name):\n    print("=== SCAFFOLD: " + project_name + " ===")\n    print()\n    commands = [\n        ("mkdir " + project_name, "Create project folder"),\n        ("cd " + project_name, "Enter folder"),\n        ("python3 -m venv venv", "Create virtual environment"),\n        ("source venv/bin/activate", "Activate environment"),\n        ("touch main.py requirements.txt .env", "Create starter files"),\n        ("echo '# " + project_name + "' > README.md", "Create README"),\n    ]\n    for cmd, desc in commands:\n        print("$ " + cmd)\n        print("  # " + desc)\n        print()\n    print("Project ready! Start coding in main.py")\n\nscaffold_project("my_automation_tool")`,
+            whatItDoes: "A project scaffolder. Run these commands in a real terminal and you have a professional Python project in 60 seconds.",
+            check: (output) => output.includes("SCAFFOLD") || output.includes("mkdir") || output.includes("venv"),
+          },
+        ],
+        quiz: [
+          { q: "What is the main benefit of a virtual environment?", options: ["Faster code execution", "Isolated dependencies — each project has its own packages without conflicts", "Automatic testing", "Online code sharing"], answer: 1 },
+          { q: "What command creates a virtual environment named 'venv'?", options: ["virtualenv create venv", "python3 -m venv venv", "pip create venv", "create-venv venv"], answer: 1 },
+          { q: "What does `pip freeze > requirements.txt` do?", options: ["Installs packages from requirements.txt", "Saves the current environment's packages and versions to a file", "Deletes unused packages", "Upgrades all packages"], answer: 1 },
+          { q: "How does another developer replicate your exact environment from requirements.txt?", options: ["pip install", "pip install -r requirements.txt", "python setup.py install", "pip freeze"], answer: 1 },
+          { q: "Why do professional Python developers always use virtual environments?", options: ["It's required by Python", "To avoid dependency conflicts between different projects", "Virtual environments are faster", "To keep code private"], answer: 1 },
+        ],
       },
       {
         id: "pandas-intro", title: "Pandas — Data Analysis Like a Pro", xp: 275, analogy: "Think of a supercharged spreadsheet",
@@ -1636,12 +2188,36 @@ const CURRICULUM = [
           { type: "code", label: "PYTHON", color: "#6ee7b7", code: `import pandas as pd\n\ndf = pd.read_csv("sales.csv")\nprint(df.head())\nprint("Total:", df["amount"].sum())\nprint("Average:", df["amount"].mean())` },
         ],
         hints: ["Install: pip install pandas", "pd.read_csv() loads a CSV into a DataFrame", "Use .sum(), .mean(), .groupby() to analyze"],
-        challenge: {
-          prompt: "Create a pandas DataFrame with sales data, calculate totals and averages, and find the top performer.",
-          starterCode: `import pandas as pd\n\ndata = {\n    "name": ["Marcus", "Tamika", "DeShawn", "Keisha", "Jerome"],\n    "sales": [1500, 2200, 900, 3100, 1800],\n    "region": ["South", "East", "West", "East", "South"]\n}\n\ndf = pd.DataFrame(data)\nprint("=== SALES REPORT ===")\nprint(df.to_string(index=False))\nprint("\\nTotal sales: $", df["sales"].sum())\nprint("Average sale: $", df["sales"].mean())\nprint("Top performer:", df.loc[df["sales"].idxmax(), "name"])`,
-          whatItDoes: "You analyzed a sales dataset with pandas exactly what data freelancers get paid for.",
-          check: (output) => output.includes("SALES") || output.includes("Total") || output.includes("performer"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Create a pandas DataFrame with sales data, calculate totals and averages, and find the top performer.",
+            starterCode: `import pandas as pd\n\ndata = {\n    "name": ["Marcus", "Tamika", "DeShawn", "Keisha", "Jerome"],\n    "sales": [1500, 2200, 900, 3100, 1800],\n    "region": ["South", "East", "West", "East", "South"]\n}\n\ndf = pd.DataFrame(data)\nprint("=== SALES REPORT ===")\nprint(df.to_string(index=False))\nprint("\\nTotal sales: $", df["sales"].sum())\nprint("Average sale: $", df["sales"].mean())\nprint("Top performer:", df.loc[df["sales"].idxmax(), "name"])`,
+            whatItDoes: "You analyzed a sales dataset with pandas exactly what data freelancers get paid for.",
+            check: (output) => output.includes("SALES") || output.includes("Total") || output.includes("performer"),
+          },
+          {
+            type: "modify",
+            prompt: "Add groupby analysis: group sales by region and print total sales per region, sorted highest to lowest.",
+            starterCode: `import pandas as pd\n\ndata = {\n    "name": ["Marcus", "Tamika", "DeShawn", "Keisha", "Jerome"],\n    "sales": [1500, 2200, 900, 3100, 1800],\n    "region": ["South", "East", "West", "East", "South"]\n}\n\ndf = pd.DataFrame(data)\n\nregional = df.groupby("region")["sales"].sum().sort_values(ascending=False)\n\nprint("=== SALES BY REGION ===")\nfor region, total in regional.items():\n    print(region + ": $" + str(total))\n\nprint("\\nTop region:", regional.idxmax())`,
+            whatItDoes: "groupby() is pandas' superpower for business reporting. This exact pattern generates the regional breakdowns in every sales dashboard.",
+            check: (output) => output.includes("REGION") || output.includes("East") || output.includes("South"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a monthly P&L report. Create a DataFrame with months (Jan-Jun), revenue, and expenses. Calculate profit per month, total profit, and the best month. Print a formatted table.",
+            starterCode: `import pandas as pd\n\ndata = {\n    "month": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],\n    "revenue": [2000, 3500, 2800, 4200, 5100, 3900],\n    "expenses": [800, 1200, 900, 1400, 1600, 1100]\n}\n\ndf = pd.DataFrame(data)\ndf["profit"] = df["revenue"] - df["expenses"]\ndf["margin"] = (df["profit"] / df["revenue"] * 100).round(1)\n\nprint("=== P&L REPORT ===")\nprint(df.to_string(index=False))\nprint()\nprint("Total revenue: $" + str(df["revenue"].sum()))\nprint("Total profit:  $" + str(df["profit"].sum()))\nbest_idx = df["profit"].idxmax()\nprint("Best month: " + df.loc[best_idx, "month"] + " ($" + str(df.loc[best_idx, "profit"]) + ")")`,
+            whatItDoes: "A real P&L report. Every small business needs this monthly. Freelancers charge $150-500 for automated financial reports like this.",
+            check: (output) => output.includes("P&L") || output.includes("profit") || output.includes("revenue"),
+          },
+        ],
+        quiz: [
+          { q: "What does pd.DataFrame(data) do?", options: ["Creates a CSV file", "Creates a 2D table structure from a dictionary or list", "Imports pandas", "Plots a chart"], answer: 1 },
+          { q: "What does df['sales'].sum() return?", options: ["The count of sales rows", "The total sum of all values in the sales column", "The average sale", "The max value"], answer: 1 },
+          { q: "What does groupby('region')['sales'].sum() do?", options: ["Filters by region", "Groups rows by region and sums sales for each group", "Sorts by region", "Deletes duplicate regions"], answer: 1 },
+          { q: "Why is pandas better than Excel for large datasets?", options: ["Excel can't open CSV files", "Pandas handles millions of rows programmatically, automation-friendly, no manual clicks", "Pandas has better charts", "Excel doesn't support numbers"], answer: 1 },
+          { q: "What does df.loc[df['sales'].idxmax(), 'name'] return?", options: ["The max sale amount", "The name of the row with the highest sales value", "All names sorted by sales", "The index of the max row"], answer: 1 },
+        ],
       },
       {
         id: "mini-project-scraper", title: "Mini Project — Price Tracker", xp: 300, analogy: "Think of a personal shopper",
@@ -1652,12 +2228,36 @@ const CURRICULUM = [
           { type: "plain", text: "This exact type of tool is requested constantly on Fiverr. 'Track prices for my Amazon products' — $300-1,000 per project." },
         ],
         hints: ["Run the starter code first to see how the structure works", "The save_price function appends to a CSV each time it runs", "In production you'd schedule this to run every hour with a cron job"],
-        challenge: {
-          prompt: "Build the price tracker. Simulate checking 3 products and saving their prices to a CSV file. Print a summary at the end.",
-          starterCode: `import csv\nfrom datetime import date\n\ndef save_price(product, price, url):\n    with open("price_history.csv", "a", newline="") as f:\n        writer = csv.writer(f)\n        writer.writerow([date.today(), product, price, url])\n\ndef check_prices(products):\n    print("=== PRICE TRACKER RUNNING ===")\n    print("Date:", str(date.today()))\n    print()\n    for product in products:\n        print("Checking:", product["name"])\n        print("  URL:", product["url"])\n        print("  Price:", product["simulated_price"])\n        save_price(product["name"], product["simulated_price"], product["url"])\n        print("  Saved to CSV")\n        print()\n    print("Tracked", len(products), "products.")\n\nmy_products = [\n    {"name": "Python Book", "url": "amazon.com/python-book", "simulated_price": "$29.99"},\n    {"name": "Mechanical Keyboard", "url": "amazon.com/keyboard", "simulated_price": "$89.99"},\n    {"name": "Monitor Stand", "url": "amazon.com/stand", "simulated_price": "$45.00"},\n]\n\ncheck_prices(my_products)`,
-          whatItDoes: "A complete price tracking system. Add real web scraping and schedule it to run daily and you have a $500 Fiverr product.",
-          check: (output) => output.includes("TRACKER") || output.includes("Tracked") || output.includes("Price"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Build the price tracker. Simulate checking 3 products and saving their prices to a CSV file. Print a summary at the end.",
+            starterCode: `import csv\nfrom datetime import date\n\ndef save_price(product, price, url):\n    with open("price_history.csv", "a", newline="") as f:\n        writer = csv.writer(f)\n        writer.writerow([date.today(), product, price, url])\n\ndef check_prices(products):\n    print("=== PRICE TRACKER RUNNING ===")\n    print("Date:", str(date.today()))\n    print()\n    for product in products:\n        print("Checking:", product["name"])\n        print("  URL:", product["url"])\n        print("  Price:", product["simulated_price"])\n        save_price(product["name"], product["simulated_price"], product["url"])\n        print("  Saved to CSV")\n        print()\n    print("Tracked", len(products), "products.")\n\nmy_products = [\n    {"name": "Python Book", "url": "amazon.com/python-book", "simulated_price": "$29.99"},\n    {"name": "Mechanical Keyboard", "url": "amazon.com/keyboard", "simulated_price": "$89.99"},\n    {"name": "Monitor Stand", "url": "amazon.com/stand", "simulated_price": "$45.00"},\n]\n\ncheck_prices(my_products)`,
+            whatItDoes: "A complete price tracking system. Add real web scraping and schedule it to run daily and you have a $500 Fiverr product.",
+            check: (output) => output.includes("TRACKER") || output.includes("Tracked") || output.includes("Price"),
+          },
+          {
+            type: "modify",
+            prompt: "Add price comparison. Track each product's previous price in a dict. After 'checking', compare new vs old price and print 'PRICE DROP!' if it went down or 'INCREASED' if it went up.",
+            starterCode: `from datetime import date\n\nprevious_prices = {\n    "Python Book": "$34.99",\n    "Keyboard": "$99.99",\n    "Monitor Stand": "$45.00"\n}\n\ncurrent_prices = {\n    "Python Book": "$29.99",\n    "Keyboard": "$89.99",\n    "Monitor Stand": "$47.00"\n}\n\nprint("=== PRICE COMPARISON ===")\nfor product, new_price in current_prices.items():\n    old = float(previous_prices[product].replace("$", ""))\n    new = float(new_price.replace("$", ""))\n    diff = new - old\n    if diff < 0:\n        status = "PRICE DROP! Save $" + str(abs(round(diff, 2)))\n    elif diff > 0:\n        status = "INCREASED by $" + str(round(diff, 2))\n    else:\n        status = "No change"\n    print(product + ": " + new_price + " -- " + status)`,
+            whatItDoes: "Automated price comparison — the core logic of every deal alert and price history service like CamelCamelCamel.",
+            check: (output) => output.includes("PRICE DROP") || output.includes("INCREASED") || output.includes("COMPARISON"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build the complete price alert system. Simulate 5 days of price checks for 3 products (use a list of daily prices). When a price drops below the target, print 'ALERT: Buy now!' with the savings.",
+            starterCode: `products = [\n    {"name": "Python Book", "target": 25.00, "daily_prices": [34.99, 32.99, 29.99, 27.50, 24.99]},\n    {"name": "Keyboard", "target": 85.00, "daily_prices": [99.99, 99.99, 94.99, 89.99, 87.00]},\n    {"name": "Monitor Stand", "target": 40.00, "daily_prices": [45.00, 45.00, 42.00, 43.00, 39.99]},\n]\n\nfor product in products:\n    print("Tracking: " + product["name"] + " (target: $" + str(product["target"]) + ")")\n    for day, price in enumerate(product["daily_prices"], 1):\n        if price <= product["target"]:\n            savings = round(product["daily_prices"][0] - price, 2)\n            print("  Day " + str(day) + ": $" + str(price) + " -- ALERT: Buy now! Save $" + str(savings))\n        else:\n            print("  Day " + str(day) + ": $" + str(price))\n    print()`,
+            whatItDoes: "A complete price alert system. Schedule this to run daily, connect to real scraping, and it's a product worth $500+ on Fiverr.",
+            check: (output) => output.includes("ALERT") || output.includes("target") || output.includes("Tracking"),
+          },
+        ],
+        quiz: [
+          { q: "What does the 'a' mode do in `open('file.csv', 'a')`?", options: ["Opens for reading only", "Overwrites the file each time", "Appends new data to the end without erasing existing content", "Creates a new file always"], answer: 2 },
+          { q: "Why use `date.today()` when logging prices?", options: ["Required by the csv module", "To know WHEN each price was recorded — price history is useless without timestamps", "Python requires dates in CSVs", "To sort the data"], answer: 1 },
+          { q: "What's the real business value of a price tracker?", options: ["It's mainly educational", "Businesses pay $300-1,000 for automated competitor price monitoring", "Only Amazon uses price trackers", "It replaces buying products"], answer: 1 },
+          { q: "How would you schedule a Python script to run every day automatically?", options: ["Use time.sleep(86400) in a loop", "Cron jobs (Linux/Mac) or Task Scheduler (Windows)", "Email yourself to remember", "Flask handles scheduling"], answer: 1 },
+          { q: "What does `float('$29.99'.replace('$',''))` return?", options: ["'29.99'", "Error", "29.99 as a float", "29"], answer: 2 },
+        ],
       },
     ],
   },
@@ -1673,12 +2273,36 @@ const CURRICULUM = [
           { type: "plain", text: "Notice the function inside the object — that's a method. Objects can contain data AND behavior. This is the foundation of object-oriented JavaScript." },
         ],
         hints: ["Create an object: const obj = { key: value, key2: value2 }", "Access properties with dot notation: obj.name", "Add functions inside objects — they're called methods"],
-        challenge: {
-          prompt: "Create a JavaScript object called 'myBusiness' with your name, service, rate, and a method called 'getQuote' that takes hours and logs the total cost.",
-          starterCode: `const myBusiness = {\n  owner: "Stanley White",\n  service: "Web Development",\n  hourlyRate: 75,\n  \n  getQuote: function(hours) {\n    const total = this.hourlyRate * hours\n    console.log("Quote for " + this.service)\n    console.log("Hours: " + hours + " @ $" + this.hourlyRate + "/hr")\n    console.log("Total: $" + total)\n    return total\n  }\n}\n\nconsole.log("Business:", myBusiness.owner)\nconsole.log("Service:", myBusiness.service)\nconsole.log("")\nmyBusiness.getQuote(20)\nconsole.log("")\nmyBusiness.getQuote(40)`,
-          whatItDoes: "You built a business object with a quote generator method. This is how real apps model data — users, products, orders are all objects like this.",
-          check: (output) => output.includes("Quote") || output.includes("Total") || output.includes("$"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Create a JavaScript object called 'myBusiness' with your name, service, rate, and a method called 'getQuote' that takes hours and logs the total cost.",
+            starterCode: `const myBusiness = {\n  owner: "Stanley White",\n  service: "Web Development",\n  hourlyRate: 75,\n  \n  getQuote: function(hours) {\n    const total = this.hourlyRate * hours\n    console.log("Quote for " + this.service)\n    console.log("Hours: " + hours + " @ $" + this.hourlyRate + "/hr")\n    console.log("Total: $" + total)\n    return total\n  }\n}\n\nconsole.log("Business:", myBusiness.owner)\nconsole.log("Service:", myBusiness.service)\nconsole.log("")\nmyBusiness.getQuote(20)\nconsole.log("")\nmyBusiness.getQuote(40)`,
+            whatItDoes: "You built a business object with a quote generator method. This is how real apps model data — users, products, orders are all objects like this.",
+            check: (output) => output.includes("Quote") || output.includes("Total") || output.includes("$"),
+          },
+          {
+            type: "modify",
+            prompt: "Add a toString() method that returns a formatted string: 'Stanley White | Web Development | $75/hr'. Call it and log the result.",
+            starterCode: `const myBusiness = {\n  owner: "Stanley White",\n  service: "Web Development",\n  hourlyRate: 75,\n  \n  getQuote: function(hours) {\n    return this.hourlyRate * hours\n  },\n  \n  toString: function() {\n    return this.owner + " | " + this.service + " | $" + this.hourlyRate + "/hr"\n  }\n}\n\nconsole.log("Profile:", myBusiness.toString())\nconsole.log("20hr quote: $" + myBusiness.getQuote(20))\nconsole.log("40hr quote: $" + myBusiness.getQuote(40))`,
+            whatItDoes: "A toString() method makes objects human-readable. Used in logging, display, and APIs everywhere.",
+            check: (output) => output.includes("Profile") || output.includes("|") || output.includes("quote"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a Project object with title, client, hourlyRate, and hoursWorked. Add methods: getTotal() (rate × hours), getStatus() (returns 'In progress' or 'Complete' based on hoursWorked > 0). Log all details.",
+            starterCode: `const project = {\n  title: "Website Redesign",\n  client: "Marcus Johnson",\n  hourlyRate: 75,\n  hoursWorked: 15,\n  \n  getTotal: function() {\n    return this.hourlyRate * this.hoursWorked\n  },\n  \n  getStatus: function() {\n    return this.hoursWorked > 0 ? "In progress" : "Not started"\n  },\n  \n  getSummary: function() {\n    console.log("Project: " + this.title)\n    console.log("Client: " + this.client)\n    console.log("Status: " + this.getStatus())\n    console.log("Earned so far: $" + this.getTotal())\n  }\n}\n\nproject.getSummary()`,
+            whatItDoes: "A complete project model. Every project management tool — Trello, Asana, Jira — stores projects as objects like this.",
+            check: (output) => output.includes("Project") || output.includes("Status") || output.includes("Earned"),
+          },
+        ],
+        quiz: [
+          { q: "How do you access a property called 'name' on an object called 'user'?", options: ["user->name", "user[name]", "user.name", "get(user, name)"], answer: 2 },
+          { q: "What is `this` inside an object method?", options: ["The window object", "The function itself", "The object that owns the method", "Undefined"], answer: 2 },
+          { q: "What is the difference between an object and an array in JavaScript?", options: ["Objects are faster", "Arrays are ordered lists; objects are labeled collections of key-value pairs", "They're identical", "Arrays can't contain functions"], answer: 1 },
+          { q: "How do you add a method to an object literal?", options: ["object.method = def() {}", "Include it as a key with a function value: method: function() {}", "object.prototype.method = function()", "Methods can't be in object literals"], answer: 1 },
+          { q: "JavaScript objects are most similar to which Python data structure?", options: ["Lists", "Tuples", "Dictionaries", "Sets"], answer: 2 },
+        ],
       },
       {
         id: "js-fetch", title: "Fetch API — Get Live Data in JavaScript", xp: 200, analogy: "Think of ordering delivery", language: "javascript",
@@ -1689,12 +2313,36 @@ const CURRICULUM = [
           { type: "plain", text: "The .then() chain handles the response. First convert to JSON, then use the data. The .catch() handles errors gracefully. This pattern is in every JavaScript app ever built." },
         ],
         hints: ["fetch(url) returns a Promise — you need .then() to handle the result", "First .then(response => response.json()) converts the response", "Second .then(data => ...) is where you use the actual data"],
-        challenge: {
-          prompt: "Use fetch() to get a random joke from the joke API and log the setup and punchline.",
-          starterCode: `fetch("https://official-joke-api.appspot.com/random_joke")\n  .then(response => response.json())\n  .then(joke => {\n    console.log("Type:", joke.type)\n    console.log("Setup:", joke.setup)\n    console.log("Punchline:", joke.punchline)\n    console.log("---")\n    console.log("Joke ID:", joke.id)\n  })\n  .catch(error => {\n    console.log("Fetch failed:", error.message)\n  })`,
-          whatItDoes: "You fetched live data from a real API using JavaScript. This exact pattern powers Twitter feeds, weather apps, stock tickers — everything dynamic on the web.",
-          check: (output) => output.includes("Setup") || output.includes("Punchline") || output.length > 5,
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Use fetch() to get a random joke from the joke API and log the setup and punchline.",
+            starterCode: `fetch("https://official-joke-api.appspot.com/random_joke")\n  .then(response => response.json())\n  .then(joke => {\n    console.log("Type:", joke.type)\n    console.log("Setup:", joke.setup)\n    console.log("Punchline:", joke.punchline)\n    console.log("---")\n    console.log("Joke ID:", joke.id)\n  })\n  .catch(error => {\n    console.log("Fetch failed:", error.message)\n  })`,
+            whatItDoes: "You fetched live data from a real API using JavaScript. This exact pattern powers Twitter feeds, weather apps, stock tickers — everything dynamic on the web.",
+            check: (output) => output.includes("Setup") || output.includes("Punchline") || output.length > 5,
+          },
+          {
+            type: "modify",
+            prompt: "Add a loading state. Log 'Fetching joke...' before the fetch starts and 'Done!' when it completes (in .finally()). Also log the response status code.",
+            starterCode: `console.log("Fetching joke...")\n\nfetch("https://official-joke-api.appspot.com/random_joke")\n  .then(response => {\n    console.log("Status:", response.status)\n    return response.json()\n  })\n  .then(joke => {\n    console.log("Setup:", joke.setup)\n    console.log("Punchline:", joke.punchline)\n  })\n  .catch(error => {\n    console.log("Error:", error.message)\n  })\n  .finally(() => {\n    console.log("Done!")\n  })`,
+            whatItDoes: ".finally() runs regardless of success or failure — perfect for hiding loading spinners in real apps.",
+            check: (output) => output.includes("Fetching") || output.includes("Done") || output.includes("Status"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a multi-fetch function. Fetch 3 jokes sequentially using .then() chaining — each .then() should get one joke and log it, then trigger the next fetch.",
+            starterCode: `const url = "https://official-joke-api.appspot.com/random_joke"\n\nconsole.log("Getting 3 jokes...")\n\nfetch(url)\n  .then(r => r.json())\n  .then(joke1 => {\n    console.log("Joke 1:", joke1.setup)\n    return fetch(url)\n  })\n  .then(r => r.json())\n  .then(joke2 => {\n    console.log("Joke 2:", joke2.setup)\n    return fetch(url)\n  })\n  .then(r => r.json())\n  .then(joke3 => {\n    console.log("Joke 3:", joke3.setup)\n    console.log("All 3 fetched!")\n  })\n  .catch(err => console.log("Error:", err.message))`,
+            whatItDoes: "Sequential chained fetches — the foundation of multi-step API flows like OAuth, checkout flows, and wizard-style forms.",
+            check: (output) => output.includes("Joke") || output.includes("fetched") || output.length > 5,
+          },
+        ],
+        quiz: [
+          { q: "What does fetch(url) return?", options: ["The data directly", "A Promise that resolves to a Response object", "JSON data", "A string"], answer: 1 },
+          { q: "Why do you need `.then(response => response.json())` after fetch?", options: ["To validate the JSON", "To convert the Response object to usable JavaScript data", "To catch errors", "To log the response"], answer: 1 },
+          { q: "What does .catch() handle in a fetch chain?", options: ["Successful responses", "JSON parsing only", "Network errors and rejected Promises", "Response headers"], answer: 2 },
+          { q: "What does .finally() do?", options: ["Only runs on success", "Only runs on error", "Runs after the Promise settles regardless of success or failure", "Retries the fetch"], answer: 2 },
+          { q: "Which HTTP verb does fetch() use by default?", options: ["POST", "PUT", "DELETE", "GET"], answer: 3 },
+        ],
       },
       {
         id: "js-async-await", title: "Async/Await — Cleaner Code", xp: 200, analogy: "Think of waiting for food", language: "javascript",
@@ -1705,12 +2353,36 @@ const CURRICULUM = [
           { type: "plain", text: "The await keyword pauses that function until the data arrives — but doesn't freeze the whole app. This is how all modern JavaScript is written." },
         ],
         hints: ["Put async before the function keyword: async function myFunc()", "Put await before any operation that takes time: await fetch(url)", "Wrap in try/catch for error handling instead of .catch()"],
-        challenge: {
-          prompt: "Rewrite a fetch call using async/await. Create an async function that gets a joke and logs both the setup and punchline with try/catch error handling.",
-          starterCode: `async function getRandomJoke() {\n  try {\n    const response = await fetch("https://official-joke-api.appspot.com/random_joke")\n    const joke = await response.json()\n    \n    console.log("Got a joke!")\n    console.log("Setup:", joke.setup)\n    console.log("Punchline:", joke.punchline)\n    \n    return joke\n  } catch (error) {\n    console.log("Something went wrong:", error.message)\n  }\n}\n\ngetRandomJoke()`,
-          whatItDoes: "async/await makes asynchronous code readable. This is the standard way to write JavaScript in 2026 — every job posting expects you to know this.",
-          check: (output) => output.includes("joke") || output.includes("Setup") || output.length > 5,
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Rewrite a fetch call using async/await. Create an async function that gets a joke and logs both the setup and punchline with try/catch error handling.",
+            starterCode: `async function getRandomJoke() {\n  try {\n    const response = await fetch("https://official-joke-api.appspot.com/random_joke")\n    const joke = await response.json()\n    \n    console.log("Got a joke!")\n    console.log("Setup:", joke.setup)\n    console.log("Punchline:", joke.punchline)\n    \n    return joke\n  } catch (error) {\n    console.log("Something went wrong:", error.message)\n  }\n}\n\ngetRandomJoke()`,
+            whatItDoes: "async/await makes asynchronous code readable. This is the standard way to write JavaScript in 2026 — every job posting expects you to know this.",
+            check: (output) => output.includes("joke") || output.includes("Setup") || output.length > 5,
+          },
+          {
+            type: "modify",
+            prompt: "Modify getRandomJoke() to fetch 3 jokes using a loop. Use await inside the loop to fetch one at a time. Log each joke's setup and number (Joke 1, Joke 2, Joke 3).",
+            starterCode: `async function getMultipleJokes(count) {\n  console.log("Getting " + count + " jokes...")\n  \n  for (let i = 1; i <= count; i++) {\n    try {\n      const response = await fetch("https://official-joke-api.appspot.com/random_joke")\n      const joke = await response.json()\n      console.log("\\nJoke " + i + ":")\n      console.log("  " + joke.setup)\n      console.log("  " + joke.punchline)\n    } catch (error) {\n      console.log("Joke " + i + " failed:", error.message)\n    }\n  }\n  \n  console.log("\\nAll done!")\n}\n\ngetMultipleJokes(3)`,
+            whatItDoes: "await inside a loop — sequential async operations. Used in pagination, multi-step forms, and anywhere you process items one at a time.",
+            check: (output) => output.includes("Joke") || output.includes("done") || output.length > 5,
+          },
+          {
+            type: "scratch",
+            prompt: "Build a data loader function. Given an array of user IDs, fetch each user from 'https://jsonplaceholder.typicode.com/users/{id}' and log their name and email. Handle errors per-user.",
+            starterCode: `async function loadUsers(userIds) {\n  console.log("Loading " + userIds.length + " users...")\n  const results = []\n  \n  for (const id of userIds) {\n    try {\n      const response = await fetch("https://jsonplaceholder.typicode.com/users/" + id)\n      const user = await response.json()\n      results.push(user)\n      console.log("Loaded: " + user.name + " (" + user.email + ")")\n    } catch (error) {\n      console.log("Failed to load user " + id + ": " + error.message)\n    }\n  }\n  \n  console.log("\\nLoaded " + results.length + " of " + userIds.length + " users")\n  return results\n}\n\nloadUsers([1, 2, 3])`,
+            whatItDoes: "A real data loader with per-item error handling. This pattern is in every dashboard that loads multiple API resources.",
+            check: (output) => output.includes("Loading") || output.includes("Loaded") || output.length > 5,
+          },
+        ],
+        quiz: [
+          { q: "What keyword makes a function asynchronous?", options: ["defer", "wait", "async", "promise"], answer: 2 },
+          { q: "What does `await` do inside an async function?", options: ["Makes the whole app wait", "Pauses that function until the Promise resolves, without blocking other code", "Creates a Promise", "Runs code in parallel"], answer: 1 },
+          { q: "async/await vs .then() chains — which is preferred in modern JavaScript?", options: [".then() is always preferred", "async/await for readability; both work", "They can't be mixed", "async/await is only for Node.js"], answer: 1 },
+          { q: "What replaces .catch() in async/await syntax?", options: [".error()", "onError()", "try/catch block", "catch()"], answer: 2 },
+          { q: "Can you use `await` outside of an async function?", options: ["Yes, anywhere", "Only in .js files", "No — await must be inside an async function (or top-level module)", "Only in browsers"], answer: 2 },
+        ],
       },
 
       {
@@ -1721,12 +2393,36 @@ const CURRICULUM = [
           { type: "code", label: "JAVASCRIPT", color: "#fcd34d", code: `localStorage.setItem("username", "Stanley")\nconst name = localStorage.getItem("username")\nconsole.log("Welcome back,", name)` },
         ],
         hints: ["localStorage.setItem('key', 'value') saves data", "localStorage.getItem('key') retrieves it", "Data is always stored as strings"],
-        challenge: {
-          prompt: "Simulate a Local Storage system that saves a user profile and updates the visit count.",
-          starterCode: `const storage = {}\nfunction setItem(key, value) { storage[key] = String(value) }\nfunction getItem(key) { return storage[key] || null }\n\nsetItem("username", "Stanley White")\nsetItem("visits", "1")\nconsole.log("=== LOCAL STORAGE ===")\nconsole.log("User:", getItem("username"))\nconsole.log("Visits:", getItem("visits"))\nconst visits = parseInt(getItem("visits")) + 1\nsetItem("visits", visits)\nconsole.log("Updated visits:", getItem("visits"))`,
-          whatItDoes: "You simulated browser Local Storage — the same system CodeGrind uses to save your XP.",
-          check: (output) => output.includes("LOCAL") || output.includes("User:") || output.includes("visits"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Simulate a Local Storage system that saves a user profile and updates the visit count.",
+            starterCode: `const storage = {}\nfunction setItem(key, value) { storage[key] = String(value) }\nfunction getItem(key) { return storage[key] || null }\n\nsetItem("username", "Stanley White")\nsetItem("visits", "1")\nconsole.log("=== LOCAL STORAGE ===")\nconsole.log("User:", getItem("username"))\nconsole.log("Visits:", getItem("visits"))\nconst visits = parseInt(getItem("visits")) + 1\nsetItem("visits", visits)\nconsole.log("Updated visits:", getItem("visits"))`,
+            whatItDoes: "You simulated browser Local Storage — the same system CodeGrind uses to save your XP.",
+            check: (output) => output.includes("LOCAL") || output.includes("User:") || output.includes("visits"),
+          },
+          {
+            type: "modify",
+            prompt: "Add expiration support. Store items as JSON objects with a value and expiresAt timestamp. Add a getItemSafe(key) function that returns null if the item has expired.",
+            starterCode: `const storage = {}\n\nfunction setItemWithExpiry(key, value, ttlSeconds) {\n  const expires = Date.now() + ttlSeconds * 1000\n  storage[key] = JSON.stringify({ value, expires })\n}\n\nfunction getItemSafe(key) {\n  const raw = storage[key]\n  if (!raw) return null\n  const item = JSON.parse(raw)\n  if (Date.now() > item.expires) {\n    delete storage[key]\n    console.log(key + " expired")\n    return null\n  }\n  return item.value\n}\n\nsetItemWithExpiry("session", "abc123", 3600)  // 1 hour\nsetItemWithExpiry("promo", "SAVE20", 1)       // expires in 1ms (already expired)\n\nconsole.log("Session:", getItemSafe("session"))\nconsole.log("Promo:", getItemSafe("promo"))`,
+            whatItDoes: "Time-based expiry is how sessions, auth tokens, and promo codes work. This is the real implementation pattern.",
+            check: (output) => output.includes("Session") || output.includes("expired") || output.includes("Promo"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a user settings manager. Create getSettings(), updateSetting(key, value), and resetSettings() functions using the storage simulation. Store and retrieve: theme, language, and fontSize.",
+            starterCode: `const storage = {}\nconst setItem = (k, v) => storage[k] = String(v)\nconst getItem = (k) => storage[k] || null\n\nconst DEFAULT_SETTINGS = { theme: "dark", language: "en", fontSize: "14px" }\n\nfunction getSettings() {\n  const saved = getItem("settings")\n  return saved ? JSON.parse(saved) : { ...DEFAULT_SETTINGS }\n}\n\nfunction updateSetting(key, value) {\n  const settings = getSettings()\n  settings[key] = value\n  setItem("settings", JSON.stringify(settings))\n  console.log("Updated " + key + " to: " + value)\n}\n\nfunction resetSettings() {\n  setItem("settings", JSON.stringify(DEFAULT_SETTINGS))\n  console.log("Settings reset to defaults")\n}\n\nconsole.log("Initial:", getSettings())\nupdateSetting("theme", "light")\nupdateSetting("fontSize", "16px")\nconsole.log("Updated:", getSettings())\nresetSettings()\nconsole.log("After reset:", getSettings())`,
+            whatItDoes: "A full settings persistence system. VS Code, Figma, and every browser save settings exactly this way.",
+            check: (output) => output.includes("theme") || output.includes("settings") || output.includes("reset"),
+          },
+        ],
+        quiz: [
+          { q: "What does localStorage.setItem('key', 'value') do?", options: ["Reads a value", "Deletes a key", "Stores a string value that persists across page reloads", "Creates a cookie"], answer: 2 },
+          { q: "What data type does localStorage always store?", options: ["Numbers", "Arrays", "Objects", "Strings — everything must be converted to/from string"], answer: 3 },
+          { q: "How do you store an object in localStorage?", options: ["localStorage.setItem(key, obj)", "localStorage.setObject(key, obj)", "localStorage.setItem(key, JSON.stringify(obj))", "Objects can't be stored"], answer: 2 },
+          { q: "What is the difference between localStorage and sessionStorage?", options: ["localStorage is faster", "sessionStorage clears when the tab closes; localStorage persists until manually cleared", "They're identical", "sessionStorage holds more data"], answer: 1 },
+          { q: "What does `localStorage.removeItem('key')` do?", options: ["Clears all storage", "Sets the value to null", "Permanently removes that key from storage", "Hides the item"], answer: 2 },
+        ],
       },
       {
         id: "js-form-validation", title: "Form Validation — Making Forms That Work", xp: 200, analogy: "Think of a bouncer checking IDs", language: "javascript",
@@ -1736,12 +2432,36 @@ const CURRICULUM = [
           { type: "code", label: "JAVASCRIPT", color: "#fcd34d", code: `function validateForm(name, email, password) {\n  const errors = []\n  if (!name || name.length < 2) errors.push("Name too short")\n  if (!email.includes("@")) errors.push("Invalid email")\n  if (!password || password.length < 8) errors.push("Password too short")\n  return errors\n}` },
         ],
         hints: ["Check if fields are empty with !value", "Use .includes('@') to check email", "Return an array of errors — empty means valid"],
-        challenge: {
-          prompt: "Build a form validator that checks name, email, and password. Test with valid and invalid data.",
-          starterCode: `function validateForm(name, email, password) {\n  const errors = []\n  if (!name || name.trim().length < 2) errors.push("Name must be at least 2 characters")\n  const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/\n  if (!emailRegex.test(email)) errors.push("Please enter a valid email")\n  if (!password || password.length < 8) errors.push("Password must be at least 8 characters")\n  return errors\n}\n\nconst test1 = validateForm("Stanley White", "stanley@gmail.com", "mypassword123")\nconsole.log("Test 1:", test1.length === 0 ? "VALID" : test1)\n\nconst test2 = validateForm("S", "notanemail", "short")\nconsole.log("Test 2:", test2)`,
-          whatItDoes: "A reusable form validator. Plug this into any website contact form.",
-          check: (output) => output.includes("VALID") || output.includes("Test"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Build a form validator that checks name, email, and password. Test with valid and invalid data.",
+            starterCode: `function validateForm(name, email, password) {\n  const errors = []\n  if (!name || name.trim().length < 2) errors.push("Name must be at least 2 characters")\n  const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/\n  if (!emailRegex.test(email)) errors.push("Please enter a valid email")\n  if (!password || password.length < 8) errors.push("Password must be at least 8 characters")\n  return errors\n}\n\nconst test1 = validateForm("Stanley White", "stanley@gmail.com", "mypassword123")\nconsole.log("Test 1:", test1.length === 0 ? "VALID" : test1)\n\nconst test2 = validateForm("S", "notanemail", "short")\nconsole.log("Test 2:", test2)`,
+            whatItDoes: "A reusable form validator. Plug this into any website contact form.",
+            check: (output) => output.includes("VALID") || output.includes("Test"),
+          },
+          {
+            type: "modify",
+            prompt: "Add phone number validation. A valid US phone has 10 digits (after removing non-digits). Add it to the validator and test with '(404) 555-1234' and 'not-a-phone'.",
+            starterCode: `function validateForm(name, email, password, phone) {\n  const errors = []\n  \n  if (!name || name.trim().length < 2)\n    errors.push("Name must be at least 2 characters")\n  \n  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email))\n    errors.push("Invalid email")\n  \n  if (!password || password.length < 8)\n    errors.push("Password must be 8+ characters")\n  \n  if (phone) {\n    const digits = phone.replace(/\\D/g, "")\n    if (digits.length !== 10)\n      errors.push("Phone must be 10 digits")\n  }\n  \n  return errors\n}\n\nconsole.log("Valid:", validateForm("Stan White", "stan@gmail.com", "pass1234", "(404) 555-1234"))\nconsole.log("Invalid phone:", validateForm("Stan White", "stan@gmail.com", "pass1234", "not-a-phone"))`,
+            whatItDoes: "`replace(/\\D/g, '')` strips non-digits — the cleanest way to normalize phone numbers. Used in every registration form.",
+            check: (output) => output.includes("Valid") || output.includes("Phone") || output.includes("digits"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a contact form validator. Validate: name (2-50 chars), email (valid format), message (10-500 chars), and a required checkbox (must be true). Return an object with `valid: bool` and `errors: []`.",
+            starterCode: `function validateContact(name, email, message, agreedToTerms) {\n  const errors = []\n  \n  if (!name || name.trim().length < 2 || name.trim().length > 50)\n    errors.push("Name must be 2-50 characters")\n  \n  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email))\n    errors.push("Invalid email address")\n  \n  if (!message || message.length < 10 || message.length > 500)\n    errors.push("Message must be 10-500 characters")\n  \n  if (!agreedToTerms)\n    errors.push("You must agree to the terms")\n  \n  return { valid: errors.length === 0, errors }\n}\n\nconst r1 = validateContact("Stan White", "stan@gmail.com", "I want to hire you for a Python project.", true)\nconsole.log("Valid form:", r1)\n\nconst r2 = validateContact("S", "bad", "Short.", false)\nconsole.log("Invalid form:", r2)`,
+            whatItDoes: "A full contact form validator with structured output. Drop this into any React or plain JS form and it's production-ready.",
+            check: (output) => output.includes("valid") || output.includes("errors") || output.includes("Valid form"),
+          },
+        ],
+        quiz: [
+          { q: "What does `/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)` do?", options: ["Finds all @ signs", "Tests if email matches the basic email pattern, returning true/false", "Extracts the domain", "Counts @ characters"], answer: 1 },
+          { q: "Why return an errors array instead of just true/false from a validator?", options: ["Arrays are required", "An array lets you show specific messages for each failed field", "True/false is not valid JavaScript", "Booleans are slow"], answer: 1 },
+          { q: "What does `name.trim().length` do?", options: ["Removes all characters", "Gets the length after removing leading/trailing spaces", "Converts to lowercase", "Counts spaces"], answer: 1 },
+          { q: "Why validate forms in JavaScript (client-side) AND on the server?", options: ["Double validation is required by law", "Client-side is for UX speed; server-side is for security — client validation can be bypassed", "Server-side validation is optional", "JavaScript can't send data"], answer: 1 },
+          { q: "What does `replace(/\\D/g, '')` do to a phone number string?", options: ["Adds dashes", "Formats as (XXX) XXX-XXXX", "Removes all non-digit characters", "Validates the number"], answer: 2 },
+        ],
       },
       {
         id: "js-promises", title: "Promises — Handling Future Results", xp: 200, analogy: "Think of a restaurant buzzer", language: "javascript",
@@ -1751,12 +2471,36 @@ const CURRICULUM = [
           { type: "code", label: "JAVASCRIPT", color: "#fcd34d", code: `const myPromise = new Promise((resolve, reject) => {\n  const success = true\n  if (success) { resolve("Data loaded!") }\n  else { reject("Something went wrong") }\n})\nmyPromise.then(result => console.log(result)).catch(error => console.log("Error:", error))` },
         ],
         hints: ["new Promise((resolve, reject) => {}) creates a promise", "resolve() means success — reject() means failure", ".then() handles success — .catch() handles errors"],
-        challenge: {
-          prompt: "Create a Promise that loads user data by ID. Resolve if user exists, reject if not.",
-          starterCode: `function loadUser(userId) {\n  return new Promise((resolve, reject) => {\n    const users = { 1: { name: "Stanley White", role: "Developer" }, 2: { name: "Marcus Johnson", role: "Designer" } }\n    const user = users[userId]\n    if (user) { resolve(user) } else { reject("User not found") }\n  })\n}\n\nloadUser(1).then(user => { console.log("Loaded:", user.name); console.log("Role:", user.role) }).catch(error => console.log("Error:", error))\nloadUser(99).then(user => console.log(user)).catch(error => console.log("Error:", error))`,
-          whatItDoes: "You built a Promise-based data loader — the same pattern used in every real web app.",
-          check: (output) => output.includes("Loaded:") || output.includes("Error:"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Create a Promise that loads user data by ID. Resolve if user exists, reject if not.",
+            starterCode: `function loadUser(userId) {\n  return new Promise((resolve, reject) => {\n    const users = { 1: { name: "Stanley White", role: "Developer" }, 2: { name: "Marcus Johnson", role: "Designer" } }\n    const user = users[userId]\n    if (user) { resolve(user) } else { reject("User not found") }\n  })\n}\n\nloadUser(1).then(user => { console.log("Loaded:", user.name); console.log("Role:", user.role) }).catch(error => console.log("Error:", error))\nloadUser(99).then(user => console.log(user)).catch(error => console.log("Error:", error))`,
+            whatItDoes: "You built a Promise-based data loader — the same pattern used in every real web app.",
+            check: (output) => output.includes("Loaded:") || output.includes("Error:"),
+          },
+          {
+            type: "modify",
+            prompt: "Use Promise.all() to load users 1 and 2 simultaneously. Log 'Both loaded!' when both resolve. Handle the case where one doesn't exist.",
+            starterCode: `function loadUser(userId) {\n  return new Promise((resolve, reject) => {\n    const users = { 1: { name: "Stanley White" }, 2: { name: "Marcus Johnson" } }\n    const user = users[userId]\n    setTimeout(() => {\n      if (user) resolve(user)\n      else reject("User " + userId + " not found")\n    }, 0)\n  })\n}\n\nPromise.all([loadUser(1), loadUser(2)])\n  .then(([user1, user2]) => {\n    console.log("User 1:", user1.name)\n    console.log("User 2:", user2.name)\n    console.log("Both loaded!")\n  })\n  .catch(error => console.log("Failed:", error))`,
+            whatItDoes: "Promise.all() runs multiple async operations in parallel — much faster than sequential. Used whenever you need multiple data sources at once.",
+            check: (output) => output.includes("Both loaded") || output.includes("User 1") || output.includes("Failed"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a multi-step checkout Promise chain. Create 3 Promises: validateCart(), processPayment(amount), and sendConfirmation(email). Chain them so each step runs after the previous succeeds.",
+            starterCode: `function validateCart(items) {\n  return new Promise((resolve, reject) => {\n    if (items.length > 0) resolve({ items, total: items.reduce((s, i) => s + i.price, 0) })\n    else reject("Cart is empty")\n  })\n}\n\nfunction processPayment(cart) {\n  return new Promise((resolve, reject) => {\n    console.log("Processing $" + cart.total + "...")\n    if (cart.total > 0) resolve({ ...cart, orderId: "ORD-" + Date.now() })\n    else reject("Invalid total")\n  })\n}\n\nfunction sendConfirmation(order) {\n  return new Promise(resolve => {\n    console.log("Confirmation sent for order:", order.orderId)\n    resolve("Done")\n  })\n}\n\nconst cartItems = [{ name: "Course", price: 4.99 }, { name: "Bonus", price: 0 }]\n\nvalidateCart(cartItems)\n  .then(cart => { console.log("Cart valid:", cart.items.length, "items"); return processPayment(cart) })\n  .then(order => { console.log("Payment OK, order:", order.orderId); return sendConfirmation(order) })\n  .then(() => console.log("Checkout complete!"))\n  .catch(err => console.log("Checkout failed:", err))`,
+            whatItDoes: "A real checkout flow — validate → charge → confirm. Every e-commerce site's checkout is this Promise chain pattern.",
+            check: (output) => output.includes("complete") || output.includes("Confirmation") || output.includes("ORD"),
+          },
+        ],
+        quiz: [
+          { q: "What are the 3 states a Promise can be in?", options: ["loading, done, error", "pending, fulfilled, rejected", "waiting, success, failure", "new, active, closed"], answer: 1 },
+          { q: "What does Promise.all([p1, p2]) do?", options: ["Runs p1 and p2 sequentially", "Runs p1 and p2 in parallel and resolves when BOTH complete", "Runs whichever completes first", "Merges the two Promises"], answer: 1 },
+          { q: "If one Promise in Promise.all() rejects, what happens?", options: ["Other Promises keep running", "The whole Promise.all() rejects immediately", "The rejected Promise is skipped", "An error is thrown"], answer: 1 },
+          { q: "What is the difference between resolve and reject?", options: ["They're the same", "resolve triggers .then(); reject triggers .catch()", "reject is an error", "resolve closes the Promise"], answer: 1 },
+          { q: "When would you use Promise chaining (.then().then()) vs async/await?", options: ["They can't be mixed", "Promise chains for simple flows; async/await for complex logic with variables shared across steps", "async/await is always better", "Promise chains are deprecated"], answer: 1 },
+        ],
       },
       {
         id: "js-classes", title: "JavaScript Classes", xp: 225, analogy: "Think of a blueprint", language: "javascript",
@@ -1766,12 +2510,36 @@ const CURRICULUM = [
           { type: "code", label: "JAVASCRIPT", color: "#fcd34d", code: `class FreelanceClient {\n  constructor(name, budget) {\n    this.name = name\n    this.budget = budget\n  }\n  getQuote(hours) { return hours * 75 }\n}\nconst client = new FreelanceClient("Marcus", 2500)\nconsole.log(client.getQuote(20))` },
         ],
         hints: ["class Name { constructor() {} } creates a class", "this refers to the current object", "new ClassName() creates an instance"],
-        challenge: {
-          prompt: "Create a ShoppingCart class with addItem and getTotal methods. Test with 3 items.",
-          starterCode: `class ShoppingCart {\n  constructor(owner) { this.owner = owner; this.items = [] }\n  addItem(name, price) { this.items.push({ name, price }); console.log("Added:", name, "- $" + price) }\n  getTotal() { return this.items.reduce((sum, item) => sum + item.price, 0) }\n  printReceipt() {\n    console.log("\\n=== RECEIPT FOR", this.owner, "===")\n    this.items.forEach(item => console.log(item.name + ": $" + item.price))\n    console.log("TOTAL: $" + this.getTotal())\n  }\n}\n\nconst cart = new ShoppingCart("Stanley White")\ncart.addItem("Python Course", 49)\ncart.addItem("VS Code Theme", 9)\ncart.addItem("Domain Name", 12)\ncart.printReceipt()`,
-          whatItDoes: "You built a shopping cart class — the same pattern used in every e-commerce website.",
-          check: (output) => output.includes("RECEIPT") || output.includes("TOTAL") || output.includes("Added:"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Create a ShoppingCart class with addItem and getTotal methods. Test with 3 items.",
+            starterCode: `class ShoppingCart {\n  constructor(owner) { this.owner = owner; this.items = [] }\n  addItem(name, price) { this.items.push({ name, price }); console.log("Added:", name, "- $" + price) }\n  getTotal() { return this.items.reduce((sum, item) => sum + item.price, 0) }\n  printReceipt() {\n    console.log("\\n=== RECEIPT FOR", this.owner, "===")\n    this.items.forEach(item => console.log(item.name + ": $" + item.price))\n    console.log("TOTAL: $" + this.getTotal())\n  }\n}\n\nconst cart = new ShoppingCart("Stanley White")\ncart.addItem("Python Course", 49)\ncart.addItem("VS Code Theme", 9)\ncart.addItem("Domain Name", 12)\ncart.printReceipt()`,
+            whatItDoes: "You built a shopping cart class — the same pattern used in every e-commerce website.",
+            check: (output) => output.includes("RECEIPT") || output.includes("TOTAL") || output.includes("Added:"),
+          },
+          {
+            type: "modify",
+            prompt: "Add a discount(percent) method that reduces all item prices by the given percentage. Call it with 10% discount and print the receipt before and after.",
+            starterCode: `class ShoppingCart {\n  constructor(owner) {\n    this.owner = owner\n    this.items = []\n  }\n  addItem(name, price) {\n    this.items.push({ name, price })\n  }\n  getTotal() {\n    return this.items.reduce((sum, item) => sum + item.price, 0)\n  }\n  discount(percent) {\n    const multiplier = 1 - percent / 100\n    this.items = this.items.map(item => ({\n      ...item,\n      price: Math.round(item.price * multiplier * 100) / 100\n    }))\n    console.log("Applied " + percent + "% discount")\n  }\n  printReceipt() {\n    this.items.forEach(item => console.log("  " + item.name + ": $" + item.price))\n    console.log("  Total: $" + this.getTotal())\n  }\n}\n\nconst cart = new ShoppingCart("Marcus")\ncart.addItem("Course", 49)\ncart.addItem("Bonus", 20)\nconsole.log("Before discount:")\ncart.printReceipt()\ncart.discount(10)\nconsole.log("After 10% discount:")\ncart.printReceipt()`,
+            whatItDoes: "Discount logic on a class — promo codes, membership discounts, and seasonal sales all work this way.",
+            check: (output) => output.includes("discount") || output.includes("Before") || output.includes("After"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build an OrderSystem class. It should track orders in an array. Add methods: placeOrder(product, amount), getOrders(), and getTotalRevenue(). Test with 3 orders.",
+            starterCode: `class OrderSystem {\n  constructor() {\n    this.orders = []\n  }\n  \n  placeOrder(product, amount) {\n    const order = {\n      id: this.orders.length + 1,\n      product,\n      amount,\n      date: new Date().toLocaleDateString()\n    }\n    this.orders.push(order)\n    console.log("Order #" + order.id + " placed: " + product + " $" + amount)\n    return order\n  }\n  \n  getOrders() {\n    return this.orders\n  }\n  \n  getTotalRevenue() {\n    return this.orders.reduce((sum, order) => sum + order.amount, 0)\n  }\n}\n\nconst system = new OrderSystem()\nsystem.placeOrder("Python Automation Script", 350)\nsystem.placeOrder("Website Design", 1200)\nsystem.placeOrder("Data Analysis Report", 500)\n\nconsole.log("\\nAll orders:", system.getOrders().length)\nconsole.log("Total revenue: $" + system.getTotalRevenue())`,
+            whatItDoes: "A complete order management system. Shopify, WooCommerce, and every e-commerce platform is built on patterns exactly like this.",
+            check: (output) => output.includes("Order #") || output.includes("revenue") || output.includes("placed"),
+          },
+        ],
+        quiz: [
+          { q: "What does `constructor` do in a JavaScript class?", options: ["Destroys the object", "Runs automatically when a new instance is created", "Defines class methods", "Sets class properties after creation"], answer: 1 },
+          { q: "What does `this.items.reduce((sum, item) => sum + item.price, 0)` do?", options: ["Filters items by price", "Counts items", "Sums all item prices starting from 0", "Finds the max price"], answer: 2 },
+          { q: "What is the difference between a class and an instance?", options: ["They're identical", "A class is the blueprint; an instance is a specific object created from it", "Instances are faster", "Classes can't have methods"], answer: 1 },
+          { q: "What does `new ShoppingCart('Stanley')` do?", options: ["Calls the class as a function", "Creates a new instance of ShoppingCart with 'Stanley' as owner", "Copies an existing cart", "Imports the ShoppingCart class"], answer: 1 },
+          { q: "What does `this.items.map(item => ({...item, price: item.price * 0.9}))` create?", options: ["Modifies items in place", "A new array with all items but prices reduced by 10%", "Filters items", "Sorts by price"], answer: 1 },
+        ],
       },
       {
         id: "js-error-handling", title: "Error Handling in JavaScript", xp: 175, analogy: "Think of a safety net", language: "javascript",
@@ -1781,12 +2549,36 @@ const CURRICULUM = [
           { type: "code", label: "JAVASCRIPT", color: "#fcd34d", code: `try {\n  const data = JSON.parse("invalid json")\n  console.log(data)\n} catch (error) {\n  console.log("Caught error:", error.message)\n}\nconsole.log("Program keeps running!")` },
         ],
         hints: ["Wrap risky code in try { }", "Handle errors in catch (error) { }", "error.message gives you a readable description"],
-        challenge: {
-          prompt: "Write a function that safely parses JSON and returns null if it fails. Test with valid and invalid strings.",
-          starterCode: `function safeParseJSON(jsonString) {\n  try {\n    const result = JSON.parse(jsonString)\n    console.log("Parsed successfully")\n    return result\n  } catch (error) {\n    console.log("Parse failed:", error.message)\n    return null\n  }\n}\n\nconst valid = safeParseJSON('{"name": "Stanley", "goal": "Financial Freedom"}')\nconsole.log("Valid result:", valid ? valid.name : "null")\n\nconst invalid = safeParseJSON("this is not json")\nconsole.log("Invalid result:", invalid)`,
-          whatItDoes: "A safe JSON parser that never crashes your app.",
-          check: (output) => output.includes("Parsed") || output.includes("failed") || output.includes("Stanley"),
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Write a function that safely parses JSON and returns null if it fails. Test with valid and invalid strings.",
+            starterCode: `function safeParseJSON(jsonString) {\n  try {\n    const result = JSON.parse(jsonString)\n    console.log("Parsed successfully")\n    return result\n  } catch (error) {\n    console.log("Parse failed:", error.message)\n    return null\n  }\n}\n\nconst valid = safeParseJSON('{"name": "Stanley", "goal": "Financial Freedom"}')\nconsole.log("Valid result:", valid ? valid.name : "null")\n\nconst invalid = safeParseJSON("this is not json")\nconsole.log("Invalid result:", invalid)`,
+            whatItDoes: "A safe JSON parser that never crashes your app.",
+            check: (output) => output.includes("Parsed") || output.includes("failed") || output.includes("Stanley"),
+          },
+          {
+            type: "modify",
+            prompt: "Add custom error types. Create a ValidationError class that extends Error. Throw it when data doesn't have a required 'name' field. Catch it specifically.",
+            starterCode: `class ValidationError extends Error {\n  constructor(message) {\n    super(message)\n    this.name = "ValidationError"\n  }\n}\n\nfunction processUser(data) {\n  try {\n    if (!data || !data.name) {\n      throw new ValidationError("User must have a name")\n    }\n    if (!data.email) {\n      throw new ValidationError("User must have an email")\n    }\n    console.log("User valid:", data.name, data.email)\n    return data\n  } catch (error) {\n    if (error instanceof ValidationError) {\n      console.log("Validation error:", error.message)\n    } else {\n      console.log("Unexpected error:", error.message)\n    }\n    return null\n  }\n}\n\nprocessUser({ name: "Stanley", email: "stanley@gmail.com" })\nprocessUser({ name: "Marcus" })\nprocessUser(null)`,
+            whatItDoes: "Custom error classes let you catch specific error types. This is how professional apps distinguish between user errors and system errors.",
+            check: (output) => output.includes("ValidationError") || output.includes("Validation error") || output.includes("valid"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a safe API wrapper. Create safeApiCall(url) that fetches data and returns {data, error}. Never throws — always returns one of those two fields. Test with a valid and invalid URL.",
+            starterCode: `async function safeApiCall(url) {\n  try {\n    const response = await fetch(url)\n    if (!response.ok) {\n      return { data: null, error: "HTTP " + response.status }\n    }\n    const data = await response.json()\n    return { data, error: null }\n  } catch (error) {\n    return { data: null, error: error.message }\n  }\n}\n\nasync function run() {\n  const success = await safeApiCall("https://official-joke-api.appspot.com/random_joke")\n  if (success.error) {\n    console.log("Error:", success.error)\n  } else {\n    console.log("Got joke:", success.data.setup)\n  }\n  \n  const fail = await safeApiCall("https://this-does-not-exist-12345.com/api")\n  console.log("Bad URL result:", fail.error ? "Error: " + fail.error : "Unexpectedly succeeded")\n}\n\nrun()`,
+            whatItDoes: "The {data, error} return pattern is used in Go, React Query, and modern JavaScript everywhere. It forces callers to handle errors explicitly.",
+            check: (output) => output.includes("joke") || output.includes("Error") || output.length > 5,
+          },
+        ],
+        quiz: [
+          { q: "What does a try/catch block do?", options: ["Speeds up code", "Catches errors so the program keeps running instead of crashing", "Retries failed code", "Validates data types"], answer: 1 },
+          { q: "What does `error.message` contain?", options: ["The error type", "A human-readable description of what went wrong", "The line number", "The stack trace"], answer: 1 },
+          { q: "When should you use try/catch?", options: ["Around every function", "Only in Node.js", "Around code that might fail: JSON parsing, API calls, file reads, user input", "Only for network errors"], answer: 2 },
+          { q: "What does `error instanceof ValidationError` check?", options: ["If error equals ValidationError", "If error was created from the ValidationError class", "If error has a message property", "If error is null"], answer: 1 },
+          { q: "Why return {data, error} instead of throwing?", options: ["Throwing is slower", "It forces the caller to explicitly handle both success and failure without try/catch everywhere", "JavaScript doesn't support throw", "It's a newer syntax"], answer: 1 },
+        ],
       },
       {
         id: "js-mini-project", title: "Mini Project — Live Quote Generator", xp: 300, analogy: "Think of your first web app", language: "javascript",
@@ -1797,12 +2589,241 @@ const CURRICULUM = [
           { type: "plain", text: "This project in a real browser would update a webpage in real time. Same logic, different output — replace console.log with innerHTML and it's a live webpage." },
         ],
         hints: ["async function getQuote() wraps everything in an async context", "await fetch(url) waits for the API response before continuing", "Use try/catch so if the API is down your app still works"],
-        challenge: {
-          prompt: "Run the quote generator. Then modify it to also show the quote length and tags. Add a second function that gets a quote by a specific author.",
-          starterCode: `async function getQuote(author = null) {\n  try {\n    const url = author \n      ? "https://api.quotable.io/random?author=" + author\n      : "https://api.quotable.io/random"\n    \n    const response = await fetch(url)\n    const data = await response.json()\n    \n    console.log("\\n" + "─".repeat(50))\n    console.log('"' + data.content + '"')\n    console.log("  — " + data.author)\n    console.log("  Length:", data.length, "characters")\n    if (data.tags && data.tags.length > 0) {\n      console.log("  Tags:", data.tags.join(", "))\n    }\n    console.log("─".repeat(50))\n    \n  } catch (error) {\n    console.log("API unavailable — here\\'s a free one:")\n    console.log('"The secret of getting ahead is getting started."')\n    console.log("  — Mark Twain")\n  }\n}\n\nconsole.log("QUOTE GENERATOR")\ngetQuote()\ngetQuote()`,
-          whatItDoes: "A real API-powered quote generator. In a browser this updates live HTML. On a server this powers an API endpoint. The logic is identical — only the output changes.",
-          check: (output) => output.includes("GENERATOR") || output.includes("─") || output.length > 20,
-        },
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Run the quote generator. Then modify it to also show the quote length and tags. Add a second function that gets a quote by a specific author.",
+            starterCode: `async function getQuote(author = null) {\n  try {\n    const url = author \n      ? "https://api.quotable.io/random?author=" + author\n      : "https://api.quotable.io/random"\n    \n    const response = await fetch(url)\n    const data = await response.json()\n    \n    console.log("\\n" + "─".repeat(50))\n    console.log('"' + data.content + '"')\n    console.log("  — " + data.author)\n    console.log("  Length:", data.length, "characters")\n    if (data.tags && data.tags.length > 0) {\n      console.log("  Tags:", data.tags.join(", "))\n    }\n    console.log("─".repeat(50))\n    \n  } catch (error) {\n    console.log("API unavailable — here\\'s a free one:")\n    console.log('"The secret of getting ahead is getting started."')\n    console.log("  — Mark Twain")\n  }\n}\n\nconsole.log("QUOTE GENERATOR")\ngetQuote()\ngetQuote()`,
+            whatItDoes: "A real API-powered quote generator. In a browser this updates live HTML. On a server this powers an API endpoint. The logic is identical — only the output changes.",
+            check: (output) => output.includes("GENERATOR") || output.includes("─") || output.length > 20,
+          },
+          {
+            type: "modify",
+            prompt: "Add a filterByTag(tag) function that fetches 5 quotes from '/tags/{tag}' and prints only those under 100 characters. Use the endpoint: 'https://api.quotable.io/quotes?tags={tag}&limit=5'.",
+            starterCode: `async function filterByTag(tag) {\n  try {\n    const response = await fetch("https://api.quotable.io/quotes?tags=" + tag + "&limit=5")\n    const data = await response.json()\n    const quotes = data.results || []\n    const short = quotes.filter(q => q.length < 100)\n    \n    console.log("Tag: " + tag + " | Found: " + quotes.length + " | Short (<100 chars): " + short.length)\n    short.forEach(q => {\n      console.log('"' + q.content + '"')\n      console.log("  — " + q.author + " (" + q.length + " chars)")\n    })\n    \n  } catch (error) {\n    console.log("Filter failed:", error.message)\n    console.log("(API may have changed — this pattern still applies to any quotes API)")\n  }\n}\n\nfilterByTag("success")\nfilterByTag("motivation")`,
+            whatItDoes: "Filtering API results by property — used in every search feature, content filter, and recommendation system.",
+            check: (output) => output.includes("Tag:") || output.includes("Short") || output.includes("Filter"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a complete quote app. Create a QuoteApp class with: fetchQuote(), saveToFavorites(quote), getFavorites(), and printDashboard(). Test all methods.",
+            starterCode: `class QuoteApp {\n  constructor() {\n    this.favorites = []\n    this.fetchCount = 0\n  }\n  \n  async fetchQuote() {\n    try {\n      const response = await fetch("https://official-joke-api.appspot.com/random_joke")\n      const joke = await response.json()\n      this.fetchCount++\n      return { content: joke.setup + " " + joke.punchline, author: "Random" }\n    } catch (error) {\n      return { content: "Work hard in silence. Let success make the noise.", author: "Stan White" }\n    }\n  }\n  \n  saveToFavorites(quote) {\n    this.favorites.push(quote)\n    console.log("Saved:", quote.content.substring(0, 40) + "...")\n  }\n  \n  getFavorites() {\n    return this.favorites\n  }\n  \n  printDashboard() {\n    console.log("=== QUOTE APP DASHBOARD ===")\n    console.log("Quotes fetched:", this.fetchCount)\n    console.log("Favorites saved:", this.favorites.length)\n    this.favorites.forEach((q, i) => {\n      console.log((i+1) + ". " + q.content.substring(0, 50) + "...")\n    })\n  }\n}\n\nasync function run() {\n  const app = new QuoteApp()\n  const q1 = await app.fetchQuote()\n  app.saveToFavorites(q1)\n  const q2 = await app.fetchQuote()\n  app.saveToFavorites(q2)\n  await app.fetchQuote() // fetch but don't save\n  app.printDashboard()\n}\n\nrun()`,
+            whatItDoes: "A complete mini-app with state management. This class architecture — fetch, save, retrieve, display — is how every React component, Vue store, and mobile app is structured.",
+            check: (output) => output.includes("DASHBOARD") || output.includes("Saved") || output.includes("fetched"),
+          },
+        ],
+        quiz: [
+          { q: "What is the main architectural skill this mini project teaches?", options: ["CSS animations", "Combining classes, async/await, fetch, arrays, and error handling into one working app", "DOM manipulation", "Server routing"], answer: 1 },
+          { q: "Why is a JavaScript quote generator the same logic as a Twitter feed?", options: ["They both use quotes", "Both fetch JSON from an API and display it — the data changes but the pattern is identical", "Twitter uses the same API", "Both require login"], answer: 1 },
+          { q: "What does `data.tags.join(', ')` do?", options: ["Adds a tag", "Converts an array of tags into a comma-separated string", "Filters empty tags", "Sorts tags alphabetically"], answer: 1 },
+          { q: "What happens when API data has a different structure than expected?", options: ["JavaScript auto-corrects it", "The code throws an error — always check the API docs and use optional chaining or defaults", "fetch() retries automatically", "The Promise resolves to null"], answer: 1 },
+          { q: "In a real browser, what would replace `console.log(quote.content)` to show the quote on screen?", options: ["console.display()", "document.getElementById('quote').textContent = quote.content", "print(quote.content)", "window.alert(quote.content)"], answer: 1 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "ai-tools", title: "AI Tools for Freelancers", icon: "🤖", color: "#a78bfa",
+    lessons: [
+      {
+        id: "what-is-ai", title: "What AI Actually Is (And What It Can't Do)", xp: 100, analogy: "AI is a very fast intern who never gets tired", language: "python",
+        theory: [
+          { type: "plain", text: "AI models like Claude and ChatGPT are pattern-matching machines trained on billions of documents. They predict the most useful next word — but they don't 'think' like humans." },
+          { type: "highlight", text: "The freelancer edge: most people treat AI like Google. You'll learn to treat it like a tireless assistant that drafts, edits, summarizes, and codes on command." },
+          { type: "code", label: "PYTHON — Map your AI capabilities", color: "#a78bfa", code: `# What AI can and can't do — map your business\ncapabilities = {\n    "AI crushes it": [\n        "First drafts of anything",\n        "Summarizing long documents",\n        "Translating ideas into code",\n        "Brainstorming 20 options fast",\n        "Rewriting text at any reading level",\n    ],\n    "AI needs supervision": [\n        "Factual accuracy (always verify)",\n        "Recent events (knowledge cutoff)",\n        "Math with large numbers",\n        "Reading images without vision models",\n    ],\n    "AI cannot replace": [\n        "Your relationships with clients",\n        "Final judgment calls",\n        "Creative vision and taste",\n        "Real-world accountability",\n    ]\n}\n\nfor category, items in capabilities.items():\n    print("\\n" + category.upper())\n    for item in items:\n        print("  • " + item)` },
+          { type: "plain", text: "Freelancers who understand AI limits charge MORE — because clients trust them to get it right, not just generate slop and deliver it." },
+        ],
+        hints: ["Use a dictionary with list values to group items by category", "Nested loops: outer loop over categories, inner loop over items", "String concatenation: '  • ' + item prints each bullet"],
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Run the capability map. Add a 4th category called 'your secret weapon' and add 3 items that combine YOUR skills with AI.",
+            starterCode: `capabilities = {\n    "AI crushes it": [\n        "First drafts of anything",\n        "Summarizing long documents",\n        "Translating ideas into code",\n    ],\n    "AI needs supervision": [\n        "Factual accuracy (always verify)",\n        "Recent events (knowledge cutoff)",\n    ],\n    "AI cannot replace": [\n        "Your relationships with clients",\n        "Final judgment calls",\n        "Creative vision and taste",\n    ],\n    "your secret weapon": [\n        "Your skill + AI speed",\n        "Your judgment + AI output",\n        "Your network + AI content",\n    ]\n}\n\nfor category, items in capabilities.items():\n    print("\\n" + category.upper())\n    for item in items:\n        print("  * " + item)`,
+            whatItDoes: "Maps what AI is good and bad at. Understanding this lets you confidently tell clients exactly how you'll use AI to deliver faster.",
+            check: (output) => output.includes("SECRET") || output.includes("WEAPON") || output.includes("*"),
+          },
+          {
+            type: "modify",
+            prompt: "Add a variable called `my_advantage` that stores your top skill (e.g. 'Python automation'). Print a final line: 'My edge: [my_advantage] + AI speed = unstoppable'",
+            starterCode: `my_advantage = "Python automation"\n\ncapabilities = {\n    "AI crushes it": ["First drafts", "Summarizing", "Code translation"],\n    "your secret weapon": [my_advantage + " + AI = faster results"]\n}\n\nfor category, items in capabilities.items():\n    print("\\n" + category.upper())\n    for item in items:\n        print("  * " + item)\n\nprint("\\nMy edge: " + my_advantage + " + AI speed = unstoppable")`,
+            whatItDoes: "Personalizes the framework to your skills — practice for client pitches.",
+            check: (output) => output.includes("unstoppable") || output.includes("edge"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a 'client pitch generator'. Store your skill, your rate, and 3 AI-powered benefits in variables. Print a formatted pitch: 'I do [skill] at [rate]/hr. With AI I deliver: [benefit1], [benefit2], [benefit3].'",
+            starterCode: `# Build a client pitch generator\nskill = "Python automation"\nrate = 75\nbenefits = [\n    "2x faster delivery",\n    "fewer errors with AI review",\n    "bonus documentation included"\n]\n\nprint("I do " + skill + " at $" + str(rate) + "/hr.")\nprint("With AI I deliver:")\nfor benefit in benefits:\n    print("  - " + benefit)`,
+            whatItDoes: "You just built a pitch. This exact format — skill, rate, 3 benefits — is what wins Upwork proposals.",
+            check: (output) => output.includes("/hr") || output.includes("deliver") || output.length > 20,
+          },
+        ],
+        quiz: [
+          { q: "What are AI models fundamentally doing when they generate text?", options: ["Searching the internet in real time", "Predicting the most useful next word based on patterns", "Running logical reasoning algorithms", "Looking up facts in a database"], answer: 1 },
+          { q: "Which of these is something AI consistently struggles with?", options: ["Writing first drafts", "Brainstorming ideas", "Factual accuracy and recent events", "Summarizing documents"], answer: 2 },
+          { q: "Why do freelancers who understand AI limits charge MORE?", options: ["They use more expensive tools", "Clients trust them to verify and get it right", "They work slower and bill more hours", "They refuse to use AI"], answer: 1 },
+          { q: "In the capability map code, what data structure holds the categories and items?", options: ["A list of lists", "A dictionary with list values", "A tuple", "A set"], answer: 1 },
+          { q: "Which loop pattern prints each item in each category?", options: ["Single loop over all items", "Outer loop over categories, inner loop over items", "While loop with counter", "Recursion"], answer: 1 },
+        ],
+      },
+      {
+        id: "ai-for-freelancers", title: "AI as Your Business Partner", xp: 125, analogy: "Running a one-person agency with a 10-person team", language: "python",
+        theory: [
+          { type: "plain", text: "Solo freelancers who use AI effectively can compete with agencies. You become the strategist. AI handles drafts, research, and repetitive work." },
+          { type: "highlight", text: "The real unlock: use AI to do client work faster, then use the freed time to land more clients. It compounds." },
+          { type: "code", label: "PYTHON — Freelance proposal generator", color: "#a78bfa", code: `def generate_proposal(client_name, project_type, budget, timeline):\n    """Generate a client proposal outline with AI talking points."""\n    \n    proposal = [\n        "Subject: " + project_type + " Proposal for " + client_name,\n        "",\n        "Hi " + client_name + ",",\n        "",\n        "I specialize in " + project_type + " and can deliver",\n        "within " + str(timeline) + " days for $" + str(budget) + ".",\n        "",\n        "What you get:",\n        "  • Professional " + project_type + " tailored to your goals",\n        "  • 2 revision rounds included",\n        "  • Fast delivery using proven systems",\n        "",\n        "Ready to start? Reply to this message.",\n        "",\n        "Best,",\n        "Stan",\n    ]\n    \n    return "\\n".join(proposal)\n\n# Generate a proposal\nprint(generate_proposal(\n    client_name="Mike at StartupCo",\n    project_type="Python automation script",\n    budget=500,\n    timeline=5\n))` },
+          { type: "plain", text: "In real freelancing you'd paste this template into Claude and say 'make this sound more compelling for a $500 automation gig.' AI polishes it in 10 seconds." },
+        ],
+        hints: ["Functions that return strings are easy to reuse and test", "Use str() to convert numbers to strings for concatenation", "'\\n'.join(list) turns a list of lines into a single string"],
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Run the proposal generator. Then call it again with different client name, project type, budget, and timeline.",
+            starterCode: `def generate_proposal(client_name, project_type, budget, timeline):\n    proposal = [\n        "Subject: " + project_type + " Proposal for " + client_name,\n        "",\n        "Hi " + client_name + ",",\n        "",\n        "I specialize in " + project_type + " and can deliver",\n        "within " + str(timeline) + " days for $" + str(budget) + ".",\n        "",\n        "What you get:",\n        "  * Professional " + project_type + " tailored to your goals",\n        "  * 2 revision rounds included",\n        "  * Fast delivery using proven systems",\n        "",\n        "Ready to start? Reply to this message.",\n    ]\n    return "\\n".join(proposal)\n\nprint(generate_proposal("Mike", "Python script", 500, 5))\nprint("\\n" + "="*40 + "\\n")\nprint(generate_proposal("Lisa", "data analysis report", 800, 7))`,
+            whatItDoes: "A reusable proposal generator. Change the inputs, get a new proposal every time.",
+            check: (output) => output.includes("Proposal") || output.includes("deliver") || output.includes("="),
+          },
+          {
+            type: "modify",
+            prompt: "Add a `upsell` parameter to the function. If upsell is True, add a line: 'BONUS: I'll include a 30-minute walkthrough call at no extra charge.'",
+            starterCode: `def generate_proposal(client_name, project_type, budget, timeline, upsell=False):\n    proposal = [\n        "Hi " + client_name + ",",\n        "I deliver " + project_type + " in " + str(timeline) + " days for $" + str(budget) + ".",\n    ]\n    if upsell:\n        proposal.append("BONUS: I'll include a 30-minute walkthrough call at no extra charge.")\n    proposal.append("Reply to get started.")\n    return "\\n".join(proposal)\n\nprint(generate_proposal("Mike", "Python script", 500, 5, upsell=True))\nprint()\nprint(generate_proposal("Lisa", "data report", 800, 7, upsell=False))`,
+            whatItDoes: "The upsell line increases close rate. You're building persuasion mechanics into your proposal tool.",
+            check: (output) => output.includes("BONUS") || output.includes("walkthrough"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build an invoice generator function. It takes: client_name, service, hours, rate. It prints: client name, service, hours x rate = total, and a 'Payment due in 14 days' line.",
+            starterCode: `def generate_invoice(client_name, service, hours, rate):\n    total = hours * rate\n    print("INVOICE")\n    print("Client: " + client_name)\n    print("Service: " + service)\n    print("Hours: " + str(hours) + " x $" + str(rate) + "/hr")\n    print("Total: $" + str(total))\n    print("Payment due in 14 days")\n\ngenerate_invoice("Mike", "Python automation", 5, 75)\nprint()\ngenerate_invoice("Lisa", "Data analysis", 3, 90)`,
+            whatItDoes: "A real invoice generator. Wrap this in a web form and you have a billable product.",
+            check: (output) => output.includes("INVOICE") || output.includes("Total") || output.includes("due"),
+          },
+        ],
+        quiz: [
+          { q: "What is the core business advantage of a solo freelancer using AI?", options: ["Lower taxes", "Compete with agencies by doing more in less time", "Access to better clients", "No need for a portfolio"], answer: 1 },
+          { q: "In the proposal generator, what does '\\n'.join(proposal) do?", options: ["Splits the proposal into a list", "Joins all list items into one string with newlines between them", "Removes blank lines", "Counts the lines"], answer: 1 },
+          { q: "What does adding a default parameter like upsell=False do?", options: ["Makes the parameter required", "Raises an error if not passed", "Makes the parameter optional with a fallback value", "Disables the feature"], answer: 2 },
+          { q: "What's the total for 4 hours at $85/hr?", options: ["$320", "$340", "$360", "$380"], answer: 1 },
+          { q: "Why return a string from a function instead of printing inside it?", options: ["It's faster", "You can reuse and store the output — print when you choose", "Print doesn't work in functions", "Strings are cheaper than None"], answer: 1 },
+        ],
+      },
+      {
+        id: "prompt-engineering", title: "Prompt Engineering: Get Pro Results from AI", xp: 150, analogy: "Learning to give clear instructions to the world's fastest employee", language: "python",
+        theory: [
+          { type: "plain", text: "Vague prompts get vague results. Specific prompts get specific results. Prompt engineering is just learning to be precise." },
+          { type: "highlight", text: "The CRAFT framework: Context, Role, Action, Format, Tone. Use it and your AI outputs will immediately beat 90% of what other freelancers produce." },
+          { type: "code", label: "PYTHON — CRAFT prompt builder", color: "#a78bfa", code: `def build_craft_prompt(context, role, action, fmt, tone):\n    """Build a structured CRAFT prompt for any AI task."""\n    prompt = (\n        "Context: " + context + "\\n"\n        "Role: You are a " + role + "\\n"\n        "Action: " + action + "\\n"\n        "Format: " + fmt + "\\n"\n        "Tone: " + tone\n    )\n    return prompt\n\n# Example: writing a cold email\nresult = build_craft_prompt(\n    context="I'm a freelance Python developer targeting small e-commerce businesses",\n    role="senior copywriter who specializes in B2B outreach",\n    action="Write a cold email offering automation services to reduce manual data entry",\n    fmt="Subject line + 4 short paragraphs + clear CTA, under 150 words",\n    tone="confident but not pushy, peer-to-peer not salesy"\n)\n\nprint("YOUR CRAFT PROMPT:")\nprint("=" * 50)\nprint(result)\nprint("=" * 50)\nprint("\\nCopy this into Claude or ChatGPT for a pro-level result.")` },
+          { type: "plain", text: "Freelancers who sell 'prompt engineering as a service' charge $50–150/hr just to help businesses write better AI prompts. This is a real gig right now." },
+        ],
+        hints: ["String concatenation with '\\n' between lines builds multi-line output", "Parentheses let you split long strings across multiple lines", "The CRAFT parts are just labeled strings — swap in any values"],
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Run the CRAFT prompt builder. Then create a new prompt for a different use case: generating a LinkedIn post about your coding journey.",
+            starterCode: `def build_craft_prompt(context, role, action, fmt, tone):\n    prompt = (\n        "Context: " + context + "\\n"\n        "Role: You are a " + role + "\\n"\n        "Action: " + action + "\\n"\n        "Format: " + fmt + "\\n"\n        "Tone: " + tone\n    )\n    return prompt\n\ncold_email = build_craft_prompt(\n    context="Freelance Python developer targeting small businesses",\n    role="senior B2B copywriter",\n    action="Write a cold email offering automation services",\n    fmt="Subject + 4 paragraphs + CTA, under 150 words",\n    tone="confident, peer-to-peer"\n)\n\nlinkedin_post = build_craft_prompt(\n    context="I just finished a Python course after 3 months of learning",\n    role="authentic LinkedIn creator in the tech space",\n    action="Write a post about my coding journey and what I learned",\n    fmt="Hook line + 3 short paragraphs + 3 hashtags",\n    tone="real and relatable, not braggy"\n)\n\nprint("COLD EMAIL PROMPT:")\nprint(cold_email)\nprint("\\nLINKEDIN PROMPT:")\nprint(linkedin_post)`,
+            whatItDoes: "Two complete prompts for two different deliverables. Swap any variable and regenerate instantly.",
+            check: (output) => output.includes("CRAFT") || output.includes("Context") || output.includes("Role"),
+          },
+          {
+            type: "modify",
+            prompt: "Add a `task_type` parameter to the function. Print a header that says '--- CRAFT PROMPT: [task_type] ---' before the prompt.",
+            starterCode: `def build_craft_prompt(context, role, action, fmt, tone, task_type="General"):\n    header = "--- CRAFT PROMPT: " + task_type + " ---"\n    prompt = (\n        "Context: " + context + "\\n"\n        "Role: You are a " + role + "\\n"\n        "Action: " + action + "\\n"\n        "Format: " + fmt + "\\n"\n        "Tone: " + tone\n    )\n    return header + "\\n" + prompt + "\\n" + "-" * len(header)\n\nresult = build_craft_prompt(\n    context="I'm a freelancer looking for clients",\n    role="expert cold outreach specialist",\n    action="Write a Upwork proposal for a data scraping job",\n    fmt="3 short paragraphs, include relevant experience, end with question",\n    tone="direct and confident",\n    task_type="Upwork Proposal"\n)\nprint(result)`,
+            whatItDoes: "Named sections make it easy to save and reuse prompts for different deliverable types.",
+            check: (output) => output.includes("CRAFT PROMPT") || output.includes("---"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a prompt library. Store 3 CRAFT prompts in a dictionary with keys like 'cold_email', 'proposal', 'linkedin_post'. Let the user pick one by index (0, 1, 2) using a variable called `choice`, then print that prompt.",
+            starterCode: `library = {\n    "cold_email": "Context: freelance dev\\nRole: copywriter\\nAction: write cold email\\nFormat: under 150 words\\nTone: confident",\n    "proposal": "Context: applying to Upwork job\\nRole: expert freelancer\\nAction: write winning proposal\\nFormat: 3 paragraphs\\nTone: direct",\n    "linkedin_post": "Context: sharing a win\\nRole: authentic creator\\nAction: write post about a project\\nFormat: hook + 3 lines + hashtags\\nTone: real"\n}\n\nchoice = "proposal"\n\nprint("SELECTED PROMPT: " + choice.upper())\nprint(library[choice])`,
+            whatItDoes: "A personal prompt library. This is literally a product you could sell to other freelancers.",
+            check: (output) => output.includes("SELECTED") || output.includes("Context") || output.length > 30,
+          },
+        ],
+        quiz: [
+          { q: "What does the C in CRAFT stand for?", options: ["Code", "Context", "Client", "Command"], answer: 1 },
+          { q: "Why is prompt engineering a real freelance skill right now?", options: ["AI companies hire prompt engineers only", "Businesses pay $50-150/hr for help getting pro-level AI output", "Only prompt engineers can use AI tools", "It replaces coding entirely"], answer: 1 },
+          { q: "In the CRAFT builder, why use parentheses to split the string across lines?", options: ["Required Python syntax", "Makes the string shorter", "Improves readability without breaking functionality", "Prevents errors"], answer: 2 },
+          { q: "What does `library[choice]` do when `choice = 'proposal'`?", options: ["Creates a new key", "Returns the value stored at key 'proposal'", "Deletes the proposal", "Returns the index number"], answer: 1 },
+          { q: "What separates a vague prompt from a useful one?", options: ["Length", "Specifying context, role, action, format, and tone", "Using formal language", "Asking nicely"], answer: 1 },
+        ],
+      },
+      {
+        id: "automate-with-ai", title: "Automate Your Freelance Workflow", xp: 175, analogy: "Building systems so your business runs while you sleep", language: "python",
+        theory: [
+          { type: "plain", text: "Top freelancers don't just sell time — they sell systems. Automation means you can handle more clients without working more hours." },
+          { type: "highlight", text: "The highest-value automation: anything a client currently does manually in a spreadsheet. Find those tasks, script them, charge for the saved time." },
+          { type: "code", label: "PYTHON — Lead scoring automation", color: "#a78bfa", code: `def score_lead(budget, timeline_days, has_clear_spec, responded_fast):\n    """Score a freelance lead 0-100. Higher = better client."""\n    score = 0\n    \n    # Budget signals\n    if budget >= 1000: score += 40\n    elif budget >= 500: score += 25\n    elif budget >= 200: score += 10\n    \n    # Timeline (rushed = harder, but urgent = serious)\n    if 7 <= timeline_days <= 30: score += 20\n    elif timeline_days > 30: score += 15\n    else: score += 5  # under 7 days is rough\n    \n    # Clear spec = they know what they want\n    if has_clear_spec: score += 25\n    \n    # Fast response = serious buyer\n    if responded_fast: score += 15\n    \n    return min(score, 100)\n\nleads = [\n    {"name": "Mike", "budget": 800, "days": 14, "spec": True, "fast": True},\n    {"name": "Anonymous", "budget": 150, "days": 3, "spec": False, "fast": False},\n    {"name": "Sarah", "budget": 2000, "days": 21, "spec": True, "fast": False},\n]\n\nprint("LEAD SCORES:")\nfor lead in leads:\n    score = score_lead(lead["budget"], lead["days"], lead["spec"], lead["fast"])\n    status = "PURSUE" if score >= 60 else "SKIP"\n    print(lead["name"] + ": " + str(score) + "/100 — " + status)` },
+          { type: "plain", text: "This is a real tool. Every consulting firm has a version of this. You just built yours from scratch in Python." },
+        ],
+        hints: ["score += value adds to the running total", "min(score, 100) caps the score at 100 no matter what", "Boolean parameters like has_clear_spec are True or False directly in if statements"],
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Run the lead scorer. Add a 4th lead of your own (make up a name, budget, timeline, and spec/response booleans) and see their score.",
+            starterCode: `def score_lead(budget, timeline_days, has_clear_spec, responded_fast):\n    score = 0\n    if budget >= 1000: score += 40\n    elif budget >= 500: score += 25\n    elif budget >= 200: score += 10\n    if 7 <= timeline_days <= 30: score += 20\n    elif timeline_days > 30: score += 15\n    else: score += 5\n    if has_clear_spec: score += 25\n    if responded_fast: score += 15\n    return min(score, 100)\n\nleads = [\n    {"name": "Mike", "budget": 800, "days": 14, "spec": True, "fast": True},\n    {"name": "Anonymous", "budget": 150, "days": 3, "spec": False, "fast": False},\n    {"name": "Sarah", "budget": 2000, "days": 21, "spec": True, "fast": False},\n    {"name": "Your lead", "budget": 600, "days": 10, "spec": True, "fast": True},\n]\n\nprint("LEAD SCORES:")\nfor lead in leads:\n    score = score_lead(lead["budget"], lead["days"], lead["spec"], lead["fast"])\n    status = "PURSUE" if score >= 60 else "SKIP"\n    print(lead["name"] + ": " + str(score) + "/100 -- " + status)`,
+            whatItDoes: "A live lead qualification tool. No more guessing which clients are worth chasing.",
+            check: (output) => output.includes("PURSUE") || output.includes("SKIP") || output.includes("/100"),
+          },
+          {
+            type: "modify",
+            prompt: "Add a 'NEGOTIATE' status for scores between 40-59 (not good enough to fully pursue, not bad enough to skip). Update the status logic.",
+            starterCode: `def score_lead(budget, timeline_days, has_clear_spec, responded_fast):\n    score = 0\n    if budget >= 1000: score += 40\n    elif budget >= 500: score += 25\n    elif budget >= 200: score += 10\n    if 7 <= timeline_days <= 30: score += 20\n    elif timeline_days > 30: score += 15\n    else: score += 5\n    if has_clear_spec: score += 25\n    if responded_fast: score += 15\n    return min(score, 100)\n\nleads = [\n    {"name": "Mike", "budget": 800, "days": 14, "spec": True, "fast": True},\n    {"name": "Borderline Bob", "budget": 300, "days": 14, "spec": False, "fast": True},\n    {"name": "Anonymous", "budget": 150, "days": 3, "spec": False, "fast": False},\n]\n\nfor lead in leads:\n    score = score_lead(lead["budget"], lead["days"], lead["spec"], lead["fast"])\n    if score >= 60:\n        status = "PURSUE"\n    elif score >= 40:\n        status = "NEGOTIATE"\n    else:\n        status = "SKIP"\n    print(lead["name"] + ": " + str(score) + "/100 -- " + status)`,
+            whatItDoes: "Three-tier scoring is how real sales teams qualify leads. You just implemented it.",
+            check: (output) => output.includes("NEGOTIATE") || output.includes("PURSUE"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a daily rate calculator. Given: desired annual income, weeks of vacation (off), and billable hours per week — calculate your minimum daily and hourly rate. Print both clearly.",
+            starterCode: `def calc_rates(annual_income, vacation_weeks, billable_hours_per_week):\n    work_weeks = 52 - vacation_weeks\n    total_hours = work_weeks * billable_hours_per_week\n    hourly = annual_income / total_hours\n    daily = hourly * 8\n    print("Target income: $" + str(annual_income))\n    print("Work weeks: " + str(work_weeks))\n    print("Total billable hours: " + str(total_hours))\n    print("Minimum hourly rate: $" + str(round(hourly, 2)))\n    print("Minimum daily rate: $" + str(round(daily, 2)))\n\ncalc_rates(60000, 4, 30)\nprint()\ncalc_rates(100000, 6, 25)`,
+            whatItDoes: "Never guess your rate again. Plug in your number and know exactly what to charge.",
+            check: (output) => output.includes("hourly") || output.includes("daily") || output.includes("$"),
+          },
+        ],
+        quiz: [
+          { q: "What does `min(score, 100)` do in the lead scorer?", options: ["Returns the lower of score and 100", "Sets score to 100", "Raises an error if score exceeds 100", "Compares two leads"], answer: 0 },
+          { q: "Why is automation valuable to freelancers beyond just personal productivity?", options: ["AI tools are free", "You can handle more clients without more hours — systems scale", "Clients don't notice automation", "It removes the need for communication"], answer: 1 },
+          { q: "In the lead scorer, what does `score += 25` do?", options: ["Sets score to 25", "Adds 25 to the current score value", "Subtracts 25", "Resets the score"], answer: 1 },
+          { q: "What kind of client task is highest-value to automate?", options: ["Tasks that are already digital", "Anything done manually in a spreadsheet", "Tasks that only take 5 minutes", "Work only you can do"], answer: 1 },
+          { q: "How do you calculate minimum hourly rate from annual income?", options: ["Annual income divided by 52", "Annual income divided by total billable hours", "Annual income divided by 12", "Daily rate times 5"], answer: 1 },
+        ],
+      },
+      {
+        id: "build-ai-tool", title: "Build a Sellable AI-Powered Tool", xp: 200, analogy: "Your first product that earns while you sleep", language: "python",
+        theory: [
+          { type: "plain", text: "The final evolution: stop selling time, start selling tools. A Python script wrapped in a simple interface can be a product charging $20–100/month per user." },
+          { type: "highlight", text: "You don't need a web app yet. A well-documented Python script with clear inputs and outputs IS a product. Sell it on Gumroad, Fiverr, or your own site." },
+          { type: "code", label: "PYTHON — AI content brief generator (sellable tool pattern)", color: "#a78bfa", code: `def ai_content_brief(business_type, target_audience, goal, num_ideas=5):\n    """\n    Generate a content brief for AI-assisted content creation.\n    Returns a structured brief ready to paste into Claude or ChatGPT.\n    """\n    brief = [\n        "=== AI CONTENT BRIEF ===",\n        "Business: " + business_type,\n        "Audience: " + target_audience,\n        "Goal: " + goal,\n        "",\n        "CONTENT IDEAS (" + str(num_ideas) + " posts):",\n    ]\n    \n    # Generate placeholder ideas (in production: call Claude API)\n    topics = [\n        "How " + business_type + " businesses save time with automation",\n        "Top 3 mistakes " + target_audience + " make and how to avoid them",\n        "The truth about " + goal.lower() + " nobody tells you",\n        "Step-by-step: " + goal + " for beginners",\n        "Why most " + target_audience + " fail at " + goal.lower(),\n        "Quick wins: " + goal + " in 30 minutes or less",\n    ]\n    \n    for i, topic in enumerate(topics[:num_ideas], 1):\n        brief.append(str(i) + ". " + topic)\n    \n    brief.extend([\n        "",\n        "PASTE INTO AI: Write a 500-word post about idea #[choose one].",\n        "Tone: helpful expert. Include real examples. CTA at end.",\n    ])\n    \n    return "\\n".join(brief)\n\nprint(ai_content_brief(\n    business_type="freelance Python developer",\n    target_audience="small business owners",\n    goal="automating repetitive tasks",\n    num_ideas=4\n))` },
+          { type: "plain", text: "Package this as a script, add a README, and sell it for $29 on Gumroad. That's a real product launch. You built the whole thing in Python." },
+        ],
+        hints: ["enumerate(list, 1) gives you index starting at 1 instead of 0", "list.extend(other_list) adds all items from other_list to list", "The [:num_ideas] slice limits ideas to the requested count"],
+        challenges: [
+          {
+            type: "guided",
+            prompt: "Run the content brief generator. Then call it with your own business type, audience, and goal. Try num_ideas=3.",
+            starterCode: `def ai_content_brief(business_type, target_audience, goal, num_ideas=5):\n    brief = [\n        "=== AI CONTENT BRIEF ===",\n        "Business: " + business_type,\n        "Audience: " + target_audience,\n        "Goal: " + goal,\n        "",\n        "CONTENT IDEAS:",\n    ]\n    topics = [\n        "How " + business_type + " saves time with AI",\n        "3 mistakes " + target_audience + " make",\n        "The truth about " + goal.lower(),\n        "Beginner guide to " + goal,\n        "Quick wins: " + goal + " in 30 min",\n    ]\n    for i, topic in enumerate(topics[:num_ideas], 1):\n        brief.append(str(i) + ". " + topic)\n    brief.append("")\n    brief.append("PASTE INTO AI: Write 500 words on idea #[choose one].")\n    return "\\n".join(brief)\n\nprint(ai_content_brief("freelance developer", "small businesses", "automating spreadsheets", 3))\nprint("\\n" + "="*40 + "\\n")\nprint(ai_content_brief("web designer", "restaurant owners", "getting more customers online", 4))`,
+            whatItDoes: "A structured content brief generator. The output is ready to paste into any AI tool for instant blog posts.",
+            check: (output) => output.includes("CONTENT BRIEF") || output.includes("CONTENT IDEAS") || output.includes("PASTE"),
+          },
+          {
+            type: "modify",
+            prompt: "Add an `include_hashtags` parameter (default False). If True, append a line with 5 relevant hashtags at the end of the brief.",
+            starterCode: `def ai_content_brief(business_type, target_audience, goal, num_ideas=3, include_hashtags=False):\n    brief = [\n        "=== AI CONTENT BRIEF ===",\n        "Business: " + business_type,\n        "Audience: " + target_audience,\n    ]\n    topics = [\n        "How " + business_type + " saves time with AI",\n        "3 mistakes " + target_audience + " make",\n        "Quick wins: " + goal + " today",\n    ]\n    for i, topic in enumerate(topics[:num_ideas], 1):\n        brief.append(str(i) + ". " + topic)\n    if include_hashtags:\n        tags = "#" + business_type.split()[0] + " #freelance #AI #automation #productivity"\n        brief.append("")\n        brief.append("HASHTAGS: " + tags)\n    return "\\n".join(brief)\n\nprint(ai_content_brief("Python developer", "e-commerce owners", "saving time", include_hashtags=True))\nprint()\nprint(ai_content_brief("copywriter", "startup founders", "growing on LinkedIn", include_hashtags=False))`,
+            whatItDoes: "Hashtags make social content ready to post. Optional parameters make your tool flexible without breaking old usage.",
+            check: (output) => output.includes("HASHTAGS") || output.includes("#"),
+          },
+          {
+            type: "scratch",
+            prompt: "Build a 'service package builder'. Given a service name, 3 deliverables (as a list), a price, and a turnaround in days — print a formatted service package card like you'd put on Fiverr or your website.",
+            starterCode: `def service_package(service_name, deliverables, price, turnaround_days):\n    print("=" * 40)\n    print("  " + service_name.upper())\n    print("=" * 40)\n    print("WHAT YOU GET:")\n    for item in deliverables:\n        print("  + " + item)\n    print("")\n    print("Price: $" + str(price))\n    print("Delivery: " + str(turnaround_days) + " business days")\n    print("=" * 40)\n\nservice_package(\n    "Python Automation Script",\n    ["Custom script built to your specs", "Code walkthrough video", "30-day support"],\n    497,\n    5\n)\nprint()\nservice_package(\n    "AI Content Package",\n    ["10 AI-generated blog posts", "SEO keywords included", "Ready to publish"],\n    299,\n    3\n)`,
+            whatItDoes: "A real service card generator. Put your numbers in, screenshot it, and it's a Fiverr gig listing.",
+            check: (output) => output.includes("Price") || output.includes("Delivery") || output.includes("+"),
+          },
+        ],
+        quiz: [
+          { q: "What does `enumerate(topics[:num_ideas], 1)` do?", options: ["Counts all topics starting from 0", "Iterates over a slice of topics with index starting at 1", "Removes topics beyond num_ideas", "Reverses the list"], answer: 1 },
+          { q: "What's the key difference between selling time vs selling tools?", options: ["Tools require a team", "Tools scale — they earn without requiring more of your hours", "Time is more valuable than tools", "Clients prefer hourly work"], answer: 1 },
+          { q: "What does `list.extend(other_list)` do?", options: ["Adds other_list as a single nested element", "Appends all items from other_list individually", "Overwrites the list", "Returns a combined list without modifying the original"], answer: 1 },
+          { q: "Why is a well-documented Python script a sellable product?", options: ["Python scripts are rare", "If it saves people time, the value is in the output — not the format", "Scripts are harder to copy than apps", "Gumroad requires Python"], answer: 1 },
+          { q: "In the service package builder, what does `str(price)` do?", options: ["Converts price to a float", "Converts the number to a string so it can be concatenated", "Rounds the price", "Prints the price"], answer: 1 },
+        ],
       },
     ],
   },
@@ -2252,7 +3273,7 @@ function AITutor({ lesson, userCode, onClose }) {
 
 // ─── PREMIUM SYSTEM ───────────────────────────────────────────────────────────
 const PREMIUM_CODES = ["CODEGRIND99", "PREMIUM2026", "CHAMP11B", "STANLEY01", "CG2026A", "CG2026B", "CG2026C", "CG2026D", "CG2026E", "CG2026F"];
-const FREE_LESSON_LIMIT = 15;
+const FREE_LESSON_LIMIT = 30;
 
 function isPremium() { return localStorage.getItem("cg_premium") === "true"; }
 
@@ -2279,7 +3300,7 @@ function Paywall({ onUnlock, onClose }) {
   };
 
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 200, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto" }}>
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 200, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
       <div style={{ marginTop: "20px", marginBottom: "20px", background: "#0d0d0d", border: "2px solid #fbbf2440", borderRadius: "16px", width: "100%", maxWidth: "480px", padding: "36px 28px", fontFamily: "'Space Mono', monospace" }}>
         <div style={{ fontSize: "36px", textAlign: "center", marginBottom: "12px" }}>🔐</div>
         <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "32px", letterSpacing: "3px", color: "#fbbf24", textAlign: "center", marginBottom: "8px" }}>PREMIUM ACCESS</div>
@@ -2299,14 +3320,23 @@ function Paywall({ onUnlock, onClose }) {
           </div>
         </div>
         <div style={{ background: "#0a160e", border: "1px solid #00ff8830", borderRadius: "10px", padding: "16px", marginBottom: "20px", textAlign: "center" }}>
-          <div style={{ fontSize: "20px", color: "#00ff88", fontWeight: "bold", marginBottom: "4px" }}>$9.99/month</div>
+          <div style={{ fontSize: "20px", color: "#00ff88", fontWeight: "bold", marginBottom: "4px" }}>$4.99/month</div>
           <div style={{ fontSize: "11px", color: "#555" }}>Pay once. Get access code. Unlock forever.</div>
         </div>
-        <a href="mailto:stanleywhiteiii87@gmail.com?subject=CodeGrind Premium Access Request&body=Hi Stanley, I want to unlock CodeGrind Premium for $9.99. My payment: $champ11b"
+        <div style={{ background: "#0a100d", border: "1px solid #00ff8830", borderRadius: "10px", padding: "16px", marginBottom: "16px" }}>
+          <div style={{ fontSize: "12px", color: "#00ff88", fontWeight: "bold", marginBottom: "8px" }}>How to unlock premium:</div>
+          <div style={{ fontSize: "12px", color: "#888", lineHeight: "2.2" }}>
+            <span style={{ color: "#fbbf24" }}>1.</span> Send $4.99 to Cash App <span style={{ color: "#fbbf24", fontWeight: "bold" }}>$champ11b</span><br/>
+            <span style={{ color: "#fbbf24" }}>2.</span> Email <span style={{ color: "#00ff88" }}>codegrind.app@gmail.com</span><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;Subject: <em style={{ color: "#ccc" }}>CodeGrind Premium</em><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;Include your Cash App username<br/>
+            <span style={{ color: "#fbbf24" }}>3.</span> Receive your code within 24 hours
+          </div>
+        </div>
+        <a href="mailto:codegrind.app@gmail.com?subject=CodeGrind%20Premium&body=Hi%2C%20I%20just%20sent%20%244.99%20to%20Cash%20App%20%24champ11b.%20My%20Cash%20App%20username%20is%3A%20%5Byour%20username%5D.%20Please%20send%20my%20access%20code."
           style={{ display: "block", background: "#00ff88", color: "#000", textDecoration: "none", borderRadius: "8px", padding: "13px", textAlign: "center", fontWeight: "bold", fontSize: "14px", marginBottom: "16px" }}>
-          💳 Pay $9.99 via Cash App ($champ11b) →
+          📧 Email to Get Your Code →
         </a>
-        <div style={{ fontSize: "11px", color: "#555", textAlign: "center", marginBottom: "16px" }}>After payment, Stanley will email you an access code within 24 hours.</div>
         <div style={{ height: "1px", background: "#1a1a1a", marginBottom: "16px" }} />
         <div style={{ fontSize: "12px", color: "#666", marginBottom: "8px" }}>Already have a code?</div>
         <div style={{ display: "flex", gap: "8px", marginBottom: "8px" }}>
@@ -2341,7 +3371,7 @@ function MilestonePopup({ milestone, onClose, onShowPaywall, isPremiumUser }) {
         </div>
         {!isPremiumUser && milestone.showPaywall && (
           <button onClick={() => { onClose(); onShowPaywall(); }} style={{ width: "100%", background: "#fbbf24", color: "#000", border: "none", borderRadius: "8px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace", marginBottom: "10px" }}>
-            ⭐ Unlock Premium — $9.99/month →
+            ⭐ Unlock Premium — $4.99/month →
           </button>
         )}
         <button onClick={onClose} style={{ width: "100%", background: !isPremiumUser && milestone.showPaywall ? "none" : milestone.color, color: !isPremiumUser && milestone.showPaywall ? "#555" : "#000", border: "none", borderRadius: "8px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace" }}>
@@ -2519,7 +3549,7 @@ function MiniGame({ moduleId, moduleName, moduleColor, xpReward, onClose, onXpEa
     }, 1000);
   };
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 200, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto" }}>
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 200, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
       <div style={{ marginTop: "20px", marginBottom: "20px", background: "#0d0d0d", border: "1px solid " + moduleColor + "40", borderRadius: "16px", width: "100%", maxWidth: "520px", fontFamily: "monospace", overflow: "hidden" }}>
         <div style={{ padding: "16px 20px", borderBottom: "1px solid #1a1a1a", display: "flex", justifyContent: "space-between", alignItems: "center", background: moduleColor + "10" }}>
           <div>
@@ -2938,7 +3968,7 @@ function LandingPage({ onEnter }) {
         <div style={s.grid2}>
           {[
             ["01", "EXPAND YOUR RANGE", "Python. JavaScript. Automation. APIs. Every skill unlocks a new income stream. This is how you become hard to replace."],
-            ["02", "THE ADVANTAGE", "The knowledge people pay $15,000 tuition for. You get it here for $9.99/month — or completely free to start."],
+            ["02", "THE ADVANTAGE", "The knowledge people pay $15,000 tuition for. You get it here for $4.99/month — or completely free to start."],
             ["03", "START WHEN READY", "No deadlines. No pressure. Progress saves automatically. Pick up exactly where you left off."],
           ].map(([num, title, body]) => (
             <div key={num} className="cg-card" style={s.card}>
@@ -3009,7 +4039,7 @@ function LandingPage({ onEnter }) {
       {/* PRICING */}
       <div style={s.sectionWrap}>
         <div style={s.label}>PRICING</div>
-        <h2 style={s.sectionTitle}>START FREE.<br /><span style={{ color: "#b22222" }}>GO FURTHER FOR $9.99.</span></h2>
+        <h2 style={s.sectionTitle}>START FREE.<br /><span style={{ color: "#b22222" }}>GO FURTHER FOR $4.99.</span></h2>
         <div style={s.priceGrid}>
           <div style={{ ...s.card, padding: "40px 32px" }}>
             <div style={{ fontSize: "9px", color: "#664444", letterSpacing: "4px", marginBottom: "18px" }}>FREE FOREVER</div>
@@ -3029,7 +4059,7 @@ function LandingPage({ onEnter }) {
           </div>
           <div style={{ ...s.card, padding: "40px 32px", background: "#0d0808", borderTop: "2px solid #b22222", position: "relative" }}>
             <div style={{ fontSize: "9px", color: "#664444", letterSpacing: "4px", marginBottom: "18px" }}>PREMIUM</div>
-            <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "60px", color: "#b22222", letterSpacing: "2px", lineHeight: "1", marginBottom: "6px" }}>$9.99</div>
+            <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "60px", color: "#b22222", letterSpacing: "2px", lineHeight: "1", marginBottom: "6px" }}>$4.99</div>
             <div style={{ fontSize: "10px", color: "#664444", letterSpacing: "2px", marginBottom: "28px" }}>PER MONTH — CANCEL ANYTIME</div>
             {["Everything in Free","All 30+ lessons unlocked","Premium Python Pro module","Premium JS Pro module","Unlimited AI tutor","Real project builds","Certificate of completion","Direct support from Stanley"].map(item => (
               <div key={item} style={{ fontSize: "12px", color: "#bbb", padding: "9px 0", borderBottom: "1px solid #150a0a", display: "flex", alignItems: "center", gap: "10px" }}>
@@ -3062,6 +4092,30 @@ function LandingPage({ onEnter }) {
   );
 }
 
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() { return { hasError: true }; }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ minHeight: "100vh", background: "#07070F", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "40px", fontFamily: "'Space Mono', monospace" }}>
+          <div style={{ fontSize: "48px", marginBottom: "16px" }}>⚠️</div>
+          <div style={{ color: "#fbbf24", fontSize: "18px", fontWeight: "bold", marginBottom: "8px" }}>Something went wrong</div>
+          <div style={{ color: "#666", fontSize: "12px", marginBottom: "24px", textAlign: "center" }}>CodeGrind hit an unexpected error.</div>
+          <button onClick={() => { this.setState({ hasError: false }); window.location.reload(); }}
+            style={{ background: "#00ff88", color: "#000", border: "none", borderRadius: "8px", padding: "12px 24px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace" }}>
+            Reload App
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function AppWrapper() {
   const [entered, setEntered] = useState(!!sessionStorage.getItem("cg_entered"));
 
@@ -3078,7 +4132,8 @@ function AppWrapper() {
   return <CodeGrind />;
 }
 
-export { AppWrapper as default };
+function SafeApp() { return <ErrorBoundary><AppWrapper /></ErrorBoundary>; }
+export { SafeApp as default };
 
 function CodeGrind() {
   const [xp, setXp] = useState(0);
@@ -3360,7 +4415,7 @@ function CodeGrind() {
             <div onClick={() => setShowPaywall(true)} style={{ background: "#0a0800", border: "1px solid #fbbf2430", borderRadius: "10px", padding: "14px 18px", marginBottom: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <div>
                 <div style={{ fontSize: "12px", color: "#fbbf24", fontWeight: "bold", marginBottom: "3px" }}>⭐ {Math.max(0, FREE_LESSON_LIMIT - completed.size)} free lessons remaining</div>
-                <div style={{ fontSize: "11px", color: "#555" }}>{completed.size >= FREE_LESSON_LIMIT ? "Unlock premium to continue →" : `Complete ${FREE_LESSON_LIMIT} lessons free — then $9.99/month`}</div>
+                <div style={{ fontSize: "11px", color: "#555" }}>{completed.size >= FREE_LESSON_LIMIT ? "Unlock premium to continue →" : `Complete ${FREE_LESSON_LIMIT} lessons free — then $4.99/month`}</div>
               </div>
               <div style={{ fontSize: "11px", color: "#fbbf24", border: "1px solid #fbbf2440", borderRadius: "6px", padding: "4px 10px", flexShrink: 0 }}>{completed.size >= FREE_LESSON_LIMIT ? "Unlock Now →" : "Learn More"}</div>
             </div>

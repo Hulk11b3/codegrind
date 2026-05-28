@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef, Component } from "react";
+import WEB_DEV_CURRICULUM from './data/webDevCurriculum';
+import AI_DEV_CURRICULUM from './data/aiDevCurriculum';
+import CAREER_CURRICULUM from './data/careerCurriculum';
 
 const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
 const SUPABASE_KEY = process.env.REACT_APP_SUPABASE_KEY;
@@ -2829,9 +2832,27 @@ const CURRICULUM = [
   },
 ];
 
-const ALL_LESSONS = CURRICULUM.flatMap((m) =>
-  m.lessons.map((l) => ({ ...l, moduleId: m.id, moduleTitle: m.title, moduleColor: m.color }))
+const ALL_PYTHON_LESSONS = CURRICULUM.flatMap((m) =>
+  m.lessons.map((l) => ({ ...l, moduleId: m.id, moduleTitle: m.title, moduleColor: m.color, trackId: "python" }))
 );
+const ALL_WEBDEV_LESSONS = WEB_DEV_CURRICULUM.flatMap((m) =>
+  m.lessons.map((l) => ({ ...l, moduleId: m.id, moduleTitle: m.title, moduleColor: m.color, trackId: "webdev" }))
+);
+const ALL_AI_LESSONS = AI_DEV_CURRICULUM.flatMap((m) =>
+  m.lessons.map((l) => ({ ...l, moduleId: m.id, moduleTitle: m.title, moduleColor: m.color, trackId: "ai" }))
+);
+const ALL_CAREER_LESSONS = CAREER_CURRICULUM.flatMap((m) =>
+  m.lessons.map((l) => ({ ...l, moduleId: m.id, moduleTitle: m.title, moduleColor: m.color, trackId: "career" }))
+);
+const ALL_LESSONS = [...ALL_PYTHON_LESSONS, ...ALL_WEBDEV_LESSONS, ...ALL_AI_LESSONS, ...ALL_CAREER_LESSONS];
+
+// First 2 lessons of each track are free; everything else requires Pro
+const FREE_LESSON_IDS = new Set([
+  ...ALL_PYTHON_LESSONS.slice(0, 2).map(l => l.id),
+  ...ALL_WEBDEV_LESSONS.slice(0, 2).map(l => l.id),
+  ...ALL_AI_LESSONS.slice(0, 2).map(l => l.id),
+  ...ALL_CAREER_LESSONS.slice(0, 2).map(l => l.id),
+]);
 
 const ROADMAP = [
   { week: "Week 1–2", title: "The Foundation", skills: ["Variables", "Data types", "print statements", "Basic math in code"], milestone: "You can write your first real script", earn: null, color: "#00ff88" },
@@ -3201,6 +3222,129 @@ function JSRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChange,
   );
 }
 
+// ─── HTML RUNNER ──────────────────────────────────────────────────────────────
+function HTMLRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChange, strikes, onStrike, onReviewNeeded }) {
+  const [code, setCode] = useState(starterCode);
+  const [preview, setPreview] = useState(null);
+  const [passed, setPassed] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleCodeChange = (val) => { setCode(val); if (onCodeChange) onCodeChange(val); };
+
+  const runCode = () => {
+    setError("");
+    try {
+      const blob = new Blob([code], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      setPreview(url);
+      const didPass = check(code);
+      if (didPass && !passed) { setPassed(true); onPass(); }
+      else if (!didPass) {
+        const newStrikes = (strikes || 0) + 1;
+        if (onStrike) onStrike(newStrikes);
+        if (newStrikes >= 3 && onReviewNeeded) onReviewNeeded();
+      }
+    } catch (e) { setError("Error: " + e.message); }
+  };
+
+  return (
+    <div>
+      <div style={{ background: "#0f140f", border: "1px solid #1a2a1a", borderRadius: "10px", padding: "14px", marginBottom: "12px" }}>
+        <div style={{ fontSize: "10px", color: "#555", marginBottom: "6px", letterSpacing: "1px" }}>WHAT THIS CODE DOES:</div>
+        <p style={{ fontSize: "12px", color: "#777", margin: 0, lineHeight: "1.7" }}>{whatItDoes}</p>
+      </div>
+      {strikes > 0 && strikes < 3 && (
+        <div style={{ background: "#fbbf2410", border: "1px solid #fbbf2430", borderRadius: "8px", padding: "12px 14px", marginBottom: "10px" }}>
+          <div style={{ fontSize: "11px", color: "#fbbf24", marginBottom: "4px" }}>⚠️ ATTEMPT {strikes}/3 — Hint:</div>
+          <p style={{ fontSize: "13px", color: "#d4a500", margin: 0 }}>{hints && hints[strikes - 1]}</p>
+        </div>
+      )}
+      <div style={{ fontSize: "10px", color: "#e34c26", marginBottom: "6px", letterSpacing: "1px" }}>🌐 HTML CODE:</div>
+      <textarea value={code} onChange={(e) => handleCodeChange(e.target.value)}
+        style={{ width: "100%", minHeight: "180px", background: "#0d0d0d", border: `1px solid ${strikes >= 2 ? "#ff444440" : "#1f2937"}`, borderRadius: "8px", padding: "14px", color: "#e06c75", fontSize: "13px", fontFamily: "'Space Mono', monospace", outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: "1.7" }} />
+      <button onClick={runCode}
+        style={{ width: "100%", background: "#e34c26", color: "#fff", border: "none", borderRadius: "8px", padding: "13px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace", marginBottom: "10px", marginTop: "10px" }}>
+        ▶ PREVIEW HTML
+      </button>
+      {error && <div style={{ color: "#ff6b6b", fontSize: "12px", marginBottom: "10px" }}>{error}</div>}
+      {preview && (
+        <div style={{ marginBottom: "10px" }}>
+          <div style={{ fontSize: "10px", color: "#e34c26", marginBottom: "6px", letterSpacing: "1px" }}>LIVE PREVIEW:</div>
+          <iframe src={preview} title="HTML Preview" sandbox="allow-scripts"
+            style={{ width: "100%", height: "220px", border: "1px solid #e34c2630", borderRadius: "8px", background: "#fff" }} />
+        </div>
+      )}
+      {passed && <div style={{ marginTop: "12px", padding: "14px", background: "#00ff8815", border: "1px solid #00ff8840", borderRadius: "8px", fontSize: "13px", color: "#00ff88", textAlign: "center", fontWeight: "bold" }}>✅ Challenge complete! XP earned.</div>}
+    </div>
+  );
+}
+
+// ─── REACT RUNNER ─────────────────────────────────────────────────────────────
+function ReactRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChange, strikes, onStrike, onReviewNeeded }) {
+  const [code, setCode] = useState(starterCode);
+  const [preview, setPreview] = useState(null);
+  const [passed, setPassed] = useState(false);
+
+  const handleCodeChange = (val) => { setCode(val); if (onCodeChange) onCodeChange(val); };
+
+  const runCode = () => {
+    const html = `<!DOCTYPE html><html><head>
+      <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+      <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+      <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+      <style>*{box-sizing:border-box;margin:0;padding:0}body{background:#0d0d0d;color:#e0e0e0;font-family:sans-serif;padding:16px}</style>
+    </head><body>
+      <div id="root"></div>
+      <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        ${code}
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+        root.render(React.createElement(App));
+      </script>
+    </body></html>`;
+    const blob = new Blob([html], { type: 'text/html' });
+    setPreview(URL.createObjectURL(blob));
+    const didPass = check(code);
+    if (didPass && !passed) { setPassed(true); onPass(); }
+    else if (!didPass) {
+      const newStrikes = (strikes || 0) + 1;
+      if (onStrike) onStrike(newStrikes);
+      if (newStrikes >= 3 && onReviewNeeded) onReviewNeeded();
+    }
+  };
+
+  return (
+    <div>
+      <div style={{ background: "#070d17", border: "1px solid #0d2030", borderRadius: "10px", padding: "14px", marginBottom: "12px" }}>
+        <div style={{ fontSize: "10px", color: "#555", marginBottom: "6px", letterSpacing: "1px" }}>WHAT THIS CODE DOES:</div>
+        <p style={{ fontSize: "12px", color: "#777", margin: 0, lineHeight: "1.7" }}>{whatItDoes}</p>
+      </div>
+      {strikes > 0 && strikes < 3 && (
+        <div style={{ background: "#fbbf2410", border: "1px solid #fbbf2430", borderRadius: "8px", padding: "12px 14px", marginBottom: "10px" }}>
+          <div style={{ fontSize: "11px", color: "#fbbf24", marginBottom: "4px" }}>⚠️ ATTEMPT {strikes}/3 — Hint:</div>
+          <p style={{ fontSize: "13px", color: "#d4a500", margin: 0 }}>{hints && hints[strikes - 1]}</p>
+        </div>
+      )}
+      <div style={{ fontSize: "10px", color: "#61dafb", marginBottom: "6px", letterSpacing: "1px" }}>⚛️ REACT CODE:</div>
+      <textarea value={code} onChange={(e) => handleCodeChange(e.target.value)}
+        style={{ width: "100%", minHeight: "200px", background: "#0d0d0d", border: `1px solid ${strikes >= 2 ? "#ff444440" : "#1f2937"}`, borderRadius: "8px", padding: "14px", color: "#61dafb", fontSize: "13px", fontFamily: "'Space Mono', monospace", outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: "1.7" }} />
+      <button onClick={runCode}
+        style={{ width: "100%", background: "#61dafb", color: "#000", border: "none", borderRadius: "8px", padding: "13px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace", marginBottom: "10px", marginTop: "10px" }}>
+        ▶ RUN REACT
+      </button>
+      {preview && (
+        <div style={{ marginBottom: "10px" }}>
+          <div style={{ fontSize: "10px", color: "#61dafb", marginBottom: "6px", letterSpacing: "1px" }}>LIVE PREVIEW:</div>
+          <iframe src={preview} title="React Preview" sandbox="allow-scripts allow-same-origin"
+            style={{ width: "100%", height: "250px", border: "1px solid #61dafb30", borderRadius: "8px", background: "#0d0d0d" }} />
+        </div>
+      )}
+      {passed && <div style={{ marginTop: "12px", padding: "14px", background: "#00ff8815", border: "1px solid #00ff8840", borderRadius: "8px", fontSize: "13px", color: "#00ff88", textAlign: "center", fontWeight: "bold" }}>✅ Challenge complete! XP earned.</div>}
+    </div>
+  );
+}
+
 // ─── AI TUTOR (single correct version with rate limiting) ─────────────────────
 function AITutor({ lesson, userCode, onClose }) {
   const [messages, setMessages] = useState([{ role: "assistant", content: `Hey! You're on "${lesson.title}" — ask me anything. No dumb questions here.` }]);
@@ -3229,7 +3373,7 @@ function AITutor({ lesson, userCode, onClose }) {
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${process.env.REACT_APP_SUPABASE_KEY}` },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514", max_tokens: 1000,
-          system: `You are a patient coding tutor for someone returning to learning after years in survival mode. They are smart but need plain English. Lesson: "${lesson.title}". Analogy: "${lesson.analogy}". Their current code: ${userCode || "(none yet)"}. Rules: no jargon without plain explanation, use everyday analogies, be warm and encouraging, connect concepts to money-making, keep answers to 3-5 sentences unless asked for more.`,
+          system: `You are a patient, expert coding tutor. The student is motivated and smart but needs plain English — no assumed knowledge. Track: ${lesson.trackId === "webdev" ? "Web Development" : lesson.trackId === "ai" ? "AI & Modern Dev" : lesson.trackId === "career" ? "Career" : "Python"} (${lesson.language === "html" ? "HTML/CSS" : lesson.language === "react" ? "React/JSX" : lesson.language === "javascript" ? "JavaScript" : "Python"}). Module: "${lesson.moduleTitle || ""}". Lesson: "${lesson.title}". Analogy for this lesson: "${lesson.analogy || ""}". Student's current code: ${userCode || "(none yet)"}. Rules: explain every term in plain English before using it; use real-world analogies; be warm, direct, and encouraging; connect skills to earning money as a freelancer; keep answers to 3-5 sentences max unless more depth is asked for; never write the full solution — guide with hints and examples.`,
           messages: [...messages, userMsg].map((m) => ({ role: m.role, content: m.content })),
         }),
       });
@@ -3273,7 +3417,7 @@ function AITutor({ lesson, userCode, onClose }) {
 
 // ─── PREMIUM SYSTEM ───────────────────────────────────────────────────────────
 const PREMIUM_CODES = ["CODEGRIND99", "PREMIUM2026", "CHAMP11B", "STANLEY01", "CG2026A", "CG2026B", "CG2026C", "CG2026D", "CG2026E", "CG2026F"];
-const FREE_LESSON_LIMIT = 30;
+const FREE_LESSON_LIMIT = 30; // kept for legacy milestone checks
 
 function isPremium() { return localStorage.getItem("cg_premium") === "true"; }
 
@@ -3305,28 +3449,27 @@ function Paywall({ onUnlock, onClose }) {
         <div style={{ fontSize: "36px", textAlign: "center", marginBottom: "12px" }}>🔐</div>
         <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "32px", letterSpacing: "3px", color: "#fbbf24", textAlign: "center", marginBottom: "8px" }}>PREMIUM ACCESS</div>
         <p style={{ fontSize: "13px", color: "#888", lineHeight: "1.8", textAlign: "center", marginBottom: "24px" }}>
-          You've completed the foundation. You now have your first freelance skill worth $50–$300/project. Everything that follows turns that into a career.
+          All 4 learning tracks. Every lesson. Unlimited AI coding partner. The full CodeGrind experience.
         </p>
         <div style={{ background: "#111", border: "1px solid #fbbf2430", borderRadius: "10px", padding: "16px", marginBottom: "20px" }}>
           <div style={{ fontSize: "12px", color: "#fbbf24", fontWeight: "bold", marginBottom: "10px" }}>✅ What you unlock:</div>
           <div style={{ fontSize: "12px", color: "#888", lineHeight: "2" }}>
-            • CSV files, web scraping & APIs<br/>
-            • Email automation & file organization<br/>
-            • Classes, regex & advanced Python<br/>
-            • Full JavaScript Pro curriculum<br/>
-            • Real project builds (price tracker, etc.)<br/>
-            • Unlimited AI tutor<br/>
-            • Completion certificate
+            🐍 Full Python track — scripting, automation, APIs, classes<br/>
+            🌐 Web Dev track — HTML, CSS, React, Node.js, Deployment<br/>
+            🤖 AI & Dev track — Prompt engineering, Claude API, AI agents<br/>
+            💼 Career track — Interviews, portfolio, landing clients<br/>
+            🤖 Unlimited AI coding partner — context-aware, per lesson<br/>
+            🏆 Completion certificate
           </div>
         </div>
         <div style={{ background: "#0a160e", border: "1px solid #00ff8830", borderRadius: "10px", padding: "16px", marginBottom: "20px", textAlign: "center" }}>
-          <div style={{ fontSize: "20px", color: "#00ff88", fontWeight: "bold", marginBottom: "4px" }}>$4.99/month</div>
-          <div style={{ fontSize: "11px", color: "#555" }}>Pay once. Get access code. Unlock forever.</div>
+          <div style={{ fontSize: "20px", color: "#00ff88", fontWeight: "bold", marginBottom: "4px" }}>$15/month</div>
+          <div style={{ fontSize: "11px", color: "#555" }}>Full access to all 4 tracks — Python, Web Dev, AI & Dev, Career.</div>
         </div>
         <div style={{ background: "#0a100d", border: "1px solid #00ff8830", borderRadius: "10px", padding: "16px", marginBottom: "16px" }}>
           <div style={{ fontSize: "12px", color: "#00ff88", fontWeight: "bold", marginBottom: "8px" }}>How to unlock premium:</div>
           <div style={{ fontSize: "12px", color: "#888", lineHeight: "2.2" }}>
-            <span style={{ color: "#fbbf24" }}>1.</span> Send $4.99 to Cash App <span style={{ color: "#fbbf24", fontWeight: "bold" }}>$champ11b</span><br/>
+            <span style={{ color: "#fbbf24" }}>1.</span> Send $15 to Cash App <span style={{ color: "#fbbf24", fontWeight: "bold" }}>$champ11b</span><br/>
             <span style={{ color: "#fbbf24" }}>2.</span> Email <span style={{ color: "#00ff88" }}>codegrind.app@gmail.com</span><br/>
             &nbsp;&nbsp;&nbsp;&nbsp;Subject: <em style={{ color: "#ccc" }}>CodeGrind Premium</em><br/>
             &nbsp;&nbsp;&nbsp;&nbsp;Include your Cash App username<br/>
@@ -3371,7 +3514,7 @@ function MilestonePopup({ milestone, onClose, onShowPaywall, isPremiumUser }) {
         </div>
         {!isPremiumUser && milestone.showPaywall && (
           <button onClick={() => { onClose(); onShowPaywall(); }} style={{ width: "100%", background: "#fbbf24", color: "#000", border: "none", borderRadius: "8px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace", marginBottom: "10px" }}>
-            ⭐ Unlock Premium — $4.99/month →
+            ⭐ Unlock Pro — $15/month →
           </button>
         )}
         <button onClick={onClose} style={{ width: "100%", background: !isPremiumUser && milestone.showPaywall ? "none" : milestone.color, color: !isPremiumUser && milestone.showPaywall ? "#555" : "#000", border: "none", borderRadius: "8px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace" }}>
@@ -3701,7 +3844,11 @@ function MultiChallenge({ lesson, lessonStrikes, completed, onComplete, onCodeCh
             <div style={{ fontSize: "10px", color: "#444" }}>{step + 1} of {challenges.length}</div>
           </div>
           <p style={{ fontSize: "13px", color: "#ccc", lineHeight: "1.8", marginBottom: "16px" }}>{currentChallenge.prompt}</p>
-          {lesson.language === "javascript" ? (
+          {lesson.language === "html" ? (
+            <HTMLRunner key={step} starterCode={currentChallenge.starterCode} whatItDoes={currentChallenge.whatItDoes} check={currentChallenge.check} hints={lesson.hints} strikes={lessonStrikes} onPass={handleChallengePass} onCodeChange={onCodeChange} onStrike={onStrike} onReviewNeeded={onReviewNeeded} />
+          ) : lesson.language === "react" ? (
+            <ReactRunner key={step} starterCode={currentChallenge.starterCode} whatItDoes={currentChallenge.whatItDoes} check={currentChallenge.check} hints={lesson.hints} strikes={lessonStrikes} onPass={handleChallengePass} onCodeChange={onCodeChange} onStrike={onStrike} onReviewNeeded={onReviewNeeded} />
+          ) : lesson.language === "javascript" ? (
             <JSRunner key={step} starterCode={currentChallenge.starterCode} whatItDoes={currentChallenge.whatItDoes} check={currentChallenge.check} hints={lesson.hints} strikes={lessonStrikes} onPass={handleChallengePass} onCodeChange={onCodeChange} onStrike={onStrike} onReviewNeeded={onReviewNeeded} requiresChange={step > 0} />
           ) : (
             <CodeRunner key={step} starterCode={currentChallenge.starterCode} whatItDoes={currentChallenge.whatItDoes} check={currentChallenge.check} hints={lesson.hints} strikes={lessonStrikes} onPass={handleChallengePass} onCodeChange={onCodeChange} onStrike={onStrike} onReviewNeeded={onReviewNeeded} requiresChange={step > 0} />
@@ -4160,6 +4307,7 @@ function CodeGrind() {
   const [tab, setTab] = useState("theory");
   const [view, setView] = useState("curriculum");
   const [reviewMode, setReviewMode] = useState(false);
+  const [activeTrack, setActiveTrack] = useState("python");
 
   const totalXP = ALL_LESSONS.reduce((s, l) => s + l.xp, 0);
   const level = Math.floor(xp / 200) + 1;
@@ -4340,6 +4488,30 @@ function CodeGrind() {
 
       {view === "curriculum" && (
         <div style={{ maxWidth: "680px", margin: "0 auto", padding: "32px 18px" }}>
+
+          {/* ── TRACK SELECTOR ── */}
+          {(() => {
+            const tracks = [
+              { id: "python", label: "🐍 Python", color: "#00ff88" },
+              { id: "webdev", label: "🌐 Web Dev", color: "#e34c26" },
+              { id: "ai", label: "🤖 AI & Dev", color: "#a78bfa" },
+              { id: "career", label: "💼 Career", color: "#fbbf24" },
+            ];
+            return (
+              <div style={{ marginBottom: "28px" }}>
+                <div style={{ fontSize: "10px", color: "#444", letterSpacing: "2px", marginBottom: "10px" }}>LEARNING TRACK</div>
+                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                  {tracks.map(t => (
+                    <button key={t.id} onClick={() => setActiveTrack(t.id)}
+                      style={{ background: activeTrack === t.id ? t.color + "20" : "#0d0d0d", border: `1px solid ${activeTrack === t.id ? t.color : "#1f1f1f"}`, color: activeTrack === t.id ? t.color : "#555", borderRadius: "8px", padding: "8px 16px", cursor: "pointer", fontSize: "12px", fontFamily: "'Space Mono', monospace", fontWeight: activeTrack === t.id ? "bold" : "normal", transition: "all 0.2s" }}>
+                      {t.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+
           <div style={{ marginBottom: "36px" }}>
             <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "44px", letterSpacing: "3px", lineHeight: 1.05, marginBottom: "14px" }}>LEARN TO CODE.<br /><span style={{ color: "#00ff88" }}>GET PAID.</span></div>
             {completed.size === 0 && (
@@ -4414,10 +4586,10 @@ function CodeGrind() {
           {!premium && (
             <div onClick={() => setShowPaywall(true)} style={{ background: "#0a0800", border: "1px solid #fbbf2430", borderRadius: "10px", padding: "14px 18px", marginBottom: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <div>
-                <div style={{ fontSize: "12px", color: "#fbbf24", fontWeight: "bold", marginBottom: "3px" }}>⭐ {Math.max(0, FREE_LESSON_LIMIT - completed.size)} free lessons remaining</div>
-                <div style={{ fontSize: "11px", color: "#555" }}>{completed.size >= FREE_LESSON_LIMIT ? "Unlock premium to continue →" : `Complete ${FREE_LESSON_LIMIT} lessons free — then $4.99/month`}</div>
+                <div style={{ fontSize: "12px", color: "#fbbf24", fontWeight: "bold", marginBottom: "3px" }}>⭐ First 2 lessons of each track are free</div>
+                <div style={{ fontSize: "11px", color: "#555" }}>Full access to all 4 tracks — Python, Web Dev, AI & Dev, Career — $15/month</div>
               </div>
-              <div style={{ fontSize: "11px", color: "#fbbf24", border: "1px solid #fbbf2440", borderRadius: "6px", padding: "4px 10px", flexShrink: 0 }}>{completed.size >= FREE_LESSON_LIMIT ? "Unlock Now →" : "Learn More"}</div>
+              <div style={{ fontSize: "11px", color: "#fbbf24", border: "1px solid #fbbf2440", borderRadius: "6px", padding: "4px 10px", flexShrink: 0 }}>Unlock Pro →</div>
             </div>
           )}
           {premium && (
@@ -4427,7 +4599,7 @@ function CodeGrind() {
             </div>
           )}
 
-          {CURRICULUM.map((module) => (
+          {(activeTrack === "python" ? CURRICULUM : activeTrack === "webdev" ? WEB_DEV_CURRICULUM : activeTrack === "ai" ? AI_DEV_CURRICULUM : CAREER_CURRICULUM).map((module) => (
             <div key={module.id} style={{ marginBottom: "28px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
                 <span>{module.icon}</span>
@@ -4440,8 +4612,7 @@ function CodeGrind() {
               </div>
               {module.lessons.map((lesson, idx) => {
                 const done = completed.has(lesson.id);
-                const lessonNumber = ALL_LESSONS.findIndex(l => l.id === lesson.id) + 1;
-                const paywalled = !premium && lessonNumber > FREE_LESSON_LIMIT;
+                const paywalled = !premium && !FREE_LESSON_IDS.has(lesson.id);
                 const locked = !paywalled && idx > 0 && !completed.has(module.lessons[idx - 1].id);
                 const lessonStrikes = strikes.get(lesson.id) || 0;
                 return (

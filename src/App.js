@@ -1364,11 +1364,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "How do you create a variable in JavaScript?", options: ["var x = 5", "let x = 5", "x = 5", "def x = 5"], answer: 1 },
-          { q: "What is JavaScript's version of Python's print()?", options: ["log()", "console.print()", "console.log()", "display()"], answer: 2 },
-          { q: "JavaScript is to a website what ___ is to a house.", options: ["The walls", "The paint", "The electricity", "The roof"], answer: 2 },
-          { q: "What does `let rate = 75` create?", options: ["A function called rate", "A variable storing the number 75", "A class called rate", "An error"], answer: 1 },
-          { q: "Where does JavaScript run by default?", options: ["Only on servers", "Only in Node.js", "In the browser on the user's device", "Only on mobile"], answer: 2 },
+          { question: "How do you create a variable in JavaScript?", answer: "let x = 5", choices: ["var x = 5", "let x = 5", "x = 5", "def x = 5"] },
+          { question: "What is JavaScript's version of Python's print()?", answer: "console.log()", choices: ["log()", "console.print()", "console.log()", "display()"] },
+          { question: "JavaScript is to a website what ___ is to a house.", answer: "The electricity", choices: ["The walls", "The paint", "The electricity", "The roof"] },
+          { question: "What does `let rate = 75` create?", answer: "A variable storing the number 75", choices: ["A function called rate", "A variable storing the number 75", "A class called rate", "An error"] },
+          { question: "Where does JavaScript run by default?", answer: ", ", choices: ["Only on servers", "Only in Node.js", ", "] },
         ],
       },
       {
@@ -1404,11 +1404,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What keyword defines a function in JavaScript (not an arrow function)?", options: ["def", "func", "function", "fn"], answer: 2 },
-          { q: "What does `return hours * rate` do inside a function?", options: ["Prints the result", "Ends the program", "Sends the result back to whoever called the function", "Creates a variable"], answer: 2 },
-          { q: "How do you call a function named getTotal with argument 5?", options: ["call getTotal(5)", "getTotal 5", "getTotal(5)", "run getTotal(5)"], answer: 2 },
-          { q: "What does .toFixed(2) do to a number?", options: ["Rounds to nearest integer", "Converts to string with exactly 2 decimal places", "Adds 2 to the number", "Removes decimals"], answer: 1 },
-          { q: "Python uses 'def' for functions. JavaScript uses ___.", options: ["fn", "define", "function", "method"], answer: 2 },
+          { question: "What keyword defines a function in JavaScript (not an arrow function)?", answer: "function", choices: ["def", "func", "function", "fn"] },
+          { question: "What does `return hours * rate` do inside a function?", answer: "Sends the result back to whoever called the function", choices: ["Prints the result", "Ends the program", "Sends the result back to whoever called the function", "Creates a variable"] },
+          { question: "How do you call a function named getTotal with argument 5?", answer: "getTotal(5)", choices: ["call getTotal(5)", "getTotal 5", "getTotal(5)", "run getTotal(5)"] },
+          { question: "What does .toFixed(2) do to a number?", answer: "Converts to string with exactly 2 decimal places", choices: ["Rounds to nearest integer", "Converts to string with exactly 2 decimal places", "Adds 2 to the number", "Removes decimals"] },
+          { question: "Python uses 'def' for functions. JavaScript uses ___.", answer: "function", choices: ["fn", "define", "function", "method"] },
         ],
       },
       {
@@ -1445,11 +1445,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does DOM stand for?", options: ["Digital Object Maker", "Document Object Model", "Data Object Method", "Display Output Mode"], answer: 1 },
-          { q: "What is document.getElementById('title') doing?", options: ["Creating an element", "Deleting an element", "Finding an existing element by its id attribute", "Running JavaScript"], answer: 2 },
-          { q: "What makes JavaScript different from Python in terms of where it runs?", options: ["Python is faster", "JavaScript runs in the browser and can change what users see in real time", "JavaScript is server-side only", "They run in the same place"], answer: 1 },
-          { q: "A client pays $800 for a working contact form. What makes that form work?", options: ["HTML structure", "CSS styling", "JavaScript event listeners and DOM manipulation", "A database"], answer: 2 },
-          { q: "What does .style.color = 'green' do?", options: ["Sets the background color", "Changes the text color of the selected element", "Removes the element", "Adds a CSS class"], answer: 1 },
+          { question: "What does DOM stand for?", answer: "Document Object Model", choices: ["Digital Object Maker", "Document Object Model", "Data Object Method", "Display Output Mode"] },
+          { question: "What is document.getElementById('title') doing?", answer: "Finding an existing element by its id attribute", choices: ["Creating an element", "Deleting an element", "Finding an existing element by its id attribute", "Running JavaScript"] },
+          { question: "What makes JavaScript different from Python in terms of where it runs?", answer: "JavaScript runs in the browser and can change what users see in real time", choices: ["Python is faster", "JavaScript runs in the browser and can change what users see in real time", "JavaScript is server-side only", "They run in the same place"] },
+          { question: "A client pays $800 for a working contact form. What makes that form work?", answer: "JavaScript event listeners and DOM manipulation", choices: ["HTML structure", "CSS styling", "JavaScript event listeners and DOM manipulation", "A database"] },
+          { question: "What does .style.color = 'green' do?", answer: "Changes the text color of the selected element", choices: ["Sets the background color", "Changes the text color of the selected element", "Removes the element", "Adds a CSS class"] },
         ],
       },
       {
@@ -1485,11 +1485,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "How do you access the first item in a JavaScript array called `items`?", options: ["items[1]", "items.first()", "items[0]", "items.get(0)"], answer: 2 },
-          { q: "Which method adds an item to the END of an array?", options: [".add()", ".append()", ".push()", ".insert()"], answer: 2 },
-          { q: "What does `items.length` return?", options: ["The last item", "The index of the last item", "The total number of items", "Nothing — it's not valid"], answer: 2 },
-          { q: "What does .filter() return?", options: ["A single item", "True or false", "A new array with only items that pass the test", "The index of matching items"], answer: 2 },
-          { q: "Python uses .append() to add to a list. JavaScript uses ___.", options: [".add()", ".push()", ".append()", ".insert()"], answer: 1 },
+          { question: "How do you access the first item in a JavaScript array called `items`?", answer: "items[0]", choices: ["items[1]", "items.first()", "items[0]", "items.get(0)"] },
+          { question: "Which method adds an item to the END of an array?", answer: ".push()", choices: [".add()", ".append()", ".push()", ".insert()"] },
+          { question: "What does `items.length` return?", answer: "The total number of items", choices: ["The last item", "The index of the last item", "The total number of items", "Nothing — it's not valid"] },
+          { question: "What does .filter() return?", answer: "A new array with only items that pass the test", choices: ["A single item", "True or false", "A new array with only items that pass the test", "The index of matching items"] },
+          { question: "Python uses .append() to add to a list. JavaScript uses ___.", answer: ".push()", choices: [".add()", ".push()", ".append()", ".insert()"] },
         ],
       },
       {
@@ -1526,11 +1526,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What method attaches an event listener to a DOM element?", options: [".onEvent()", ".addEventListener()", ".listenFor()", ".attach()"], answer: 1 },
-          { q: "Which event fires when a user clicks a button?", options: ["'press'", "'tap'", "'click'", "'touch'"], answer: 2 },
-          { q: "What does e.preventDefault() do inside a form submit handler?", options: ["Deletes the form", "Stops the default browser behavior (e.g. page reload)", "Clears form fields", "Submits the form twice"], answer: 1 },
-          { q: "A client pays $800 for a working contact form. The event that handles the submit button is ___.", options: ["'input'", "'change'", "'submit'", "'click'"], answer: 2 },
-          { q: "Events let JavaScript code ___ to what users do.", options: ["ignore", "predict", "react", "prevent"], answer: 2 },
+          { question: "What method attaches an event listener to a DOM element?", answer: ".addEventListener()", choices: [".onEvent()", ".addEventListener()", ".listenFor()", ".attach()"] },
+          { question: "Which event fires when a user clicks a button?", answer: "tap", choices: ["press", ", ", "tap", ", ", "click", ", ", "touch"] },
+          { question: "What does e.preventDefault() do inside a form submit handler?", answer: "Stops the default browser behavior (e.g. page reload)", choices: ["Deletes the form", "Stops the default browser behavior (e.g. page reload)", "Clears form fields", "Submits the form twice"] },
+          { question: "A client pays $800 for a working contact form. The event that handles the submit button is ___.", answer: "change", choices: ["input", ", ", "change", ", ", "submit", ", ", "click"] },
+          { question: "Events let JavaScript code ___ to what users do.", answer: "react", choices: ["ignore", "predict", "react", "prevent"] },
         ],
       },
     ],
@@ -1572,11 +1572,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "Why do we divide tip_percent by 100 in the calculation?", options: ["It's required by Python", "To convert the percentage to a decimal (20% = 0.20)", "To make the number smaller", "To avoid errors"], answer: 1 },
-          { q: "What does round(number, 2) do?", options: ["Rounds to nearest integer", "Rounds to 2 decimal places", "Rounds up always", "Removes decimals"], answer: 1 },
-          { q: "In calculate_tip(bill, tip_percent, tax_percent, people), what are bill, tip_percent, tax_percent, people called?", options: ["Return values", "Global variables", "Parameters", "Modules"], answer: 2 },
-          { q: "What does per_person = total / people calculate?", options: ["The tip per person", "Each person's share of the total", "The average bill", "The tax rate"], answer: 1 },
-          { q: "A restaurant pays you $300 for this calculator. What did you actually sell them?", options: ["A website", "A database", "A Python function that solves a real daily problem", "A mobile app"], answer: 2 },
+          { question: "Why do we divide tip_percent by 100 in the calculation?", answer: ", ", choices: [", ", ", ", ", "] },
+          { question: "What does round(number, 2) do?", answer: "Rounds to 2 decimal places", choices: ["Rounds to nearest integer", "Rounds to 2 decimal places", "Rounds up always", "Removes decimals"] },
+          { question: "In calculate_tip(bill, tip_percent, tax_percent, people), what are bill, tip_percent, tax_percent, people called?", answer: "Parameters", choices: ["Return values", "Global variables", "Parameters", "Modules"] },
+          { question: "What does per_person = total / people calculate?", answer: ", ", choices: ["The tip per person", ", ", ", "] },
+          { question: "A restaurant pays you $300 for this calculator. What did you actually sell them?", answer: "A Python function that solves a real daily problem", choices: ["A website", "A database", "A Python function that solves a real daily problem", "A mobile app"] },
         ],
       },
       {
@@ -1612,11 +1612,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does math.ceil(4.1) return?", options: ["4", "4.1", "5", "Error"], answer: 2 },
-          { q: "If revenue is $5,000 and expenses are $2,000, what is profit margin?", options: ["40%", "60%", "30%", "50%"], answer: 1 },
-          { q: "Why do freelancers track billable vs non-billable hours?", options: ["For tax reasons only", "To know how much of their time actually earns money", "Clients require it", "To bill more hours"], answer: 1 },
-          { q: "In the formula `hourly_rate * hours_per_week * weeks_per_year`, what does the result represent?", options: ["Monthly income", "Weekly income", "Annual income from hourly work", "Tax owed"], answer: 2 },
-          { q: "What does float('inf') represent in Python?", options: ["A very large float number", "Positive infinity — useful when a goal is unreachable", "A float error", "The number 0.0"], answer: 1 },
+          { question: "What does math.ceil(4.1) return?", answer: "5", choices: ["4", "4.1", "5", "Error"] },
+          { question: "If revenue is $5,000 and expenses are $2,000, what is profit margin?", answer: "60%", choices: ["40%", "60%", "30%", "50%"] },
+          { question: "Why do freelancers track billable vs non-billable hours?", answer: "To know how much of their time actually earns money", choices: ["For tax reasons only", "To know how much of their time actually earns money", "Clients require it", "To bill more hours"] },
+          { question: "In the formula `hourly_rate * hours_per_week * weeks_per_year`, what does the result represent?", answer: "Annual income from hourly work", choices: ["Monthly income", "Weekly income", "Annual income from hourly work", "Tax owed"] },
+          { question: "What does float('inf') represent in Python?", answer: "Positive infinity — useful when a goal is unreachable", choices: ["A very large float number", "Positive infinity — useful when a goal is unreachable", "A float error", "The number 0.0"] },
         ],
       },
       {
@@ -1652,11 +1652,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "Where is the fastest place to find your first client?", options: ["Upwork", "Fiverr", "People you already know", "LinkedIn ads"], answer: 2 },
-          { q: "In the outreach tracker, what data structure holds all the leads?", options: ["A tuple", "A dictionary", "A list of dictionaries", "A set"], answer: 2 },
-          { q: "What does `counts[lead['status']] += 1` do?", options: ["Creates a new status", "Increments the count for that status key", "Deletes the lead", "Prints the count"], answer: 1 },
-          { q: "What makes a freelance pitch effective?", options: ["Technical jargon", "Naming their specific problem and your specific solution", "Long detailed explanations", "Showing your portfolio first"], answer: 1 },
-          { q: "What is `if lead['status'] in counts:` checking?", options: ["If the status is True", "If the count is zero", "If the status key exists in the counts dictionary", "If the lead is closed"], answer: 2 },
+          { question: "Where is the fastest place to find your first client?", answer: "People you already know", choices: ["Upwork", "Fiverr", "People you already know", "LinkedIn ads"] },
+          { question: "In the outreach tracker, what data structure holds all the leads?", answer: "A list of dictionaries", choices: ["A tuple", "A dictionary", "A list of dictionaries", "A set"] },
+          { question: "What does `counts[lead['status']] += 1` do?", answer: "Increments the count for that status key", choices: ["Creates a new status", "Increments the count for that status key", "Deletes the lead", "Prints the count"] },
+          { question: "What makes a freelance pitch effective?", answer: "Naming their specific problem and your specific solution", choices: ["Technical jargon", "Naming their specific problem and your specific solution", "Long detailed explanations", "Showing your portfolio first"] },
+          { question: "What is `if lead['status'] in counts:` checking?", answer: "If the status key exists in the counts dictionary", choices: ["If the status is True", "If the count is zero", "If the status key exists in the counts dictionary", "If the lead is closed"] },
         ],
       },
       {
@@ -1692,11 +1692,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What is the biggest mistake most freelance proposals make?", options: ["Being too short", "Starting with YOUR background instead of THEIR problem", "Including a price", "Asking questions"], answer: 1 },
-          { q: "Why end a proposal with a question?", options: ["To seem uncertain", "It starts a conversation and shows you're already thinking about their problem", "Clients require questions", "To avoid committing"], answer: 1 },
-          { q: "What does `any(word in post.lower() for word in budget_words)` do?", options: ["Checks if ALL budget words are in the post", "Returns True if ANY budget word appears in the post", "Counts budget mentions", "Converts the post to lowercase"], answer: 1 },
-          { q: "In the scorecard, what's the purpose of the `reasons` list?", options: ["To store errors", "To track which criteria passed so the feedback is actionable", "Required by Python", "To count total words"], answer: 1 },
-          { q: "What's the key difference between a winning proposal and a generic one?", options: ["Length", "Technical vocabulary", "Addressing the client's specific situation vs. a copy-paste template", "Number of attachments"], answer: 2 },
+          { question: "What is the biggest mistake most freelance proposals make?", answer: "Starting with YOUR background instead of THEIR problem", choices: ["Being too short", "Starting with YOUR background instead of THEIR problem", "Including a price", "Asking questions"] },
+          { question: "Why end a proposal with a question?", answer: ", ", choices: ["To seem uncertain", ", ", ", "] },
+          { question: "What does `any(word in post.lower() for word in budget_words)` do?", answer: "Returns True if ANY budget word appears in the post", choices: ["Checks if ALL budget words are in the post", "Returns True if ANY budget word appears in the post", "Counts budget mentions", "Converts the post to lowercase"] },
+          { question: "In the scorecard, what's the purpose of the `reasons` list?", answer: "To track which criteria passed so the feedback is actionable", choices: ["To store errors", "To track which criteria passed so the feedback is actionable", "Required by Python", "To count total words"] },
+          { question: "What's the key difference between a winning proposal and a generic one?", answer: "Addressing the client's specific situation vs. a copy-paste template", choices: ["Length", "Technical vocabulary", "Addressing the client's specific situation vs. a copy-paste template", "Number of attachments"] },
         ],
       },
       {
@@ -1732,11 +1732,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "How many well-chosen portfolio projects does a new freelancer need to start landing clients?", options: ["10+", "At least 20", "3 targeted projects", "1 massive project"], answer: 2 },
-          { q: "What should every portfolio project answer?", options: ["What language it uses", "What problem it solves and who would pay for it", "How long it took to build", "Which framework you used"], answer: 1 },
-          { q: "Where should you host portfolio code to share with clients?", options: ["Dropbox", "GitHub", "Google Drive", "Email attachments"], answer: 1 },
-          { q: "In the price range parser, what does `p['price_range'].replace('$','').split('-')` return for '$150-400'?", options: ["['$150', '400']", "['150', '400']", "['150-400']", "['$', '150', '400']"], answer: 1 },
-          { q: "What makes a portfolio README valuable to a technical client?", options: ["Fancy formatting", "It shows you solved a real problem and proves it works", "Length", "Using multiple languages"], answer: 1 },
+          { question: "How many well-chosen portfolio projects does a new freelancer need to start landing clients?", answer: "3 targeted projects", choices: ["10+", "At least 20", "3 targeted projects", "1 massive project"] },
+          { question: "What should every portfolio project answer?", answer: "What problem it solves and who would pay for it", choices: ["What language it uses", "What problem it solves and who would pay for it", "How long it took to build", "Which framework you used"] },
+          { question: "Where should you host portfolio code to share with clients?", answer: "GitHub", choices: ["Dropbox", "GitHub", "Google Drive", "Email attachments"] },
+          { question: "In the price range parser, what does `p['price_range'].replace('$','').split('-')` return for '$150-400'?", answer: "['150', '400']", choices: ["['$150', '400']", "['150', '400']", "['150-400']", "['$', '150', '400']"] },
+          { question: "What makes a portfolio README valuable to a technical client?", answer: "It shows you solved a real problem and proves it works", choices: ["Fancy formatting", "It shows you solved a real problem and proves it works", "Length", "Using multiple languages"] },
         ],
       },
     ],
@@ -1777,11 +1777,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does csv.DictReader do?", options: ["Writes CSV rows", "Reads each row as a dictionary with column headers as keys", "Creates a new CSV", "Converts JSON to CSV"], answer: 1 },
-          { q: "What does `with open('file.csv', 'w') as f:` do?", options: ["Reads the file", "Opens the file for writing and auto-closes when done", "Deletes the file", "Appends to the file"], answer: 1 },
-          { q: "What is the `newline=''` argument for when writing CSVs?", options: ["Adds blank lines between rows", "Prevents Python from adding extra newlines on Windows", "Sets the CSV delimiter", "Required for DictReader"], answer: 1 },
-          { q: "How do you get totals by category from rows of data?", options: ["Sort the list", "Use a dictionary to accumulate sums by category key", "Filter duplicates", "Use a set"], answer: 1 },
-          { q: "Why is CSV processing one of the most requested Python freelance skills?", options: ["CSV is hard to learn", "Almost every business runs on spreadsheet data that needs processing", "Python only reads CSV", "Clients don't know Excel"], answer: 1 },
+          { question: "What does csv.DictReader do?", answer: "Reads each row as a dictionary with column headers as keys", choices: ["Writes CSV rows", "Reads each row as a dictionary with column headers as keys", "Creates a new CSV", "Converts JSON to CSV"] },
+          { question: "What does `with open('file.csv', 'w') as f:` do?", answer: "Opens the file for writing and auto-closes when done", choices: ["Reads the file", "Opens the file for writing and auto-closes when done", "Deletes the file", "Appends to the file"] },
+          { question: "What is the `newline=''` argument for when writing CSVs?", answer: "Prevents Python from adding extra newlines on Windows", choices: ["Adds blank lines between rows", "Prevents Python from adding extra newlines on Windows", "Sets the CSV delimiter", "Required for DictReader"] },
+          { question: "How do you get totals by category from rows of data?", answer: "Use a dictionary to accumulate sums by category key", choices: ["Sort the list", "Use a dictionary to accumulate sums by category key", "Filter duplicates", "Use a set"] },
+          { question: "Why is CSV processing one of the most requested Python freelance skills?", answer: "Almost every business runs on spreadsheet data that needs processing", choices: ["CSV is hard to learn", "Almost every business runs on spreadsheet data that needs processing", "Python only reads CSV"] },
         ],
       },
       {
@@ -1818,11 +1818,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does BeautifulSoup do?", options: ["Makes HTTP requests", "Parses HTML/XML and lets you search it like a document", "Sends emails", "Saves data to CSV"], answer: 1 },
-          { q: "What does soup.find_all('div', class_='product') return?", options: ["The first div with class product", "All divs with class product as a list", "True if product exists", "The HTML string"], answer: 1 },
-          { q: "What is the difference between soup.find() and soup.find_all()?", options: ["find() is faster", "find() returns first match; find_all() returns all matches as a list", "They're identical", "find_all() only works on tables"], answer: 1 },
-          { q: "Why should you always check a site's terms before scraping?", options: ["Python requires it", "Some sites prohibit scraping and you can be legally responsible", "It makes scraping faster", "To get an API key"], answer: 1 },
-          { q: "What does response.text contain after requests.get(url)?", options: ["A Python dictionary", "The raw HTML of the webpage as a string", "The status code", "A BeautifulSoup object"], answer: 1 },
+          { question: "What does BeautifulSoup do?", answer: "Parses HTML/XML and lets you search it like a document", choices: ["Makes HTTP requests", "Parses HTML/XML and lets you search it like a document", "Sends emails", "Saves data to CSV"] },
+          { question: "What does soup.find_all('div', class_='product') return?", answer: "All divs with class product as a list", choices: ["The first div with class product", "All divs with class product as a list", "True if product exists", "The HTML string"] },
+          { question: "What is the difference between soup.find() and soup.find_all()?", answer: "find() returns first match; find_all() returns all matches as a list", choices: ["find() is faster", "find() returns first match; find_all() returns all matches as a list", ", "] },
+          { question: "Why should you always check a site's terms before scraping?", answer: "Some sites prohibit scraping and you can be legally responsible", choices: ["Python requires it", "Some sites prohibit scraping and you can be legally responsible", "It makes scraping faster", "To get an API key"] },
+          { question: "What does response.text contain after requests.get(url)?", answer: "The raw HTML of the webpage as a string", choices: ["A Python dictionary", "The raw HTML of the webpage as a string", "The status code", "A BeautifulSoup object"] },
         ],
       },
       {
@@ -1858,11 +1858,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does response.json() return?", options: ["A string of JSON text", "A Python dictionary parsed from the JSON response", "The raw HTML", "A list of keys"], answer: 1 },
-          { q: "What is an API endpoint?", options: ["A Python package", "A specific URL that returns data when you make a request to it", "A database table", "A function name"], answer: 1 },
-          { q: "Why use `requests.get(url, timeout=5)`?", options: ["It speeds up the request", "It limits how long to wait — prevents the program from hanging forever", "It's required by the API", "It sets the request type"], answer: 1 },
-          { q: "What does status code 200 mean?", options: ["Error", "Redirect", "Success — the request worked", "Server busy"], answer: 2 },
-          { q: "What is the difference between requests.get() and requests.post()?", options: ["They're identical", "GET retrieves data; POST sends data", "POST is faster", "GET only works with JSON"], answer: 1 },
+          { question: "What does response.json() return?", answer: "A Python dictionary parsed from the JSON response", choices: ["A string of JSON text", "A Python dictionary parsed from the JSON response", "The raw HTML", "A list of keys"] },
+          { question: "What is an API endpoint?", answer: "A specific URL that returns data when you make a request to it", choices: ["A Python package", "A specific URL that returns data when you make a request to it", "A database table", "A function name"] },
+          { question: "Why use `requests.get(url, timeout=5)`?", answer: "It limits how long to wait — prevents the program from hanging forever", choices: ["It speeds up the request", "It limits how long to wait — prevents the program from hanging forever", "It's required by the API", "It sets the request type"] },
+          { question: "What does status code 200 mean?", answer: "Success — the request worked", choices: ["Error", "Redirect", "Success — the request worked", "Server busy"] },
+          { question: "What is the difference between requests.get() and requests.post()?", answer: ", ", choices: [", ", ", ", ", "] },
         ],
       },
       {
@@ -1899,11 +1899,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What Python module handles sending emails via Gmail's SMTP server?", options: ["email", "gmail", "smtplib", "mail"], answer: 2 },
-          { q: "Why should you use an App Password instead of your real Gmail password in code?", options: ["It's faster", "If your code is exposed, your real account stays safe", "App Passwords are required by Python", "Gmail blocks real passwords"], answer: 1 },
-          { q: "What does `MIMEText(body, 'html')` create?", options: ["A plain text email", "An HTML-formatted email message", "A PDF attachment", "An email subject"], answer: 1 },
-          { q: "What does a follow-up email sequence do for freelance income?", options: ["Nothing significant", "Most clients decide after 2-3 touches, so sequences close deals that first messages miss", "Annoys clients", "Reduces your rate"], answer: 1 },
-          { q: "In the simulation, why loop over a clients list instead of writing 3 separate calls?", options: ["Python requires it", "Loops scale — the same code handles 3 clients or 3,000", "Lists are faster", "It's shorter"], answer: 1 },
+          { question: "What Python module handles sending emails via Gmail's SMTP server?", answer: "smtplib", choices: ["email", "gmail", "smtplib", "mail"] },
+          { question: "Why should you use an App Password instead of your real Gmail password in code?", answer: ", ", choices: [", ", ", ", ", "] },
+          { question: "What does `MIMEText(body, 'html')` create?", answer: "An HTML-formatted email message", choices: ["A plain text email", "An HTML-formatted email message", "A PDF attachment", "An email subject"] },
+          { question: "What does a follow-up email sequence do for freelance income?", answer: "Most clients decide after 2-3 touches, so sequences close deals that first messages miss", choices: ["Nothing significant", "Most clients decide after 2-3 touches, so sequences close deals that first messages miss", "Annoys clients", "Reduces your rate"] },
+          { question: "In the simulation, why loop over a clients list instead of writing 3 separate calls?", answer: "Loops scale — the same code handles 3 clients or 3,000", choices: ["Python requires it", "Loops scale — the same code handles 3 clients or 3,000", "Lists are faster"] },
         ],
       },
       {
@@ -1939,11 +1939,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does __init__ do in a Python class?", options: ["Imports the class", "Runs automatically when you create a new object", "Deletes the object", "Returns a value"], answer: 1 },
-          { q: "What does `self` refer to in a class method?", options: ["The class itself", "The specific object instance that called the method", "The parent class", "Python's interpreter"], answer: 1 },
-          { q: "How do you create an object from a class called Client?", options: ["Client.new('name')", "new Client('name')", "client = Client('name', 'email', 1000)", "create Client('name')"], answer: 2 },
-          { q: "Why add a to_dict() method to a class?", options: ["It's required", "Dictionaries are faster", "It makes the object easy to save, send, and display", "to_dict() is built in"], answer: 2 },
-          { q: "What's the advantage of using a class over separate variables for client data?", options: ["Classes use less memory", "Classes bundle related data and behavior together — one object instead of 3 separate vars", "Classes are required for client data", "Variables can't store email"], answer: 1 },
+          { question: "What does __init__ do in a Python class?", answer: "Runs automatically when you create a new object", choices: ["Imports the class", "Runs automatically when you create a new object", "Deletes the object", "Returns a value"] },
+          { question: "What does `self` refer to in a class method?", answer: "The specific object instance that called the method", choices: ["The class itself", "The specific object instance that called the method", "The parent class", "Python's interpreter"] },
+          { question: "How do you create an object from a class called Client?", answer: "name", choices: ["name", ", ", "name", ", ", "name", "email", ", ", "name"] },
+          { question: "Why add a to_dict() method to a class?", answer: ", ", choices: [", ", ", ", ", "] },
+          { question: "What's the advantage of using a class over separate variables for client data?", answer: "Classes bundle related data and behavior together — one object instead of 3 separate vars", choices: ["Classes use less memory", "Classes bundle related data and behavior together — one object instead of 3 separate vars", "Classes are required for client data", "Variables can't store email"] },
         ],
       },
       {
@@ -1979,11 +1979,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does `re.findall(pattern, text)` return?", options: ["True/False", "The first match", "A list of all non-overlapping matches", "The match position"], answer: 2 },
-          { q: "What does `\\d` match in a regex pattern?", options: ["Any letter", "Any digit (0-9)", "A whitespace character", "Any character"], answer: 1 },
-          { q: "What does `{3}` mean in the pattern `\\d{3}`?", options: ["At least 3 digits", "Exactly 3 digits", "Up to 3 digits", "3 or more digits"], answer: 1 },
-          { q: "Why is `import re` needed?", options: ["re is a built-in function", "Regex is in the standard library but must be imported", "It downloads regex from the internet", "Python requires all imports"], answer: 1 },
-          { q: "What is the real business value of regex skills for a freelancer?", options: ["It's mainly academic", "Data cleaning is $50-100/hr and almost every business has messy data", "Only backend devs use regex", "It replaces databases"], answer: 1 },
+          { question: "What does `re.findall(pattern, text)` return?", answer: "A list of all non-overlapping matches", choices: ["True/False", "The first match", "A list of all non-overlapping matches", "The match position"] },
+          { question: "What does `\\d` match in a regex pattern?", answer: "Any digit (0-9)", choices: ["Any letter", "Any digit (0-9)", "A whitespace character", "Any character"] },
+          { question: "What does `{3}` mean in the pattern `\\d{3}`?", answer: "Exactly 3 digits", choices: ["At least 3 digits", "Exactly 3 digits", "Up to 3 digits", "3 or more digits"] },
+          { question: "Why is `import re` needed?", answer: "Regex is in the standard library but must be imported", choices: ["re is a built-in function", "Regex is in the standard library but must be imported", "It downloads regex from the internet", "Python requires all imports"] },
+          { question: "What is the real business value of regex skills for a freelancer?", answer: ", ", choices: [", ", ", ", ", "] },
         ],
       },
       {
@@ -2019,11 +2019,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does `os.makedirs('folder', exist_ok=True)` do?", options: ["Creates a folder and raises an error if it exists", "Creates a folder and ignores the error if it already exists", "Lists folder contents", "Renames a folder"], answer: 1 },
-          { q: "What does `os.listdir('.')` return?", options: ["A single file path", "A list of all files and folders in the current directory", "The current working directory path", "True if the folder exists"], answer: 1 },
-          { q: "What does `shutil.move(source, destination)` do?", options: ["Copies the file", "Deletes the file", "Moves the file to a new location", "Renames the folder"], answer: 2 },
-          { q: "Why use `exist_ok=True` when creating folders?", options: ["Required by Python", "It speeds up folder creation", "Prevents an error if the folder already exists", "It creates nested folders"], answer: 2 },
-          { q: "What kind of client would pay $200 for a file automation script?", options: ["Large enterprise IT teams only", "Any small business with years of unsorted files — a very common problem", "Only law firms", "No one — this isn't a real product"], answer: 1 },
+          { question: "What does `os.makedirs('folder', exist_ok=True)` do?", answer: "Creates a folder and ignores the error if it already exists", choices: ["Creates a folder and raises an error if it exists", "Creates a folder and ignores the error if it already exists", "Lists folder contents", "Renames a folder"] },
+          { question: "What does `os.listdir('.')` return?", answer: "A list of all files and folders in the current directory", choices: ["A single file path", "A list of all files and folders in the current directory", "The current working directory path", "True if the folder exists"] },
+          { question: "What does `shutil.move(source, destination)` do?", answer: "Moves the file to a new location", choices: ["Copies the file", "Deletes the file", "Moves the file to a new location", "Renames the folder"] },
+          { question: "Why use `exist_ok=True` when creating folders?", answer: "Prevents an error if the folder already exists", choices: ["Required by Python", "It speeds up folder creation", "Prevents an error if the folder already exists", "It creates nested folders"] },
+          { question: "What kind of client would pay $200 for a file automation script?", answer: "Any small business with years of unsorted files — a very common problem", choices: ["Large enterprise IT teams only", "Any small business with years of unsorted files — a very common problem", "Only law firms"] },
         ],
       },
 
@@ -2059,11 +2059,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does json.dumps(data) return?", options: ["A file object", "A Python dict", "A JSON string", "Nothing — it saves to a file"], answer: 2 },
-          { q: "What is the difference between json.dump() and json.dumps()?", options: ["They're identical", "dump() writes to a file; dumps() returns a string", "dumps() writes to a file; dump() returns a string", "dump() is faster"], answer: 1 },
-          { q: "What format does JSON use for arrays?", options: ["Parentheses ()", "Curly braces {}", "Square brackets []", "Angle brackets <>"], answer: 2 },
-          { q: "Why is JSON the 'universal language' for apps?", options: ["It's the fastest format", "Every programming language can read and write it — perfect for APIs and data exchange", "It's smaller than CSV", "JSON is required by browsers"], answer: 1 },
-          { q: "What does `indent=2` do in `json.dump(data, f, indent=2)`?", options: ["Adds 2 extra fields", "Pretty-prints with 2-space indentation (human readable)", "Compresses the JSON", "Adds 2 to all numbers"], answer: 1 },
+          { question: "What does json.dumps(data) return?", answer: "A JSON string", choices: ["A file object", "A Python dict", "A JSON string", "Nothing — it saves to a file"] },
+          { question: "What is the difference between json.dump() and json.dumps()?", answer: ", ", choices: [", ", ", ", ", "] },
+          { question: "What format does JSON use for arrays?", answer: "Square brackets []", choices: ["Parentheses ()", "Curly braces {}", "Square brackets []", "Angle brackets <>"] },
+          { question: "Why is JSON the 'universal language' for apps?", answer: "Every programming language can read and write it — perfect for APIs and data exchange", choices: ["It's the fastest format", "Every programming language can read and write it — perfect for APIs and data exchange", "It's smaller than CSV", "JSON is required by browsers"] },
+          { question: "What does `indent=2` do in `json.dump(data, f, indent=2)`?", answer: "Pretty-prints with 2-space indentation (human readable)", choices: ["Adds 2 extra fields", "Pretty-prints with 2-space indentation (human readable)", "Compresses the JSON", "Adds 2 to all numbers"] },
         ],
       },
       {
@@ -2098,11 +2098,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does `@app.route('/')` do in Flask?", options: ["Creates a database table", "Maps a URL path to a Python function", "Imports Flask", "Starts the server"], answer: 1 },
-          { q: "What does `jsonify(data)` do in Flask?", options: ["Converts data to a CSV", "Returns a JSON HTTP response with correct headers", "Prints data", "Saves data to a file"], answer: 1 },
-          { q: "What HTTP method do you use to retrieve data from a server?", options: ["POST", "PUT", "DELETE", "GET"], answer: 3 },
-          { q: "What does a 404 status code mean?", options: ["Server error", "Success", "Redirect", "Resource not found"], answer: 3 },
-          { q: "Flask is described as 'micro' framework. What does that mean?", options: ["It only runs on small computers", "It includes everything you need out of the box", "It provides minimal setup — you add what you need", "It's slower than other frameworks"], answer: 2 },
+          { question: "What does `@app.route('/')` do in Flask?", answer: "Maps a URL path to a Python function", choices: ["Creates a database table", "Maps a URL path to a Python function", "Imports Flask", "Starts the server"] },
+          { question: "What does `jsonify(data)` do in Flask?", answer: "Returns a JSON HTTP response with correct headers", choices: ["Converts data to a CSV", "Returns a JSON HTTP response with correct headers", "Prints data", "Saves data to a file"] },
+          { question: "What HTTP method do you use to retrieve data from a server?", answer: "GET", choices: ["POST", "PUT", "DELETE", "GET"] },
+          { question: "What does a 404 status code mean?", answer: "Resource not found", choices: ["Server error", "Success", "Redirect", "Resource not found"] },
+          { question: "Flask is described as 'micro' framework. What does that mean?", answer: "It provides minimal setup — you add what you need", choices: ["It only runs on small computers", "It includes everything you need out of the box", "It provides minimal setup — you add what you need", "It's slower than other frameworks"] },
         ],
       },
       {
@@ -2137,11 +2137,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does sqlite3 need to run?", options: ["A separate installation", "An internet connection", "Nothing — it's built into Python", "A license"], answer: 2 },
-          { q: "What is the purpose of `conn.commit()` after inserting data?", options: ["Closes the connection", "Saves the changes permanently to the database", "Returns the inserted data", "Creates an index"], answer: 1 },
-          { q: "What does `cursor.fetchall()` return?", options: ["The number of rows", "The first row", "All rows from the last SELECT query as a list of tuples", "A dictionary"], answer: 2 },
-          { q: "Why use `?` placeholders in SQL queries instead of string formatting?", options: ["It's required by SQLite", "Prevents SQL injection attacks", "Makes queries faster", "Works with any database"], answer: 1 },
-          { q: "What SQL keyword filters rows by a condition?", options: ["FILTER", "WHERE", "FIND", "SELECT"], answer: 1 },
+          { question: "What does sqlite3 need to run?", answer: ", ", choices: ["A separate installation", "An internet connection", ", "] },
+          { question: "What is the purpose of `conn.commit()` after inserting data?", answer: "Saves the changes permanently to the database", choices: ["Closes the connection", "Saves the changes permanently to the database", "Returns the inserted data", "Creates an index"] },
+          { question: "What does `cursor.fetchall()` return?", answer: "All rows from the last SELECT query as a list of tuples", choices: ["The number of rows", "The first row", "All rows from the last SELECT query as a list of tuples", "A dictionary"] },
+          { question: "Why use `?` placeholders in SQL queries instead of string formatting?", answer: "Prevents SQL injection attacks", choices: ["It's required by SQLite", "Prevents SQL injection attacks", "Makes queries faster", "Works with any database"] },
+          { question: "What SQL keyword filters rows by a condition?", answer: "WHERE", choices: ["FILTER", "WHERE", "FIND", "SELECT"] },
         ],
       },
       {
@@ -2176,11 +2176,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What is the main benefit of a virtual environment?", options: ["Faster code execution", "Isolated dependencies — each project has its own packages without conflicts", "Automatic testing", "Online code sharing"], answer: 1 },
-          { q: "What command creates a virtual environment named 'venv'?", options: ["virtualenv create venv", "python3 -m venv venv", "pip create venv", "create-venv venv"], answer: 1 },
-          { q: "What does `pip freeze > requirements.txt` do?", options: ["Installs packages from requirements.txt", "Saves the current environment's packages and versions to a file", "Deletes unused packages", "Upgrades all packages"], answer: 1 },
-          { q: "How does another developer replicate your exact environment from requirements.txt?", options: ["pip install", "pip install -r requirements.txt", "python setup.py install", "pip freeze"], answer: 1 },
-          { q: "Why do professional Python developers always use virtual environments?", options: ["It's required by Python", "To avoid dependency conflicts between different projects", "Virtual environments are faster", "To keep code private"], answer: 1 },
+          { question: "What is the main benefit of a virtual environment?", answer: "Isolated dependencies — each project has its own packages without conflicts", choices: ["Faster code execution", "Isolated dependencies — each project has its own packages without conflicts", "Automatic testing", "Online code sharing"] },
+          { question: "What command creates a virtual environment named 'venv'?", answer: "python3 -m venv venv", choices: ["virtualenv create venv", "python3 -m venv venv", "pip create venv", "create-venv venv"] },
+          { question: "What does `pip freeze > requirements.txt` do?", answer: "Saves the current environment's packages and versions to a file", choices: ["Installs packages from requirements.txt", "Saves the current environment's packages and versions to a file", "Deletes unused packages", "Upgrades all packages"] },
+          { question: "How does another developer replicate your exact environment from requirements.txt?", answer: "pip install -r requirements.txt", choices: ["pip install", "pip install -r requirements.txt", "python setup.py install", "pip freeze"] },
+          { question: "Why do professional Python developers always use virtual environments?", answer: ", ", choices: [", ", ", ", ", "] },
         ],
       },
       {
@@ -2215,11 +2215,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does pd.DataFrame(data) do?", options: ["Creates a CSV file", "Creates a 2D table structure from a dictionary or list", "Imports pandas", "Plots a chart"], answer: 1 },
-          { q: "What does df['sales'].sum() return?", options: ["The count of sales rows", "The total sum of all values in the sales column", "The average sale", "The max value"], answer: 1 },
-          { q: "What does groupby('region')['sales'].sum() do?", options: ["Filters by region", "Groups rows by region and sums sales for each group", "Sorts by region", "Deletes duplicate regions"], answer: 1 },
-          { q: "Why is pandas better than Excel for large datasets?", options: ["Excel can't open CSV files", "Pandas handles millions of rows programmatically, automation-friendly, no manual clicks", "Pandas has better charts", "Excel doesn't support numbers"], answer: 1 },
-          { q: "What does df.loc[df['sales'].idxmax(), 'name'] return?", options: ["The max sale amount", "The name of the row with the highest sales value", "All names sorted by sales", "The index of the max row"], answer: 1 },
+          { question: "What does pd.DataFrame(data) do?", answer: "Creates a 2D table structure from a dictionary or list", choices: ["Creates a CSV file", "Creates a 2D table structure from a dictionary or list", "Imports pandas", "Plots a chart"] },
+          { question: "What does df['sales'].sum() return?", answer: "The total sum of all values in the sales column", choices: ["The count of sales rows", "The total sum of all values in the sales column", "The average sale", "The max value"] },
+          { question: "What does groupby('region')['sales'].sum() do?", answer: "Groups rows by region and sums sales for each group", choices: ["Filters by region", "Groups rows by region and sums sales for each group", "Sorts by region", "Deletes duplicate regions"] },
+          { question: "Why is pandas better than Excel for large datasets?", answer: ", ", choices: [", ", ", ", ", "] },
+          { question: "What does df.loc[df['sales'].idxmax(), 'name'] return?", answer: "The name of the row with the highest sales value", choices: ["The max sale amount", "The name of the row with the highest sales value", "All names sorted by sales", "The index of the max row"] },
         ],
       },
       {
@@ -2255,11 +2255,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does the 'a' mode do in `open('file.csv', 'a')`?", options: ["Opens for reading only", "Overwrites the file each time", "Appends new data to the end without erasing existing content", "Creates a new file always"], answer: 2 },
-          { q: "Why use `date.today()` when logging prices?", options: ["Required by the csv module", "To know WHEN each price was recorded — price history is useless without timestamps", "Python requires dates in CSVs", "To sort the data"], answer: 1 },
-          { q: "What's the real business value of a price tracker?", options: ["It's mainly educational", "Businesses pay $300-1,000 for automated competitor price monitoring", "Only Amazon uses price trackers", "It replaces buying products"], answer: 1 },
-          { q: "How would you schedule a Python script to run every day automatically?", options: ["Use time.sleep(86400) in a loop", "Cron jobs (Linux/Mac) or Task Scheduler (Windows)", "Email yourself to remember", "Flask handles scheduling"], answer: 1 },
-          { q: "What does `float('$29.99'.replace('$',''))` return?", options: ["'29.99'", "Error", "29.99 as a float", "29"], answer: 2 },
+          { question: "What does the 'a' mode do in `open('file.csv', 'a')`?", answer: "Appends new data to the end without erasing existing content", choices: ["Opens for reading only", "Overwrites the file each time", "Appends new data to the end without erasing existing content", "Creates a new file always"] },
+          { question: "Why use `date.today()` when logging prices?", answer: "To know WHEN each price was recorded — price history is useless without timestamps", choices: ["Required by the csv module", "To know WHEN each price was recorded — price history is useless without timestamps", "Python requires dates in CSVs", "To sort the data"] },
+          { question: "What's the real business value of a price tracker?", answer: "Businesses pay $300-1,000 for automated competitor price monitoring", choices: ["It's mainly educational", "Businesses pay $300-1,000 for automated competitor price monitoring", "Only Amazon uses price trackers", "It replaces buying products"] },
+          { question: "How would you schedule a Python script to run every day automatically?", answer: "Cron jobs (Linux/Mac) or Task Scheduler (Windows)", choices: ["Use time.sleep(86400) in a loop", "Cron jobs (Linux/Mac) or Task Scheduler (Windows)", "Email yourself to remember", "Flask handles scheduling"] },
+          { question: "What does `float('$29.99'.replace('$',''))` return?", answer: "29.99 as a float", choices: ["'29.99'", "Error", "29.99 as a float", "29"] },
         ],
       },
     ],
@@ -2300,11 +2300,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "How do you access a property called 'name' on an object called 'user'?", options: ["user->name", "user[name]", "user.name", "get(user, name)"], answer: 2 },
-          { q: "What is `this` inside an object method?", options: ["The window object", "The function itself", "The object that owns the method", "Undefined"], answer: 2 },
-          { q: "What is the difference between an object and an array in JavaScript?", options: ["Objects are faster", "Arrays are ordered lists; objects are labeled collections of key-value pairs", "They're identical", "Arrays can't contain functions"], answer: 1 },
-          { q: "How do you add a method to an object literal?", options: ["object.method = def() {}", "Include it as a key with a function value: method: function() {}", "object.prototype.method = function()", "Methods can't be in object literals"], answer: 1 },
-          { q: "JavaScript objects are most similar to which Python data structure?", options: ["Lists", "Tuples", "Dictionaries", "Sets"], answer: 2 },
+          { question: "How do you access a property called 'name' on an object called 'user'?", answer: "user.name", choices: ["user->name", "user[name]", "user.name", "get(user, name)"] },
+          { question: "What is `this` inside an object method?", answer: "The object that owns the method", choices: ["The window object", "The function itself", "The object that owns the method", "Undefined"] },
+          { question: "What is the difference between an object and an array in JavaScript?", answer: "Arrays are ordered lists; objects are labeled collections of key-value pairs", choices: ["Objects are faster", "Arrays are ordered lists; objects are labeled collections of key-value pairs", ", "] },
+          { question: "How do you add a method to an object literal?", answer: "Include it as a key with a function value: method: function() {}", choices: ["object.method = def() {}", "Include it as a key with a function value: method: function() {}", "object.prototype.method = function()"] },
+          { question: "JavaScript objects are most similar to which Python data structure?", answer: "Dictionaries", choices: ["Lists", "Tuples", "Dictionaries", "Sets"] },
         ],
       },
       {
@@ -2340,11 +2340,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does fetch(url) return?", options: ["The data directly", "A Promise that resolves to a Response object", "JSON data", "A string"], answer: 1 },
-          { q: "Why do you need `.then(response => response.json())` after fetch?", options: ["To validate the JSON", "To convert the Response object to usable JavaScript data", "To catch errors", "To log the response"], answer: 1 },
-          { q: "What does .catch() handle in a fetch chain?", options: ["Successful responses", "JSON parsing only", "Network errors and rejected Promises", "Response headers"], answer: 2 },
-          { q: "What does .finally() do?", options: ["Only runs on success", "Only runs on error", "Runs after the Promise settles regardless of success or failure", "Retries the fetch"], answer: 2 },
-          { q: "Which HTTP verb does fetch() use by default?", options: ["POST", "PUT", "DELETE", "GET"], answer: 3 },
+          { question: "What does fetch(url) return?", answer: "A Promise that resolves to a Response object", choices: ["The data directly", "A Promise that resolves to a Response object", "JSON data", "A string"] },
+          { question: "Why do you need `.then(response => response.json())` after fetch?", answer: "To convert the Response object to usable JavaScript data", choices: ["To validate the JSON", "To convert the Response object to usable JavaScript data", "To catch errors", "To log the response"] },
+          { question: "What does .catch() handle in a fetch chain?", answer: "Network errors and rejected Promises", choices: ["Successful responses", "JSON parsing only", "Network errors and rejected Promises", "Response headers"] },
+          { question: "What does .finally() do?", answer: "Runs after the Promise settles regardless of success or failure", choices: ["Only runs on success", "Only runs on error", "Runs after the Promise settles regardless of success or failure", "Retries the fetch"] },
+          { question: "Which HTTP verb does fetch() use by default?", answer: "GET", choices: ["POST", "PUT", "DELETE", "GET"] },
         ],
       },
       {
@@ -2380,11 +2380,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What keyword makes a function asynchronous?", options: ["defer", "wait", "async", "promise"], answer: 2 },
-          { q: "What does `await` do inside an async function?", options: ["Makes the whole app wait", "Pauses that function until the Promise resolves, without blocking other code", "Creates a Promise", "Runs code in parallel"], answer: 1 },
-          { q: "async/await vs .then() chains — which is preferred in modern JavaScript?", options: [".then() is always preferred", "async/await for readability; both work", "They can't be mixed", "async/await is only for Node.js"], answer: 1 },
-          { q: "What replaces .catch() in async/await syntax?", options: [".error()", "onError()", "try/catch block", "catch()"], answer: 2 },
-          { q: "Can you use `await` outside of an async function?", options: ["Yes, anywhere", "Only in .js files", "No — await must be inside an async function (or top-level module)", "Only in browsers"], answer: 2 },
+          { question: "What keyword makes a function asynchronous?", answer: "async", choices: ["defer", "wait", "async", "promise"] },
+          { question: "What does `await` do inside an async function?", answer: "Pauses that function until the Promise resolves, without blocking other code", choices: ["Makes the whole app wait", "Pauses that function until the Promise resolves, without blocking other code", "Creates a Promise", "Runs code in parallel"] },
+          { question: "async/await vs .then() chains — which is preferred in modern JavaScript?", answer: "async/await for readability; both work", choices: [".then() is always preferred", "async/await for readability; both work", ", "] },
+          { question: "What replaces .catch() in async/await syntax?", answer: "try/catch block", choices: [".error()", "onError()", "try/catch block", "catch()"] },
+          { question: "Can you use `await` outside of an async function?", answer: "No — await must be inside an async function (or top-level module)", choices: ["Yes, anywhere", "Only in .js files", "No — await must be inside an async function (or top-level module)", "Only in browsers"] },
         ],
       },
 
@@ -2420,11 +2420,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does localStorage.setItem('key', 'value') do?", options: ["Reads a value", "Deletes a key", "Stores a string value that persists across page reloads", "Creates a cookie"], answer: 2 },
-          { q: "What data type does localStorage always store?", options: ["Numbers", "Arrays", "Objects", "Strings — everything must be converted to/from string"], answer: 3 },
-          { q: "How do you store an object in localStorage?", options: ["localStorage.setItem(key, obj)", "localStorage.setObject(key, obj)", "localStorage.setItem(key, JSON.stringify(obj))", "Objects can't be stored"], answer: 2 },
-          { q: "What is the difference between localStorage and sessionStorage?", options: ["localStorage is faster", "sessionStorage clears when the tab closes; localStorage persists until manually cleared", "They're identical", "sessionStorage holds more data"], answer: 1 },
-          { q: "What does `localStorage.removeItem('key')` do?", options: ["Clears all storage", "Sets the value to null", "Permanently removes that key from storage", "Hides the item"], answer: 2 },
+          { question: "What does localStorage.setItem('key', 'value') do?", answer: "Stores a string value that persists across page reloads", choices: ["Reads a value", "Deletes a key", "Stores a string value that persists across page reloads", "Creates a cookie"] },
+          { question: "What data type does localStorage always store?", answer: "Strings — everything must be converted to/from string", choices: ["Numbers", "Arrays", "Objects", "Strings — everything must be converted to/from string"] },
+          { question: "How do you store an object in localStorage?", answer: "localStorage.setItem(key, JSON.stringify(obj))", choices: ["localStorage.setItem(key, obj)", "localStorage.setObject(key, obj)", "localStorage.setItem(key, JSON.stringify(obj))"] },
+          { question: "What is the difference between localStorage and sessionStorage?", answer: "sessionStorage clears when the tab closes; localStorage persists until manually cleared", choices: ["localStorage is faster", "sessionStorage clears when the tab closes; localStorage persists until manually cleared", ", "] },
+          { question: "What does `localStorage.removeItem('key')` do?", answer: "Permanently removes that key from storage", choices: ["Clears all storage", "Sets the value to null", "Permanently removes that key from storage", "Hides the item"] },
         ],
       },
       {
@@ -2459,11 +2459,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does `/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)` do?", options: ["Finds all @ signs", "Tests if email matches the basic email pattern, returning true/false", "Extracts the domain", "Counts @ characters"], answer: 1 },
-          { q: "Why return an errors array instead of just true/false from a validator?", options: ["Arrays are required", "An array lets you show specific messages for each failed field", "True/false is not valid JavaScript", "Booleans are slow"], answer: 1 },
-          { q: "What does `name.trim().length` do?", options: ["Removes all characters", "Gets the length after removing leading/trailing spaces", "Converts to lowercase", "Counts spaces"], answer: 1 },
-          { q: "Why validate forms in JavaScript (client-side) AND on the server?", options: ["Double validation is required by law", "Client-side is for UX speed; server-side is for security — client validation can be bypassed", "Server-side validation is optional", "JavaScript can't send data"], answer: 1 },
-          { q: "What does `replace(/\\D/g, '')` do to a phone number string?", options: ["Adds dashes", "Formats as (XXX) XXX-XXXX", "Removes all non-digit characters", "Validates the number"], answer: 2 },
+          { question: "What does `/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)` do?", answer: "Tests if email matches the basic email pattern, returning true/false", choices: ["Finds all @ signs", "Tests if email matches the basic email pattern, returning true/false", "Extracts the domain", "Counts @ characters"] },
+          { question: "Why return an errors array instead of just true/false from a validator?", answer: "An array lets you show specific messages for each failed field", choices: ["Arrays are required", "An array lets you show specific messages for each failed field", "True/false is not valid JavaScript", "Booleans are slow"] },
+          { question: "What does `name.trim().length` do?", answer: "Gets the length after removing leading/trailing spaces", choices: ["Removes all characters", "Gets the length after removing leading/trailing spaces", "Converts to lowercase", "Counts spaces"] },
+          { question: "Why validate forms in JavaScript (client-side) AND on the server?", answer: "Client-side is for UX speed; server-side is for security — client validation can be bypassed", choices: ["Double validation is required by law", "Client-side is for UX speed; server-side is for security — client validation can be bypassed", "Server-side validation is optional"] },
+          { question: "What does `replace(/\\D/g, '')` do to a phone number string?", answer: "Removes all non-digit characters", choices: ["Adds dashes", "Formats as (XXX) XXX-XXXX", "Removes all non-digit characters", "Validates the number"] },
         ],
       },
       {
@@ -2498,11 +2498,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What are the 3 states a Promise can be in?", options: ["loading, done, error", "pending, fulfilled, rejected", "waiting, success, failure", "new, active, closed"], answer: 1 },
-          { q: "What does Promise.all([p1, p2]) do?", options: ["Runs p1 and p2 sequentially", "Runs p1 and p2 in parallel and resolves when BOTH complete", "Runs whichever completes first", "Merges the two Promises"], answer: 1 },
-          { q: "If one Promise in Promise.all() rejects, what happens?", options: ["Other Promises keep running", "The whole Promise.all() rejects immediately", "The rejected Promise is skipped", "An error is thrown"], answer: 1 },
-          { q: "What is the difference between resolve and reject?", options: ["They're the same", "resolve triggers .then(); reject triggers .catch()", "reject is an error", "resolve closes the Promise"], answer: 1 },
-          { q: "When would you use Promise chaining (.then().then()) vs async/await?", options: ["They can't be mixed", "Promise chains for simple flows; async/await for complex logic with variables shared across steps", "async/await is always better", "Promise chains are deprecated"], answer: 1 },
+          { question: "What are the 3 states a Promise can be in?", answer: "pending, fulfilled, rejected", choices: ["loading, done, error", "pending, fulfilled, rejected", "waiting, success, failure", "new, active, closed"] },
+          { question: "What does Promise.all([p1, p2]) do?", answer: "Runs p1 and p2 in parallel and resolves when BOTH complete", choices: ["Runs p1 and p2 sequentially", "Runs p1 and p2 in parallel and resolves when BOTH complete", "Runs whichever completes first", "Merges the two Promises"] },
+          { question: "If one Promise in Promise.all() rejects, what happens?", answer: "The whole Promise.all() rejects immediately", choices: ["Other Promises keep running", "The whole Promise.all() rejects immediately", "The rejected Promise is skipped", "An error is thrown"] },
+          { question: "What is the difference between resolve and reject?", answer: ", ", choices: [", ", ", ", ", "] },
+          { question: "When would you use Promise chaining (.then().then()) vs async/await?", answer: ", ", choices: [", ", ", ", ", "] },
         ],
       },
       {
@@ -2537,11 +2537,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does `constructor` do in a JavaScript class?", options: ["Destroys the object", "Runs automatically when a new instance is created", "Defines class methods", "Sets class properties after creation"], answer: 1 },
-          { q: "What does `this.items.reduce((sum, item) => sum + item.price, 0)` do?", options: ["Filters items by price", "Counts items", "Sums all item prices starting from 0", "Finds the max price"], answer: 2 },
-          { q: "What is the difference between a class and an instance?", options: ["They're identical", "A class is the blueprint; an instance is a specific object created from it", "Instances are faster", "Classes can't have methods"], answer: 1 },
-          { q: "What does `new ShoppingCart('Stanley')` do?", options: ["Calls the class as a function", "Creates a new instance of ShoppingCart with 'Stanley' as owner", "Copies an existing cart", "Imports the ShoppingCart class"], answer: 1 },
-          { q: "What does `this.items.map(item => ({...item, price: item.price * 0.9}))` create?", options: ["Modifies items in place", "A new array with all items but prices reduced by 10%", "Filters items", "Sorts by price"], answer: 1 },
+          { question: "What does `constructor` do in a JavaScript class?", answer: "Runs automatically when a new instance is created", choices: ["Destroys the object", "Runs automatically when a new instance is created", "Defines class methods", "Sets class properties after creation"] },
+          { question: "What does `this.items.reduce((sum, item) => sum + item.price, 0)` do?", answer: "Sums all item prices starting from 0", choices: ["Filters items by price", "Counts items", "Sums all item prices starting from 0", "Finds the max price"] },
+          { question: "What is the difference between a class and an instance?", answer: ", ", choices: [", ", ", ", ", "] },
+          { question: "What does `new ShoppingCart('Stanley')` do?", answer: "Creates a new instance of ShoppingCart with 'Stanley' as owner", choices: ["Calls the class as a function", "Creates a new instance of ShoppingCart with 'Stanley' as owner", "Copies an existing cart", "Imports the ShoppingCart class"] },
+          { question: "What does `this.items.map(item => ({...item, price: item.price * 0.9}))` create?", answer: "A new array with all items but prices reduced by 10%", choices: ["Modifies items in place", "A new array with all items but prices reduced by 10%", "Filters items", "Sorts by price"] },
         ],
       },
       {
@@ -2576,11 +2576,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does a try/catch block do?", options: ["Speeds up code", "Catches errors so the program keeps running instead of crashing", "Retries failed code", "Validates data types"], answer: 1 },
-          { q: "What does `error.message` contain?", options: ["The error type", "A human-readable description of what went wrong", "The line number", "The stack trace"], answer: 1 },
-          { q: "When should you use try/catch?", options: ["Around every function", "Only in Node.js", "Around code that might fail: JSON parsing, API calls, file reads, user input", "Only for network errors"], answer: 2 },
-          { q: "What does `error instanceof ValidationError` check?", options: ["If error equals ValidationError", "If error was created from the ValidationError class", "If error has a message property", "If error is null"], answer: 1 },
-          { q: "Why return {data, error} instead of throwing?", options: ["Throwing is slower", "It forces the caller to explicitly handle both success and failure without try/catch everywhere", "JavaScript doesn't support throw", "It's a newer syntax"], answer: 1 },
+          { question: "What does a try/catch block do?", answer: "Catches errors so the program keeps running instead of crashing", choices: ["Speeds up code", "Catches errors so the program keeps running instead of crashing", "Retries failed code", "Validates data types"] },
+          { question: "What does `error.message` contain?", answer: "A human-readable description of what went wrong", choices: ["The error type", "A human-readable description of what went wrong", "The line number", "The stack trace"] },
+          { question: "When should you use try/catch?", answer: "Around code that might fail: JSON parsing, API calls, file reads, user input", choices: ["Around every function", "Only in Node.js", "Around code that might fail: JSON parsing, API calls, file reads, user input", "Only for network errors"] },
+          { question: "What does `error instanceof ValidationError` check?", answer: "If error was created from the ValidationError class", choices: ["If error equals ValidationError", "If error was created from the ValidationError class", "If error has a message property", "If error is null"] },
+          { question: "Why return {data, error} instead of throwing?", answer: "It forces the caller to explicitly handle both success and failure without try/catch everywhere", choices: ["Throwing is slower", "It forces the caller to explicitly handle both success and failure without try/catch everywhere", ", "] },
         ],
       },
       {
@@ -2616,11 +2616,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What is the main architectural skill this mini project teaches?", options: ["CSS animations", "Combining classes, async/await, fetch, arrays, and error handling into one working app", "DOM manipulation", "Server routing"], answer: 1 },
-          { q: "Why is a JavaScript quote generator the same logic as a Twitter feed?", options: ["They both use quotes", "Both fetch JSON from an API and display it — the data changes but the pattern is identical", "Twitter uses the same API", "Both require login"], answer: 1 },
-          { q: "What does `data.tags.join(', ')` do?", options: ["Adds a tag", "Converts an array of tags into a comma-separated string", "Filters empty tags", "Sorts tags alphabetically"], answer: 1 },
-          { q: "What happens when API data has a different structure than expected?", options: ["JavaScript auto-corrects it", "The code throws an error — always check the API docs and use optional chaining or defaults", "fetch() retries automatically", "The Promise resolves to null"], answer: 1 },
-          { q: "In a real browser, what would replace `console.log(quote.content)` to show the quote on screen?", options: ["console.display()", "document.getElementById('quote').textContent = quote.content", "print(quote.content)", "window.alert(quote.content)"], answer: 1 },
+          { question: "What is the main architectural skill this mini project teaches?", answer: "Combining classes, async/await, fetch, arrays, and error handling into one working app", choices: ["CSS animations", "Combining classes, async/await, fetch, arrays, and error handling into one working app", "DOM manipulation", "Server routing"] },
+          { question: "Why is a JavaScript quote generator the same logic as a Twitter feed?", answer: "Both fetch JSON from an API and display it — the data changes but the pattern is identical", choices: ["They both use quotes", "Both fetch JSON from an API and display it — the data changes but the pattern is identical", "Twitter uses the same API", "Both require login"] },
+          { question: "What does `data.tags.join(', ')` do?", answer: "Converts an array of tags into a comma-separated string", choices: ["Adds a tag", "Converts an array of tags into a comma-separated string", "Filters empty tags", "Sorts tags alphabetically"] },
+          { question: "What happens when API data has a different structure than expected?", answer: "The code throws an error — always check the API docs and use optional chaining or defaults", choices: ["JavaScript auto-corrects it", "The code throws an error — always check the API docs and use optional chaining or defaults", "fetch() retries automatically", "The Promise resolves to null"] },
+          { question: "In a real browser, what would replace `console.log(quote.content)` to show the quote on screen?", answer: "document.getElementById('quote').textContent = quote.content", choices: ["console.display()", "document.getElementById('quote').textContent = quote.content", "print(quote.content)", "window.alert(quote.content)"] },
         ],
       },
     ],
@@ -2661,11 +2661,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What are AI models fundamentally doing when they generate text?", options: ["Searching the internet in real time", "Predicting the most useful next word based on patterns", "Running logical reasoning algorithms", "Looking up facts in a database"], answer: 1 },
-          { q: "Which of these is something AI consistently struggles with?", options: ["Writing first drafts", "Brainstorming ideas", "Factual accuracy and recent events", "Summarizing documents"], answer: 2 },
-          { q: "Why do freelancers who understand AI limits charge MORE?", options: ["They use more expensive tools", "Clients trust them to verify and get it right", "They work slower and bill more hours", "They refuse to use AI"], answer: 1 },
-          { q: "In the capability map code, what data structure holds the categories and items?", options: ["A list of lists", "A dictionary with list values", "A tuple", "A set"], answer: 1 },
-          { q: "Which loop pattern prints each item in each category?", options: ["Single loop over all items", "Outer loop over categories, inner loop over items", "While loop with counter", "Recursion"], answer: 1 },
+          { question: "What are AI models fundamentally doing when they generate text?", answer: "Predicting the most useful next word based on patterns", choices: ["Searching the internet in real time", "Predicting the most useful next word based on patterns", "Running logical reasoning algorithms", "Looking up facts in a database"] },
+          { question: "Which of these is something AI consistently struggles with?", answer: "Factual accuracy and recent events", choices: ["Writing first drafts", "Brainstorming ideas", "Factual accuracy and recent events", "Summarizing documents"] },
+          { question: "Why do freelancers who understand AI limits charge MORE?", answer: "Clients trust them to verify and get it right", choices: ["They use more expensive tools", "Clients trust them to verify and get it right", "They work slower and bill more hours", "They refuse to use AI"] },
+          { question: "In the capability map code, what data structure holds the categories and items?", answer: "A dictionary with list values", choices: ["A list of lists", "A dictionary with list values", "A tuple", "A set"] },
+          { question: "Which loop pattern prints each item in each category?", answer: "Outer loop over categories, inner loop over items", choices: ["Single loop over all items", "Outer loop over categories, inner loop over items", "While loop with counter", "Recursion"] },
         ],
       },
       {
@@ -2701,11 +2701,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What is the core business advantage of a solo freelancer using AI?", options: ["Lower taxes", "Compete with agencies by doing more in less time", "Access to better clients", "No need for a portfolio"], answer: 1 },
-          { q: "In the proposal generator, what does '\\n'.join(proposal) do?", options: ["Splits the proposal into a list", "Joins all list items into one string with newlines between them", "Removes blank lines", "Counts the lines"], answer: 1 },
-          { q: "What does adding a default parameter like upsell=False do?", options: ["Makes the parameter required", "Raises an error if not passed", "Makes the parameter optional with a fallback value", "Disables the feature"], answer: 2 },
-          { q: "What's the total for 4 hours at $85/hr?", options: ["$320", "$340", "$360", "$380"], answer: 1 },
-          { q: "Why return a string from a function instead of printing inside it?", options: ["It's faster", "You can reuse and store the output — print when you choose", "Print doesn't work in functions", "Strings are cheaper than None"], answer: 1 },
+          { question: "What is the core business advantage of a solo freelancer using AI?", answer: "Compete with agencies by doing more in less time", choices: ["Lower taxes", "Compete with agencies by doing more in less time", "Access to better clients", "No need for a portfolio"] },
+          { question: "In the proposal generator, what does '\\n'.join(proposal) do?", answer: "Joins all list items into one string with newlines between them", choices: ["Splits the proposal into a list", "Joins all list items into one string with newlines between them", "Removes blank lines", "Counts the lines"] },
+          { question: "What does adding a default parameter like upsell=False do?", answer: "Makes the parameter optional with a fallback value", choices: ["Makes the parameter required", "Raises an error if not passed", "Makes the parameter optional with a fallback value", "Disables the feature"] },
+          { question: "What's the total for 4 hours at $85/hr?", answer: "$340", choices: ["$320", "$340", "$360", "$380"] },
+          { question: "Why return a string from a function instead of printing inside it?", answer: ", ", choices: [", ", ", ", ", "] },
         ],
       },
       {
@@ -2741,11 +2741,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does the C in CRAFT stand for?", options: ["Code", "Context", "Client", "Command"], answer: 1 },
-          { q: "Why is prompt engineering a real freelance skill right now?", options: ["AI companies hire prompt engineers only", "Businesses pay $50-150/hr for help getting pro-level AI output", "Only prompt engineers can use AI tools", "It replaces coding entirely"], answer: 1 },
-          { q: "In the CRAFT builder, why use parentheses to split the string across lines?", options: ["Required Python syntax", "Makes the string shorter", "Improves readability without breaking functionality", "Prevents errors"], answer: 2 },
-          { q: "What does `library[choice]` do when `choice = 'proposal'`?", options: ["Creates a new key", "Returns the value stored at key 'proposal'", "Deletes the proposal", "Returns the index number"], answer: 1 },
-          { q: "What separates a vague prompt from a useful one?", options: ["Length", "Specifying context, role, action, format, and tone", "Using formal language", "Asking nicely"], answer: 1 },
+          { question: "What does the C in CRAFT stand for?", answer: "Context", choices: ["Code", "Context", "Client", "Command"] },
+          { question: "Why is prompt engineering a real freelance skill right now?", answer: "Businesses pay $50-150/hr for help getting pro-level AI output", choices: ["AI companies hire prompt engineers only", "Businesses pay $50-150/hr for help getting pro-level AI output", "Only prompt engineers can use AI tools", "It replaces coding entirely"] },
+          { question: "In the CRAFT builder, why use parentheses to split the string across lines?", answer: "Improves readability without breaking functionality", choices: ["Required Python syntax", "Makes the string shorter", "Improves readability without breaking functionality", "Prevents errors"] },
+          { question: "What does `library[choice]` do when `choice = 'proposal'`?", answer: "Returns the value stored at key 'proposal'", choices: ["Creates a new key", "Returns the value stored at key 'proposal'", "Deletes the proposal", "Returns the index number"] },
+          { question: "What separates a vague prompt from a useful one?", answer: "Specifying context, role, action, format, and tone", choices: ["Length", "Specifying context, role, action, format, and tone", "Using formal language", "Asking nicely"] },
         ],
       },
       {
@@ -2781,11 +2781,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does `min(score, 100)` do in the lead scorer?", options: ["Returns the lower of score and 100", "Sets score to 100", "Raises an error if score exceeds 100", "Compares two leads"], answer: 0 },
-          { q: "Why is automation valuable to freelancers beyond just personal productivity?", options: ["AI tools are free", "You can handle more clients without more hours — systems scale", "Clients don't notice automation", "It removes the need for communication"], answer: 1 },
-          { q: "In the lead scorer, what does `score += 25` do?", options: ["Sets score to 25", "Adds 25 to the current score value", "Subtracts 25", "Resets the score"], answer: 1 },
-          { q: "What kind of client task is highest-value to automate?", options: ["Tasks that are already digital", "Anything done manually in a spreadsheet", "Tasks that only take 5 minutes", "Work only you can do"], answer: 1 },
-          { q: "How do you calculate minimum hourly rate from annual income?", options: ["Annual income divided by 52", "Annual income divided by total billable hours", "Annual income divided by 12", "Daily rate times 5"], answer: 1 },
+          { question: "What does `min(score, 100)` do in the lead scorer?", answer: "Returns the lower of score and 100", choices: ["Returns the lower of score and 100", "Sets score to 100", "Raises an error if score exceeds 100", "Compares two leads"] },
+          { question: "Why is automation valuable to freelancers beyond just personal productivity?", answer: "You can handle more clients without more hours — systems scale", choices: ["AI tools are free", "You can handle more clients without more hours — systems scale", ", "] },
+          { question: "In the lead scorer, what does `score += 25` do?", answer: "Adds 25 to the current score value", choices: ["Sets score to 25", "Adds 25 to the current score value", "Subtracts 25", "Resets the score"] },
+          { question: "What kind of client task is highest-value to automate?", answer: "Anything done manually in a spreadsheet", choices: ["Tasks that are already digital", "Anything done manually in a spreadsheet", "Tasks that only take 5 minutes", "Work only you can do"] },
+          { question: "How do you calculate minimum hourly rate from annual income?", answer: "Annual income divided by total billable hours", choices: ["Annual income divided by 52", "Annual income divided by total billable hours", "Annual income divided by 12", "Daily rate times 5"] },
         ],
       },
       {
@@ -2821,11 +2821,11 @@ const CURRICULUM = [
           },
         ],
         quiz: [
-          { q: "What does `enumerate(topics[:num_ideas], 1)` do?", options: ["Counts all topics starting from 0", "Iterates over a slice of topics with index starting at 1", "Removes topics beyond num_ideas", "Reverses the list"], answer: 1 },
-          { q: "What's the key difference between selling time vs selling tools?", options: ["Tools require a team", "Tools scale — they earn without requiring more of your hours", "Time is more valuable than tools", "Clients prefer hourly work"], answer: 1 },
-          { q: "What does `list.extend(other_list)` do?", options: ["Adds other_list as a single nested element", "Appends all items from other_list individually", "Overwrites the list", "Returns a combined list without modifying the original"], answer: 1 },
-          { q: "Why is a well-documented Python script a sellable product?", options: ["Python scripts are rare", "If it saves people time, the value is in the output — not the format", "Scripts are harder to copy than apps", "Gumroad requires Python"], answer: 1 },
-          { q: "In the service package builder, what does `str(price)` do?", options: ["Converts price to a float", "Converts the number to a string so it can be concatenated", "Rounds the price", "Prints the price"], answer: 1 },
+          { question: "What does `enumerate(topics[:num_ideas], 1)` do?", answer: "Iterates over a slice of topics with index starting at 1", choices: ["Counts all topics starting from 0", "Iterates over a slice of topics with index starting at 1", "Removes topics beyond num_ideas", "Reverses the list"] },
+          { question: "What's the key difference between selling time vs selling tools?", answer: "Tools scale — they earn without requiring more of your hours", choices: ["Tools require a team", "Tools scale — they earn without requiring more of your hours", "Time is more valuable than tools", "Clients prefer hourly work"] },
+          { question: "What does `list.extend(other_list)` do?", answer: "Appends all items from other_list individually", choices: ["Adds other_list as a single nested element", "Appends all items from other_list individually", "Overwrites the list", "Returns a combined list without modifying the original"] },
+          { question: "Why is a well-documented Python script a sellable product?", answer: "If it saves people time, the value is in the output — not the format", choices: ["Python scripts are rare", "If it saves people time, the value is in the output — not the format", "Scripts are harder to copy than apps", "Gumroad requires Python"] },
+          { question: "In the service package builder, what does `str(price)` do?", answer: "Converts the number to a string so it can be concatenated", choices: ["Converts price to a float", "Converts the number to a string so it can be concatenated", "Rounds the price", "Prints the price"] },
         ],
       },
     ],
@@ -2956,17 +2956,17 @@ function CodeRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChang
 }
 
 function TheoryBlock({ block }) {
-  if (block.type === "plain") return <p style={{ fontSize: "14px", color: "#aaa", lineHeight: "1.85", margin: "0 0 14px 0" }}>{block.text}</p>;
-  if (block.type === "highlight") return <div style={{ background: "#111", borderLeft: "3px solid #00ff88", borderRadius: "0 8px 8px 0", padding: "12px 16px", margin: "14px 0", fontSize: "14px", color: "#e0e0e0", lineHeight: "1.7", fontWeight: "bold" }}>{block.text}</div>;
+  if (block.type === "plain") return <p style={{ fontSize: "13px", color: "#aaa", lineHeight: "1.85", margin: "0 0 14px 0" }}>{block.text}</p>;
+  if (block.type === "highlight") return <div style={{ background: "#111", borderLeft: "3px solid #00ff88", borderRadius: "0 8px 8px 0", padding: "10px 14px", margin: "12px 0", fontSize: "13px", color: "#e0e0e0", lineHeight: "1.7", fontWeight: "bold" }}>{block.text}</div>;
   if (block.type === "code") return (
     <div style={{ margin: "12px 0" }}>
       <div style={{ fontSize: "10px", color: block.color, marginBottom: "6px", letterSpacing: "1px" }}>{block.label}</div>
-      <pre style={{ background: "#0d1117", border: "1px solid #1f2937", borderRadius: "8px", padding: "14px", fontSize: "12px", color: block.color, margin: 0, overflowX: "auto", whiteSpace: "pre-wrap", lineHeight: "1.7" }}>{block.code}</pre>
+      <pre style={{ background: "#0d1117", border: "1px solid #1f2937", borderRadius: "8px", padding: "12px", fontSize: "11.5px", color: block.color, margin: 0, overflowX: "auto", whiteSpace: "pre", lineHeight: "1.65", maxWidth: "100%", wordBreak: "normal" }}>{block.code}</pre>
     </div>
   );
   if (block.type === "list") return (
     <ul style={{ margin: "8px 0 14px 0", paddingLeft: "4px", listStyle: "none" }}>
-      {block.items.map((item, i) => <li key={i} style={{ fontSize: "13px", color: "#999", lineHeight: "1.75", padding: "6px 0 6px 12px", borderLeft: "2px solid #222" }}>{item}</li>)}
+      {block.items.map((item, i) => <li key={i} style={{ fontSize: "12px", color: "#999", lineHeight: "1.75", padding: "5px 0 5px 10px", borderLeft: "2px solid #222" }}>{item}</li>)}
     </ul>
   );
   return null;
@@ -3814,7 +3814,7 @@ function MultiChallenge({ lesson, lessonStrikes, completed, onComplete, onCodeCh
   };
   const retryQuiz = () => { setQuizStep(0); setQuizAnswers([]); setQuizSelected(null); setQuizResult(null); setQuizDone(false); };
   const currentChallenge = challenges[step];
-  const stepLabels = [...challenges.map((c, i) => ({ label: i === 0 ? "Guided" : i === 1 ? "Modified" : "From Scratch", icon: i === 0 ? "🟢" : i === 1 ? "🟡" : "🔴" })), ...(quiz ? [{ label: "Quiz", icon: "🧠" }] : [])];
+  const stepLabels = [...challenges.map((c, i) => ({ label: i === 0 ? "Guided" : i === 1 ? "Modify" : "Build", icon: i === 0 ? "🟢" : i === 1 ? "🟡" : "🔴" })), ...(quiz ? [{ label: "Quiz", icon: "🧠" }] : [])];
   return (
     <div>
       <div style={{ background: "#0d0d0d", border: "1px solid #181818", borderRadius: "12px", padding: "16px 20px", marginBottom: "14px" }}>
@@ -3838,12 +3838,12 @@ function MultiChallenge({ lesson, lessonStrikes, completed, onComplete, onCodeCh
         </div>
       </div>
       {!showingQuiz && (
-        <div style={{ background: "#0d0d0d", border: "1px solid #181818", borderRadius: "12px", padding: "20px" }}>
+        <div style={{ background: "#0d0d0d", border: "1px solid #181818", borderRadius: "12px", padding: "16px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
-            <div style={{ fontSize: "10px", color: "#ff6b35", letterSpacing: "2px" }}>{step === 0 ? "CHALLENGE 1 — GUIDED" : step === 1 ? "CHALLENGE 2 — MODIFY IT" : "CHALLENGE 3 — FROM SCRATCH"}</div>
+            <div style={{ fontSize: "10px", color: "#ff6b35", letterSpacing: "1px" }}>{step === 0 ? "CHALLENGE 1 — GUIDED" : step === 1 ? "CHALLENGE 2 — MODIFY" : "CHALLENGE 3 — BUILD IT"}</div>
             <div style={{ fontSize: "10px", color: "#444" }}>{step + 1} of {challenges.length}</div>
           </div>
-          <p style={{ fontSize: "13px", color: "#ccc", lineHeight: "1.8", marginBottom: "16px" }}>{currentChallenge.prompt}</p>
+          <p style={{ fontSize: "13px", color: "#ccc", lineHeight: "1.75", marginBottom: "14px" }}>{currentChallenge.prompt}</p>
           {lesson.language === "html" ? (
             <HTMLRunner key={step} starterCode={currentChallenge.starterCode} whatItDoes={currentChallenge.whatItDoes} check={currentChallenge.check} hints={lesson.hints} strikes={lessonStrikes} onPass={handleChallengePass} onCodeChange={onCodeChange} onStrike={onStrike} onReviewNeeded={onReviewNeeded} />
           ) : lesson.language === "react" ? (
@@ -4493,7 +4493,7 @@ function CodeGrind() {
       )}
 
       {view === "curriculum" && (
-        <div style={{ maxWidth: "680px", margin: "0 auto", padding: "32px 18px" }}>
+        <div style={{ maxWidth: "680px", margin: "0 auto", padding: isMobile ? "16px 14px" : "32px 18px" }}>
 
           {/* ── TRACK SELECTOR ── */}
           {(() => {
@@ -4504,12 +4504,12 @@ function CodeGrind() {
               { id: "career", label: "💼 Career", color: "#fbbf24" },
             ];
             return (
-              <div style={{ marginBottom: "28px" }}>
+              <div style={{ marginBottom: "24px" }}>
                 <div style={{ fontSize: "10px", color: "#444", letterSpacing: "2px", marginBottom: "10px" }}>LEARNING TRACK</div>
-                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
                   {tracks.map(t => (
                     <button key={t.id} onClick={() => setActiveTrack(t.id)}
-                      style={{ background: activeTrack === t.id ? t.color + "20" : "#0d0d0d", border: `1px solid ${activeTrack === t.id ? t.color : "#1f1f1f"}`, color: activeTrack === t.id ? t.color : "#555", borderRadius: "8px", padding: "8px 16px", cursor: "pointer", fontSize: "12px", fontFamily: "'Space Mono', monospace", fontWeight: activeTrack === t.id ? "bold" : "normal", transition: "all 0.2s" }}>
+                      style={{ background: activeTrack === t.id ? t.color + "20" : "#0d0d0d", border: `1px solid ${activeTrack === t.id ? t.color : "#1f1f1f"}`, color: activeTrack === t.id ? t.color : "#555", borderRadius: "8px", padding: "10px 12px", cursor: "pointer", fontSize: "12px", fontFamily: "'Space Mono', monospace", fontWeight: activeTrack === t.id ? "bold" : "normal", transition: "all 0.2s", textAlign: "center" }}>
                       {t.label}
                     </button>
                   ))}
@@ -4519,7 +4519,7 @@ function CodeGrind() {
           })()}
 
           <div style={{ marginBottom: "36px" }}>
-            <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "44px", letterSpacing: "3px", lineHeight: 1.05, marginBottom: "14px" }}>LEARN TO CODE.<br /><span style={{ color: "#00ff88" }}>GET PAID.</span></div>
+            <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: isMobile ? "36px" : "44px", letterSpacing: "2px", lineHeight: 1.05, marginBottom: "14px" }}>LEARN TO CODE.<br /><span style={{ color: "#00ff88" }}>GET PAID.</span></div>
             {completed.size === 0 && (
               <div style={{ background: "#0a160e", border: "1px solid #00ff8840", borderRadius: "10px", padding: "16px 18px", marginBottom: "14px" }}>
                 <div style={{ fontSize: "12px", color: "#00ff88", fontWeight: "bold", marginBottom: "8px" }}>👋 Welcome! Here's how to start:</div>
@@ -4590,12 +4590,14 @@ function CodeGrind() {
           )}
 
           {!premium && (
-            <div onClick={() => setShowPaywall(true)} style={{ background: "#0a0800", border: "1px solid #fbbf2430", borderRadius: "10px", padding: "14px 18px", marginBottom: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <div>
-                <div style={{ fontSize: "12px", color: "#fbbf24", fontWeight: "bold", marginBottom: "3px" }}>⭐ First 2 lessons of each track are free</div>
-                <div style={{ fontSize: "11px", color: "#555" }}>Full access to all 4 tracks — Python, Web Dev, AI & Dev, Career — $15/month</div>
+            <div onClick={() => setShowPaywall(true)} style={{ background: "#0a0800", border: "1px solid #fbbf2430", borderRadius: "10px", padding: "14px 16px", marginBottom: "20px", cursor: "pointer" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px" }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: "12px", color: "#fbbf24", fontWeight: "bold", marginBottom: "3px" }}>⭐ First 2 lessons of each track are free</div>
+                  <div style={{ fontSize: "11px", color: "#555", lineHeight: "1.5" }}>All 4 tracks — Python, Web Dev, AI & Dev, Career — $15/month</div>
+                </div>
+                <div style={{ fontSize: "11px", color: "#fbbf24", border: "1px solid #fbbf2440", borderRadius: "6px", padding: "6px 10px", flexShrink: 0, whiteSpace: "nowrap" }}>Unlock Pro →</div>
               </div>
-              <div style={{ fontSize: "11px", color: "#fbbf24", border: "1px solid #fbbf2440", borderRadius: "6px", padding: "4px 10px", flexShrink: 0 }}>Unlock Pro →</div>
             </div>
           )}
           {premium && (
@@ -4633,9 +4635,10 @@ function CodeGrind() {
                       </div>
                       <div>
                         <div style={{ fontSize: "13px", fontWeight: "bold", color: done ? "#00ff88" : paywalled ? "#fbbf24" : "#ccc" }}>{lesson.title}</div>
-                        <div style={{ fontSize: "11px", color: "#333", marginTop: "2px" }}>
-                          {paywalled ? "Premium lesson" : lesson.analogy} • +{lesson.xp} XP
-                          {lessonStrikes > 0 && !done && <span style={{ color: "#ff6b35", marginLeft: "6px" }}>• {lessonStrikes} strike{lessonStrikes > 1 ? "s" : ""}</span>}
+                        <div style={{ fontSize: "11px", color: "#333", marginTop: "2px", display: "flex", alignItems: "center", gap: "4px", minWidth: 0 }}>
+                          <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", minWidth: 0, flex: "1 1 0" }}>{paywalled ? "Premium lesson" : lesson.analogy}</span>
+                          <span style={{ flexShrink: 0, whiteSpace: "nowrap" }}>• +{lesson.xp} XP</span>
+                          {lessonStrikes > 0 && !done && <span style={{ color: "#ff6b35", flexShrink: 0 }}>• {lessonStrikes}⚡</span>}
                         </div>
                       </div>
                     </div>
@@ -4656,7 +4659,7 @@ function CodeGrind() {
       )}
 
       {view === "lesson" && activeLesson && (
-        <div style={{ maxWidth: "720px", margin: "0 auto", padding: "24px 18px" }}>
+        <div style={{ maxWidth: "720px", margin: "0 auto", padding: isMobile ? "14px 12px" : "24px 18px" }}>
           {reviewMode && (
             <div style={{ background: "#ff6b3515", border: "1px solid #ff6b3530", borderRadius: "8px", padding: "12px 16px", marginBottom: "16px", fontSize: "13px", color: "#ff6b35" }}>
               🔄 Review Mode — You struggled with this concept. Read through the explanation again before trying the challenge.
@@ -4665,7 +4668,7 @@ function CodeGrind() {
           <div style={{ marginBottom: "18px", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
               <div style={{ fontSize: "10px", color: activeLesson.moduleColor, letterSpacing: "2px", marginBottom: "5px" }}>{activeLesson.moduleTitle?.toUpperCase()}</div>
-              <div style={{ fontSize: "20px", fontWeight: "bold" }}>{activeLesson.title}</div>
+              <div style={{ fontSize: isMobile ? "17px" : "20px", fontWeight: "bold", lineHeight: "1.3" }}>{activeLesson.title}</div>
               <div style={{ fontSize: "12px", color: "#444", marginTop: "3px" }}>💡 {activeLesson.analogy}</div>
             </div>
             <button onClick={() => toggleBookmark(activeLesson.id)} style={{ background: bookmarks.has(activeLesson.id) ? "#a78bfa20" : "#181818", border: `1px solid ${bookmarks.has(activeLesson.id) ? "#a78bfa40" : "#252525"}`, borderRadius: "8px", padding: "8px 12px", cursor: "pointer", fontSize: "14px", color: bookmarks.has(activeLesson.id) ? "#a78bfa" : "#444" }}>🔖</button>
@@ -4689,7 +4692,7 @@ function CodeGrind() {
 
           {tab === "theory" ? (
             <div>
-              <div style={{ background: "#0d0d0d", border: "1px solid #181818", borderRadius: "12px", padding: "22px", marginBottom: "14px" }}>
+              <div style={{ background: "#0d0d0d", border: "1px solid #181818", borderRadius: "12px", padding: isMobile ? "16px 14px" : "22px", marginBottom: "14px" }}>
                 {activeLesson.theory.map((block, i) => <TheoryBlock key={i} block={block} />)}
               </div>
               <button onClick={() => setTab("code")} style={{ width: "100%", background: "#00ff88", color: "#000", border: "none", borderRadius: "10px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px" }}>Got it — let me try the challenges →</button>

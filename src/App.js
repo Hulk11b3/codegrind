@@ -4308,8 +4308,8 @@ function CodeGrind() {
   const [view, setView] = useState("curriculum");
   const [reviewMode, setReviewMode] = useState(false);
   const [activeTrack, setActiveTrack] = useState("python");
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
 
-  const totalXP = ALL_LESSONS.reduce((s, l) => s + l.xp, 0);
   const level = Math.floor(xp / 200) + 1;
 
   const saveEmail = async (email, name) => {
@@ -4358,6 +4358,12 @@ function CodeGrind() {
         if (cloudProgress && cloudProgress.xp >= xp) { setXp(cloudProgress.xp); setCompleted(cloudProgress.completed); setStrikes(cloudProgress.strikes); setBookmarks(cloudProgress.bookmarks); setStreak(cloudProgress.streak); }
       }
     });
+  }, []);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 600);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
   const markComplete = (lessonId, earnedXp) => {
@@ -4425,22 +4431,22 @@ function CodeGrind() {
       `}</style>
 
       <div style={{ borderBottom: "1px solid #141414", padding: "11px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, background: "#080808ee", backdropFilter: "blur(8px)", zIndex: 10 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }}>
           {view !== "curriculum" && <button onClick={() => { setView("curriculum"); window.scrollTo(0,0); }} style={{ background: "none", border: "1px solid #1f1f1f", color: "#666", cursor: "pointer", padding: "4px 10px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace" }}>← Menu</button>}
           <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "24px", letterSpacing: "3px", color: "#00ff88" }}>CODE<span style={{ color: "#ff6b35" }}>GRIND</span></span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap", justifyContent: "flex-end" }}>
-          {streak.count > 0 && <div style={{ fontSize: "11px", color: "#fbbf24", background: "#fbbf2415", border: "1px solid #fbbf2430", borderRadius: "6px", padding: "3px 8px" }}>🔥 {streak.count} day streak</div>}
-          <button onClick={() => setShowWeakness(true)} style={{ background: "none", border: "1px solid #1f1f1f", color: "#ff6b35", cursor: "pointer", padding: "4px 10px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace" }}>🎯</button>
-          {completed.size === ALL_LESSONS.length && <button onClick={() => setShowCertificate(true)} style={{ background: "none", border: "1px solid #fbbf2440", color: "#fbbf24", cursor: "pointer", padding: "4px 10px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace" }}>🏆</button>}
-          <button onClick={() => { setView(view === "hire" ? "curriculum" : "hire"); window.scrollTo(0,0); }} style={{ background: view === "hire" ? "#00ff8820" : "none", border: `1px solid ${view === "hire" ? "#00ff8840" : "#1f1f1f"}`, color: view === "hire" ? "#00ff88" : "#888", cursor: "pointer", padding: "4px 10px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace" }}>💼 Hire</button>
-          <button onClick={() => { setView("roadmap"); window.scrollTo(0,0); }} style={{ background: "none", border: "1px solid #1f1f1f", color: view === "roadmap" ? "#fbbf24" : "#555", cursor: "pointer", padding: "4px 10px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace" }}>💰</button>
-          <button onClick={() => { setView("leaderboard"); window.scrollTo(0,0); }} style={{ background: view === "leaderboard" ? "#fbbf2420" : "none", border: "1px solid #1f1f1f", color: view === "leaderboard" ? "#fbbf24" : "#555", cursor: "pointer", padding: "4px 10px", borderRadius: "6px", fontSize: "11px" }}>🏆 Board</button>
-          <span style={{ fontSize: "11px", color: "#444" }}>LVL {level}</span>
-          <div style={{ width: "50px", height: "4px", background: "#181818", borderRadius: "2px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: isMobile ? "5px" : "8px", flexWrap: "nowrap", justifyContent: "flex-end", overflow: "hidden" }}>
+          {streak.count > 0 && <div style={{ fontSize: "11px", color: "#fbbf24", background: "#fbbf2415", border: "1px solid #fbbf2430", borderRadius: "6px", padding: "3px 8px", whiteSpace: "nowrap" }}>{isMobile ? `🔥${streak.count}` : `🔥 ${streak.count} day streak`}</div>}
+          <button onClick={() => setShowWeakness(true)} style={{ background: "none", border: "1px solid #1f1f1f", color: "#ff6b35", cursor: "pointer", padding: "4px 8px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace", flexShrink: 0 }}>🎯</button>
+          {completed.size === ALL_LESSONS.length && <button onClick={() => setShowCertificate(true)} style={{ background: "none", border: "1px solid #fbbf2440", color: "#fbbf24", cursor: "pointer", padding: "4px 8px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace", flexShrink: 0 }}>🏆</button>}
+          <button onClick={() => { setView(view === "hire" ? "curriculum" : "hire"); window.scrollTo(0,0); }} style={{ background: view === "hire" ? "#00ff8820" : "none", border: `1px solid ${view === "hire" ? "#00ff8840" : "#1f1f1f"}`, color: view === "hire" ? "#00ff88" : "#888", cursor: "pointer", padding: "4px 8px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace", flexShrink: 0, whiteSpace: "nowrap" }}>{isMobile ? "💼" : "💼 Hire"}</button>
+          {!isMobile && <button onClick={() => { setView("roadmap"); window.scrollTo(0,0); }} style={{ background: "none", border: "1px solid #1f1f1f", color: view === "roadmap" ? "#fbbf24" : "#555", cursor: "pointer", padding: "4px 8px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace" }}>💰</button>}
+          <button onClick={() => { setView("leaderboard"); window.scrollTo(0,0); }} style={{ background: view === "leaderboard" ? "#fbbf2420" : "none", border: "1px solid #1f1f1f", color: view === "leaderboard" ? "#fbbf24" : "#555", cursor: "pointer", padding: "4px 8px", borderRadius: "6px", fontSize: "11px", flexShrink: 0, whiteSpace: "nowrap" }}>{isMobile ? "🏆" : "🏆 Board"}</button>
+          <span style={{ fontSize: "11px", color: "#444", whiteSpace: "nowrap", flexShrink: 0 }}>LVL {level}</span>
+          {!isMobile && <div style={{ width: "50px", height: "4px", background: "#181818", borderRadius: "2px", flexShrink: 0 }}>
             <div style={{ width: `${((xp % 200) / 200) * 100}%`, height: "100%", background: "#00ff88", borderRadius: "2px", transition: "width 0.5s" }} />
-          </div>
-          <span style={{ fontSize: "12px", color: "#00ff88", fontWeight: "bold" }}>{xp}/{totalXP}</span>
+          </div>}
+          <span style={{ fontSize: "12px", color: "#00ff88", fontWeight: "bold", whiteSpace: "nowrap", flexShrink: 0 }}>{xp} XP</span>
         </div>
       </div>
 

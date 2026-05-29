@@ -1062,7 +1062,7 @@ const CURRICULUM = [
         ],
       },
       {
-        id: "list-methods", title: "List Methods — Managing Collections", xp: 150, analogy: "Think of managing a team roster",
+        id: "list-methods-pro", title: "List Methods — Managing Collections", xp: 150, analogy: "Think of managing a team roster",
         theory: [
           { type: "plain", text: "A coach manages a roster — adding players, removing ones who left, sorting by performance, counting the team. Python lists have all of these operations built in." },
           { type: "highlight", text: "List methods let you add, remove, sort, search, and count. They are the tools that make lists powerful." },
@@ -1745,7 +1745,7 @@ const CURRICULUM = [
     id: "premium-python", title: "Premium — Python Pro", icon: "🐍", color: "#34d399",
     lessons: [
       {
-        id: "csv-files", title: "Reading CSV Files — Real Data", xp: 200, analogy: "Think of opening a spreadsheet",
+        id: "csv-files-advanced", title: "Advanced CSV Handling — Filters & Aggregation", xp: 200, analogy: "Think of a supercharged spreadsheet",
         theory: [
           { type: "plain", text: "Almost every business runs on spreadsheets. Sales data, customer lists, inventory — all stored as CSV files. Python can open, read, and process thousands of rows in seconds." },
           { type: "highlight", text: "CSV stands for Comma Separated Values. Python's csv module reads them instantly." },
@@ -2846,13 +2846,9 @@ const ALL_CAREER_LESSONS = CAREER_CURRICULUM.flatMap((m) =>
 );
 const ALL_LESSONS = [...ALL_PYTHON_LESSONS, ...ALL_WEBDEV_LESSONS, ...ALL_AI_LESSONS, ...ALL_CAREER_LESSONS];
 
-// First 2 lessons of each track are free; everything else requires Pro
-const FREE_LESSON_IDS = new Set([
-  ...ALL_PYTHON_LESSONS.slice(0, 2).map(l => l.id),
-  ...ALL_WEBDEV_LESSONS.slice(0, 2).map(l => l.id),
-  ...ALL_AI_LESSONS.slice(0, 2).map(l => l.id),
-  ...ALL_CAREER_LESSONS.slice(0, 2).map(l => l.id),
-]);
+// First 24 lessons globally are free; lesson 25+ requires Pro ($5/month)
+const FREE_LESSON_IDS = new Set(ALL_LESSONS.slice(0, 24).map(l => l.id));
+const FREE_LESSON_COUNT = 24;
 
 const ROADMAP = [
   { week: "Week 1–2", title: "The Foundation", skills: ["Variables", "Data types", "print statements", "Basic math in code"], milestone: "You can write your first real script", earn: null, color: "#00ff88" },
@@ -3026,12 +3022,12 @@ function WeaknessTracker({ strikes, onClose, onReview }) {
   );
 }
 
-function RoadmapView({ completedLessons }) {
+function RoadmapView({ completedLessons, isMobile }) {
   const progress = Math.floor((completedLessons / ALL_LESSONS.length) * ROADMAP.length);
   return (
-    <div style={{ maxWidth: "700px", margin: "0 auto", padding: "32px 20px" }}>
-      <div style={{ marginBottom: "32px" }}>
-        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "38px", letterSpacing: "3px", marginBottom: "10px" }}>YOUR MONEY <span style={{ color: "#fbbf24" }}>ROADMAP</span></div>
+    <div style={{ maxWidth: "700px", margin: "0 auto", padding: isMobile ? "16px 14px" : "32px 20px" }}>
+      <div style={{ marginBottom: isMobile ? "20px" : "32px" }}>
+        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: isMobile ? "28px" : "38px", letterSpacing: "3px", marginBottom: "10px" }}>YOUR MONEY <span style={{ color: "#fbbf24" }}>ROADMAP</span></div>
         <p style={{ fontSize: "13px", color: "#555", lineHeight: "1.75", margin: 0 }}>Week by week, from zero to your first paid client.</p>
       </div>
       <div style={{ position: "relative" }}>
@@ -3065,29 +3061,41 @@ function RoadmapView({ completedLessons }) {
   );
 }
 
-function EmailCapture({ onClose, onSubmit }) {
+function EmailCapture({ onClose, onSubmit, restoreMode }) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const submit = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) { setError("Please enter a valid email address."); return; }
-    if (name.trim().length === 0) { setError("Please enter your first name."); return; }
-    onSubmit(email, name);
+    if (!restoreMode && name.trim().length === 0) { setError("Please enter your first name."); return; }
+    onSubmit(email, name || email.split("@")[0]);
   };
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.92)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
-      <div style={{ background: "#0d0d0d", border: "1px solid #00ff8830", borderRadius: "16px", width: "100%", maxWidth: "440px", padding: "32px", fontFamily: "'Space Mono', monospace" }}>
-        <div style={{ fontSize: "28px", marginBottom: "8px" }}>🚀</div>
-        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "28px", letterSpacing: "2px", color: "#00ff88", marginBottom: "8px" }}>FREE ACCESS</div>
-        <p style={{ fontSize: "13px", color: "#888", lineHeight: "1.8", marginBottom: "24px" }}>Get free access to all lessons, the AI tutor, and your personal money roadmap. No credit card. No catch.</p>
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your first name"
-          style={{ width: "100%", background: "#181818", border: "1px solid #252525", borderRadius: "8px", padding: "12px 14px", color: "#ddd", fontSize: "13px", outline: "none", fontFamily: "'Space Mono', monospace", marginBottom: "10px", boxSizing: "border-box" }} />
+      <div style={{ background: "#0d0d0d", border: "1px solid #00ff8830", borderRadius: "16px", width: "100%", maxWidth: "440px", padding: "28px 24px", fontFamily: "'Space Mono', monospace" }}>
+        <div style={{ fontSize: "28px", marginBottom: "8px" }}>{restoreMode ? "☁️" : "🚀"}</div>
+        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "26px", letterSpacing: "2px", color: "#00ff88", marginBottom: "8px" }}>
+          {restoreMode ? "RESTORE PROGRESS" : "FREE ACCESS"}
+        </div>
+        <p style={{ fontSize: "13px", color: "#888", lineHeight: "1.8", marginBottom: "20px" }}>
+          {restoreMode
+            ? "Enter the email you used before to restore your progress across all devices."
+            : "Get free access to 24 lessons, the AI tutor, and your personal money roadmap. No credit card. No catch."}
+        </p>
+        {!restoreMode && (
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your first name"
+            style={{ width: "100%", background: "#181818", border: "1px solid #252525", borderRadius: "8px", padding: "12px 14px", color: "#ddd", fontSize: "13px", outline: "none", fontFamily: "'Space Mono', monospace", marginBottom: "10px", boxSizing: "border-box" }} />
+        )}
         <input value={email} onChange={(e) => setEmail(e.target.value)} onKeyDown={(e) => e.key === "Enter" && submit()} placeholder="Your email address" type="email"
           style={{ width: "100%", background: "#181818", border: `1px solid ${error ? "#ff444460" : "#252525"}`, borderRadius: "8px", padding: "12px 14px", color: "#ddd", fontSize: "13px", outline: "none", fontFamily: "'Space Mono', monospace", marginBottom: "10px", boxSizing: "border-box" }} />
         {error && <p style={{ fontSize: "12px", color: "#ff6b6b", marginBottom: "10px" }}>{error}</p>}
-        <button onClick={submit} style={{ width: "100%", background: "#00ff88", color: "#000", border: "none", borderRadius: "8px", padding: "13px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace", marginBottom: "10px" }}>Start Learning Free →</button>
-        <button onClick={onClose} style={{ width: "100%", background: "none", color: "#444", border: "none", cursor: "pointer", fontSize: "12px", fontFamily: "'Space Mono', monospace" }}>Skip for now</button>
+        <button onClick={submit} style={{ width: "100%", background: "#00ff88", color: "#000", border: "none", borderRadius: "8px", padding: "13px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace", marginBottom: "10px" }}>
+          {restoreMode ? "Restore My Progress →" : "Start Learning Free →"}
+        </button>
+        <button onClick={onClose} style={{ width: "100%", background: "none", color: "#444", border: "none", cursor: "pointer", fontSize: "12px", fontFamily: "'Space Mono', monospace" }}>
+          {restoreMode ? "Cancel" : "Skip for now"}
+        </button>
         <p style={{ fontSize: "10px", color: "#333", textAlign: "center", marginTop: "12px" }}>No spam. No selling your data. Just your learning journey.</p>
       </div>
     </div>
@@ -3429,7 +3437,7 @@ function activatePremium(code) {
   return false;
 }
 
-function Paywall({ onUnlock, onClose }) {
+function Paywall({ onUnlock, onClose, completedFree }) {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -3444,51 +3452,60 @@ function Paywall({ onUnlock, onClose }) {
   };
 
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 200, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
-      <div style={{ marginTop: "20px", marginBottom: "20px", background: "#0d0d0d", border: "2px solid #fbbf2440", borderRadius: "16px", width: "100%", maxWidth: "480px", padding: "36px 28px", fontFamily: "'Space Mono', monospace" }}>
-        <div style={{ fontSize: "36px", textAlign: "center", marginBottom: "12px" }}>🔐</div>
-        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "32px", letterSpacing: "3px", color: "#fbbf24", textAlign: "center", marginBottom: "8px" }}>PREMIUM ACCESS</div>
-        <p style={{ fontSize: "13px", color: "#888", lineHeight: "1.8", textAlign: "center", marginBottom: "24px" }}>
-          All 4 learning tracks. Every lesson. Unlimited AI coding partner. The full CodeGrind experience.
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 200, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "16px", overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
+      <div style={{ marginTop: "16px", marginBottom: "16px", background: "#0d0d0d", border: "2px solid #fbbf2440", borderRadius: "16px", width: "100%", maxWidth: "480px", padding: "28px 22px", fontFamily: "'Space Mono', monospace" }}>
+        {completedFree >= FREE_LESSON_COUNT && (
+          <div style={{ background: "#0a160e", border: "1px solid #00ff8840", borderRadius: "10px", padding: "14px 16px", marginBottom: "20px", textAlign: "center" }}>
+            <div style={{ fontSize: "28px", marginBottom: "6px" }}>🎉</div>
+            <div style={{ fontSize: "14px", color: "#00ff88", fontWeight: "bold", marginBottom: "4px" }}>You've completed {FREE_LESSON_COUNT} free lessons!</div>
+            <div style={{ fontSize: "12px", color: "#555", lineHeight: "1.6" }}>Unlock the rest for $5/month and keep building.</div>
+          </div>
+        )}
+        {!completedFree && (
+          <div style={{ fontSize: "36px", textAlign: "center", marginBottom: "12px" }}>🔐</div>
+        )}
+        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "28px", letterSpacing: "3px", color: "#fbbf24", textAlign: "center", marginBottom: "8px" }}>UNLOCK PRO</div>
+        <p style={{ fontSize: "12px", color: "#888", lineHeight: "1.8", textAlign: "center", marginBottom: "20px" }}>
+          All 4 tracks unlocked. Every lesson. Unlimited AI tutor.
         </p>
-        <div style={{ background: "#111", border: "1px solid #fbbf2430", borderRadius: "10px", padding: "16px", marginBottom: "20px" }}>
-          <div style={{ fontSize: "12px", color: "#fbbf24", fontWeight: "bold", marginBottom: "10px" }}>✅ What you unlock:</div>
-          <div style={{ fontSize: "12px", color: "#888", lineHeight: "2" }}>
+        <div style={{ background: "#111", border: "1px solid #fbbf2430", borderRadius: "10px", padding: "14px", marginBottom: "16px" }}>
+          <div style={{ fontSize: "11px", color: "#fbbf24", fontWeight: "bold", marginBottom: "8px" }}>✅ What you unlock:</div>
+          <div style={{ fontSize: "12px", color: "#888", lineHeight: "1.9" }}>
             🐍 Full Python track — scripting, automation, APIs, classes<br/>
-            🌐 Web Dev track — HTML, CSS, React, Node.js, Deployment<br/>
-            🤖 AI & Dev track — Prompt engineering, Claude API, AI agents<br/>
+            🌐 Web Dev track — HTML, CSS, React, Deployment<br/>
+            🤖 AI & Dev track — Prompt engineering, Claude API, agents<br/>
             💼 Career track — Interviews, portfolio, landing clients<br/>
-            🤖 Unlimited AI coding partner — context-aware, per lesson<br/>
+            🤖 Unlimited AI coding partner — per lesson<br/>
             🏆 Completion certificate
           </div>
         </div>
-        <div style={{ background: "#0a160e", border: "1px solid #00ff8830", borderRadius: "10px", padding: "16px", marginBottom: "20px", textAlign: "center" }}>
-          <div style={{ fontSize: "20px", color: "#00ff88", fontWeight: "bold", marginBottom: "4px" }}>$15/month</div>
-          <div style={{ fontSize: "11px", color: "#555" }}>Full access to all 4 tracks — Python, Web Dev, AI & Dev, Career.</div>
+        <div style={{ background: "#0a160e", border: "1px solid #00ff8830", borderRadius: "10px", padding: "14px", marginBottom: "16px", textAlign: "center" }}>
+          <div style={{ fontSize: "24px", color: "#00ff88", fontWeight: "bold", marginBottom: "2px" }}>$5/month</div>
+          <div style={{ fontSize: "11px", color: "#555" }}>Cancel anytime. All 4 tracks, every lesson.</div>
         </div>
-        <div style={{ background: "#0a100d", border: "1px solid #00ff8830", borderRadius: "10px", padding: "16px", marginBottom: "16px" }}>
-          <div style={{ fontSize: "12px", color: "#00ff88", fontWeight: "bold", marginBottom: "8px" }}>How to unlock premium:</div>
-          <div style={{ fontSize: "12px", color: "#888", lineHeight: "2.2" }}>
-            <span style={{ color: "#fbbf24" }}>1.</span> Send $15 to Cash App <span style={{ color: "#fbbf24", fontWeight: "bold" }}>$champ11b</span><br/>
+        <div style={{ background: "#0a100d", border: "1px solid #00ff8830", borderRadius: "10px", padding: "14px", marginBottom: "14px" }}>
+          <div style={{ fontSize: "11px", color: "#00ff88", fontWeight: "bold", marginBottom: "8px" }}>How to unlock:</div>
+          <div style={{ fontSize: "12px", color: "#888", lineHeight: "2" }}>
+            <span style={{ color: "#fbbf24" }}>1.</span> Send $5 to Cash App <span style={{ color: "#fbbf24", fontWeight: "bold" }}>$champ11b</span><br/>
             <span style={{ color: "#fbbf24" }}>2.</span> Email <span style={{ color: "#00ff88" }}>codegrind.app@gmail.com</span><br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;Subject: <em style={{ color: "#ccc" }}>CodeGrind Premium</em><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;Subject: <em style={{ color: "#ccc" }}>CodeGrind Pro</em><br/>
             &nbsp;&nbsp;&nbsp;&nbsp;Include your Cash App username<br/>
-            <span style={{ color: "#fbbf24" }}>3.</span> Receive your code within 24 hours
+            <span style={{ color: "#fbbf24" }}>3.</span> Get your code within 24 hours
           </div>
         </div>
-        <a href="mailto:codegrind.app@gmail.com?subject=CodeGrind%20Premium&body=Hi%2C%20I%20just%20sent%20%244.99%20to%20Cash%20App%20%24champ11b.%20My%20Cash%20App%20username%20is%3A%20%5Byour%20username%5D.%20Please%20send%20my%20access%20code."
-          style={{ display: "block", background: "#00ff88", color: "#000", textDecoration: "none", borderRadius: "8px", padding: "13px", textAlign: "center", fontWeight: "bold", fontSize: "14px", marginBottom: "16px" }}>
+        <a href="mailto:codegrind.app@gmail.com?subject=CodeGrind%20Pro&body=Hi%20Stanley%2C%20I%20just%20sent%20%245%20to%20Cash%20App%20%24champ11b.%20My%20Cash%20App%20username%20is%3A%20%5Byour%20username%5D.%20Please%20send%20my%20access%20code."
+          style={{ display: "block", background: "#00ff88", color: "#000", textDecoration: "none", borderRadius: "8px", padding: "13px", textAlign: "center", fontWeight: "bold", fontSize: "14px", marginBottom: "14px" }}>
           📧 Email to Get Your Code →
         </a>
-        <div style={{ height: "1px", background: "#1a1a1a", marginBottom: "16px" }} />
-        <div style={{ fontSize: "12px", color: "#666", marginBottom: "8px" }}>Already have a code?</div>
+        <div style={{ height: "1px", background: "#1a1a1a", marginBottom: "14px" }} />
+        <div style={{ fontSize: "11px", color: "#666", marginBottom: "8px" }}>Already have a code?</div>
         <div style={{ display: "flex", gap: "8px", marginBottom: "8px" }}>
           <input value={code} onChange={(e) => setCode(e.target.value)} onKeyDown={(e) => e.key === "Enter" && tryCode()} placeholder="Enter access code..."
             style={{ flex: 1, background: "#181818", border: `1px solid ${error ? "#ff444460" : success ? "#00ff8860" : "#252525"}`, borderRadius: "8px", padding: "10px 14px", color: "#ddd", fontSize: "13px", outline: "none", fontFamily: "'Space Mono', monospace" }} />
           <button onClick={tryCode} style={{ background: "#fbbf24", color: "#000", border: "none", borderRadius: "8px", padding: "10px 16px", cursor: "pointer", fontWeight: "bold", fontSize: "13px", fontFamily: "'Space Mono', monospace" }}>Unlock</button>
         </div>
         {error && <p style={{ fontSize: "12px", color: "#ff6b6b", margin: "0 0 8px 0" }}>{error}</p>}
-        {success && <p style={{ fontSize: "12px", color: "#00ff88", margin: "0 0 8px 0" }}>✅ Code accepted! Unlocking premium...</p>}
+        {success && <p style={{ fontSize: "12px", color: "#00ff88", margin: "0 0 8px 0" }}>✅ Code accepted! Unlocking Pro...</p>}
         <button onClick={onClose} style={{ width: "100%", background: "none", color: "#444", border: "none", cursor: "pointer", fontSize: "12px", fontFamily: "'Space Mono', monospace", marginTop: "8px" }}>Continue with free lessons</button>
       </div>
     </div>
@@ -3514,7 +3531,7 @@ function MilestonePopup({ milestone, onClose, onShowPaywall, isPremiumUser }) {
         </div>
         {!isPremiumUser && milestone.showPaywall && (
           <button onClick={() => { onClose(); onShowPaywall(); }} style={{ width: "100%", background: "#fbbf24", color: "#000", border: "none", borderRadius: "8px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace", marginBottom: "10px" }}>
-            ⭐ Unlock Pro — $15/month →
+            ⭐ Unlock Pro — $5/month →
           </button>
         )}
         <button onClick={onClose} style={{ width: "100%", background: !isPremiumUser && milestone.showPaywall ? "none" : milestone.color, color: !isPremiumUser && milestone.showPaywall ? "#555" : "#000", border: "none", borderRadius: "8px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace" }}>
@@ -3558,7 +3575,7 @@ async function fetchLeaderboard() {
   } catch { return []; }
 }
 
-function LeaderboardView() {
+function LeaderboardView({ isMobile }) {
   const [leaders, setLeaders] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -3566,8 +3583,8 @@ function LeaderboardView() {
   }, []);
   const medals = ["🥇", "🥈", "🥉"];
   return (
-    <div style={{ maxWidth: "680px", margin: "0 auto", padding: "32px 18px" }}>
-      <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "44px", letterSpacing: "3px", marginBottom: "8px" }}>
+    <div style={{ maxWidth: "680px", margin: "0 auto", padding: isMobile ? "16px 14px" : "32px 18px" }}>
+      <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: isMobile ? "32px" : "44px", letterSpacing: "3px", marginBottom: "8px" }}>
         LEADER<span style={{ color: "#fbbf24" }}>BOARD</span>
       </div>
       <p style={{ fontSize: "13px", color: "#555", marginBottom: "28px" }}>Top coders by XP. Keep grinding. 🔥</p>
@@ -3581,7 +3598,7 @@ function LeaderboardView() {
       ) : (
         <div>
           {leaders.map((user, idx) => (
-            <div key={idx} style={{ background: idx === 0 ? "#0a0d00" : "#0d0d0d", border: "1px solid " + (idx === 0 ? "#fbbf2430" : "#1a1a1a"), borderRadius: "12px", padding: "16px 20px", marginBottom: "8px", display: "flex", alignItems: "center", gap: "16px" }}>
+            <div key={idx} style={{ background: idx === 0 ? "#0a0d00" : "#0d0d0d", border: "1px solid " + (idx === 0 ? "#fbbf2430" : "#1a1a1a"), borderRadius: "12px", padding: isMobile ? "12px 14px" : "16px 20px", marginBottom: "8px", display: "flex", alignItems: "center", gap: isMobile ? "10px" : "16px" }}>
               <div style={{ fontSize: "24px", width: "36px", textAlign: "center" }}>
                 {idx < 3 ? medals[idx] : <span style={{ fontSize: "14px", color: "#444" }}>#{idx + 1}</span>}
               </div>
@@ -3817,7 +3834,7 @@ function MultiChallenge({ lesson, lessonStrikes, completed, onComplete, onCodeCh
   const stepLabels = [...challenges.map((c, i) => ({ label: i === 0 ? "Guided" : i === 1 ? "Modify" : "Build", icon: i === 0 ? "🟢" : i === 1 ? "🟡" : "🔴" })), ...(quiz ? [{ label: "Quiz", icon: "🧠" }] : [])];
   return (
     <div>
-      <div style={{ background: "#0d0d0d", border: "1px solid #181818", borderRadius: "12px", padding: "16px 20px", marginBottom: "14px" }}>
+      <div style={{ background: "#0d0d0d", border: "1px solid #181818", borderRadius: "12px", padding: "14px 16px", marginBottom: "14px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
           <div style={{ fontSize: "11px", color: "#444" }}>LESSON PROGRESS</div>
           <div style={{ fontSize: "11px", color: "#00ff88" }}>{progressPct}%</div>
@@ -3869,7 +3886,7 @@ function MultiChallenge({ lesson, lessonStrikes, completed, onComplete, onCodeCh
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
             {quiz[quizStep].choices.map((choice, i) => (
               <button key={i} onClick={() => handleQuizAnswer(choice)}
-                style={{ background: quizResult ? (choice === quiz[quizStep].answer ? "#00ff8820" : choice === quizSelected ? "#ff444420" : "#111") : "#111", border: "1px solid " + (quizResult ? (choice === quiz[quizStep].answer ? "#00ff8860" : choice === quizSelected ? "#ff444460" : "#1f1f1f") : "#1f1f1f"), borderRadius: "8px", padding: "12px 16px", cursor: quizResult ? "default" : "pointer", color: quizResult ? (choice === quiz[quizStep].answer ? "#00ff88" : choice === quizSelected ? "#ff4444" : "#555") : "#ccc", fontSize: "13px", textAlign: "left" }}>
+                style={{ background: quizResult ? (choice === quiz[quizStep].answer ? "#00ff8820" : choice === quizSelected ? "#ff444420" : "#111") : "#111", border: "1px solid " + (quizResult ? (choice === quiz[quizStep].answer ? "#00ff8860" : choice === quizSelected ? "#ff444460" : "#1f1f1f") : "#1f1f1f"), borderRadius: "8px", padding: "13px 14px", cursor: quizResult ? "default" : "pointer", color: quizResult ? (choice === quiz[quizStep].answer ? "#00ff88" : choice === quizSelected ? "#ff4444" : "#555") : "#ccc", fontSize: "13px", textAlign: "left", lineHeight: "1.5" }}>
                 {choice}
               </button>
             ))}
@@ -4115,7 +4132,7 @@ function LandingPage({ onEnter }) {
         <div style={s.grid2}>
           {[
             ["01", "EXPAND YOUR RANGE", "Python. JavaScript. Automation. APIs. Every skill unlocks a new income stream. This is how you become hard to replace."],
-            ["02", "THE ADVANTAGE", "The knowledge people pay $15,000 tuition for. You get it here for $4.99/month — or completely free to start."],
+            ["02", "THE ADVANTAGE", "The knowledge people pay $15,000 tuition for. You get it here for $5/month — or completely free to start."],
             ["03", "START WHEN READY", "No deadlines. No pressure. Progress saves automatically. Pick up exactly where you left off."],
           ].map(([num, title, body]) => (
             <div key={num} className="cg-card" style={s.card}>
@@ -4186,13 +4203,13 @@ function LandingPage({ onEnter }) {
       {/* PRICING */}
       <div style={s.sectionWrap}>
         <div style={s.label}>PRICING</div>
-        <h2 style={s.sectionTitle}>START FREE.<br /><span style={{ color: "#b22222" }}>GO FURTHER FOR $4.99.</span></h2>
+        <h2 style={s.sectionTitle}>START FREE.<br /><span style={{ color: "#b22222" }}>GO FURTHER FOR $5.</span></h2>
         <div style={s.priceGrid}>
           <div style={{ ...s.card, padding: "40px 32px" }}>
             <div style={{ fontSize: "9px", color: "#664444", letterSpacing: "4px", marginBottom: "18px" }}>FREE FOREVER</div>
             <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "60px", letterSpacing: "2px", lineHeight: "1", marginBottom: "6px" }}>$0</div>
             <div style={{ fontSize: "10px", color: "#664444", letterSpacing: "2px", marginBottom: "28px" }}>NO CREDIT CARD — NO CATCH</div>
-            {["First 10 lessons free","Live Python code runner","AI tutor (10 msgs/day)","Streak & XP tracking","Cloud progress sync"].map(item => (
+            {["First 24 lessons free","Live Python code runner","AI tutor (10 msgs/day)","Streak & XP tracking","Cloud progress sync"].map(item => (
               <div key={item} style={{ fontSize: "12px", color: "#bbb", padding: "9px 0", borderBottom: "1px solid #110808", display: "flex", alignItems: "center", gap: "10px" }}>
                 <span style={{ color: "#b22222", fontSize: "10px" }}>✓</span> {item}
               </div>
@@ -4206,7 +4223,7 @@ function LandingPage({ onEnter }) {
           </div>
           <div style={{ ...s.card, padding: "40px 32px", background: "#0d0808", borderTop: "2px solid #b22222", position: "relative" }}>
             <div style={{ fontSize: "9px", color: "#664444", letterSpacing: "4px", marginBottom: "18px" }}>PREMIUM</div>
-            <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "60px", color: "#b22222", letterSpacing: "2px", lineHeight: "1", marginBottom: "6px" }}>$4.99</div>
+            <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "60px", color: "#b22222", letterSpacing: "2px", lineHeight: "1", marginBottom: "6px" }}>$5</div>
             <div style={{ fontSize: "10px", color: "#664444", letterSpacing: "2px", marginBottom: "28px" }}>PER MONTH — CANCEL ANYTIME</div>
             {["Everything in Free","All 30+ lessons unlocked","Premium Python Pro module","Premium JS Pro module","Unlimited AI tutor","Real project builds","Certificate of completion","Direct support from Stanley"].map(item => (
               <div key={item} style={{ fontSize: "12px", color: "#bbb", padding: "9px 0", borderBottom: "1px solid #150a0a", display: "flex", alignItems: "center", gap: "10px" }}>
@@ -4295,6 +4312,7 @@ function CodeGrind() {
   const [showAI, setShowAI] = useState(false);
   const [showWeakness, setShowWeakness] = useState(false);
   const [showEmailCapture, setShowEmailCapture] = useState(false);
+  const [emailCaptureRestoreMode, setEmailCaptureRestoreMode] = useState(false);
   const [showCertificate, setShowCertificate] = useState(false);
   const [showStreakReminder, setShowStreakReminder] = useState(false);
   const [showMiniGame, setShowMiniGame] = useState(null);
@@ -4347,7 +4365,7 @@ function CodeGrind() {
       checkStreakReminder(streak);
       const savedEmail = localStorage.getItem("cg_email");
       if (!savedEmail) {
-        setTimeout(() => setShowEmailCapture(true), 3000);
+        setTimeout(() => { setEmailCaptureRestoreMode(false); setShowEmailCapture(true); }, 3000);
       } else {
         setUserEmail(savedEmail);
         const parts = savedEmail.split("@")[0];
@@ -4437,6 +4455,7 @@ function CodeGrind() {
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: isMobile ? "5px" : "8px", flexWrap: "nowrap", justifyContent: "flex-end", overflow: "hidden" }}>
           {streak.count > 0 && <div style={{ fontSize: "11px", color: "#fbbf24", background: "#fbbf2415", border: "1px solid #fbbf2430", borderRadius: "6px", padding: "3px 8px", whiteSpace: "nowrap" }}>{isMobile ? `🔥${streak.count}` : `🔥 ${streak.count} day streak`}</div>}
+          {!userEmail && <button onClick={() => { setEmailCaptureRestoreMode(true); setShowEmailCapture(true); }} style={{ background: "none", border: "1px solid #1f1f1f", color: "#00ff88", cursor: "pointer", padding: "4px 8px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace", flexShrink: 0, whiteSpace: "nowrap" }}>{isMobile ? "👤" : "Sign In"}</button>}
           <button onClick={() => setShowWeakness(true)} style={{ background: "none", border: "1px solid #1f1f1f", color: "#ff6b35", cursor: "pointer", padding: "4px 8px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace", flexShrink: 0 }}>🎯</button>
           {completed.size === ALL_LESSONS.length && <button onClick={() => setShowCertificate(true)} style={{ background: "none", border: "1px solid #fbbf2440", color: "#fbbf24", cursor: "pointer", padding: "4px 8px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace", flexShrink: 0 }}>🏆</button>}
           <button onClick={() => { setView(view === "hire" ? "curriculum" : "hire"); window.scrollTo(0,0); }} style={{ background: view === "hire" ? "#00ff8820" : "none", border: `1px solid ${view === "hire" ? "#00ff8840" : "#1f1f1f"}`, color: view === "hire" ? "#00ff88" : "#888", cursor: "pointer", padding: "4px 8px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace", flexShrink: 0, whiteSpace: "nowrap" }}>{isMobile ? "💼" : "💼 Hire"}</button>
@@ -4450,13 +4469,13 @@ function CodeGrind() {
         </div>
       </div>
 
-      {view === "roadmap" && <RoadmapView completedLessons={completed.size} />}
-      {view === "leaderboard" && <LeaderboardView />}
+      {view === "roadmap" && <RoadmapView completedLessons={completed.size} isMobile={isMobile} />}
+      {view === "leaderboard" && <LeaderboardView isMobile={isMobile} />}
 
       {view === "hire" && (
-        <div style={{ maxWidth: "680px", margin: "0 auto", padding: "32px 18px" }}>
-          <div style={{ marginBottom: "32px" }}>
-            <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "44px", letterSpacing: "3px", lineHeight: 1.05, marginBottom: "14px" }}>HIRE <span style={{ color: "#00ff88" }}>STANLEY</span></div>
+        <div style={{ maxWidth: "680px", margin: "0 auto", padding: isMobile ? "16px 14px" : "32px 18px" }}>
+          <div style={{ marginBottom: "28px" }}>
+            <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: isMobile ? "32px" : "44px", letterSpacing: "3px", lineHeight: 1.05, marginBottom: "12px" }}>HIRE <span style={{ color: "#00ff88" }}>STANLEY</span></div>
             <p style={{ fontSize: "13px", color: "#777", lineHeight: "1.85" }}>I build automation tools, websites, and chatbots for small businesses. Fast turnaround. Plain English communication. Real results.</p>
           </div>
           <div style={{ background: "#0d0d0d", border: "1px solid #fbbf2430", borderRadius: "10px", padding: "14px 18px", marginBottom: "24px", textAlign: "center" }}>
@@ -4593,8 +4612,8 @@ function CodeGrind() {
             <div onClick={() => setShowPaywall(true)} style={{ background: "#0a0800", border: "1px solid #fbbf2430", borderRadius: "10px", padding: "14px 16px", marginBottom: "20px", cursor: "pointer" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px" }}>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: "12px", color: "#fbbf24", fontWeight: "bold", marginBottom: "3px" }}>⭐ First 2 lessons of each track are free</div>
-                  <div style={{ fontSize: "11px", color: "#555", lineHeight: "1.5" }}>All 4 tracks — Python, Web Dev, AI & Dev, Career — $15/month</div>
+                  <div style={{ fontSize: "12px", color: "#fbbf24", fontWeight: "bold", marginBottom: "3px" }}>⭐ First 24 lessons are free for everyone</div>
+                  <div style={{ fontSize: "11px", color: "#555", lineHeight: "1.5" }}>Unlock all 4 tracks — Python, Web Dev, AI & Dev, Career — $5/month</div>
                 </div>
                 <div style={{ fontSize: "11px", color: "#fbbf24", border: "1px solid #fbbf2440", borderRadius: "6px", padding: "6px 10px", flexShrink: 0, whiteSpace: "nowrap" }}>Unlock Pro →</div>
               </div>
@@ -4715,12 +4734,12 @@ function CodeGrind() {
 
       {showAI && activeLesson && <AITutor lesson={activeLesson} userCode={currentCode} onClose={() => setShowAI(false)} />}
       {showWeakness && <WeaknessTracker strikes={strikes} onClose={() => setShowWeakness(false)} onReview={(lesson) => { setShowWeakness(false); startLesson(lesson, true); }} />}
-      {showEmailCapture && <EmailCapture onClose={() => setShowEmailCapture(false)} onSubmit={(email, name) => { setShowEmailCapture(false); saveEmail(email, name); }} />}
+      {showEmailCapture && <EmailCapture restoreMode={emailCaptureRestoreMode} onClose={() => { setShowEmailCapture(false); setEmailCaptureRestoreMode(false); }} onSubmit={(email, name) => { setShowEmailCapture(false); setEmailCaptureRestoreMode(false); saveEmail(email, name); }} />}
       {showCertificate && <Certificate name={userName} xp={xp} completed={completed.size} total={ALL_LESSONS.length} onClose={() => setShowCertificate(false)} />}
       {showStreakReminder && <StreakReminder streak={streak} onClose={() => setShowStreakReminder(false)} />}
       {showConfetti && <Confetti />}
       {showMilestone && <MilestonePopup milestone={showMilestone} onClose={() => setShowMilestone(null)} onShowPaywall={() => setShowPaywall(true)} isPremiumUser={premium} />}
-      {showPaywall && <Paywall onUnlock={() => setPremium(true)} onClose={() => setShowPaywall(false)} />}
+      {showPaywall && <Paywall onUnlock={() => setPremium(true)} onClose={() => setShowPaywall(false)} completedFree={[...completed].filter(id => FREE_LESSON_IDS.has(id)).length} />}
       {showMiniGame && <MiniGame moduleId={showMiniGame.id} moduleName={showMiniGame.title} moduleColor={showMiniGame.color} xpReward={MINI_GAMES[showMiniGame.id]?.xpReward || 150} onClose={() => setShowMiniGame(null)} onXpEarned={(earned) => { setXp(prev => { const newXp = prev + earned; saveProgress(newXp, completed, strikes, bookmarks, streak, userEmail); return newXp; }); }} />}
       {cloudLoading && (
         <div style={{ position: "fixed", bottom: "16px", left: "50%", transform: "translateX(-50%)", background: "#0d0d0d", border: "1px solid #00ff8830", borderRadius: "8px", padding: "8px 16px", fontSize: "11px", color: "#00ff88", fontFamily: "'Space Mono', monospace", zIndex: 50, display: "flex", alignItems: "center", gap: "8px" }}>

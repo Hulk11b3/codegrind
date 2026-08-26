@@ -2921,17 +2921,17 @@ function CodeRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChang
     <div>
       <div style={{ background: "#0f1a0f", border: "1px solid #1a2a1a", borderRadius: "10px", padding: "14px", marginBottom: "12px" }}>
         <div style={{ fontSize: "10px", color: "#555", marginBottom: "6px", letterSpacing: "1px" }}>WHAT THIS CODE DOES:</div>
-        <p style={{ fontSize: "12px", color: "#777", margin: 0, lineHeight: "1.7" }}>{whatItDoes}</p>
+        <p style={{ fontSize: "15px", color: "#a0a0a0", margin: 0, lineHeight: "1.7" }}>{whatItDoes}</p>
       </div>
       {strikes > 0 && strikes < 3 && (
         <div style={{ background: "#fbbf2410", border: "1px solid #fbbf2430", borderRadius: "8px", padding: "12px 14px", marginBottom: "10px" }}>
           <div style={{ fontSize: "11px", color: "#fbbf24", marginBottom: "4px" }}>⚠️ ATTEMPT {strikes}/3 — Hint {strikes}:</div>
-          <p style={{ fontSize: "13px", color: "#d4a500", margin: 0, lineHeight: "1.6" }}>{hints && hints[strikes - 1]}</p>
+          <p style={{ fontSize: "15px", color: "#d4a500", margin: 0, lineHeight: "1.6" }}>{hints && hints[strikes - 1]}</p>
         </div>
       )}
       <div style={{ fontSize: "10px", color: "#3b82f6", marginBottom: "6px", letterSpacing: "1px" }}>🐍 YOUR CODE:</div>
       <textarea value={code} onChange={(e) => handleCodeChange(e.target.value)}
-        style={{ width: "100%", minHeight: "160px", background: "#0d1117", border: `1px solid ${strikes >= 2 ? "#ff444440" : "#1f2937"}`, borderRadius: "8px", padding: "14px", color: "#e2e8f0", fontSize: "13px", fontFamily: "'Space Mono', monospace", outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: "1.7" }} />
+        style={{ width: "100%", minHeight: "160px", background: "#0d1117", border: `1px solid ${strikes >= 2 ? "#ff444440" : "#1f2937"}`, borderRadius: "8px", padding: "14px", color: "#e2e8f0", fontSize: "15px", fontFamily: "'Space Mono', monospace", outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: "1.7" }} />
       <button onClick={runCode} disabled={running || pyLoading}
         style={{ width: "100%", background: running || pyLoading ? "#1a1a1a" : "#00ff88", color: running || pyLoading ? "#444" : "#000", border: "none", borderRadius: "8px", padding: "13px", cursor: running || pyLoading ? "not-allowed" : "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace", marginBottom: "10px", marginTop: "10px" }}>
         {pyLoading ? "⏳ Loading Python Engine..." : running ? "⏳ Running..." : "▶  RUN CODE"}
@@ -2939,7 +2939,7 @@ function CodeRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChang
       {output && (
         <div style={{ background: "#0d1117", border: `1px solid ${output.startsWith("❌") ? "#ff444430" : "#00ff8830"}`, borderRadius: "8px", padding: "14px" }}>
           <div style={{ fontSize: "10px", color: output.startsWith("❌") ? "#ff4444" : "#00ff88", marginBottom: "8px", letterSpacing: "1px" }}>OUTPUT:</div>
-          <pre style={{ fontSize: "13px", color: output.startsWith("❌") ? "#ff9090" : "#e2e8f0", margin: 0, whiteSpace: "pre-wrap", lineHeight: "1.7", fontFamily: "'Space Mono', monospace" }}>{output}</pre>
+          <pre style={{ fontSize: "15px", color: output.startsWith("❌") ? "#ff9090" : "#e2e8f0", margin: 0, whiteSpace: "pre-wrap", lineHeight: "1.7", fontFamily: "'Space Mono', monospace" }}>{output}</pre>
         </div>
       )}
       {passed && (
@@ -2952,8 +2952,8 @@ function CodeRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChang
 }
 
 function TheoryBlock({ block }) {
-  if (block.type === "plain") return <p style={{ fontSize: "13px", color: "#aaa", lineHeight: "1.85", margin: "0 0 14px 0" }}>{block.text}</p>;
-  if (block.type === "highlight") return <div style={{ background: "#111", borderLeft: "3px solid #00ff88", borderRadius: "0 8px 8px 0", padding: "10px 14px", margin: "12px 0", fontSize: "13px", color: "#e0e0e0", lineHeight: "1.7", fontWeight: "bold" }}>{block.text}</div>;
+  if (block.type === "plain") return <p style={{ fontSize: "16px", color: "#aaa", lineHeight: "1.85", margin: "0 0 14px 0" }}>{block.text}</p>;
+  if (block.type === "highlight") return <div style={{ background: "#111", borderLeft: "3px solid #00ff88", borderRadius: "0 8px 8px 0", padding: "10px 14px", margin: "12px 0", fontSize: "16px", color: "#e0e0e0", lineHeight: "1.7", fontWeight: "bold" }}>{block.text}</div>;
   if (block.type === "code") return (
     <div style={{ margin: "12px 0" }}>
       <div style={{ fontSize: "10px", color: block.color, marginBottom: "6px", letterSpacing: "1px" }}>{block.label}</div>
@@ -2962,7 +2962,7 @@ function TheoryBlock({ block }) {
   );
   if (block.type === "list") return (
     <ul style={{ margin: "8px 0 14px 0", paddingLeft: "4px", listStyle: "none" }}>
-      {block.items.map((item, i) => <li key={i} style={{ fontSize: "12px", color: "#999", lineHeight: "1.75", padding: "5px 0 5px 10px", borderLeft: "2px solid #222" }}>{item}</li>)}
+      {block.items.map((item, i) => <li key={i} style={{ fontSize: "15px", color: "#c2c2c2", lineHeight: "1.75", padding: "5px 0 5px 10px", borderLeft: "2px solid #222" }}>{item}</li>)}
     </ul>
   );
   return null;
@@ -3028,7 +3028,7 @@ function RoadmapView({ completedLessons, isMobile }) {
     <div style={{ maxWidth: "700px", margin: "0 auto", padding: isMobile ? "16px 14px" : "32px 20px" }}>
       <div style={{ marginBottom: isMobile ? "20px" : "32px" }}>
         <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: isMobile ? "28px" : "38px", letterSpacing: "3px", marginBottom: "10px" }}>YOUR MONEY <span style={{ color: "#fbbf24" }}>ROADMAP</span></div>
-        <p style={{ fontSize: "13px", color: "#555", lineHeight: "1.75", margin: 0 }}>Week by week, from zero to your first paid client.</p>
+        <p style={{ fontSize: "15px", color: "#a0a0a0", lineHeight: "1.75", margin: 0 }}>Week by week, from zero to your first paid client.</p>
       </div>
       <div style={{ position: "relative" }}>
         <div style={{ position: "absolute", left: "19px", top: "20px", bottom: "20px", width: "2px", background: "#1a1a1a", zIndex: 0 }} />
@@ -3078,7 +3078,7 @@ function EmailCapture({ onClose, onSubmit, restoreMode }) {
         <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "26px", letterSpacing: "2px", color: "#00ff88", marginBottom: "8px" }}>
           {restoreMode ? "RESTORE PROGRESS" : "FREE ACCESS"}
         </div>
-        <p style={{ fontSize: "13px", color: "#888", lineHeight: "1.8", marginBottom: "20px" }}>
+        <p style={{ fontSize: "15px", color: "#a0a0a0", lineHeight: "1.8", marginBottom: "20px" }}>
           {restoreMode
             ? "Enter the email you used before to restore your progress across all devices."
             : "Get free access to 24 lessons, the AI tutor, and your personal money roadmap. No credit card. No catch."}
@@ -3204,17 +3204,17 @@ function JSRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChange,
     <div>
       <div style={{ background: "#0f1117", border: "1px solid #1a2030", borderRadius: "10px", padding: "14px", marginBottom: "12px" }}>
         <div style={{ fontSize: "10px", color: "#555", marginBottom: "6px", letterSpacing: "1px" }}>WHAT THIS CODE DOES:</div>
-        <p style={{ fontSize: "12px", color: "#777", margin: 0, lineHeight: "1.7" }}>{whatItDoes}</p>
+        <p style={{ fontSize: "15px", color: "#a0a0a0", margin: 0, lineHeight: "1.7" }}>{whatItDoes}</p>
       </div>
       {strikes > 0 && strikes < 3 && (
         <div style={{ background: "#fbbf2410", border: "1px solid #fbbf2430", borderRadius: "8px", padding: "12px 14px", marginBottom: "10px" }}>
           <div style={{ fontSize: "11px", color: "#fbbf24", marginBottom: "4px" }}>⚠️ ATTEMPT {strikes}/3 — Hint:</div>
-          <p style={{ fontSize: "13px", color: "#d4a500", margin: 0 }}>{hints && hints[strikes - 1]}</p>
+          <p style={{ fontSize: "15px", color: "#d4a500", margin: 0 }}>{hints && hints[strikes - 1]}</p>
         </div>
       )}
       <div style={{ fontSize: "10px", color: "#f59e0b", marginBottom: "6px", letterSpacing: "1px" }}>🌐 JAVASCRIPT CODE:</div>
       <textarea value={code} onChange={(e) => handleCodeChange(e.target.value)}
-        style={{ width: "100%", minHeight: "160px", background: "#0d1117", border: `1px solid ${strikes >= 2 ? "#ff444440" : "#1f2937"}`, borderRadius: "8px", padding: "14px", color: "#fcd34d", fontSize: "13px", fontFamily: "'Space Mono', monospace", outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: "1.7" }} />
+        style={{ width: "100%", minHeight: "160px", background: "#0d1117", border: `1px solid ${strikes >= 2 ? "#ff444440" : "#1f2937"}`, borderRadius: "8px", padding: "14px", color: "#fcd34d", fontSize: "15px", fontFamily: "'Space Mono', monospace", outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: "1.7" }} />
       <button onClick={runCode}
         style={{ width: "100%", background: "#f59e0b", color: "#000", border: "none", borderRadius: "8px", padding: "13px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace", marginBottom: "10px", marginTop: "10px" }}>
         ▶ RUN JAVASCRIPT
@@ -3222,7 +3222,7 @@ function JSRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChange,
       {output && (
         <div style={{ background: "#0d1117", border: `1px solid ${output.startsWith("❌") ? "#ff444430" : "#f59e0b30"}`, borderRadius: "8px", padding: "14px" }}>
           <div style={{ fontSize: "10px", color: output.startsWith("❌") ? "#ff4444" : "#f59e0b", marginBottom: "8px", letterSpacing: "1px" }}>OUTPUT:</div>
-          <pre style={{ fontSize: "13px", color: output.startsWith("❌") ? "#ff9090" : "#e2e8f0", margin: 0, whiteSpace: "pre-wrap", lineHeight: "1.7", fontFamily: "'Space Mono', monospace" }}>{output}</pre>
+          <pre style={{ fontSize: "15px", color: output.startsWith("❌") ? "#ff9090" : "#e2e8f0", margin: 0, whiteSpace: "pre-wrap", lineHeight: "1.7", fontFamily: "'Space Mono', monospace" }}>{output}</pre>
         </div>
       )}
       {passed && <div style={{ marginTop: "12px", padding: "14px", background: "#00ff8815", border: "1px solid #00ff8840", borderRadius: "8px", fontSize: "13px", color: "#00ff88", textAlign: "center", fontWeight: "bold" }}>✅ Challenge complete! XP earned.</div>}
@@ -3458,19 +3458,19 @@ function Paywall({ onUnlock, onClose, completedFree }) {
           <div style={{ background: "#0a160e", border: "1px solid #00ff8840", borderRadius: "10px", padding: "14px 16px", marginBottom: "20px", textAlign: "center" }}>
             <div style={{ fontSize: "28px", marginBottom: "6px" }}>🎉</div>
             <div style={{ fontSize: "14px", color: "#00ff88", fontWeight: "bold", marginBottom: "4px" }}>You've completed {FREE_LESSON_COUNT} free lessons!</div>
-            <div style={{ fontSize: "12px", color: "#555", lineHeight: "1.6" }}>Unlock the rest for $5/month and keep building.</div>
+            <div style={{ fontSize: "14px", color: "#a0a0a0", lineHeight: "1.6" }}>Unlock the rest for $5/month and keep building.</div>
           </div>
         )}
         {!completedFree && (
           <div style={{ fontSize: "36px", textAlign: "center", marginBottom: "12px" }}>🔐</div>
         )}
         <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "28px", letterSpacing: "3px", color: "#fbbf24", textAlign: "center", marginBottom: "8px" }}>UNLOCK PRO</div>
-        <p style={{ fontSize: "12px", color: "#888", lineHeight: "1.8", textAlign: "center", marginBottom: "20px" }}>
+        <p style={{ fontSize: "14px", color: "#a0a0a0", lineHeight: "1.8", textAlign: "center", marginBottom: "20px" }}>
           All 4 tracks unlocked. Every lesson. Unlimited AI tutor.
         </p>
         <div style={{ background: "#111", border: "1px solid #fbbf2430", borderRadius: "10px", padding: "14px", marginBottom: "16px" }}>
           <div style={{ fontSize: "11px", color: "#fbbf24", fontWeight: "bold", marginBottom: "8px" }}>✅ What you unlock:</div>
-          <div style={{ fontSize: "12px", color: "#888", lineHeight: "1.9" }}>
+          <div style={{ fontSize: "14px", color: "#a0a0a0", lineHeight: "1.9" }}>
             🐍 Full Python track — scripting, automation, APIs, classes<br/>
             🌐 Web Dev track — HTML, CSS, React, Deployment<br/>
             🤖 AI & Dev track — Prompt engineering, Claude API, agents<br/>
@@ -3485,7 +3485,7 @@ function Paywall({ onUnlock, onClose, completedFree }) {
         </div>
         <div style={{ background: "#0a100d", border: "1px solid #00ff8830", borderRadius: "10px", padding: "14px", marginBottom: "14px" }}>
           <div style={{ fontSize: "11px", color: "#00ff88", fontWeight: "bold", marginBottom: "8px" }}>How to unlock:</div>
-          <div style={{ fontSize: "12px", color: "#888", lineHeight: "2" }}>
+          <div style={{ fontSize: "14px", color: "#a0a0a0", lineHeight: "2" }}>
             <span style={{ color: "#fbbf24" }}>1.</span> Send $5 to Cash App <span style={{ color: "#fbbf24", fontWeight: "bold" }}>$champ11b</span><br/>
             <span style={{ color: "#fbbf24" }}>2.</span> Email <span style={{ color: "#00ff88" }}>codegrind.app@gmail.com</span><br/>
             &nbsp;&nbsp;&nbsp;&nbsp;Subject: <em style={{ color: "#ccc" }}>CodeGrind Pro</em><br/>
@@ -3587,7 +3587,7 @@ function LeaderboardView({ isMobile }) {
       <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: isMobile ? "32px" : "44px", letterSpacing: "3px", marginBottom: "8px" }}>
         LEADER<span style={{ color: "#fbbf24" }}>BOARD</span>
       </div>
-      <p style={{ fontSize: "13px", color: "#555", marginBottom: "28px" }}>Top coders by XP. Keep grinding. 🔥</p>
+      <p style={{ fontSize: "15px", color: "#a0a0a0", marginBottom: "28px" }}>Top coders by XP. Keep grinding. 🔥</p>
       {loading ? (
         <div style={{ textAlign: "center", color: "#444", padding: "40px", fontSize: "13px" }}>Loading...</div>
       ) : leaders.length === 0 ? (
@@ -3860,7 +3860,7 @@ function MultiChallenge({ lesson, lessonStrikes, completed, onComplete, onCodeCh
             <div style={{ fontSize: "10px", color: "#ff6b35", letterSpacing: "1px" }}>{step === 0 ? "CHALLENGE 1 — GUIDED" : step === 1 ? "CHALLENGE 2 — MODIFY" : "CHALLENGE 3 — BUILD IT"}</div>
             <div style={{ fontSize: "10px", color: "#444" }}>{step + 1} of {challenges.length}</div>
           </div>
-          <p style={{ fontSize: "13px", color: "#ccc", lineHeight: "1.75", marginBottom: "14px" }}>{currentChallenge.prompt}</p>
+          <p style={{ fontSize: "15px", color: "#ccc", lineHeight: "1.75", marginBottom: "14px" }}>{currentChallenge.prompt}</p>
           {lesson.language === "html" ? (
             <HTMLRunner key={step} starterCode={currentChallenge.starterCode} whatItDoes={currentChallenge.whatItDoes} check={currentChallenge.check} hints={lesson.hints} strikes={lessonStrikes} onPass={handleChallengePass} onCodeChange={onCodeChange} onStrike={onStrike} onReviewNeeded={onReviewNeeded} />
           ) : lesson.language === "react" ? (
@@ -4504,7 +4504,7 @@ function CodeGrind() {
           <div style={{ background: "#0a160e", border: "1px solid #00ff8830", borderRadius: "12px", padding: "24px", textAlign: "center", marginTop: "24px" }}>
             <div style={{ fontSize: "20px", marginBottom: "10px" }}>🤝</div>
             <div style={{ fontSize: "16px", fontWeight: "bold", color: "#fff", marginBottom: "8px" }}>Ready to work together?</div>
-            <p style={{ fontSize: "13px", color: "#888", lineHeight: "1.7", marginBottom: "20px" }}>Tell me about your project. I respond within 24 hours.</p>
+            <p style={{ fontSize: "15px", color: "#a0a0a0", lineHeight: "1.7", marginBottom: "20px" }}>Tell me about your project. I respond within 24 hours.</p>
             <a href="mailto:stanleywhiteiii87@gmail.com?subject=Project Inquiry — CodeGrind&body=Hi Stanley, I found you through CodeGrind and I'd like to discuss a project..." style={{ display: "block", background: "#00ff88", color: "#000", border: "none", borderRadius: "8px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace", textDecoration: "none", marginBottom: "10px" }}>📧 Email Me Directly</a>
             <p style={{ fontSize: "11px", color: "#444", margin: 0 }}>stanleywhiteiii87@gmail.com</p>
           </div>
@@ -4542,7 +4542,7 @@ function CodeGrind() {
             {completed.size === 0 && (
               <div style={{ background: "#0a160e", border: "1px solid #00ff8840", borderRadius: "10px", padding: "16px 18px", marginBottom: "14px" }}>
                 <div style={{ fontSize: "12px", color: "#00ff88", fontWeight: "bold", marginBottom: "8px" }}>👋 Welcome! Here's how to start:</div>
-                <div style={{ fontSize: "12px", color: "#888", lineHeight: "1.8" }}>
+                <div style={{ fontSize: "14px", color: "#a0a0a0", lineHeight: "1.8" }}>
                   1. Click <strong style={{ color: "#ccc" }}>Start →</strong> on the first lesson below<br />
                   2. Read the plain-English explanation<br />
                   3. Run the code and see it work<br />
@@ -4688,7 +4688,7 @@ function CodeGrind() {
             <div>
               <div style={{ fontSize: "10px", color: activeLesson.moduleColor, letterSpacing: "2px", marginBottom: "5px" }}>{activeLesson.moduleTitle?.toUpperCase()}</div>
               <div style={{ fontSize: isMobile ? "17px" : "20px", fontWeight: "bold", lineHeight: "1.3" }}>{activeLesson.title}</div>
-              <div style={{ fontSize: "12px", color: "#444", marginTop: "3px" }}>💡 {activeLesson.analogy}</div>
+              <div style={{ fontSize: "13px", color: "#a0a0a0", marginTop: "3px" }}>💡 {activeLesson.analogy}</div>
             </div>
             <button onClick={() => toggleBookmark(activeLesson.id)} style={{ background: bookmarks.has(activeLesson.id) ? "#a78bfa20" : "#181818", border: `1px solid ${bookmarks.has(activeLesson.id) ? "#a78bfa40" : "#252525"}`, borderRadius: "8px", padding: "8px 12px", cursor: "pointer", fontSize: "14px", color: bookmarks.has(activeLesson.id) ? "#a78bfa" : "#444" }}>🔖</button>
           </div>

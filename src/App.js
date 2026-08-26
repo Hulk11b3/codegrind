@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, Component } from "react";
+import { createClient } from "@supabase/supabase-js";
 import WEB_DEV_CURRICULUM from './data/webDevCurriculum';
 import AI_DEV_CURRICULUM from './data/aiDevCurriculum';
 import CAREER_CURRICULUM from './data/careerCurriculum';
@@ -6,24 +7,15 @@ import CAREER_CURRICULUM from './data/careerCurriculum';
 const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
 const SUPABASE_KEY = process.env.REACT_APP_SUPABASE_KEY;
 
-async function supabaseQuery(method, path, body) {
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1${path}`, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": SUPABASE_KEY,
-        "Authorization": `Bearer ${SUPABASE_KEY}`,
-        "Prefer": method === "POST" ? "resolution=merge-duplicates" : "",
-      },
-      body: body ? JSON.stringify(body) : undefined,
-    });
-    if (res.ok && method === "GET") return await res.json();
-    return res.ok;
-  } catch { return null; }
-}
+// Real Supabase client. This carries the signed-in user's session automatically
+// once they complete the magic-link flow, so every request below is scoped to
+// auth.uid() by the RLS policies in supabase/migrations — never by a client-
+// supplied email string. See CodeGrind_Audit.md for why that distinction matters.
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-async function saveProgress(xp, completed, strikes, bookmarks, streak, email) {
+// userId is the authenticated user's auth.uid() (a uuid), NOT their email.
+// Passing null skips the cloud write/read entirely (signed-out / offline use).
+async function saveProgress(xp, completed, strikes, bookmarks, streak, userId) {
   try {
     localStorage.setItem("cg_xp", String(xp));
     localStorage.setItem("cg_completed", JSON.stringify([...completed]));
@@ -31,13 +23,13 @@ async function saveProgress(xp, completed, strikes, bookmarks, streak, email) {
     localStorage.setItem("cg_bookmarks", JSON.stringify([...bookmarks]));
     localStorage.setItem("cg_streak", JSON.stringify(streak));
   } catch {}
-  if (email) {
+  if (userId) {
     try {
-      await supabaseQuery("POST", "/user_progress", {
-        email, xp, completed_lessons: [...completed],
+      await supabase.from("user_progress").upsert({
+        user_id: userId, xp, completed_lessons: [...completed],
         strikes: Object.fromEntries(strikes), bookmarks: [...bookmarks],
         streak_count: streak.count, streak_last_date: streak.lastDate,
-      });
+      }, { onConflict: "user_id" });
     } catch {}
   }
 }
@@ -54,10 +46,10 @@ async function loadProgress() {
   } catch { return { xp: 0, completed: new Set(), strikes: new Map(), bookmarks: new Set(), streak: { count: 0, lastDate: null } }; }
 }
 
-async function loadProgressFromCloud(email) {
+async function loadProgressFromCloud(userId) {
   try {
-    const data = await supabaseQuery("GET", `/user_progress?email=eq.${encodeURIComponent(email)}&limit=1`);
-    if (data && data.length > 0) {
+    const { data, error } = await supabase.from("user_progress").select("*").eq("user_id", userId).limit(1);
+    if (!error && data && data.length > 0) {
       const row = data[0];
       return {
         xp: row.xp || 0,
@@ -67,6 +59,18 @@ async function loadProgressFromCloud(email) {
         streak: { count: row.streak_count || 0, lastDate: row.streak_last_date || null },
       };
     }
+  } catch {}
+  return null;
+}
+
+// Fetches the caller's own profile row (RLS restricts this to auth.uid() = id).
+// is_premium here is the ONLY source of truth for premium status — it can only
+// be flipped server-side, either by you in the Supabase table editor or by the
+// redeem-code Edge Function after validating a code. The client never sets it.
+async function loadProfile(userId) {
+  try {
+    const { data, error } = await supabase.from("profiles").select("*").eq("id", userId).single();
+    if (!error && data) return data;
   } catch {}
   return null;
 }
@@ -2921,17 +2925,17 @@ function CodeRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChang
     <div>
       <div style={{ background: "#0f1a0f", border: "1px solid #1a2a1a", borderRadius: "10px", padding: "14px", marginBottom: "12px" }}>
         <div style={{ fontSize: "10px", color: "#555", marginBottom: "6px", letterSpacing: "1px" }}>WHAT THIS CODE DOES:</div>
-        <p style={{ fontSize: "15px", color: "#a0a0a0", margin: 0, lineHeight: "1.7" }}>{whatItDoes}</p>
+        <p style={{ fontSize: "12px", color: "#777", margin: 0, lineHeight: "1.7" }}>{whatItDoes}</p>
       </div>
       {strikes > 0 && strikes < 3 && (
         <div style={{ background: "#fbbf2410", border: "1px solid #fbbf2430", borderRadius: "8px", padding: "12px 14px", marginBottom: "10px" }}>
           <div style={{ fontSize: "11px", color: "#fbbf24", marginBottom: "4px" }}>⚠️ ATTEMPT {strikes}/3 — Hint {strikes}:</div>
-          <p style={{ fontSize: "15px", color: "#d4a500", margin: 0, lineHeight: "1.6" }}>{hints && hints[strikes - 1]}</p>
+          <p style={{ fontSize: "13px", color: "#d4a500", margin: 0, lineHeight: "1.6" }}>{hints && hints[strikes - 1]}</p>
         </div>
       )}
       <div style={{ fontSize: "10px", color: "#3b82f6", marginBottom: "6px", letterSpacing: "1px" }}>🐍 YOUR CODE:</div>
       <textarea value={code} onChange={(e) => handleCodeChange(e.target.value)}
-        style={{ width: "100%", minHeight: "160px", background: "#0d1117", border: `1px solid ${strikes >= 2 ? "#ff444440" : "#1f2937"}`, borderRadius: "8px", padding: "14px", color: "#e2e8f0", fontSize: "15px", fontFamily: "'Space Mono', monospace", outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: "1.7" }} />
+        style={{ width: "100%", minHeight: "160px", background: "#0d1117", border: `1px solid ${strikes >= 2 ? "#ff444440" : "#1f2937"}`, borderRadius: "8px", padding: "14px", color: "#e2e8f0", fontSize: "13px", fontFamily: "'Space Mono', monospace", outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: "1.7" }} />
       <button onClick={runCode} disabled={running || pyLoading}
         style={{ width: "100%", background: running || pyLoading ? "#1a1a1a" : "#00ff88", color: running || pyLoading ? "#444" : "#000", border: "none", borderRadius: "8px", padding: "13px", cursor: running || pyLoading ? "not-allowed" : "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace", marginBottom: "10px", marginTop: "10px" }}>
         {pyLoading ? "⏳ Loading Python Engine..." : running ? "⏳ Running..." : "▶  RUN CODE"}
@@ -2939,7 +2943,7 @@ function CodeRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChang
       {output && (
         <div style={{ background: "#0d1117", border: `1px solid ${output.startsWith("❌") ? "#ff444430" : "#00ff8830"}`, borderRadius: "8px", padding: "14px" }}>
           <div style={{ fontSize: "10px", color: output.startsWith("❌") ? "#ff4444" : "#00ff88", marginBottom: "8px", letterSpacing: "1px" }}>OUTPUT:</div>
-          <pre style={{ fontSize: "15px", color: output.startsWith("❌") ? "#ff9090" : "#e2e8f0", margin: 0, whiteSpace: "pre-wrap", lineHeight: "1.7", fontFamily: "'Space Mono', monospace" }}>{output}</pre>
+          <pre style={{ fontSize: "13px", color: output.startsWith("❌") ? "#ff9090" : "#e2e8f0", margin: 0, whiteSpace: "pre-wrap", lineHeight: "1.7", fontFamily: "'Space Mono', monospace" }}>{output}</pre>
         </div>
       )}
       {passed && (
@@ -2952,8 +2956,8 @@ function CodeRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChang
 }
 
 function TheoryBlock({ block }) {
-  if (block.type === "plain") return <p style={{ fontSize: "16px", color: "#aaa", lineHeight: "1.85", margin: "0 0 14px 0" }}>{block.text}</p>;
-  if (block.type === "highlight") return <div style={{ background: "#111", borderLeft: "3px solid #00ff88", borderRadius: "0 8px 8px 0", padding: "10px 14px", margin: "12px 0", fontSize: "16px", color: "#e0e0e0", lineHeight: "1.7", fontWeight: "bold" }}>{block.text}</div>;
+  if (block.type === "plain") return <p style={{ fontSize: "13px", color: "#aaa", lineHeight: "1.85", margin: "0 0 14px 0" }}>{block.text}</p>;
+  if (block.type === "highlight") return <div style={{ background: "#111", borderLeft: "3px solid #00ff88", borderRadius: "0 8px 8px 0", padding: "10px 14px", margin: "12px 0", fontSize: "13px", color: "#e0e0e0", lineHeight: "1.7", fontWeight: "bold" }}>{block.text}</div>;
   if (block.type === "code") return (
     <div style={{ margin: "12px 0" }}>
       <div style={{ fontSize: "10px", color: block.color, marginBottom: "6px", letterSpacing: "1px" }}>{block.label}</div>
@@ -2962,7 +2966,7 @@ function TheoryBlock({ block }) {
   );
   if (block.type === "list") return (
     <ul style={{ margin: "8px 0 14px 0", paddingLeft: "4px", listStyle: "none" }}>
-      {block.items.map((item, i) => <li key={i} style={{ fontSize: "15px", color: "#c2c2c2", lineHeight: "1.75", padding: "5px 0 5px 10px", borderLeft: "2px solid #222" }}>{item}</li>)}
+      {block.items.map((item, i) => <li key={i} style={{ fontSize: "12px", color: "#999", lineHeight: "1.75", padding: "5px 0 5px 10px", borderLeft: "2px solid #222" }}>{item}</li>)}
     </ul>
   );
   return null;
@@ -3028,7 +3032,7 @@ function RoadmapView({ completedLessons, isMobile }) {
     <div style={{ maxWidth: "700px", margin: "0 auto", padding: isMobile ? "16px 14px" : "32px 20px" }}>
       <div style={{ marginBottom: isMobile ? "20px" : "32px" }}>
         <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: isMobile ? "28px" : "38px", letterSpacing: "3px", marginBottom: "10px" }}>YOUR MONEY <span style={{ color: "#fbbf24" }}>ROADMAP</span></div>
-        <p style={{ fontSize: "15px", color: "#a0a0a0", lineHeight: "1.75", margin: 0 }}>Week by week, from zero to your first paid client.</p>
+        <p style={{ fontSize: "13px", color: "#555", lineHeight: "1.75", margin: 0 }}>Week by week, from zero to your first paid client.</p>
       </div>
       <div style={{ position: "relative" }}>
         <div style={{ position: "absolute", left: "19px", top: "20px", bottom: "20px", width: "2px", background: "#1a1a1a", zIndex: 0 }} />
@@ -3061,16 +3065,51 @@ function RoadmapView({ completedLessons, isMobile }) {
   );
 }
 
-function EmailCapture({ onClose, onSubmit, restoreMode }) {
+// Sends a real Supabase magic link — it no longer "logs the user in" itself.
+// Once they click the link in their inbox, CodeGrind's own onAuthStateChange
+// listener (in the CodeGrind component) picks up the resulting session. That's
+// the entire difference between this and the old version: identity is proven
+// by clicking an emailed link, not by typing a string into a text box.
+function EmailCapture({ onClose, restoreMode }) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
-  const submit = () => {
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const submit = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) { setError("Please enter a valid email address."); return; }
     if (!restoreMode && name.trim().length === 0) { setError("Please enter your first name."); return; }
-    onSubmit(email, name || email.split("@")[0]);
+    setError("");
+    setSending(true);
+    const { error: otpError } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        data: { first_name: name || email.split("@")[0] },
+        emailRedirectTo: window.location.origin,
+      },
+    });
+    setSending(false);
+    if (otpError) { setError("Couldn't send the sign-in link. Try again in a moment."); return; }
+    setSent(true);
   };
+
+  if (sent) {
+    return (
+      <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.92)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
+        <div style={{ background: "#0d0d0d", border: "1px solid #00ff8830", borderRadius: "16px", width: "100%", maxWidth: "440px", padding: "28px 24px", fontFamily: "'Space Mono', monospace", textAlign: "center" }}>
+          <div style={{ fontSize: "32px", marginBottom: "10px" }}>📬</div>
+          <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "24px", letterSpacing: "2px", color: "#00ff88", marginBottom: "10px" }}>CHECK YOUR EMAIL</div>
+          <p style={{ fontSize: "13px", color: "#888", lineHeight: "1.8", marginBottom: "20px" }}>
+            We sent a sign-in link to <span style={{ color: "#ddd" }}>{email}</span>. Open it on this device to finish signing in — no password needed.
+          </p>
+          <button onClick={onClose} style={{ width: "100%", background: "#00ff88", color: "#000", border: "none", borderRadius: "8px", padding: "13px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace" }}>Got it</button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.92)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
       <div style={{ background: "#0d0d0d", border: "1px solid #00ff8830", borderRadius: "16px", width: "100%", maxWidth: "440px", padding: "28px 24px", fontFamily: "'Space Mono', monospace" }}>
@@ -3078,20 +3117,20 @@ function EmailCapture({ onClose, onSubmit, restoreMode }) {
         <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "26px", letterSpacing: "2px", color: "#00ff88", marginBottom: "8px" }}>
           {restoreMode ? "RESTORE PROGRESS" : "FREE ACCESS"}
         </div>
-        <p style={{ fontSize: "15px", color: "#a0a0a0", lineHeight: "1.8", marginBottom: "20px" }}>
+        <p style={{ fontSize: "13px", color: "#888", lineHeight: "1.8", marginBottom: "20px" }}>
           {restoreMode
-            ? "Enter the email you used before to restore your progress across all devices."
-            : "Get free access to 24 lessons, the AI tutor, and your personal money roadmap. No credit card. No catch."}
+            ? "Enter the email you used before — we'll send a sign-in link that restores your progress on this device."
+            : "Get free access to 24 lessons, the AI tutor, and your personal money roadmap. We'll email you a sign-in link — no password, no credit card."}
         </p>
         {!restoreMode && (
-          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your first name"
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your first name" disabled={sending}
             style={{ width: "100%", background: "#181818", border: "1px solid #252525", borderRadius: "8px", padding: "12px 14px", color: "#ddd", fontSize: "13px", outline: "none", fontFamily: "'Space Mono', monospace", marginBottom: "10px", boxSizing: "border-box" }} />
         )}
-        <input value={email} onChange={(e) => setEmail(e.target.value)} onKeyDown={(e) => e.key === "Enter" && submit()} placeholder="Your email address" type="email"
+        <input value={email} onChange={(e) => setEmail(e.target.value)} onKeyDown={(e) => e.key === "Enter" && submit()} placeholder="Your email address" type="email" disabled={sending}
           style={{ width: "100%", background: "#181818", border: `1px solid ${error ? "#ff444460" : "#252525"}`, borderRadius: "8px", padding: "12px 14px", color: "#ddd", fontSize: "13px", outline: "none", fontFamily: "'Space Mono', monospace", marginBottom: "10px", boxSizing: "border-box" }} />
         {error && <p style={{ fontSize: "12px", color: "#ff6b6b", marginBottom: "10px" }}>{error}</p>}
-        <button onClick={submit} style={{ width: "100%", background: "#00ff88", color: "#000", border: "none", borderRadius: "8px", padding: "13px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace", marginBottom: "10px" }}>
-          {restoreMode ? "Restore My Progress →" : "Start Learning Free →"}
+        <button onClick={submit} disabled={sending} style={{ width: "100%", background: "#00ff88", color: "#000", border: "none", borderRadius: "8px", padding: "13px", cursor: sending ? "wait" : "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace", marginBottom: "10px", opacity: sending ? 0.7 : 1 }}>
+          {sending ? "Sending..." : restoreMode ? "Send Restore Link →" : "Send Sign-In Link →"}
         </button>
         <button onClick={onClose} style={{ width: "100%", background: "none", color: "#444", border: "none", cursor: "pointer", fontSize: "12px", fontFamily: "'Space Mono', monospace" }}>
           {restoreMode ? "Cancel" : "Skip for now"}
@@ -3204,17 +3243,17 @@ function JSRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChange,
     <div>
       <div style={{ background: "#0f1117", border: "1px solid #1a2030", borderRadius: "10px", padding: "14px", marginBottom: "12px" }}>
         <div style={{ fontSize: "10px", color: "#555", marginBottom: "6px", letterSpacing: "1px" }}>WHAT THIS CODE DOES:</div>
-        <p style={{ fontSize: "15px", color: "#a0a0a0", margin: 0, lineHeight: "1.7" }}>{whatItDoes}</p>
+        <p style={{ fontSize: "12px", color: "#777", margin: 0, lineHeight: "1.7" }}>{whatItDoes}</p>
       </div>
       {strikes > 0 && strikes < 3 && (
         <div style={{ background: "#fbbf2410", border: "1px solid #fbbf2430", borderRadius: "8px", padding: "12px 14px", marginBottom: "10px" }}>
           <div style={{ fontSize: "11px", color: "#fbbf24", marginBottom: "4px" }}>⚠️ ATTEMPT {strikes}/3 — Hint:</div>
-          <p style={{ fontSize: "15px", color: "#d4a500", margin: 0 }}>{hints && hints[strikes - 1]}</p>
+          <p style={{ fontSize: "13px", color: "#d4a500", margin: 0 }}>{hints && hints[strikes - 1]}</p>
         </div>
       )}
       <div style={{ fontSize: "10px", color: "#f59e0b", marginBottom: "6px", letterSpacing: "1px" }}>🌐 JAVASCRIPT CODE:</div>
       <textarea value={code} onChange={(e) => handleCodeChange(e.target.value)}
-        style={{ width: "100%", minHeight: "160px", background: "#0d1117", border: `1px solid ${strikes >= 2 ? "#ff444440" : "#1f2937"}`, borderRadius: "8px", padding: "14px", color: "#fcd34d", fontSize: "15px", fontFamily: "'Space Mono', monospace", outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: "1.7" }} />
+        style={{ width: "100%", minHeight: "160px", background: "#0d1117", border: `1px solid ${strikes >= 2 ? "#ff444440" : "#1f2937"}`, borderRadius: "8px", padding: "14px", color: "#fcd34d", fontSize: "13px", fontFamily: "'Space Mono', monospace", outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: "1.7" }} />
       <button onClick={runCode}
         style={{ width: "100%", background: "#f59e0b", color: "#000", border: "none", borderRadius: "8px", padding: "13px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace", marginBottom: "10px", marginTop: "10px" }}>
         ▶ RUN JAVASCRIPT
@@ -3222,7 +3261,7 @@ function JSRunner({ starterCode, whatItDoes, onPass, check, hints, onCodeChange,
       {output && (
         <div style={{ background: "#0d1117", border: `1px solid ${output.startsWith("❌") ? "#ff444430" : "#f59e0b30"}`, borderRadius: "8px", padding: "14px" }}>
           <div style={{ fontSize: "10px", color: output.startsWith("❌") ? "#ff4444" : "#f59e0b", marginBottom: "8px", letterSpacing: "1px" }}>OUTPUT:</div>
-          <pre style={{ fontSize: "15px", color: output.startsWith("❌") ? "#ff9090" : "#e2e8f0", margin: 0, whiteSpace: "pre-wrap", lineHeight: "1.7", fontFamily: "'Space Mono', monospace" }}>{output}</pre>
+          <pre style={{ fontSize: "13px", color: output.startsWith("❌") ? "#ff9090" : "#e2e8f0", margin: 0, whiteSpace: "pre-wrap", lineHeight: "1.7", fontFamily: "'Space Mono', monospace" }}>{output}</pre>
         </div>
       )}
       {passed && <div style={{ marginTop: "12px", padding: "14px", background: "#00ff8815", border: "1px solid #00ff8840", borderRadius: "8px", fontSize: "13px", color: "#00ff88", textAlign: "center", fontWeight: "bold" }}>✅ Challenge complete! XP earned.</div>}
@@ -3424,30 +3463,39 @@ function AITutor({ lesson, userCode, onClose }) {
 }
 
 // ─── PREMIUM SYSTEM ───────────────────────────────────────────────────────────
-const PREMIUM_CODES = ["CODEGRIND99", "PREMIUM2026", "CHAMP11B", "STANLEY01", "CG2026A", "CG2026B", "CG2026C", "CG2026D", "CG2026E", "CG2026F"];
+// There is no client-side code list anymore. A redemption code is validated by
+// the `redeem-code` Supabase Edge Function against the `redemption_codes`
+// table, using the caller's own auth session — it marks the code used and
+// flips `profiles.is_premium` server-side. The client can only ask; it can
+// never grant itself premium. See supabase/functions/redeem-code and
+// supabase/migrations/002_premium_and_rls.sql.
 const FREE_LESSON_LIMIT = 30; // kept for legacy milestone checks
 
-function isPremium() { return localStorage.getItem("cg_premium") === "true"; }
-
-function activatePremium(code) {
-  if (PREMIUM_CODES.includes(code.toUpperCase().trim())) {
-    localStorage.setItem("cg_premium", "true");
-    return true;
-  }
-  return false;
-}
-
-function Paywall({ onUnlock, onClose, completedFree }) {
+function Paywall({ onUnlock, onClose, completedFree, signedIn, onNeedSignIn }) {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  const tryCode = () => {
-    if (activatePremium(code)) {
-      setSuccess(true);
-      setTimeout(() => { onUnlock(); onClose(); }, 1500);
-    } else {
-      setError("Invalid code. Check your email from Stanley or request access below.");
+  const tryCode = async () => {
+    if (!signedIn) { onNeedSignIn(); return; }
+    if (!code.trim()) return;
+    setSubmitting(true);
+    setError("");
+    try {
+      const { data, error: fnError } = await supabase.functions.invoke("redeem-code", {
+        body: { code: code.trim() },
+      });
+      if (!fnError && data?.ok) {
+        setSuccess(true);
+        setTimeout(() => { onUnlock(); onClose(); }, 1500);
+      } else {
+        setError(data?.message || "Invalid or already-used code. Check your email from Stanley or request access below.");
+      }
+    } catch {
+      setError("Couldn't reach the server. Try again in a moment.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -3458,19 +3506,19 @@ function Paywall({ onUnlock, onClose, completedFree }) {
           <div style={{ background: "#0a160e", border: "1px solid #00ff8840", borderRadius: "10px", padding: "14px 16px", marginBottom: "20px", textAlign: "center" }}>
             <div style={{ fontSize: "28px", marginBottom: "6px" }}>🎉</div>
             <div style={{ fontSize: "14px", color: "#00ff88", fontWeight: "bold", marginBottom: "4px" }}>You've completed {FREE_LESSON_COUNT} free lessons!</div>
-            <div style={{ fontSize: "14px", color: "#a0a0a0", lineHeight: "1.6" }}>Unlock the rest for $5/month and keep building.</div>
+            <div style={{ fontSize: "12px", color: "#555", lineHeight: "1.6" }}>Unlock the rest for $5/month and keep building.</div>
           </div>
         )}
         {!completedFree && (
           <div style={{ fontSize: "36px", textAlign: "center", marginBottom: "12px" }}>🔐</div>
         )}
         <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "28px", letterSpacing: "3px", color: "#fbbf24", textAlign: "center", marginBottom: "8px" }}>UNLOCK PRO</div>
-        <p style={{ fontSize: "14px", color: "#a0a0a0", lineHeight: "1.8", textAlign: "center", marginBottom: "20px" }}>
+        <p style={{ fontSize: "12px", color: "#888", lineHeight: "1.8", textAlign: "center", marginBottom: "20px" }}>
           All 4 tracks unlocked. Every lesson. Unlimited AI tutor.
         </p>
         <div style={{ background: "#111", border: "1px solid #fbbf2430", borderRadius: "10px", padding: "14px", marginBottom: "16px" }}>
           <div style={{ fontSize: "11px", color: "#fbbf24", fontWeight: "bold", marginBottom: "8px" }}>✅ What you unlock:</div>
-          <div style={{ fontSize: "14px", color: "#a0a0a0", lineHeight: "1.9" }}>
+          <div style={{ fontSize: "12px", color: "#888", lineHeight: "1.9" }}>
             🐍 Full Python track — scripting, automation, APIs, classes<br/>
             🌐 Web Dev track — HTML, CSS, React, Deployment<br/>
             🤖 AI & Dev track — Prompt engineering, Claude API, agents<br/>
@@ -3485,7 +3533,7 @@ function Paywall({ onUnlock, onClose, completedFree }) {
         </div>
         <div style={{ background: "#0a100d", border: "1px solid #00ff8830", borderRadius: "10px", padding: "14px", marginBottom: "14px" }}>
           <div style={{ fontSize: "11px", color: "#00ff88", fontWeight: "bold", marginBottom: "8px" }}>How to unlock:</div>
-          <div style={{ fontSize: "14px", color: "#a0a0a0", lineHeight: "2" }}>
+          <div style={{ fontSize: "12px", color: "#888", lineHeight: "2" }}>
             <span style={{ color: "#fbbf24" }}>1.</span> Send $5 to Cash App <span style={{ color: "#fbbf24", fontWeight: "bold" }}>$champ11b</span><br/>
             <span style={{ color: "#fbbf24" }}>2.</span> Email <span style={{ color: "#00ff88" }}>codegrind.app@gmail.com</span><br/>
             &nbsp;&nbsp;&nbsp;&nbsp;Subject: <em style={{ color: "#ccc" }}>CodeGrind Pro</em><br/>
@@ -3499,10 +3547,13 @@ function Paywall({ onUnlock, onClose, completedFree }) {
         </a>
         <div style={{ height: "1px", background: "#1a1a1a", marginBottom: "14px" }} />
         <div style={{ fontSize: "11px", color: "#666", marginBottom: "8px" }}>Already have a code?</div>
+        {!signedIn && (
+          <div style={{ fontSize: "11px", color: "#fbbf24", marginBottom: "8px" }}>Sign in first — a code redeems against your account, not this device.</div>
+        )}
         <div style={{ display: "flex", gap: "8px", marginBottom: "8px" }}>
-          <input value={code} onChange={(e) => setCode(e.target.value)} onKeyDown={(e) => e.key === "Enter" && tryCode()} placeholder="Enter access code..."
+          <input value={code} onChange={(e) => setCode(e.target.value)} onKeyDown={(e) => e.key === "Enter" && tryCode()} placeholder="Enter access code..." disabled={submitting}
             style={{ flex: 1, background: "#181818", border: `1px solid ${error ? "#ff444460" : success ? "#00ff8860" : "#252525"}`, borderRadius: "8px", padding: "10px 14px", color: "#ddd", fontSize: "13px", outline: "none", fontFamily: "'Space Mono', monospace" }} />
-          <button onClick={tryCode} style={{ background: "#fbbf24", color: "#000", border: "none", borderRadius: "8px", padding: "10px 16px", cursor: "pointer", fontWeight: "bold", fontSize: "13px", fontFamily: "'Space Mono', monospace" }}>Unlock</button>
+          <button onClick={tryCode} disabled={submitting} style={{ background: "#fbbf24", color: "#000", border: "none", borderRadius: "8px", padding: "10px 16px", cursor: submitting ? "wait" : "pointer", fontWeight: "bold", fontSize: "13px", fontFamily: "'Space Mono', monospace", opacity: submitting ? 0.6 : 1 }}>{submitting ? "Checking..." : "Unlock"}</button>
         </div>
         {error && <p style={{ fontSize: "12px", color: "#ff6b6b", margin: "0 0 8px 0" }}>{error}</p>}
         {success && <p style={{ fontSize: "12px", color: "#00ff88", margin: "0 0 8px 0" }}>✅ Code accepted! Unlocking Pro...</p>}
@@ -3544,34 +3595,24 @@ function MilestonePopup({ milestone, onClose, onShowPaywall, isPremiumUser }) {
 
 // ─── MAIN APP ─────────────────────────────────────────────────────────────────
 
-async function updateLeaderboard(email, firstName, xp, lessonsCompleted) {
+// Keyed by user_id now, not email — RLS on the leaderboard table only lets a
+// caller upsert the row where user_id = auth.uid(), so no one can post fake
+// scores under someone else's name, or under a fabricated one, anymore.
+async function updateLeaderboard(userId, firstName, xp, lessonsCompleted) {
+  if (!userId) return;
   try {
-    const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
-    const SUPABASE_KEY = process.env.REACT_APP_SUPABASE_KEY;
-    await fetch(`${SUPABASE_URL}/rest/v1/leaderboard`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": SUPABASE_KEY,
-        "Authorization": `Bearer ${SUPABASE_KEY}`,
-        "Prefer": "resolution=merge-duplicates",
-      },
-      body: JSON.stringify({ email, first_name: firstName, xp, lessons_completed: lessonsCompleted, updated_at: new Date().toISOString() }),
-    });
+    await supabase.from("leaderboard").upsert({
+      user_id: userId, first_name: firstName, xp, lessons_completed: lessonsCompleted,
+      updated_at: new Date().toISOString(),
+    }, { onConflict: "user_id" });
   } catch {}
 }
 
 async function fetchLeaderboard() {
   try {
-    const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
-    const SUPABASE_KEY = process.env.REACT_APP_SUPABASE_KEY;
-    if (!SUPABASE_URL || !SUPABASE_KEY) return [];
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/leaderboard?order=xp.desc&limit=10`, {
-      headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` },
-    });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return Array.isArray(data) ? data : [];
+    const { data, error } = await supabase.from("leaderboard").select("*").order("xp", { ascending: false }).limit(10);
+    if (error || !Array.isArray(data)) return [];
+    return data;
   } catch { return []; }
 }
 
@@ -3587,7 +3628,7 @@ function LeaderboardView({ isMobile }) {
       <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: isMobile ? "32px" : "44px", letterSpacing: "3px", marginBottom: "8px" }}>
         LEADER<span style={{ color: "#fbbf24" }}>BOARD</span>
       </div>
-      <p style={{ fontSize: "15px", color: "#a0a0a0", marginBottom: "28px" }}>Top coders by XP. Keep grinding. 🔥</p>
+      <p style={{ fontSize: "13px", color: "#555", marginBottom: "28px" }}>Top coders by XP. Keep grinding. 🔥</p>
       {loading ? (
         <div style={{ textAlign: "center", color: "#444", padding: "40px", fontSize: "13px" }}>Loading...</div>
       ) : leaders.length === 0 ? (
@@ -3860,7 +3901,7 @@ function MultiChallenge({ lesson, lessonStrikes, completed, onComplete, onCodeCh
             <div style={{ fontSize: "10px", color: "#ff6b35", letterSpacing: "1px" }}>{step === 0 ? "CHALLENGE 1 — GUIDED" : step === 1 ? "CHALLENGE 2 — MODIFY" : "CHALLENGE 3 — BUILD IT"}</div>
             <div style={{ fontSize: "10px", color: "#444" }}>{step + 1} of {challenges.length}</div>
           </div>
-          <p style={{ fontSize: "15px", color: "#ccc", lineHeight: "1.75", marginBottom: "14px" }}>{currentChallenge.prompt}</p>
+          <p style={{ fontSize: "13px", color: "#ccc", lineHeight: "1.75", marginBottom: "14px" }}>{currentChallenge.prompt}</p>
           {lesson.language === "html" ? (
             <HTMLRunner key={step} starterCode={currentChallenge.starterCode} whatItDoes={currentChallenge.whatItDoes} check={currentChallenge.check} hints={lesson.hints} strikes={lessonStrikes} onPass={handleChallengePass} onCodeChange={onCodeChange} onStrike={onStrike} onReviewNeeded={onReviewNeeded} />
           ) : lesson.language === "react" ? (
@@ -4319,9 +4360,11 @@ function CodeGrind() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [showMilestone, setShowMilestone] = useState(null);
   const [showPaywall, setShowPaywall] = useState(false);
-  const [premium, setPremium] = useState(isPremium());
-  const [userName, setUserName] = useState("Student");
-  const [userEmail, setUserEmail] = useState("");
+  // Identity now comes entirely from Supabase Auth, not localStorage. `session`
+  // is null until the user completes a magic-link sign-in; `profile` is their
+  // row in `profiles` (first_name, is_premium) fetched only once signed in.
+  const [session, setSession] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [tab, setTab] = useState("theory");
   const [view, setView] = useState("curriculum");
   const [reviewMode, setReviewMode] = useState(false);
@@ -4329,19 +4372,11 @@ function CodeGrind() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 600);
 
   const level = Math.floor(xp / 200) + 1;
-
-  const saveEmail = async (email, name) => {
-    try {
-      localStorage.setItem("cg_email", email);
-      setUserEmail(email);
-      if (name) setUserName(name.charAt(0).toUpperCase() + name.slice(1));
-      else { const parts = email.split("@")[0]; setUserName(parts.charAt(0).toUpperCase() + parts.slice(1)); }
-      sendWelcomeEmail(email, name);
-      const cloudProgress = await loadProgressFromCloud(email);
-      if (cloudProgress) { setXp(cloudProgress.xp); setCompleted(cloudProgress.completed); setStrikes(cloudProgress.strikes); setBookmarks(cloudProgress.bookmarks); setStreak(cloudProgress.streak); }
-      saveProgress(xp, completed, strikes, bookmarks, streak, email);
-    } catch {}
-  };
+  const signedIn = !!session;
+  const userId = session?.user?.id || null;
+  const userEmail = session?.user?.email || "";
+  const userName = profile?.first_name || (userEmail ? userEmail.split("@")[0].replace(/^\w/, c => c.toUpperCase()) : "Student");
+  const premium = !!profile?.is_premium;
 
   const checkStreakReminder = (currentStreak) => {
     const now = new Date();
@@ -4352,8 +4387,9 @@ function CodeGrind() {
     }
   };
 
+  // Local progress loads immediately so the app is usable offline / pre-auth.
   useEffect(() => {
-    loadProgress().then(async ({ xp, completed, strikes, bookmarks, streak }) => {
+    loadProgress().then(({ xp, completed, strikes, bookmarks, streak }) => {
       setXp(xp); setCompleted(completed); setStrikes(strikes); setBookmarks(bookmarks); setStreak(streak); setLoaded(true);
       const today = new Date().toDateString();
       if (streak.lastDate !== today) {
@@ -4363,20 +4399,63 @@ function CodeGrind() {
         localStorage.setItem("cg_streak", JSON.stringify(newStreak));
       }
       checkStreakReminder(streak);
-      const savedEmail = localStorage.getItem("cg_email");
-      if (!savedEmail) {
-        setTimeout(() => { setEmailCaptureRestoreMode(false); setShowEmailCapture(true); }, 3000);
-      } else {
-        setUserEmail(savedEmail);
-        const parts = savedEmail.split("@")[0];
-        setUserName(parts.charAt(0).toUpperCase() + parts.slice(1));
-        setCloudLoading(true);
-        const cloudProgress = await loadProgressFromCloud(savedEmail);
-        setCloudLoading(false);
-        if (cloudProgress && cloudProgress.xp >= xp) { setXp(cloudProgress.xp); setCompleted(cloudProgress.completed); setStrikes(cloudProgress.strikes); setBookmarks(cloudProgress.bookmarks); setStreak(cloudProgress.streak); }
-      }
     });
   }, []);
+
+  // Subscribe to Supabase's own auth state — this is what "being signed in"
+  // means now, not a value in localStorage.
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      setSession(newSession);
+    });
+    return () => listener.subscription.unsubscribe();
+  }, []);
+
+  // Nudge sign-in a few seconds in, but only if the user isn't already signed in.
+  useEffect(() => {
+    if (!loaded || signedIn) return;
+    const t = setTimeout(() => { setEmailCaptureRestoreMode(false); setShowEmailCapture(true); }, 3000);
+    return () => clearTimeout(t);
+  }, [loaded, signedIn]);
+
+  // Once a real session exists, load (or create) the profile row and pull
+  // cloud progress keyed by user_id — never by email.
+  //
+  // The `loaded` guard matters: this effect and the local-progress effect
+  // above both read from storage asynchronously, in no guaranteed order. If
+  // this one ran before local progress finished loading, `xp` below would
+  // still be its initial 0, the cloud-vs-local comparison would always favor
+  // the cloud, and the second setXp/setCompleted/... call in whichever
+  // effect resolves last would silently clobber the other's result. Waiting
+  // for `loaded` means the values this effect closes over are guaranteed to
+  // be the real local ones, not the pre-load defaults.
+  useEffect(() => {
+    if (!userId) { setProfile(null); return; }
+    if (!loaded) return;
+    let cancelled = false;
+    (async () => {
+      setCloudLoading(true);
+      let prof = await loadProfile(userId);
+      if (!prof) {
+        const firstName = session?.user?.user_metadata?.first_name || userEmail.split("@")[0] || "Student";
+        await supabase.from("profiles").upsert({ id: userId, email: userEmail, first_name: firstName });
+        prof = await loadProfile(userId);
+        sendWelcomeEmail(userEmail, firstName);
+      }
+      const cloudProgress = await loadProgressFromCloud(userId);
+      if (cancelled) return;
+      setProfile(prof);
+      setCloudLoading(false);
+      if (cloudProgress && cloudProgress.xp >= xp) {
+        setXp(cloudProgress.xp); setCompleted(cloudProgress.completed); setStrikes(cloudProgress.strikes); setBookmarks(cloudProgress.bookmarks); setStreak(cloudProgress.streak);
+      } else {
+        saveProgress(xp, completed, strikes, bookmarks, streak, userId);
+      }
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId, loaded]);
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 600);
@@ -4390,11 +4469,11 @@ function CodeGrind() {
       const next = new Set([...prev, lessonId]);
       const newXp = xp + earnedXp;
       setXp(newXp);
-      saveProgress(newXp, next, strikes, bookmarks, streak, userEmail);
+      saveProgress(newXp, next, strikes, bookmarks, streak, userId);
       setShowConfetti(true);
       setTimeout(() => setShowConfetti(false), 3000);
       if (MILESTONES[next.size]) setTimeout(() => setShowMilestone(MILESTONES[next.size]), 800);
-      updateLeaderboard(userEmail, userName, newXp, next.size);
+      updateLeaderboard(userId, userName, newXp, next.size);
       if (next.size === ALL_LESSONS.length) setTimeout(() => setShowCertificate(true), 1000);
       return next;
     });
@@ -4404,7 +4483,7 @@ function CodeGrind() {
     setStrikes((prev) => {
       const next = new Map(prev);
       next.set(lessonId, count);
-      saveProgress(xp, completed, next, bookmarks, streak, userEmail);
+      saveProgress(xp, completed, next, bookmarks, streak, userId);
       return next;
     });
   };
@@ -4415,7 +4494,7 @@ function CodeGrind() {
     setBookmarks((prev) => {
       const next = new Set(prev);
       next.has(lessonId) ? next.delete(lessonId) : next.add(lessonId);
-      saveProgress(xp, completed, strikes, next, streak, userEmail);
+      saveProgress(xp, completed, strikes, next, streak, userId);
       return next;
     });
   };
@@ -4455,7 +4534,7 @@ function CodeGrind() {
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: isMobile ? "5px" : "8px", flexWrap: "nowrap", justifyContent: "flex-end", overflow: "hidden" }}>
           {streak.count > 0 && <div style={{ fontSize: "11px", color: "#fbbf24", background: "#fbbf2415", border: "1px solid #fbbf2430", borderRadius: "6px", padding: "3px 8px", whiteSpace: "nowrap" }}>{isMobile ? `🔥${streak.count}` : `🔥 ${streak.count} day streak`}</div>}
-          {!userEmail && <button onClick={() => { setEmailCaptureRestoreMode(true); setShowEmailCapture(true); }} style={{ background: "none", border: "1px solid #1f1f1f", color: "#00ff88", cursor: "pointer", padding: "4px 8px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace", flexShrink: 0, whiteSpace: "nowrap" }}>{isMobile ? "👤" : "Sign In"}</button>}
+          {!signedIn && <button onClick={() => { setEmailCaptureRestoreMode(true); setShowEmailCapture(true); }} style={{ background: "none", border: "1px solid #1f1f1f", color: "#00ff88", cursor: "pointer", padding: "4px 8px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace", flexShrink: 0, whiteSpace: "nowrap" }}>{isMobile ? "👤" : "Sign In"}</button>}
           {(!isMobile || view === "curriculum") && <button onClick={() => setShowWeakness(true)} style={{ background: "none", border: "1px solid #1f1f1f", color: "#ff6b35", cursor: "pointer", padding: "4px 8px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace", flexShrink: 0 }}>🎯</button>}
           {completed.size === ALL_LESSONS.length && <button onClick={() => setShowCertificate(true)} style={{ background: "none", border: "1px solid #fbbf2440", color: "#fbbf24", cursor: "pointer", padding: "4px 8px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace", flexShrink: 0 }}>🏆</button>}
           {(!isMobile || view === "curriculum") && <button onClick={() => { setView(view === "hire" ? "curriculum" : "hire"); window.scrollTo(0,0); }} style={{ background: view === "hire" ? "#00ff8820" : "none", border: `1px solid ${view === "hire" ? "#00ff8840" : "#1f1f1f"}`, color: view === "hire" ? "#00ff88" : "#888", cursor: "pointer", padding: "4px 8px", borderRadius: "6px", fontSize: "11px", fontFamily: "'Space Mono', monospace", flexShrink: 0, whiteSpace: "nowrap" }}>{isMobile ? "💼" : "💼 Hire"}</button>}
@@ -4504,7 +4583,7 @@ function CodeGrind() {
           <div style={{ background: "#0a160e", border: "1px solid #00ff8830", borderRadius: "12px", padding: "24px", textAlign: "center", marginTop: "24px" }}>
             <div style={{ fontSize: "20px", marginBottom: "10px" }}>🤝</div>
             <div style={{ fontSize: "16px", fontWeight: "bold", color: "#fff", marginBottom: "8px" }}>Ready to work together?</div>
-            <p style={{ fontSize: "15px", color: "#a0a0a0", lineHeight: "1.7", marginBottom: "20px" }}>Tell me about your project. I respond within 24 hours.</p>
+            <p style={{ fontSize: "13px", color: "#888", lineHeight: "1.7", marginBottom: "20px" }}>Tell me about your project. I respond within 24 hours.</p>
             <a href="mailto:stanleywhiteiii87@gmail.com?subject=Project Inquiry — CodeGrind&body=Hi Stanley, I found you through CodeGrind and I'd like to discuss a project..." style={{ display: "block", background: "#00ff88", color: "#000", border: "none", borderRadius: "8px", padding: "14px", cursor: "pointer", fontWeight: "bold", fontSize: "14px", fontFamily: "'Space Mono', monospace", textDecoration: "none", marginBottom: "10px" }}>📧 Email Me Directly</a>
             <p style={{ fontSize: "11px", color: "#444", margin: 0 }}>stanleywhiteiii87@gmail.com</p>
           </div>
@@ -4542,7 +4621,7 @@ function CodeGrind() {
             {completed.size === 0 && (
               <div style={{ background: "#0a160e", border: "1px solid #00ff8840", borderRadius: "10px", padding: "16px 18px", marginBottom: "14px" }}>
                 <div style={{ fontSize: "12px", color: "#00ff88", fontWeight: "bold", marginBottom: "8px" }}>👋 Welcome! Here's how to start:</div>
-                <div style={{ fontSize: "14px", color: "#a0a0a0", lineHeight: "1.8" }}>
+                <div style={{ fontSize: "12px", color: "#888", lineHeight: "1.8" }}>
                   1. Click <strong style={{ color: "#ccc" }}>Start →</strong> on the first lesson below<br />
                   2. Read the plain-English explanation<br />
                   3. Run the code and see it work<br />
@@ -4688,7 +4767,7 @@ function CodeGrind() {
             <div>
               <div style={{ fontSize: "10px", color: activeLesson.moduleColor, letterSpacing: "2px", marginBottom: "5px" }}>{activeLesson.moduleTitle?.toUpperCase()}</div>
               <div style={{ fontSize: isMobile ? "17px" : "20px", fontWeight: "bold", lineHeight: "1.3" }}>{activeLesson.title}</div>
-              <div style={{ fontSize: "13px", color: "#a0a0a0", marginTop: "3px" }}>💡 {activeLesson.analogy}</div>
+              <div style={{ fontSize: "12px", color: "#444", marginTop: "3px" }}>💡 {activeLesson.analogy}</div>
             </div>
             <button onClick={() => toggleBookmark(activeLesson.id)} style={{ background: bookmarks.has(activeLesson.id) ? "#a78bfa20" : "#181818", border: `1px solid ${bookmarks.has(activeLesson.id) ? "#a78bfa40" : "#252525"}`, borderRadius: "8px", padding: "8px 12px", cursor: "pointer", fontSize: "14px", color: bookmarks.has(activeLesson.id) ? "#a78bfa" : "#444" }}>🔖</button>
           </div>
@@ -4734,13 +4813,13 @@ function CodeGrind() {
 
       {showAI && activeLesson && <AITutor lesson={activeLesson} userCode={currentCode} onClose={() => setShowAI(false)} />}
       {showWeakness && <WeaknessTracker strikes={strikes} onClose={() => setShowWeakness(false)} onReview={(lesson) => { setShowWeakness(false); startLesson(lesson, true); }} />}
-      {showEmailCapture && <EmailCapture restoreMode={emailCaptureRestoreMode} onClose={() => { setShowEmailCapture(false); setEmailCaptureRestoreMode(false); }} onSubmit={(email, name) => { setShowEmailCapture(false); setEmailCaptureRestoreMode(false); saveEmail(email, name); }} />}
+      {showEmailCapture && <EmailCapture restoreMode={emailCaptureRestoreMode} onClose={() => { setShowEmailCapture(false); setEmailCaptureRestoreMode(false); }} />}
       {showCertificate && <Certificate name={userName} xp={xp} completed={completed.size} total={ALL_LESSONS.length} onClose={() => setShowCertificate(false)} />}
       {showStreakReminder && <StreakReminder streak={streak} onClose={() => setShowStreakReminder(false)} />}
       {showConfetti && <Confetti />}
       {showMilestone && <MilestonePopup milestone={showMilestone} onClose={() => setShowMilestone(null)} onShowPaywall={() => setShowPaywall(true)} isPremiumUser={premium} />}
-      {showPaywall && <Paywall onUnlock={() => setPremium(true)} onClose={() => setShowPaywall(false)} completedFree={[...completed].filter(id => FREE_LESSON_IDS.has(id)).length} />}
-      {showMiniGame && <MiniGame moduleId={showMiniGame.id} moduleName={showMiniGame.title} moduleColor={showMiniGame.color} xpReward={MINI_GAMES[showMiniGame.id]?.xpReward || 150} onClose={() => setShowMiniGame(null)} onXpEarned={(earned) => { setXp(prev => { const newXp = prev + earned; saveProgress(newXp, completed, strikes, bookmarks, streak, userEmail); return newXp; }); }} />}
+      {showPaywall && <Paywall onUnlock={() => { loadProfile(userId).then(setProfile); }} onClose={() => setShowPaywall(false)} completedFree={[...completed].filter(id => FREE_LESSON_IDS.has(id)).length} signedIn={signedIn} onNeedSignIn={() => { setShowPaywall(false); setEmailCaptureRestoreMode(false); setShowEmailCapture(true); }} />}
+      {showMiniGame && <MiniGame moduleId={showMiniGame.id} moduleName={showMiniGame.title} moduleColor={showMiniGame.color} xpReward={MINI_GAMES[showMiniGame.id]?.xpReward || 150} onClose={() => setShowMiniGame(null)} onXpEarned={(earned) => { setXp(prev => { const newXp = prev + earned; saveProgress(newXp, completed, strikes, bookmarks, streak, userId); return newXp; }); }} />}
       {cloudLoading && (
         <div style={{ position: "fixed", bottom: "16px", left: "50%", transform: "translateX(-50%)", background: "#0d0d0d", border: "1px solid #00ff8830", borderRadius: "8px", padding: "8px 16px", fontSize: "11px", color: "#00ff88", fontFamily: "'Space Mono', monospace", zIndex: 50, display: "flex", alignItems: "center", gap: "8px" }}>
           <div style={{ width: "8px", height: "8px", background: "#00ff88", borderRadius: "50%", animation: "glow 1s ease infinite" }} />

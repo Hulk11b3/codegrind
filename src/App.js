@@ -3088,7 +3088,12 @@ function EmailCapture({ onClose, restoreMode }) {
       email,
       options: {
         data: { first_name: name || email.split("@")[0] },
-        emailRedirectTo: window.location.origin,
+        // process.env.PUBLIC_URL (CRA's build-time constant, taken from the
+        // "homepage" field in package.json) resolves to the full GitHub
+        // Pages project path — https://Hulk11b3.github.io/codegrind — not
+        // just the bare origin. window.location.origin was wrong here: it
+        // drops the /codegrind subpath, which is a 404 on this site.
+        emailRedirectTo: process.env.PUBLIC_URL,
       },
     });
     setSending(false);
@@ -3105,7 +3110,7 @@ function EmailCapture({ onClose, restoreMode }) {
     setOauthSending(true);
     const { error: oauthError } = await supabase.auth.signInWithOAuth({
       provider: "github",
-      options: { redirectTo: window.location.origin },
+      options: { redirectTo: process.env.PUBLIC_URL },
     });
     // On success the browser navigates away to GitHub immediately, so this
     // only runs when signInWithOAuth itself fails before the redirect.
